@@ -1,0 +1,55 @@
+name: 'Build PR'
+
+on:
+  pull_request:
+    types:
+      - synchronize
+      - opened
+      - ready_for_review
+      - reopened
+
+  push:
+    branches:
+      - 'feature/**'
+      - 'dev/**'
+
+  workflow_dispatch:
+
+jobs:
+  build:
+    name: 'Build PR'
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: 'Checkout repository'
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 100
+          fetch-tags: true
+
+      - name: 'Set up JDK 17'
+        uses: actions/setup-java@v3
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+
+      - name: 'Build with Gradle'
+        uses: gradle/gradle-build-action@v2
+        with:
+          arguments: build
+          cache-read-only: false
+
+      - name: 'Move artifacts'
+        shell: bash
+        run: |
+          mkdir artifacts
+          cp Fabric/build/libs/*.jar artifacts
+          cp Forge/build/libs/*.jar artifacts
+          cp NeoForge/build/libs/*.jar artifacts
+
+      - name: 'Upload artifacts'
+        uses: actions/upload-artifact@v3
+        with:
+          if-no-files-found: error
+          name: 'Artifacts'
+          path: artifacts/*

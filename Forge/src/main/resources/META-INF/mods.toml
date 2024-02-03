@@ -1,0 +1,29 @@
+modLoader="javafml"
+loaderVersion="[49,)"
+license="GPLv3"
+issueTrackerURL="https://github.com/Hantonik/FancyBlockParticles-Renewed/issues"
+
+[[mods]]
+    modId="fbp"
+    version="${mod_version}"
+    displayName="${mod_name}"
+    displayURL="https://www.curseforge.com/minecraft/mc-mods/fbp-renewed"
+    logoFile="logo.png"
+    updateJSONURL="https://raw.githubusercontent.com/Hantonik/FancyBlockParticles-Renewed/${mc_version}/update.json"
+    authors="Hantonik, TominoCZ"
+    credits="Original mod by TominoCZ"
+    description='''3D Digging particles! YAY!'''
+
+[[dependencies.fbp]]
+    modId="forge"
+    mandatory=true
+    versionRange="[49,)"
+    ordering="NONE"
+    side="BOTH"
+
+[[dependencies.fbp]]
+    modId="minecraft"
+    mandatory=true
+    versionRange="[1.20.4,1.21)"
+    ordering="NONE"
+    side="BOTH"

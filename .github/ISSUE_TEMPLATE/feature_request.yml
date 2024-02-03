@@ -1,0 +1,49 @@
+name: 'Feature request'
+description: 'Have any suggestions? Let me know about them here!'
+
+title: '[Feature] <title>'
+labels: [ 'enhancement' ]
+assignees: [ 'Hantonik' ]
+
+body:
+  - type: markdown
+    attributes:
+      value: |
+        **Things to know before creating an issue:**
+        - Please look at the other issues to make sure that you're not creating a duplicate.
+  - type: textarea
+    attributes:
+      label: 'Feature description:'
+      description: |
+        Please describe your idea as clearly as you can.
+      placeholder: 'Description, context, etc...'
+    validations:
+      required: true
+  - type: dropdown
+    attributes:
+      label: 'Minecraft version:'
+      description: |
+        What version of Minecraft would you like this on?
+        You can skip this if your request is not tied to any version.
+        
+        Older versions are **not** supported!
+      multiple: true
+      options:
+        - '1.16.5'
+        - '1.17.1'
+        - '1.18.2'
+        - '1.19.4'
+        - '1.20.4'
+        - '1.21'
+        - 'Newer'
+  - type: dropdown
+    attributes:
+      label: 'Modloader:'
+      description: |
+        What modloader would you like this on?
+        You can skip this if your request is not tied to any modloader (or select both).
+      multiple: true
+      options:
+        - 'Forge'
+        - 'NeoForge'
+        - 'Fabric'

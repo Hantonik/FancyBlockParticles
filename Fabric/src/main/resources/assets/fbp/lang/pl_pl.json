@@ -1,0 +1,61 @@
+{
+  "key.categories.fbp": "Fancy Block Particles",
+
+  "key.fbp.toggle": "Włącz/Wyłącz",
+  "key.fbp.settings": "Otwórz ustawienia",
+  "key.fbp.freeze": "Przełącz efekt zamrożenia",
+  "key.fbp.kill_particles": "Zabij cząsteczki",
+  "key.fbp.fast_blacklist": "Szybkie dodawanie bloków na czarną listę",
+
+  "screen.fbp.freeze": "§lEfekt zamrożenia!",
+
+  "screen.fbp.settings": "Fancy Block Particles - Ustawienia",
+  "screen.fbp.blacklist": "Dodaj do czarnej listy",
+
+  "screen.fbp.reset_confirm": "Czy na pewno chcesz zresetować ustawienia FBP?",
+  "screen.fbp.reload_alert": "Pomyślnie przeładowano pliki konfiguracyjne!",
+
+  "button.fbp.homepage": "Strona główna FBP tutaj!",
+  "button.fbp.report": "Znalazłeś(-aś) błąd?\nZgłoś go tutaj!",
+
+  "button.fbp.enabled": "Włączone",
+  "button.fbp.particles_decay": "Cząsteczki znikają",
+
+  "button.fbp.particles_per_axis": "Cząsteczki na oś: ",
+  "button.fbp.min_lifetime": "Minimalny czas istnienia cząsteczek: ",
+  "button.fbp.max_lifetime": "Maksymalny czas istnienia cząsteczek: ",
+  "button.fbp.scale_multiplier": "Mnożnik skali: ",
+  "button.fbp.rotation_multiplier": "Mnożnik rotacji: ",
+  "button.fbp.gravity_multiplier": "Mnożnik grawitacji: ",
+  "button.fbp.weather_particle_density": "Gęstość cząsteczek wody: ",
+
+  "button.fbp.reload": "Przeładuj pliki konfiguracyjne",
+  "button.fbp.reset": "Resetuj",
+  "button.fbp.done": "Gotowe",
+
+  "button.fbp.ticks": " tików",
+
+  "button.fbp.true": "§atak",
+  "button.fbp.false": "§cnie",
+
+  "tooltip.fbp.default": "Domyślnie: ",
+
+  "tooltip.fbp.enabled": "Włącz lub wyłącz FBP.",
+  "tooltip.fbp.particles_decay": "Jeżeli wyłączone, cząsteczki nie będą znikały.",
+
+  "tooltip.fbp.particles_per_axis": "Ilość cząsteczek zniszczonego bloku na osi x, y i z.",
+  "tooltip.fbp.min_lifetime": "Minimalna, losowa wartość dla długości istnienia cząsteczek.\nJeżeli chcesz, żeby cząsteczki znikały w tym samym czasie, ustaw tą samą wartość dla minimalnego i maksymalnego czasu istnienia cząsteczek.",
+  "tooltip.fbp.max_lifetime": "Maksymalna, losowa wartość dla długości istnienia cząsteczek.\nJeżeli chcesz, żeby cząsteczki znikały w tym samym czasie, ustaw tą samą wartość dla minimalnego i maksymalnego czasu istnienia cząsteczek.",
+  "tooltip.fbp.scale_multiplier": "Mnożnik skali cząsteczek. Im wyższa wartość tym cząsteczki będą większe.",
+  "tooltip.fbp.rotation_multiplier": "Mnożnik rotacji cząsteczek. Im wyższa wartość, tym szybciej i bardziej cząsteczki będą się obracać",
+  "tooltip.fbp.gravity_multiplier": "Mnożnik grawitacji cząsteczek. Im wyższa wartość, tym szybciej cząsteczki spadną na ziemię.",
+  "tooltip.fbp.weather_particle_density": "Gęstość cząsteczek pogody. Im wyższa wartość, tym więcej cząsteczek pogody się pojawi.",
+
+  "tooltip.fbp.animation": "ANIMACJA POŁOŻENIA",
+  "tooltip.fbp.particles": "CZĄSTECZKI",
+
+  "tooltip.fbp.add": "DODAJ",
+  "tooltip.fbp.remove": "USUŃ",
+
+  "text.fbp.version": "Wersja: %s"
+}

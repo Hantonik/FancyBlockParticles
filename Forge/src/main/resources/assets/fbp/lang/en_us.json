@@ -1,0 +1,61 @@
+{
+  "key.categories.fbp": "Fancy Block Particles",
+
+  "key.fbp.toggle": "Enable/Disable",
+  "key.fbp.settings": "Open settings",
+  "key.fbp.freeze": "Toggle freeze effect",
+  "key.fbp.kill_particles": "Kill particles",
+  "key.fbp.fast_blacklist": "Fast add block to blacklist",
+
+  "screen.fbp.freeze": "§lFreeze effect!",
+
+  "screen.fbp.settings": "Fancy Block Particles - Settings",
+  "screen.fbp.blacklist": "Blacklist a block",
+
+  "screen.fbp.reset_confirm": "Are you sure you want to reset the FBP settings?",
+  "screen.fbp.reload_alert": "Config has been successfully reloaded!",
+
+  "button.fbp.homepage": "FBP homepage here!",
+  "button.fbp.report": "Found a bug?\nReport it here!",
+
+  "button.fbp.enabled": "Enabled",
+  "button.fbp.particles_decay": "Particle decay",
+
+  "button.fbp.particles_per_axis": "Particles per axis: ",
+  "button.fbp.min_lifetime": "Particle min lifetime: ",
+  "button.fbp.max_lifetime": "Particle max lifetime: ",
+  "button.fbp.scale_multiplier": "Scale multiplier: ",
+  "button.fbp.rotation_multiplier": "Rotation multiplier: ",
+  "button.fbp.gravity_multiplier": "Gravity multiplier: ",
+  "button.fbp.weather_particle_density": "Weather particle density: ",
+
+  "button.fbp.reload": "Reload config",
+  "button.fbp.reset": "Reset",
+  "button.fbp.done": "Done",
+
+  "button.fbp.ticks": " ticks",
+
+  "tooltip.fbp.default": "Default: ",
+
+  "tooltip.fbp.enabled": "Enabled or disable FBP.",
+  "tooltip.fbp.particles_decay": "If disabled, particles will not disappear.",
+
+  "tooltip.fbp.particles_per_axis": "Number of the destroy particles on x, y and z axis.",
+  "tooltip.fbp.min_lifetime": "Minimum, random value for the lifetime of the particles.\nIf you want every particle to disappear at the same time, set the same value for minimum and maximum particle lifetime.",
+  "tooltip.fbp.max_lifetime": "Maximum, random value for the lifetime of the particles.\nIf you want every particle to disappear at the same time, set the same value for minimum and maximum particle lifetime.",
+  "tooltip.fbp.scale_multiplier": "Particle scale multiplier. The higher the value, the larger the particles will be.",
+  "tooltip.fbp.rotation_multiplier": "Particle rotation multiplier. The higher the value, the faster and more the particles will rotate.",
+  "tooltip.fbp.gravity_multiplier": "Particle gravity multiplier. The higher the value, the faster the particles will fall to the ground.",
+  "tooltip.fbp.weather_particle_density": "Weather particle density. The higher the value, the more weather particles will appear.",
+
+  "button.fbp.true": "§atrue",
+  "button.fbp.false": "§cfalse",
+
+  "tooltip.fbp.animation": "PLACE ANIMATION",
+  "tooltip.fbp.particles": "PARTICLES",
+
+  "tooltip.fbp.add": "ADD",
+  "tooltip.fbp.remove": "REMOVE",
+
+  "text.fbp.version": "Version: %s"
+}

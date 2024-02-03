@@ -1,0 +1,13 @@
+{
+  "required": true,
+  "package": "hantonik.fbp.mixins",
+  "compatibilityLevel": "JAVA_17",
+  "refmap": "fbp.refmap.json",
+  "mixins": [],
+  "client": [
+    "MixinItemPickupParticle",
+    "MixinLevelRenderer",
+    "MixinParticleEngine"
+  ],
+  "minVersion": "0.8"
+}

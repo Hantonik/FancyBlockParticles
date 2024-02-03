@@ -1,0 +1,35 @@
+import se.bjurr.gitchangelog.plugin.gradle.GitChangelogTask
+
+plugins {
+    id 'se.bjurr.gitchangelog.git-changelog-gradle-plugin' version '1.+'
+}
+
+var tags = 'git tag'.execute().text.split('\n').reverse()
+
+tasks.register('makeHtmlChangelog', GitChangelogTask) {
+    fromRepo = projectDir.absolutePath.toString()
+    file = file('changelog.html')
+
+    if (tags.size() > 1)
+        fromRevision = tags[1]
+
+    toRevision = 'HEAD'
+
+    templateContent = file('templates/changelog-html.mustache').getText()
+}
+
+tasks.register('makeMarkdownChangelog', GitChangelogTask) {
+    fromRepo = projectDir.absolutePath.toString()
+    file = file('changelog.md')
+
+    if (tags.size() > 1)
+        fromRevision = tags[1]
+
+    toRevision = 'HEAD'
+
+    templateContent = file('templates/changelog-markdown.mustache').getText()
+}
+
+tasks.register('makeChangelog') {
+    finalizedBy(tasks.makeHtmlChangelog, tasks.makeMarkdownChangelog)
+}

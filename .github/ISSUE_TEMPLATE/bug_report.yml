@@ -1,0 +1,79 @@
+name: 'Bug report'
+description: 'If you notice any bugs or problems with FBP, report them here!'
+
+title: '[Bug] <title>'
+labels: [ 'bug' ]
+assignees: [ 'Hantonik' ]
+
+body:
+  - type: markdown
+    attributes:
+      value: |
+        **Things to know before creating an issue:**
+        - Bugs appearing in modpacks aren't always caused by this mod. Please report them to the modpack author.
+        - Please look at the other issues to make sure that you're not creating a duplicate.
+  - type: textarea
+    attributes:
+      label: 'Issue description:'
+      description: |
+        "It doesn't work" is not really helpful.
+      placeholder: 'Description'
+    validations:
+      required: true
+  - type: textarea
+    attributes:
+      label: 'Steps to reproduce:'
+      description: |
+        Fill this out only if there are specific steps to reproduce the bug.
+      placeholder: |
+        1. 
+        2. 
+        3. 
+        ...
+    validations:
+      required: true
+  - type: input
+    attributes:
+      label: 'FBP version:'
+      placeholder: '1.0.0.0'
+    validations:
+      required: true
+  - type: dropdown
+    attributes:
+      label: 'Minecraft version:'
+      description: |
+        Older versions are **not** supported!
+      options:
+        - '1.20.4'
+        - '1.19.4'
+        - '1.18.2'
+        - '1.17.1'
+        - '1.16.5'
+      multiple: true
+    validations:
+      required: true
+  - type: dropdown
+    attributes:
+      label: 'Modloader:'
+      description: |
+        What modloader does the bug occur on?
+      multiple: true
+      options:
+        - 'Forge'
+        - 'NeoForge'
+        - 'Fabric'
+    validations:
+      required: true
+  - type: input
+    attributes:
+      label: 'Modloader version:'
+      placeholder: 'Forge / NeoForge / Fabric'
+    validations:
+      required: true
+  - type: textarea
+    attributes:
+      label: 'The latest.log file:'
+      description: 'Please **attach** the latest.log file here.'
+      placeholder: 'Do not copy the entire contents of the file!'
+    validations:
+      required: true

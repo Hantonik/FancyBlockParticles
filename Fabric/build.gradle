@@ -1,0 +1,142 @@
+import com.modrinth.minotaur.dependencies.DependencyType
+import com.modrinth.minotaur.dependencies.ModDependency
+import net.darkhax.curseforgegradle.Constants as CFConstants
+import net.darkhax.curseforgegradle.TaskPublishCurseForge
+
+plugins {
+	id 'fabric-loom' version '1.5.+'
+	id 'io.freefair.lombok' version '6.6.+'
+
+	id 'idea'
+	id 'maven-publish'
+}
+
+apply plugin: 'net.darkhax.curseforgegradle'
+apply plugin: 'com.modrinth.minotaur'
+
+base {
+	archivesName = "$mod_name-$mc_version-fabric"
+}
+
+java.toolchain.languageVersion = JavaLanguageVersion.of(17)
+
+println "Using Fabric: $fabric_version, Loader: $loader_version, for Minecraft: $mc_version, with Mappings: $mappings_channel-$mappings_version"
+
+loom {
+	runs {
+		client {
+			client()
+
+			setConfigName('Fabric Client')
+			ideConfigGenerated(true)
+			runDir('run')
+		}
+
+		server {
+			server()
+
+			setConfigName('Fabric Server')
+			ideConfigGenerated(true)
+			runDir('run')
+		}
+	}
+
+	mixin {
+		useLegacyMixinAp = false
+	}
+
+	accessWidenerPath.set(file("src/main/resources/${mod_id}.accesswidener"))
+}
+
+repositories {
+	maven { url 'https://maven.parchmentmc.org' }
+}
+
+dependencies {
+	minecraft "com.mojang:minecraft:$mc_version"
+
+	mappings loom.layered() {
+		officialMojangMappings()
+		parchment("org.parchmentmc.data:parchment-1.20.3:$mappings_version@zip") // Waiting for 1.20.4
+	}
+
+	modImplementation "net.fabricmc:fabric-loader:$loader_version"
+	modImplementation "net.fabricmc.fabric-api:fabric-api:$fabric_version+$mc_version"
+
+	compileOnly "org.projectlombok:lombok:$lombok_version"
+	annotationProcessor "org.projectlombok:lombok:$lombok_version"
+}
+
+java {
+	withSourcesJar()
+
+	sourceCompatibility = JavaVersion.VERSION_17
+	targetCompatibility = JavaVersion.VERSION_17
+}
+
+artifacts {
+	archives remapJar
+	archives sourcesJar
+}
+
+project.evaluationDependsOn(':Changelog')
+
+tasks.register('publishCurseForge', TaskPublishCurseForge) {
+	dependsOn(tasks.remapJar)
+	dependsOn(':Changelog:makeHtmlChangelog')
+
+	apiToken = System.getenv('CURSEFORGE_TOKEN')
+
+	var modFile = upload('937011', tasks.remapJar.archiveFile)
+	modFile.displayName = "${base.archivesName.get()}-$version"
+	modFile.releaseType = CFConstants.RELEASE_TYPE_BETA
+	modFile.addGameVersion(mc_version, 'client')
+	modFile.addModLoader 'Fabric'
+	modFile.addJavaVersion 'Java 17'
+	modFile.addRequirement 'fabric-api'
+
+	modFile.changelogType = CFConstants.CHANGELOG_HTML
+	modFile.changelog = file("${project(':Changelog').projectDir}/changelog.html").getText().replace([ '${version}': "$mc_version-$version" ])
+}
+
+modrinth {
+	token = System.getenv('MODRINTH_TOKEN')
+
+	projectId = mod_id
+
+	versionName = "${base.archivesName.get()}-$version"
+	versionNumber = version
+	versionType = 'beta'
+
+	gameVersions = [ mc_version ]
+	loaders = [ 'fabric' ]
+
+	dependencies = [
+			new ModDependency('P7dR8mSH', DependencyType.REQUIRED)
+	]
+
+	changelog = provider { file("${project(':Changelog').projectDir}/changelog.md").getText().replace([ '${version}': "$mc_version-$version" ]) }
+
+	uploadFile = tasks.remapJar
+	additionalFiles = [ tasks.sourcesJar ]
+}
+
+tasks.modrinth.dependsOn(tasks.remapJar)
+tasks.modrinth.dependsOn(tasks.sourcesJar)
+
+tasks.modrinth.dependsOn(':Changelog:makeMarkdownChangelog')
+
+publishing {
+	publications {
+		register('mavenJava', MavenPublication) {
+			artifact remapJar
+			artifact sourcesJar
+
+			artifactId archivesBaseName
+		}
+	}
+
+	repositories {
+		mavenLocal()
+	}
+}

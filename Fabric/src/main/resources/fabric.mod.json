@@ -1,0 +1,31 @@
+{
+	"schemaVersion": 1,
+	"id": "fbp",
+	"name": "${mod_name}",
+	"version": "${mod_version}",
+	"description": "3D Digging particles! YAY!",
+	"icon": "logo.png",
+	"license": "GPLv3",
+	"authors": [
+		"Hantonik",
+		"TominoCZ"
+	],
+
+	"environment": "client",
+	"entrypoints": {
+		"client": [
+			"hantonik.fbp.FancyBlockParticles"
+		]
+	},
+	"depends": {
+		"fabricloader": ">=0.14.0",
+		"fabric-api": ">=0.66.0",
+		"minecraft": "~${mc_version}",
+		"java": ">=17"
+	},
+
+	"mixins": [
+      	"fbp.mixins.json"
+	],
+	"accessWidener": "fbp.accesswidener"
+}

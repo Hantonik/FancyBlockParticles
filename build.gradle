@@ -1,0 +1,66 @@
+plugins {
+    id 'net.darkhax.curseforgegradle' version '1.+' apply false
+    id 'com.modrinth.minotaur' version '2.+' apply false
+
+    id 'net.neoforged.gradleutils' version '3.+'
+}
+
+apply from: 'buildtools/ColoredOutput.gradle'
+
+gradleutils.version {
+    tags {
+        label = 'beta'
+
+        appendCommitOffset = false
+    }
+}
+
+println "Starting build of $mod_name, Version: ${gradleutils.version.toString()}"
+
+subprojects {
+    version = gradleutils.version.toString()
+    group = "hantonik.$mod_id"
+
+    tasks.withType(ProcessResources).configureEach {
+        var replaceProperties = [
+                'mod_version': version,
+                'mod_name': mod_name,
+
+                'mc_version': mc_version,
+
+                'loader_version': loader_version,
+                'fabric_version': fabric_version
+        ]
+
+        inputs.properties replaceProperties
+
+        filesMatching([ 'META-INF/mods.toml', 'fabric.mod.json', 'pack.mcmeta' ]) {
+            expand replaceProperties
+        }
+    }
+
+    tasks.withType(Jar).configureEach {
+        manifest {
+            attributes([
+                    'Specification-Title': mod_id,
+                    'Specification-Vendor': 'Hantonik',
+                    'Specification-Version': '1',
+                    'Implementation-Title': project.name,
+                    'Implementation-Version': jar.archiveVersion,
+                    'Implementation-Vendor': 'Hantonik'
+            ])
+        }
+    }
+
+    tasks.withType(JavaCompile).configureEach {
+        options.encoding = 'UTF-8'
+    }
+}
+
+tasks.register('publishMod') {
+    dependsOn(':Forge:publishCurseForge').finalizedBy(':NeoForge:publishCurseForge')
+    dependsOn(':Forge:modrinth').finalizedBy(':NeoForge:modrinth')
+
+    tasks.getByPath(':NeoForge:publishCurseForge').finalizedBy(':Fabric:publishCurseForge')
+    tasks.getByPath(':NeoForge:modrinth').finalizedBy(':Fabric:modrinth')
+}
