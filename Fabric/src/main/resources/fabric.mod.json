@@ -10,6 +10,11 @@
 		"Hantonik",
 		"TominoCZ"
 	],
+	"contact": {
+		"homepage": "https://www.curseforge.com/minecraft/mc-mods/fbp-renewed",
+		"sources": "https://github.com/Hantonik/FancyBlockParticles",
+		"issues": "https://github.com/Hantonik/FancyBlockParticles/issues"
+	},
 
 	"environment": "client",
 	"entrypoints": {
