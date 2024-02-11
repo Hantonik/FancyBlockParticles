@@ -43,6 +43,9 @@ public abstract class MixinParticleEngine {
 
     @Inject(at = @At("RETURN"), method = "makeParticle", cancellable = true)
     private <T extends ParticleOptions> void makeParticle(T particleData, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed, CallbackInfoReturnable<Particle> callback) {
+        if (!FancyBlockParticles.RENDER_CONFIG.isEnabled())
+            return;
+
         if (FancyBlockParticles.PHYSICS_CONFIG.isFancyFlame() && !(callback.getReturnValue() instanceof FBPFlameParticle)) {
             if (particleData.getType() == ParticleTypes.FLAME)
                 callback.setReturnValue(new FBPFlameParticle.Provider().createParticle((SimpleParticleType) particleData, this.level, x, y, z, xSpeed, ySpeed, zSpeed));
@@ -73,6 +76,9 @@ public abstract class MixinParticleEngine {
 
     @Inject(at = @At("HEAD"), method = "destroy", cancellable = true)
     public void destroy(BlockPos pos, BlockState state, CallbackInfo callback) {
+        if (!FancyBlockParticles.RENDER_CONFIG.isEnabled())
+            return;
+
         callback.cancel();
 
         if (!state.isAir()) {
@@ -100,6 +106,9 @@ public abstract class MixinParticleEngine {
 
     @Inject(at = @At("HEAD"), method = "crack", cancellable = true)
     public void crack(BlockPos pos, Direction side, CallbackInfo callback) {
+        if (!FancyBlockParticles.RENDER_CONFIG.isEnabled())
+            return;
+
         callback.cancel();
 
         var state = this.level.getBlockState(pos);

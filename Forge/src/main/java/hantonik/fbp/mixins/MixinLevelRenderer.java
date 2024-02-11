@@ -37,6 +37,9 @@ public abstract class MixinLevelRenderer implements ResourceManagerReloadListene
 
     @Inject(at = @At("HEAD"), method = "tickRain")
     private void tickRain(Camera camera, CallbackInfo callback) {
+        if (!FancyBlockParticles.RENDER_CONFIG.isEnabled())
+            return;
+
         if (FancyBlockParticles.PHYSICS_CONFIG.isFancyRain() || FancyBlockParticles.PHYSICS_CONFIG.isFancySnow()) {
             if (this.level.getRainLevel(1.0F) / (Minecraft.useFancyGraphics() ? 1.0F : 2.0F) <= 0.0F)
                 return;
@@ -57,7 +60,7 @@ public abstract class MixinLevelRenderer implements ResourceManagerReloadListene
                     continue;
 
                 var pos = BlockPos.containing(x, this.minecraft.player.getY(), z);
-                var biome = this.level.getBiome(pos).get();
+                var biome = this.level.getBiome(pos).value();
                 var surfaceHeight = this.level.getHeightmapPos(Heightmap.Types.MOTION_BLOCKING, pos).getY();
 
                 var y = (int) (this.minecraft.player.getY() + 15.0D + FBPConstants.RANDOM.nextDouble() * 10.0D + (this.minecraft.player.getDeltaMovement().y * 6.0D));
@@ -81,7 +84,7 @@ public abstract class MixinLevelRenderer implements ResourceManagerReloadListene
 
     @Redirect(at = @At(value = "INVOKE", target = "Lnet/minecraft/client/multiplayer/ClientLevel;addParticle(Lnet/minecraft/core/particles/ParticleOptions;DDDDDD)V"), method = "tickRain")
     private void addParticle(ClientLevel instance, ParticleOptions particleData, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed) {
-        if (particleData.getType() != ParticleTypes.RAIN || (!FancyBlockParticles.PHYSICS_CONFIG.isFancyRain() && !FancyBlockParticles.PHYSICS_CONFIG.isFancySnow()))
+        if (!FancyBlockParticles.RENDER_CONFIG.isEnabled() || particleData.getType() != ParticleTypes.RAIN || (!FancyBlockParticles.PHYSICS_CONFIG.isFancyRain() && !FancyBlockParticles.PHYSICS_CONFIG.isFancySnow()))
             instance.addParticle(particleData, x, y, z, xSpeed, ySpeed, zSpeed);
     }
 
