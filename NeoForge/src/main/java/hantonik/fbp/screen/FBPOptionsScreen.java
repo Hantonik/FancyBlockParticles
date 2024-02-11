@@ -41,7 +41,7 @@ public class FBPOptionsScreen extends Screen {
     @Override
     protected void init() {
         this.addRenderableWidget(new ImageButton(10, 10, 25, 25, LOGO_SPRITES, button -> this.handleComponentClicked(Style.EMPTY.withClickEvent(new ClickEvent(ClickEvent.Action.OPEN_URL, "https://www.curseforge.com/minecraft/mc-mods/fbp-renewed"))))).setTooltip(Tooltip.create(Component.translatable("button.fbp.homepage")));
-        this.addRenderableWidget(new ImageButton(this.width - 10 - 25, 10, 25, 25, REPORT_SPRITES, button -> this.handleComponentClicked(Style.EMPTY.withClickEvent(new ClickEvent(ClickEvent.Action.OPEN_URL, "https://github.com/Hantonik/FancyBlockParticles-Remake/issues"))))).setTooltip(Tooltip.create(Component.translatable("button.fbp.report")));
+        this.addRenderableWidget(new ImageButton(this.width - 10 - 25, 10, 25, 25, REPORT_SPRITES, button -> this.handleComponentClicked(Style.EMPTY.withClickEvent(new ClickEvent(ClickEvent.Action.OPEN_URL, "https://github.com/Hantonik/FancyBlockParticles/issues"))))).setTooltip(Tooltip.create(Component.translatable("button.fbp.report")));
 
         var version = Component.translatable("text.fbp.version", SharedConstants.getCurrentVersion().getName() + "-" + FancyBlockParticles.MOD_VERSION);
         this.addRenderableWidget(new StringWidget(5, this.height - 5 - 9, this.font.width(version), 9, version, this.font));
