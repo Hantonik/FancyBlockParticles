@@ -12,36 +12,28 @@ This mod introduces 3D particles into the game, offering the flexibility to cust
 Yes, you can use this mod in your modpack!
 
 ### Particles
-
-#### Block breaking particles:
-![image](https://i.imgur.com/Hrep3k3.gif)
-
-#### Flame and smoke particles:
-![image](https://i.imgur.com/LMQrpYo.gif)
-
-#### Rain particles:
-![image](https://i.imgur.com/7VDUAkF.gif)
-
-#### Snow particles:
-![image](https://i.imgur.com/x5NnVa7.gif)
+ - Block breaking particles
+ - Flame and smoke particles
+ - Rain particles
+ - Snow particles
 
 ### Settings
 FBP gives you the ability to customize the most essential breaking particle settings according to your preferences. To access the FBP panel, press **I** key (default) on your keyboard.
-
 ![image](https://i.imgur.com/NuKYy02.png)
-
 You also have the option to adjust settings through the config files located at `config/fbp/render.json` and `config/fbp/physics.json` if you need.
 
 ### Keybindings
-Enable/Disable mod - **None**\
-Open mod settings - **I**\
-Freeze effect - **R**\
-Kill particles - **None**\
-Fast add block to blacklist - **X**\
-Fast add held block to blacklist - **Shift + X**
+| Name                             |      Key      |
+|----------------------------------|:-------------:|
+| Enable/Disable mod               |   **None**    |
+| Open mod settings                |     **I**     |
+| Freeze effect                    |     **R**     |
+| Kill particles                   |   **None**    |
+| Fast add block to blacklist      |     **X**     |
+| Fast add held block to blacklist | **Shift + X** |
 
-### OptiFine & Sodium compatibility
-FBP **should be** compatible with both OptiFine for Forge and NeoForge, as well as with Sodium for Fabric.
+### OptiFine & Iris compatibility
+FBP **should be** compatible with both OptiFine for Forge and NeoForge, as well as with Iris for Fabric.
 
 ## Downloads
 
