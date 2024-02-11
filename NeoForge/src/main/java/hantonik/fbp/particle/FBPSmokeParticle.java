@@ -16,6 +16,7 @@ import net.minecraft.core.particles.SimpleParticleType;
 import net.minecraft.util.Mth;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.CandleBlock;
 import net.minecraft.world.phys.AABB;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
@@ -70,7 +71,7 @@ public class FBPSmokeParticle extends SmokeParticle {
             this.scaleAlpha = this.quadSize * 0.5D;
 
             this.lifetime = FBPConstants.RANDOM.nextInt(7, 18);
-        } else if (state.is(Blocks.TORCH) || state.is(Blocks.WALL_TORCH) || state.is(Blocks.SOUL_TORCH) || state.is(Blocks.SOUL_WALL_TORCH)) {
+        } else if (state.is(Blocks.TORCH) || state.is(Blocks.WALL_TORCH) || state.is(Blocks.SOUL_TORCH) || state.is(Blocks.SOUL_WALL_TORCH) || state.getBlock() instanceof CandleBlock) {
             this.quadSize *= 0.45F;
 
             this.xd = FBPConstants.RANDOM.nextDouble(-0.05D, 0.05D);

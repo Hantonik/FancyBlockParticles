@@ -16,6 +16,7 @@ import net.minecraft.core.Direction;
 import net.minecraft.core.particles.SimpleParticleType;
 import net.minecraft.util.Mth;
 import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.CandleBlock;
 import net.minecraft.world.phys.AABB;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
@@ -110,9 +111,11 @@ public class FBPFlameParticle extends FlameParticle {
             if (this.alpha > 0.01D && this.quadSize <= this.scaleAlpha)
                 this.alpha *= (float) (0.9F * this.multiplier);
 
+            var state = this.level.getBlockState(BlockPos.containing(this.x, this.y, this.z));
+
             if (this.alpha <= 0.01D)
                 this.remove();
-            else if (this.alpha <= 0.325D && this.spawnAnother && this.level.getBlockState(BlockPos.containing(this.x, this.y, this.z)).is(Blocks.TORCH)) {
+            else if (this.alpha <= 0.325D && this.spawnAnother && (state.is(Blocks.TORCH) || state.getBlock() instanceof CandleBlock)) {
                 this.spawnAnother = false;
 
                 Minecraft.getInstance().particleEngine.add(new FBPFlameParticle(this.level, this.startPos.x, this.startPos.y, this.startPos.z, 0, 0, 0, this.spawnAnother));
@@ -270,10 +273,10 @@ public class FBPFlameParticle extends FlameParticle {
         public Particle createParticle(SimpleParticleType type, ClientLevel level, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed) {
             var state = level.getBlockState(BlockPos.containing(x, y, z));
 
-            if (state == Blocks.TORCH.defaultBlockState())
+            if (state == Blocks.TORCH.defaultBlockState() || state.getBlock() instanceof CandleBlock)
                 y += 0.04D;
 
-            return new FBPFlameParticle(level, x, y - 0.06D, z, xSpeed, FBPConstants.RANDOM.nextDouble() * 0.025D, zSpeed, !state.is(Blocks.TORCH));
+            return new FBPFlameParticle(level, x, y - 0.06D, z, xSpeed, FBPConstants.RANDOM.nextDouble() * 0.025D, zSpeed, !state.is(Blocks.TORCH) && !(state.getBlock() instanceof CandleBlock));
         }
     }
 
@@ -284,10 +287,10 @@ public class FBPFlameParticle extends FlameParticle {
         public Particle createParticle(SimpleParticleType type, ClientLevel level, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed) {
             var state = level.getBlockState(BlockPos.containing(x, y, z));
 
-            if (state == Blocks.TORCH.defaultBlockState())
+            if (state == Blocks.TORCH.defaultBlockState() || state.getBlock() instanceof CandleBlock)
                 y += 0.04D;
 
-            var particle = new FBPFlameParticle(level, x, y - 0.06D, z, xSpeed, FBPConstants.RANDOM.nextDouble() * 0.025D, zSpeed, !state.is(Blocks.TORCH));
+            var particle = new FBPFlameParticle(level, x, y - 0.06D, z, xSpeed, FBPConstants.RANDOM.nextDouble() * 0.025D, zSpeed, !state.is(Blocks.TORCH) && !(state.getBlock() instanceof CandleBlock));
 
             particle.quadSize *= 0.5F;
 
