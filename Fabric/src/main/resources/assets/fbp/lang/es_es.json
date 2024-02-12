@@ -1,0 +1,61 @@
+{
+  "key.categories.fbp": "Fancy Block Particles",
+
+  "key.fbp.toggle": "Activar/Desactivar",
+  "key.fbp.settings": "Abrir ajustes",
+  "key.fbp.freeze": "Alternar efecto de congelación",
+  "key.fbp.kill_particles": "Eliminar partículas",
+  "key.fbp.fast_blacklist": "Añadir bloque rápidamente a la lista negra",
+
+  "screen.fbp.freeze": "§l¡Efecto de congelación!",
+
+  "screen.fbp.settings": "Fancy Block Particles - Ajustes",
+  "screen.fbp.blacklist": "Añadir un bloque a la lista negra",
+
+  "screen.fbp.reset_confirm": " ¿Está seguro de que desea restablecer la configuración de FBP?",
+  "screen.fbp.reload_alert": "¡La configuración se ha recargado correctamente!",
+
+  "button.fbp.homepage": "¡Página de inicio de FBP aquí!",
+  "button.fbp.report": "¿Encontraste un error?\n¡Informe aquí!",
+
+  "button.fbp.enabled": "Habilitado",
+  "button.fbp.particles_decay": "Decaimiento de partículas",
+
+  "button.fbp.particles_per_axis": "Partículas por eje: ",
+  "button.fbp.min_lifetime": "Vida mínima de partículas: ",
+  "button.fbp.max_lifetime": "Vida máxima de partículas: ",
+  "button.fbp.scale_multiplier": "Multiplicador de escala: ",
+  "button.fbp.rotation_multiplier": "Multiplicador de rotación: ",
+  "button.fbp.gravity_multiplier": "Multiplicador de gravedad: ",
+  "button.fbp.weather_particle_density": "Densidad de partículas climáticas: ",
+
+  "button.fbp.reload": "Recargar configuración",
+  "button.fbp.reset": "Restablecer",
+  "button.fbp.done": "Hecho",
+
+  "button.fbp.ticks": " tics",
+
+  "tooltip.fbp.default": "Predeterminado: ",
+
+  "tooltip.fbp.enabled": "Activar o desactivar FBP.",
+  "tooltip.fbp.particles_decay": "Si está desactivado, las partículas no desaparecerán.",
+
+  "tooltip.fbp.particles_per_axis": "Número de partículas destruidas en los ejes x, y y z.",
+  "tooltip.fbp.min_lifetime": "Valor mínimo y aleatorio para la vida útil de las partículas.\nSi desea que todas las partículas desaparezcan al mismo tiempo, establezca el mismo valor para la vida útil mínima y máxima de las partículas.",
+  "tooltip.fbp.max_lifetime": "Valor máximo y aleatorio para la vida útil de las partículas.\nSi desea que todas las partículas desaparezcan al mismo tiempo, establezca el mismo valor para la vida útil mínima y máxima de las partículas.",
+  "tooltip.fbp.scale_multiplier": "Multiplicador de escala de partículas. Cuanto mayor sea el valor, más grandes serán las partículas.",
+  "tooltip.fbp.rotation_multiplier": "Multiplicador de rotación de partículas. Cuanto mayor sea el valor, más rápido y fuerte rotarán las partículas.",
+  "tooltip.fbp.gravity_multiplier": "The higher the value, the faster the particles will fall to the ground: Multiplicador de gravedad de partículas. Cuanto mayor sea el valor, más rápido caerán las partículas al suelo.",
+  "tooltip.fbp.weather_particle_density": "Densidad de partículas climáticas. Cuanto mayor sea el valor, más partículas climáticas aparecerán.",
+
+  "button.fbp.true": "§averdadero",
+  "button.fbp.false": "§cfalso",
+
+  "tooltip.fbp.animation": "COLOCAR ANIMACIÓN",
+  "tooltip.fbp.particles": "PARTÍCULAS",
+
+  "tooltip.fbp.add": "AÑADIR",
+  "tooltip.fbp.remove": "ELIMINAR",
+
+  "text.fbp.version": "Versión: %s"
+}
