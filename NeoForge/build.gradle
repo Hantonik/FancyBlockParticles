@@ -80,10 +80,10 @@ tasks.register('publishCurseForge', TaskPublishCurseForge) {
 
     apiToken = System.getenv('CURSEFORGE_TOKEN')
 
-    var modFile = upload('634377', tasks.jar.archiveFile)
+    var modFile = upload('937011', tasks.jar.archiveFile)
     modFile.displayName = "${base.archivesName.get()}-$version"
     modFile.releaseType = CFConstants.RELEASE_TYPE_BETA
-    modFile.addGameVersion(mc_version, 'client', 'server')
+    modFile.addGameVersion(mc_version, 'client')
     modFile.addModLoader('NeoForge')
     modFile.addJavaVersion 'Java 17'
 
@@ -94,7 +94,7 @@ tasks.register('publishCurseForge', TaskPublishCurseForge) {
 modrinth {
     token = System.getenv('MODRINTH_TOKEN')
 
-    projectId = mod_id
+    projectId = 'fbp-renewed'
 
     versionName = "${base.archivesName.get()}-$version"
     versionNumber = version

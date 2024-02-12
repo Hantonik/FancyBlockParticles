@@ -112,7 +112,7 @@ tasks.register('publishCurseForge', TaskPublishCurseForge) {
 modrinth {
     token = System.getenv('MODRINTH_TOKEN')
 
-    projectId = mod_id
+    projectId = 'fbp-renewed'
 
     versionName = "${base.archivesName.get()}-$version"
     versionNumber = version
