@@ -43,10 +43,10 @@ public abstract class MixinParticleEngine {
 
     @Inject(at = @At("RETURN"), method = "makeParticle", cancellable = true)
     private <T extends ParticleOptions> void makeParticle(T particleData, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed, CallbackInfoReturnable<Particle> callback) {
-        if (!FancyBlockParticles.RENDER_CONFIG.isEnabled())
+        if (!FancyBlockParticles.CONFIG.isEnabled())
             return;
 
-        if (FancyBlockParticles.PHYSICS_CONFIG.isFancyFlame() && !(callback.getReturnValue() instanceof FBPFlameParticle)) {
+        if (FancyBlockParticles.CONFIG.isFancyFlame() && !(callback.getReturnValue() instanceof FBPFlameParticle)) {
             if (particleData.getType() == ParticleTypes.FLAME)
                 callback.setReturnValue(new FBPFlameParticle.Provider().createParticle((SimpleParticleType) particleData, this.level, x, y, z, xSpeed, ySpeed, zSpeed));
             if (particleData.getType() == ParticleTypes.SMALL_FLAME)
@@ -59,11 +59,11 @@ public abstract class MixinParticleEngine {
                 callback.setReturnValue(new FBPLavaParticle.Provider().createParticle((SimpleParticleType) particleData, this.level, x, y, z, xSpeed, ySpeed, zSpeed));
         }
 
-        if (FancyBlockParticles.PHYSICS_CONFIG.isFancySmoke() && !(callback.getReturnValue() instanceof FBPSmokeParticle))
+        if (FancyBlockParticles.CONFIG.isFancySmoke() && !(callback.getReturnValue() instanceof FBPSmokeParticle))
             if (particleData.getType() == ParticleTypes.SMOKE || particleData.getType() == ParticleTypes.LARGE_SMOKE)
                 callback.setReturnValue(new FBPSmokeParticle.Provider(((SingleQuadParticle) callback.getReturnValue()).getQuadSize(1)).createParticle((SimpleParticleType) particleData, this.level, x, y, z, xSpeed, ySpeed, zSpeed));
 
-        if ((FancyBlockParticles.PHYSICS_CONFIG.isFancyRain() || FancyBlockParticles.PHYSICS_CONFIG.isFancySnow()) && !(callback.getReturnValue() instanceof FBPRainParticle) && !(callback.getReturnValue() instanceof FBPSnowParticle))
+        if ((FancyBlockParticles.CONFIG.isFancyRain() || FancyBlockParticles.CONFIG.isFancySnow()) && !(callback.getReturnValue() instanceof FBPRainParticle) && !(callback.getReturnValue() instanceof FBPSnowParticle))
             if (particleData.getType() == ParticleTypes.RAIN)
                 callback.setReturnValue(null);
 
@@ -76,7 +76,7 @@ public abstract class MixinParticleEngine {
 
     @Inject(at = @At("HEAD"), method = "destroy", cancellable = true)
     public void destroy(BlockPos pos, BlockState state, CallbackInfo callback) {
-        if (!FancyBlockParticles.RENDER_CONFIG.isEnabled())
+        if (!FancyBlockParticles.CONFIG.isEnabled())
             return;
 
         callback.cancel();
@@ -84,7 +84,7 @@ public abstract class MixinParticleEngine {
         if (!state.isAir()) {
             var sprite = Minecraft.getInstance().getBlockRenderer().getBlockModelShaper().getParticleIcon(state);
 
-            var particlesPerAxis = FancyBlockParticles.RENDER_CONFIG.getParticlesPerAxis();
+            var particlesPerAxis = FancyBlockParticles.CONFIG.getParticlesPerAxis();
 
             for (var i = 0; i < particlesPerAxis; i++) {
                 for (var j = 0; j < particlesPerAxis; j++) {
@@ -106,7 +106,7 @@ public abstract class MixinParticleEngine {
 
     @Inject(at = @At("HEAD"), method = "crack", cancellable = true)
     public void crack(BlockPos pos, Direction side, CallbackInfo callback) {
-        if (!FancyBlockParticles.RENDER_CONFIG.isEnabled())
+        if (!FancyBlockParticles.CONFIG.isEnabled())
             return;
 
         callback.cancel();
@@ -128,7 +128,7 @@ public abstract class MixinParticleEngine {
             double y;
             double z;
 
-            if (FancyBlockParticles.PHYSICS_CONFIG.isSmartBreaking() && (!(state.getBlock() instanceof LiquidBlock) && !(FancyBlockParticles.RENDER_CONFIG.isFrozen() && !FancyBlockParticles.PHYSICS_CONFIG.isSpawnWhileFrozen()))) {
+            if (FancyBlockParticles.CONFIG.isSmartBreaking() && (!(state.getBlock() instanceof LiquidBlock) && !(FancyBlockParticles.CONFIG.isFrozen() && !FancyBlockParticles.CONFIG.isSpawnWhileFrozen()))) {
                 x = hit.getLocation().x + FBPConstants.RANDOM.nextDouble(-0.21D, 0.21D) * Math.abs(bounds.maxX - bounds.minX);
                 y = hit.getLocation().y + FBPConstants.RANDOM.nextDouble(-0.21D, 0.21D) * Math.abs(bounds.maxY - bounds.minY);
                 z = hit.getLocation().z + FBPConstants.RANDOM.nextDouble(-0.21D, 0.21D) * Math.abs(bounds.maxZ - bounds.minZ);
@@ -147,7 +147,7 @@ public abstract class MixinParticleEngine {
                 case DOWN -> y = posY + bounds.minY - 0.1D;
             }
 
-            if ((!(state.getBlock() instanceof LiquidBlock) && !(FancyBlockParticles.RENDER_CONFIG.isFrozen() && !FancyBlockParticles.PHYSICS_CONFIG.isSpawnWhileFrozen()))) {
+            if ((!(state.getBlock() instanceof LiquidBlock) && !(FancyBlockParticles.CONFIG.isFrozen() && !FancyBlockParticles.CONFIG.isSpawnWhileFrozen()))) {
                 var destroyingBlocks = Minecraft.getInstance().levelRenderer.destroyingBlocks;
 
                 var damage = 0;
@@ -162,10 +162,10 @@ public abstract class MixinParticleEngine {
                     }
                 }
 
-                if (FancyBlockParticles.RENDER_CONFIG.isBlockParticlesEnabled(state.getBlock())) {
+                if (FancyBlockParticles.CONFIG.isBlockParticlesEnabled(state.getBlock())) {
                     var particle = new FBPTerrainParticle(this.level, x, y, z, 0.0D, 0.0D, 0.0D, 2.0F, 1.0F, 1.0F, 1.0F, pos, state, side, null);
 
-                    if (FancyBlockParticles.PHYSICS_CONFIG.isSmartBreaking()) {
+                    if (FancyBlockParticles.CONFIG.isSmartBreaking()) {
                         particle.setPower(side == Direction.UP ? 0.7F : 0.15F);
                         particle.scale(0.325F + (damage / 10.0F) * 0.5F);
                     } else {

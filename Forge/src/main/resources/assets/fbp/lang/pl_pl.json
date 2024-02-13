@@ -29,6 +29,30 @@
   "button.fbp.gravity_multiplier": "Mnożnik grawitacji: ",
   "button.fbp.weather_particle_density": "Gęstość cząsteczek wody: ",
 
+  "button.fbp.fancy_flame": "Fantazyjny płomień",
+  "button.fbp.fancy_smoke": "Fantazyjny dym",
+  "button.fbp.fancy_rain": "Fantazyjny deszcz",
+  "button.fbp.fancy_snow": "Fantazyjny śnieg",
+  "button.fbp.fancy_place_animation": "Fantazyjna animacja stawiania",
+
+  "button.fbp.smart_breaking": "Inteligentne burzenie",
+  "button.fbp.low_traction": "Niska trakcja",
+  "button.fbp.spawn_while_frozen": "Pojawianie się podczas zamrożenia",
+  "button.fbp.smooth_animation_lighting": "Płynne oświetlenie animacji",
+
+  "button.fbp.spawn_place_particles": "Pojawianie się cząsteczek stawiania",
+  "button.fbp.rest_on_floor": "Cząsteczki zostają na ziemi",
+  "button.fbp.bounce_off_walls": "Odbijanie się cząsteczek od ścian",
+  "button.fbp.entity_collision": "Kolizje cząsteczek z bytami",
+  "button.fbp.water_physics": "Fizyka wody",
+
+  "button.fbp.random_scale": "Losowa skala",
+  "button.fbp.random_rotation": "Losowa rotacja",
+  "button.fbp.random_fading_speed": "Losowa prędkość zanikania",
+
+  "button.fbp.previous": "< Poprzednia",
+  "button.fbp.next": "Następna >",
+
   "button.fbp.reload": "Przeładuj pliki konfiguracyjne",
   "button.fbp.reset": "Resetuj",
   "button.fbp.done": "Gotowe",
@@ -50,6 +74,27 @@
   "tooltip.fbp.rotation_multiplier": "Mnożnik rotacji cząsteczek. Im wyższa wartość, tym szybciej i bardziej cząsteczki będą się obracać",
   "tooltip.fbp.gravity_multiplier": "Mnożnik grawitacji cząsteczek. Im wyższa wartość, tym szybciej cząsteczki spadną na ziemię.",
   "tooltip.fbp.weather_particle_density": "Gęstość cząsteczek pogody. Im wyższa wartość, tym więcej cząsteczek pogody się pojawi.",
+
+  "tooltip.fbp.fancy_flame": "Włącz lub wyłącz cząsteczki fantazyjnego płomienia.",
+  "tooltip.fbp.fancy_smoke": "Włącz lub wyłącz cząsteczki fantazyjnego dymu.",
+  "tooltip.fbp.fancy_rain": "Włącz lub wyłącz cząsteczki fantazyjnego deszczu.",
+  "tooltip.fbp.fancy_snow": "Włącz lub wyłącz cząsteczki fantazyjnego śniegu.",
+  "tooltip.fbp.fancy_place_animation": "Włącz lub wyłącz fantazyjną animację stawiania.",
+
+  "tooltip.fbp.smart_breaking": "Włącz lub wyłącz inteligentne burzenie.",
+  "tooltip.fbp.low_traction": "Włącz lub wyłącz niską trakcję cząsteczek.",
+  "tooltip.fbp.spawn_while_frozen": "Włącz lub wyłącz pojawianie się cząsteczek podczas zamrożenia.",
+  "tooltip.fbp.smooth_animation_lighting": "Włącz lub wyłącz płynne oświetlenie animacji.",
+
+  "tooltip.fbp.spawn_place_particles": "Włącz lub wyłącz pojawianie się cząsteczek stawiania.",
+  "tooltip.fbp.rest_on_floor": "Włącz lub wyłącz zostawanie cząsteczek na ziemi.",
+  "tooltip.fbp.bounce_off_walls": "Włącz lub wyłącz odbijanie się cząsteczek od ścian.",
+  "tooltip.fbp.entity_collision": "Włącz lub wyłącz kolizje cząsteczek z bytami.",
+  "tooltip.fbp.water_physics": "Włącz lub wyłącz fizykę wody.",
+
+  "tooltip.fbp.random_scale": "Włącz lub wyłącz losową skalę.",
+  "tooltip.fbp.random_rotation": "Włącz lub wyłącz losową rotację.",
+  "tooltip.fbp.random_fading_speed": "Włącz lub wyłącz losową prędkość zanikania.",
 
   "tooltip.fbp.animation": "ANIMACJA POŁOŻENIA",
   "tooltip.fbp.particles": "CZĄSTECZKI",

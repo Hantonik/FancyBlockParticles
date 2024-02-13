@@ -43,7 +43,7 @@ public class FBPSoulFireFlameParticle extends FlameParticle {
         this.spawnAnother = spawnAnother;
         this.startPos = new Vector3d(x, y, z);
 
-        this.quadSize *= (float) (FancyBlockParticles.RENDER_CONFIG.getScaleMultiplier() * 25.0F);
+        this.quadSize *= (float) (FancyBlockParticles.CONFIG.getScaleMultiplier() * 25.0F);
         this.lifetime = FBPConstants.RANDOM.nextInt(3, 5);
 
         this.yd = -0.00085D;
@@ -66,7 +66,7 @@ public class FBPSoulFireFlameParticle extends FlameParticle {
 
         this.multiplier = 1.0D;
 
-        if (FancyBlockParticles.PHYSICS_CONFIG.isRandomFadingSpeed())
+        if (FancyBlockParticles.CONFIG.isRandomFadingSpeed())
             this.multiplier *= FBPConstants.RANDOM.nextDouble(0.9875D, 1.0D);
 
         this.scale(1);
@@ -101,7 +101,7 @@ public class FBPSoulFireFlameParticle extends FlameParticle {
         this.lastAlpha = this.alpha;
         this.lastScale = this.quadSize;
 
-        if (!FancyBlockParticles.PHYSICS_CONFIG.isFancyFlame())
+        if (!FancyBlockParticles.CONFIG.isFancyFlame())
             this.removed = true;
 
         if (++this.age >= this.lifetime) {
@@ -175,7 +175,7 @@ public class FBPSoulFireFlameParticle extends FlameParticle {
 
     @Override
     public void render(VertexConsumer buffer, Camera info, float partialTicks) {
-        if (!FancyBlockParticles.RENDER_CONFIG.isEnabled())
+        if (!FancyBlockParticles.CONFIG.isEnabled())
             this.lifetime = 0;
 
         var u = this.sprite.getU(1.1F / 4.0F);

@@ -37,10 +37,10 @@ public abstract class MixinLevelRenderer implements ResourceManagerReloadListene
 
     @Inject(at = @At("HEAD"), method = "tickRain")
     private void tickRain(Camera camera, CallbackInfo callback) {
-        if (!FancyBlockParticles.RENDER_CONFIG.isEnabled())
+        if (!FancyBlockParticles.CONFIG.isEnabled())
             return;
 
-        if (FancyBlockParticles.PHYSICS_CONFIG.isFancyRain() || FancyBlockParticles.PHYSICS_CONFIG.isFancySnow()) {
+        if (FancyBlockParticles.CONFIG.isFancyRain() || FancyBlockParticles.CONFIG.isFancySnow()) {
             if (this.level.getRainLevel(1.0F) / (Minecraft.useFancyGraphics() ? 1.0F : 2.0F) <= 0.0F)
                 return;
 
@@ -49,7 +49,7 @@ public abstract class MixinLevelRenderer implements ResourceManagerReloadListene
 
             var td = Mth.sqrt(xd * xd + zd * zd) / 25.0F;
 
-            for (var i = 0; i < 16 * FancyBlockParticles.RENDER_CONFIG.getWeatherParticleDensity(); i++) {
+            for (var i = 0; i < 16 * FancyBlockParticles.CONFIG.getWeatherParticleDensity(); i++) {
                 var angle = FBPConstants.RANDOM.nextDouble() * Math.PI * 2.0D;
                 var radius = Mth.sqrt(FBPConstants.RANDOM.nextFloat()) * 35.0F;
 
@@ -70,10 +70,10 @@ public abstract class MixinLevelRenderer implements ResourceManagerReloadListene
 
                 if (biome.hasPrecipitation()) {
                     if (biome.getPrecipitationAt(pos) == Biome.Precipitation.RAIN) {
-                        if (FancyBlockParticles.PHYSICS_CONFIG.isFancyRain())
+                        if (FancyBlockParticles.CONFIG.isFancyRain())
                             this.minecraft.particleEngine.add(new FBPRainParticle(this.level, x, y, z, 0.1D, -(FBPConstants.RANDOM.nextDouble(0.75D, 0.99D) + td / 2.0D), 0.1D, this.minecraft.getBlockRenderer().getBlockModelShaper().getParticleIcon(Blocks.WATER.defaultBlockState())));
                     } else {
-                        if (FancyBlockParticles.PHYSICS_CONFIG.isFancySnow())
+                        if (FancyBlockParticles.CONFIG.isFancySnow())
                             if (i % 2 == 0)
                                 this.minecraft.particleEngine.add(new FBPSnowParticle(this.level, x, y, z, FBPConstants.RANDOM.nextDouble(-0.5D, 0.5D), -(FBPConstants.RANDOM.nextDouble(0.25D, 1.0D) + td * 1.5D), FBPConstants.RANDOM.nextDouble(-0.5D, 0.5D), this.minecraft.getBlockRenderer().getBlockModelShaper().getParticleIcon(Blocks.SNOW.defaultBlockState())));
                     }
@@ -84,17 +84,17 @@ public abstract class MixinLevelRenderer implements ResourceManagerReloadListene
 
     @Redirect(at = @At(value = "INVOKE", target = "Lnet/minecraft/client/multiplayer/ClientLevel;addParticle(Lnet/minecraft/core/particles/ParticleOptions;DDDDDD)V"), method = "tickRain")
     private void addParticle(ClientLevel instance, ParticleOptions particleData, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed) {
-        if (!FancyBlockParticles.RENDER_CONFIG.isEnabled() || particleData.getType() != ParticleTypes.RAIN || (!FancyBlockParticles.PHYSICS_CONFIG.isFancyRain() && !FancyBlockParticles.PHYSICS_CONFIG.isFancySnow()))
+        if (!FancyBlockParticles.CONFIG.isEnabled() || particleData.getType() != ParticleTypes.RAIN || (!FancyBlockParticles.CONFIG.isFancyRain() && !FancyBlockParticles.CONFIG.isFancySnow()))
             instance.addParticle(particleData, x, y, z, xSpeed, ySpeed, zSpeed);
     }
 
     @Redirect(at = @At(value = "INVOKE", target = "Lnet/minecraft/world/level/biome/Biome;getPrecipitationAt(Lnet/minecraft/core/BlockPos;)Lnet/minecraft/world/level/biome/Biome$Precipitation;"), method = "renderSnowAndRain")
     private Biome.Precipitation getPrecipitationAt(Biome instance, BlockPos pos) {
-        if (FancyBlockParticles.RENDER_CONFIG.isEnabled()) {
-            if (instance.getPrecipitationAt(pos) == Biome.Precipitation.RAIN && FancyBlockParticles.PHYSICS_CONFIG.isFancyRain())
+        if (FancyBlockParticles.CONFIG.isEnabled()) {
+            if (instance.getPrecipitationAt(pos) == Biome.Precipitation.RAIN && FancyBlockParticles.CONFIG.isFancyRain())
                 return Biome.Precipitation.NONE;
 
-            if (instance.getPrecipitationAt(pos) == Biome.Precipitation.SNOW && FancyBlockParticles.PHYSICS_CONFIG.isFancySnow())
+            if (instance.getPrecipitationAt(pos) == Biome.Precipitation.SNOW && FancyBlockParticles.CONFIG.isFancySnow())
                 return Biome.Precipitation.NONE;
         }
 

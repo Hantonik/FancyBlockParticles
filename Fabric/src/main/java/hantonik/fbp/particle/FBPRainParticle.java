@@ -59,7 +59,7 @@ public class FBPRainParticle extends WaterDropParticle {
 
         this.multiplier = 1.0F;
 
-        if (FancyBlockParticles.PHYSICS_CONFIG.isRandomFadingSpeed())
+        if (FancyBlockParticles.CONFIG.isRandomFadingSpeed())
             this.multiplier *= FBPConstants.RANDOM.nextFloat(0.85F, 1.0F);
     }
 
@@ -81,7 +81,7 @@ public class FBPRainParticle extends WaterDropParticle {
 
             if (!this.onGround) {
                 if (this.age < this.lifetime) {
-                    var max = FancyBlockParticles.RENDER_CONFIG.getScaleMultiplier() * 0.5D;
+                    var max = FancyBlockParticles.CONFIG.getScaleMultiplier() * 0.5D;
 
                     if (this.quadSize < max) {
                         this.quadSize += 0.05F * this.multiplier;
@@ -119,7 +119,7 @@ public class FBPRainParticle extends WaterDropParticle {
                 if (this.height > 0.075F)
                     this.height *= 0.725F;
 
-                var max = (float) FancyBlockParticles.RENDER_CONFIG.getScaleMultiplier() * 4.25F;
+                var max = (float) FancyBlockParticles.CONFIG.getScaleMultiplier() * 4.25F;
 
                 if (this.quadSize < max) {
                     this.quadSize += max / 10.0F;
@@ -184,13 +184,13 @@ public class FBPRainParticle extends WaterDropParticle {
 
     @Override
     public void render(VertexConsumer buffer, Camera info, float partialTicks) {
-        if (!FancyBlockParticles.RENDER_CONFIG.isEnabled())
+        if (!FancyBlockParticles.CONFIG.isEnabled())
             this.lifetime = 0;
 
         var u0 = 0.0F;
         var v0 = 0.0F;
 
-        if (!FancyBlockParticles.RENDER_CONFIG.isCartoonMode()) {
+        if (!FancyBlockParticles.CONFIG.isCartoonMode()) {
             u0 = this.sprite.getU(this.uo / 4.0F);
             v0 = this.sprite.getV(this.vo / 4.0F);
         }
@@ -210,14 +210,14 @@ public class FBPRainParticle extends WaterDropParticle {
 
         var smoothRotation = new Vector3d(0.0D, this.angleY, 0.0D);
 
-        FBPRenderHelper.renderCubeShaded(buffer, new Vector2f[]{ new Vector2f(u1, v1), new Vector2f(u1, v0), new Vector2f(u0, v0), new Vector2f(u0, v1) }, posX, posY + height, posZ, width, height, smoothRotation, light, this.rCol, this.gCol, this.bCol, alpha, FancyBlockParticles.RENDER_CONFIG.isCartoonMode());
+        FBPRenderHelper.renderCubeShaded(buffer, new Vector2f[]{ new Vector2f(u1, v1), new Vector2f(u1, v0), new Vector2f(u0, v0), new Vector2f(u0, v1) }, posX, posY + height, posZ, width, height, smoothRotation, light, this.rCol, this.gCol, this.bCol, alpha, FancyBlockParticles.CONFIG.isCartoonMode());
     }
 
     @Override
     public int getLightColor(float partialTick) {
         var i = super.getLightColor(partialTick);
 
-        if (!FancyBlockParticles.PHYSICS_CONFIG.isFancySmoke())
+        if (!FancyBlockParticles.CONFIG.isFancySmoke())
             return i;
 
         var j = 0;

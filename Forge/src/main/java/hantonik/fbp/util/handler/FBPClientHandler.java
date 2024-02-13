@@ -23,7 +23,7 @@ public final class FBPClientHandler {
     public void onClientPause(final ClientPauseEvent event) {
         if (event.isPaused())
             if (!(Minecraft.getInstance().screen instanceof FBPOptionsScreen))
-                FancyBlockParticles.RENDER_CONFIG.save();
+                FancyBlockParticles.CONFIG.save();
     }
 
     @SubscribeEvent
@@ -32,7 +32,7 @@ public final class FBPClientHandler {
             var minecraft = Minecraft.getInstance();
 
             if (FBPKeyMappings.TOGGLE.get().consumeClick())
-                FancyBlockParticles.RENDER_CONFIG.setEnabled(!FancyBlockParticles.RENDER_CONFIG.isEnabled());
+                FancyBlockParticles.CONFIG.setEnabled(!FancyBlockParticles.CONFIG.isEnabled());
 
             if (FBPKeyMappings.SETTINGS.get().consumeClick())
                 minecraft.setScreen(new FBPOptionsScreen());
@@ -52,14 +52,14 @@ public final class FBPClientHandler {
             }
 
             if (FBPKeyMappings.FREEZE.get().consumeClick())
-                if (FancyBlockParticles.RENDER_CONFIG.isEnabled())
-                    FancyBlockParticles.RENDER_CONFIG.setFrozen(!FancyBlockParticles.RENDER_CONFIG.isFrozen());
+                if (FancyBlockParticles.CONFIG.isEnabled())
+                    FancyBlockParticles.CONFIG.setFrozen(!FancyBlockParticles.CONFIG.isFrozen());
         }
     }
 
     @SubscribeEvent
     public void postRenderGuiOverlay(final RenderGuiOverlayEvent.Post event) {
-        if (FancyBlockParticles.RENDER_CONFIG.isEnabled() && FancyBlockParticles.RENDER_CONFIG.isFrozen())
+        if (FancyBlockParticles.CONFIG.isEnabled() && FancyBlockParticles.CONFIG.isFrozen())
             event.getGuiGraphics().drawCenteredString(Minecraft.getInstance().font, Component.translatable("screen.fbp.freeze"), event.getGuiGraphics().guiWidth() / 2, 5, 0x0080FF);
     }
 }

@@ -29,6 +29,30 @@
   "button.fbp.gravity_multiplier": "Gravity multiplier: ",
   "button.fbp.weather_particle_density": "Weather particle density: ",
 
+  "button.fbp.fancy_flame": "Fancy flame",
+  "button.fbp.fancy_smoke": "Fancy smoke",
+  "button.fbp.fancy_rain": "Fancy rain",
+  "button.fbp.fancy_snow": "Fancy snow",
+  "button.fbp.fancy_place_animation": "Fancy placing animation",
+
+  "button.fbp.smart_breaking": "Smart breaking",
+  "button.fbp.low_traction": "Low traction",
+  "button.fbp.spawn_while_frozen": "Spawn while frozen",
+  "button.fbp.smooth_animation_lighting": "Smooth animation lighting",
+
+  "button.fbp.spawn_place_particles": "Spawn placing particles",
+  "button.fbp.rest_on_floor": "Rest on floor",
+  "button.fbp.bounce_off_walls": "Bounce off walls",
+  "button.fbp.entity_collision": "Entity collisions",
+  "button.fbp.water_physics": "Water physics",
+
+  "button.fbp.random_scale": "Random scale",
+  "button.fbp.random_rotation": "Random rotation",
+  "button.fbp.random_fading_speed": "Random fading speed",
+
+  "button.fbp.previous": "< Previous",
+  "button.fbp.next": "Next >",
+
   "button.fbp.reload": "Reload config",
   "button.fbp.reset": "Reset",
   "button.fbp.done": "Done",
@@ -47,6 +71,27 @@
   "tooltip.fbp.rotation_multiplier": "Particle rotation multiplier. The higher the value, the faster and more the particles will rotate.",
   "tooltip.fbp.gravity_multiplier": "Particle gravity multiplier. The higher the value, the faster the particles will fall to the ground.",
   "tooltip.fbp.weather_particle_density": "Weather particle density. The higher the value, the more weather particles will appear.",
+
+  "tooltip.fbp.fancy_flame": "Enable or disable fancy flame particles.",
+  "tooltip.fbp.fancy_smoke": "Enable or disable fancy smoke particles.",
+  "tooltip.fbp.fancy_rain": "Enable or disable fancy rain particles.",
+  "tooltip.fbp.fancy_snow": "Enable or disable fancy snow particles.",
+  "tooltip.fbp.fancy_place_animation": "Enable or disable fancy block placing animation.",
+
+  "tooltip.fbp.smart_breaking": "Enable or disable smart breaking.",
+  "tooltip.fbp.low_traction": "Enable or disable particle low traction.",
+  "tooltip.fbp.spawn_while_frozen": "Enable or disable particle spawning while frozen.",
+  "tooltip.fbp.smooth_animation_lighting": "Enable or disable smooth animation lighting.",
+
+  "tooltip.fbp.spawn_place_particles": "Enable or disable spawning block placing particles.",
+  "tooltip.fbp.rest_on_floor": "Enable or disable resting particles on floor.",
+  "tooltip.fbp.bounce_off_walls": "Enable or disable bouncing particles off walls.",
+  "tooltip.fbp.entity_collision": "Enable or disable particles collisions with entities.",
+  "tooltip.fbp.water_physics": "Enable or disable particles water physics.",
+
+  "tooltip.fbp.random_scale": "Enable or disable particles random scale.",
+  "tooltip.fbp.random_rotation": "Enable or disable particles random rotation.",
+  "tooltip.fbp.random_fading_speed": "Enable or disable particles random fading speed.",
 
   "button.fbp.true": "§atrue",
   "button.fbp.false": "§cfalse",

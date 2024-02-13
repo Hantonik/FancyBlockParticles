@@ -96,7 +96,7 @@ public class FBPSmokeParticle extends SmokeParticle {
             this.lifetime = FBPConstants.RANDOM.nextInt(7, 18);
         }
 
-        this.quadSize *= (float) FancyBlockParticles.RENDER_CONFIG.getScaleMultiplier();
+        this.quadSize *= (float) FancyBlockParticles.CONFIG.getScaleMultiplier();
 
         this.cube = new Vector3d[FBPConstants.CUBE.length];
 
@@ -109,7 +109,7 @@ public class FBPSmokeParticle extends SmokeParticle {
 
         this.multiplier = 0.75D;
 
-        if (FancyBlockParticles.PHYSICS_CONFIG.isRandomFadingSpeed())
+        if (FancyBlockParticles.CONFIG.isRandomFadingSpeed())
             this.multiplier = Mth.clamp(FBPConstants.RANDOM.nextDouble(0.425D, 1.15D), 0.5432D, 1.0D);
 
         this.scale(1);
@@ -205,7 +205,7 @@ public class FBPSmokeParticle extends SmokeParticle {
 
     @Override
     public void render(VertexConsumer buffer, Camera info, float partialTicks) {
-        if (!FancyBlockParticles.RENDER_CONFIG.isEnabled())
+        if (!FancyBlockParticles.CONFIG.isEnabled())
             this.lifetime = 0;
 
         var u = this.sprite.getU(1.1F / 4.0F);
@@ -273,7 +273,7 @@ public class FBPSmokeParticle extends SmokeParticle {
     protected int getLightColor(float partialTick) {
         var i = super.getLightColor(partialTick);
 
-        if (!FancyBlockParticles.PHYSICS_CONFIG.isFancySmoke())
+        if (!FancyBlockParticles.CONFIG.isFancySmoke())
             return i;
 
         var j = 0;

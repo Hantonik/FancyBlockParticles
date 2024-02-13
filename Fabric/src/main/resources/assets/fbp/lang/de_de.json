@@ -29,6 +29,30 @@
   "button.fbp.gravity_multiplier": "Schwerkraftmultiplikator: ",
   "button.fbp.weather_particle_density": "Wetter-Partikeldichte: ",
 
+  "button.fbp.fancy_flame": "Eleganter Flammen",
+  "button.fbp.fancy_smoke": "Eleganter Rauch",
+  "button.fbp.fancy_rain": "Eleganter Regen",
+  "button.fbp.fancy_snow": "Eleganter Schnee",
+  "button.fbp.fancy_place_animation": "Elegante Platzierungsanimation",
+
+  "button.fbp.smart_breaking": "Intelligentes Abbauen",
+  "button.fbp.low_traction": "Geringe Traktion",
+  "button.fbp.spawn_while_frozen": "Erscheinen während gefroren",
+  "button.fbp.smooth_animation_lighting": "Sanfte Animationsbeleuchtung",
+
+  "button.fbp.spawn_place_particles": "Partikel bei Erscheinen platzieren",
+  "button.fbp.rest_on_floor": "Am Boden liegen",
+  "button.fbp.bounce_off_walls": "Von Wänden abprallen",
+  "button.fbp.entity_collision": "Kollisionen von Entitäten",
+  "button.fbp.water_physics": "Wasserphysik",
+
+  "button.fbp.random_scale": "Zufällige Skalierung",
+  "button.fbp.random_rotation": "Zufällige Rotation",
+  "button.fbp.random_fading_speed": "Random fading speed",
+
+  "button.fbp.previous": "< Vorherige",
+  "button.fbp.next": "Nächste >",
+
   "button.fbp.reload": "Konfiguration neu laden",
   "button.fbp.reset": "Zurücksetzen",
   "button.fbp.done": "Erledigt",
@@ -47,6 +71,27 @@
   "tooltip.fbp.rotation_multiplier": "Rotationsmultiplikator der Partikel. Je höher der Wert, desto schneller und stärker rotieren die Partikel.",
   "tooltip.fbp.gravity_multiplier": "Schwerkraftmultiplikator der Partikel. Je höher der Wert, desto schneller fallen die Partikel zu Boden.",
   "tooltip.fbp.weather_particle_density": "Wetter-Partikeldichte. Je höher der Wert, desto mehr Wetterpartikel werden erscheinen.",
+
+  "tooltip.fbp.fancy_flame": "Aktiviere oder deaktiviere schicke Flammenpartikel.",
+  "tooltip.fbp.fancy_smoke": "Wählen Sie aus, ob Sie elegante Rauchpartikel aktivieren oder deaktivieren möchten.",
+  "tooltip.fbp.fancy_rain": "Aktiviere oder deaktiviere schicke Regenpartikel.",
+  "tooltip.fbp.fancy_snow": "Aktiviere oder deaktiviere schicke Schneepartikel.",
+  "tooltip.fbp.fancy_place_animation": "Aktiviere oder deaktiviere schicke Blockplatzierungsanimation.",
+
+  "tooltip.fbp.smart_breaking": "Aktiviere oder deaktiviere intelligentes Brechen.",
+  "tooltip.fbp.low_traction": "Aktiviere oder deaktiviere Partikel mit geringer Traktion.",
+  "tooltip.fbp.spawn_while_frozen": "Aktiviere oder deaktiviere das Erzeugen von Partikeln während des Einfrierens.",
+  "tooltip.fbp.smooth_animation_lighting": "Aktiviere oder deaktiviere sanfte Animationsbeleuchtung.",
+
+  "tooltip.fbp.spawn_place_particles": "Aktiviere oder deaktiviere das Erzeugen von Partikeln beim Platzieren von Blöcken.",
+  "tooltip.fbp.rest_on_floor": "Aktiviere oder deaktiviere Partikelruhe auf dem Boden.",
+  "tooltip.fbp.bounce_off_walls": "Aktiviere oder deaktiviere das Abprallen von Partikeln an Wänden.",
+  "tooltip.fbp.entity_collision": "Aktiviere oder deaktiviere Kollisionen von Partikeln mit Entitäten.",
+  "tooltip.fbp.water_physics": "Aktiviere oder deaktiviere Partikel-Wasserphysik.",
+
+  "tooltip.fbp.random_scale": "Aktiviere oder deaktiviere zufällige Skalierung der Partikel.",
+  "tooltip.fbp.random_rotation": "Aktiviere oder deaktiviere zufällige Rotation der Partikel.",
+  "tooltip.fbp.random_fading_speed": "Aktiviere oder deaktiviere die zufällige Verblassungsgeschwindigkeit der Partikel.",
 
   "button.fbp.true": "§awahr",
   "button.fbp.false": "§cfalsch",

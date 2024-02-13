@@ -29,6 +29,30 @@
   "button.fbp.gravity_multiplier": "Multiplicador de gravedad: ",
   "button.fbp.weather_particle_density": "Densidad de partículas climáticas: ",
 
+  "button.fbp.fancy_flame": "Llama Elegante",
+  "button.fbp.fancy_smoke": "Humo Elegante",
+  "button.fbp.fancy_rain": "Lluvia Elegante",
+  "button.fbp.fancy_snow": "Nieve Elegante",
+  "button.fbp.fancy_place_animation": "Animación de Colocación Elegante",
+
+  "button.fbp.smart_breaking": "Ruptura Inteligente",
+  "button.fbp.low_traction": "Baja Tracción",
+  "button.fbp.spawn_while_frozen":  "Generar Mientras Está Congelado",
+  "button.fbp.smooth_animation_lighting": "Iluminación de Animación Suave",
+
+  "button.fbp.spawn_place_particles": "Generar Partículas al Colocar",
+  "button.fbp.rest_on_floor":  "Descansar en el Suelo",
+  "button.fbp.bounce_off_walls": "Rebotar en las Paredes",
+  "button.fbp.entity_collision":  "Colisiones de Entidades",
+  "button.fbp.water_physics": "Física del Agua",
+
+  "button.fbp.random_scale": "Escala Aleatoria",
+  "button.fbp.random_rotation": "Rotación Aleatoria",
+  "button.fbp.random_fading_speed": "Velocidad de Desvanecimiento Aleatoria",
+
+  "button.fbp.previous": "< Anterior",
+  "button.fbp.next": "Siguiente >",
+
   "button.fbp.reload": "Recargar configuración",
   "button.fbp.reset": "Restablecer",
   "button.fbp.done": "Hecho",
@@ -47,6 +71,27 @@
   "tooltip.fbp.rotation_multiplier": "Multiplicador de rotación de partículas. Cuanto mayor sea el valor, más rápido y fuerte rotarán las partículas.",
   "tooltip.fbp.gravity_multiplier": "The higher the value, the faster the particles will fall to the ground: Multiplicador de gravedad de partículas. Cuanto mayor sea el valor, más rápido caerán las partículas al suelo.",
   "tooltip.fbp.weather_particle_density": "Densidad de partículas climáticas. Cuanto mayor sea el valor, más partículas climáticas aparecerán.",
+
+  "tooltip.fbp.fancy_flame": "Activar o desactivar partículas de fuego elegantes.",
+  "tooltip.fbp.fancy_smoke": "Activar o desactivar partículas de humo elegantes.",
+  "tooltip.fbp.fancy_rain": "Activar o desactivar partículas de lluvia elegantes.",
+  "tooltip.fbp.fancy_snow": "Activar o desactivar partículas de nieve elegantes.",
+  "tooltip.fbp.fancy_place_animation": "Activar o desactivar animación elegante al colocar bloques.",
+
+  "tooltip.fbp.smart_breaking": "Activar o desactivar ruptura inteligente.",
+  "tooltip.fbp.low_traction": "Activar o desactivar partículas de baja tracción.",
+  "tooltip.fbp.spawn_while_frozen": "Activar o desactivar la generación de partículas mientras está congelado.",
+  "tooltip.fbp.smooth_animation_lighting": "Activar o desactivar iluminación de animación suave.",
+
+  "tooltip.fbp.spawn_place_particles": "Activar o desactivar la generación de partículas al colocar bloques.",
+  "tooltip.fbp.rest_on_floor": "Activar o desactivar partículas en reposo en el suelo.",
+  "tooltip.fbp.bounce_off_walls": "Activar o desactivar partículas que rebotan en las paredes.",
+  "tooltip.fbp.entity_collision": "Activar o desactivar colisiones de partículas con entidades.",
+  "tooltip.fbp.water_physics": "Activar o desactivar la física del agua para partículas.",
+
+  "tooltip.fbp.random_scale": "Activar o desactivar la escala aleatoria de partículas.",
+  "tooltip.fbp.random_rotation": "Activar o desactivar la rotación aleatoria de partículas.",
+  "tooltip.fbp.random_fading_speed": "Activar o desactivar la velocidad de desvanecimiento aleatoria de partículas.",
 
   "button.fbp.true": "§averdadero",
   "button.fbp.false": "§cfalso",

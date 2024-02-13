@@ -1,8 +1,7 @@
 package hantonik.fbp;
 
 import com.mojang.logging.LogUtils;
-import hantonik.fbp.config.FBPPhysicsConfig;
-import hantonik.fbp.config.FBPRenderConfig;
+import hantonik.fbp.config.FBPConfig;
 import hantonik.fbp.init.FBPKeyMappings;
 import hantonik.fbp.util.handler.FBPClientHandler;
 import net.minecraftforge.api.distmarker.Dist;
@@ -26,8 +25,7 @@ public final class FancyBlockParticles {
     public static final Logger LOGGER = LogUtils.getLogger();
     public static final Marker SETUP_MARKER = MarkerFactory.getMarker("SETUP");
 
-    public static final FBPPhysicsConfig PHYSICS_CONFIG = FBPPhysicsConfig.load();
-    public static final FBPRenderConfig RENDER_CONFIG = FBPRenderConfig.load();
+    public static final FBPConfig CONFIG = FBPConfig.load();
 
     public FancyBlockParticles() {
         LOGGER.info(SETUP_MARKER, "Initializing...");
@@ -38,7 +36,7 @@ public final class FancyBlockParticles {
 
         DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> () -> {
             bus.register(new FBPKeyMappings());
-            bus.register(FancyBlockParticles.RENDER_CONFIG);
+            bus.register(FancyBlockParticles.CONFIG);
         });
     }
 
@@ -47,7 +45,6 @@ public final class FancyBlockParticles {
         LOGGER.info(SETUP_MARKER, "Starting client setup...");
 
         MinecraftForge.EVENT_BUS.register(new FBPClientHandler());
-        MinecraftForge.EVENT_BUS.register(FancyBlockParticles.PHYSICS_CONFIG);
 
         LOGGER.info(SETUP_MARKER, "Finished client setup!");
     }

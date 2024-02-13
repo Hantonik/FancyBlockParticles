@@ -49,14 +49,14 @@ public class FBPBlacklistScreen extends Screen {
         var x = this.width / 2;
         var y = this.height / 2;
 
-        this.animationButton.setSupplier(() -> new FBPBlacklistButton(false, !FancyBlockParticles.RENDER_CONFIG.isBlockAnimationsEnabled(this.state.getBlock()), builder -> builder.pos(x - 130, y + 5), button -> {
-            FancyBlockParticles.RENDER_CONFIG.toggleAnimations(this.state.getBlock());
+        this.animationButton.setSupplier(() -> new FBPBlacklistButton(false, !FancyBlockParticles.CONFIG.isBlockAnimationsEnabled(this.state.getBlock()), builder -> builder.pos(x - 130, y + 5), button -> {
+            FancyBlockParticles.CONFIG.toggleAnimations(this.state.getBlock());
 
             this.onClose();
         }));
 
-        this.particleButton.setSupplier(() -> new FBPBlacklistButton(true, !FancyBlockParticles.RENDER_CONFIG.isBlockParticlesEnabled(this.state.getBlock()), builder -> builder.pos(x + 70, y + 5), button -> {
-            FancyBlockParticles.RENDER_CONFIG.toggleParticles(this.state.getBlock());
+        this.particleButton.setSupplier(() -> new FBPBlacklistButton(true, !FancyBlockParticles.CONFIG.isBlockParticlesEnabled(this.state.getBlock()), builder -> builder.pos(x + 70, y + 5), button -> {
+            FancyBlockParticles.CONFIG.toggleParticles(this.state.getBlock());
 
             this.onClose();
         }));

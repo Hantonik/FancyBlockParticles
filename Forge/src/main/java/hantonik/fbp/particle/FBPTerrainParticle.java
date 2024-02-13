@@ -81,7 +81,7 @@ public class FBPTerrainParticle extends TerrainParticle {
 
         if (scale < -1.0D) {
             if (side != null) {
-                if (side == Direction.UP && FancyBlockParticles.PHYSICS_CONFIG.isSmartBreaking()) {
+                if (side == Direction.UP && FancyBlockParticles.CONFIG.isSmartBreaking()) {
                     this.xd *= 1.5D;
                     this.yd *= 0.1D;
                     this.zd *= 1.5D;
@@ -97,16 +97,16 @@ public class FBPTerrainParticle extends TerrainParticle {
             }
         }
 
-        this.modeDebounce = !FancyBlockParticles.PHYSICS_CONFIG.isRandomRotation();
+        this.modeDebounce = !FancyBlockParticles.CONFIG.isRandomRotation();
 
         if (this.modeDebounce) {
             this.rotation.zero();
             this.calculateYAngle();
         }
 
-        this.gravity *= (float) FancyBlockParticles.RENDER_CONFIG.getGravityMultiplier();
-        this.quadSize = (float) (FancyBlockParticles.RENDER_CONFIG.getScaleMultiplier() * (FancyBlockParticles.PHYSICS_CONFIG.isRandomScale() ? this.quadSize : 1.0F));
-        this.lifetime = (int) FBPConstants.RANDOM.nextFloat(Math.min(FancyBlockParticles.RENDER_CONFIG.getMinLifetime(), FancyBlockParticles.RENDER_CONFIG.getMaxLifetime()), Math.max(FancyBlockParticles.RENDER_CONFIG.getMinLifetime(), FancyBlockParticles.RENDER_CONFIG.getMaxLifetime()) + 0.5F);
+        this.gravity *= (float) FancyBlockParticles.CONFIG.getGravityMultiplier();
+        this.quadSize = (float) (FancyBlockParticles.CONFIG.getScaleMultiplier() * (FancyBlockParticles.CONFIG.isRandomScale() ? this.quadSize : 1.0F));
+        this.lifetime = (int) FBPConstants.RANDOM.nextFloat(Math.min(FancyBlockParticles.CONFIG.getMinLifetime(), FancyBlockParticles.CONFIG.getMaxLifetime()), Math.max(FancyBlockParticles.CONFIG.getMinLifetime(), FancyBlockParticles.CONFIG.getMaxLifetime()) + 0.5F);
 
         this.scaleAlpha = this.quadSize * 0.82D;
 
@@ -129,7 +129,7 @@ public class FBPTerrainParticle extends TerrainParticle {
 
         this.multiplier = 0.75D;
 
-        if (FancyBlockParticles.PHYSICS_CONFIG.isRandomFadingSpeed())
+        if (FancyBlockParticles.CONFIG.isRandomFadingSpeed())
             this.multiplier = Mth.clamp(FBPConstants.RANDOM.nextDouble(0.5D, 0.9D), 0.55D, 0.8D);
 
         this.scale(1);
@@ -142,7 +142,7 @@ public class FBPTerrainParticle extends TerrainParticle {
 
         var s = this.quadSize / 10.0F;
 
-        if (FancyBlockParticles.PHYSICS_CONFIG.isRestOnFloor() && this.destroyed)
+        if (FancyBlockParticles.CONFIG.isRestOnFloor() && this.destroyed)
             this.y = this.startY - s;
 
         this.yo = this.y;
@@ -176,20 +176,20 @@ public class FBPTerrainParticle extends TerrainParticle {
     public void tick() {
         var allowedToMove = Mth.abs((float) this.xd) > 0.0001D || Mth.abs((float) this.zd) > 0.0001D;
 
-        if (!FancyBlockParticles.RENDER_CONFIG.isFrozen() && FancyBlockParticles.PHYSICS_CONFIG.isBounceOffWalls() && !Minecraft.getInstance().isPaused() && this.age > 0) {
+        if (!FancyBlockParticles.CONFIG.isFrozen() && FancyBlockParticles.CONFIG.isBounceOffWalls() && !Minecraft.getInstance().isPaused() && this.age > 0) {
             if (!this.wasFrozen && allowedToMove) {
                 if (this.xo == this.x)
                     this.xd = -this.lastXSpeed * 0.625F;
                 if (this.zo == this.z)
                     this.zd = -this.lastZSpeed * 0.625F;
 
-                if (!FancyBlockParticles.PHYSICS_CONFIG.isRandomRotation() && (this.xo == this.x || this.zo == this.z))
+                if (!FancyBlockParticles.CONFIG.isRandomRotation() && (this.xo == this.x || this.zo == this.z))
                     this.calculateYAngle();
             } else
                 this.wasFrozen = false;
         }
 
-        if (FancyBlockParticles.RENDER_CONFIG.isFrozen() && FancyBlockParticles.PHYSICS_CONFIG.isBounceOffWalls() && !this.wasFrozen)
+        if (FancyBlockParticles.CONFIG.isFrozen() && FancyBlockParticles.CONFIG.isBounceOffWalls() && !this.wasFrozen)
             this.wasFrozen = true;
 
         this.xo = this.x;
@@ -201,9 +201,9 @@ public class FBPTerrainParticle extends TerrainParticle {
         this.lastAlpha = this.alpha;
         this.lastScale = this.quadSize;
 
-        if (!Minecraft.getInstance().isPaused() && (!FancyBlockParticles.RENDER_CONFIG.isFrozen() || this.killToggle)) {
+        if (!Minecraft.getInstance().isPaused() && (!FancyBlockParticles.CONFIG.isFrozen() || this.killToggle)) {
             if (!this.killToggle) {
-                if (!FancyBlockParticles.PHYSICS_CONFIG.isRandomRotation()) {
+                if (!FancyBlockParticles.CONFIG.isRandomRotation()) {
                     if (!this.modeDebounce) {
                         this.modeDebounce = true;
 
@@ -239,7 +239,7 @@ public class FBPTerrainParticle extends TerrainParticle {
                 }
             }
 
-            if (!FancyBlockParticles.RENDER_CONFIG.isInfiniteDuration())
+            if (!FancyBlockParticles.CONFIG.isInfiniteDuration())
                 this.age++;
 
             if (this.age >= this.lifetime || this.killToggle) {
@@ -258,7 +258,7 @@ public class FBPTerrainParticle extends TerrainParticle {
 
                 this.move(this.xd, this.yd, this.zd);
 
-                if (this.onGround && FancyBlockParticles.PHYSICS_CONFIG.isRestOnFloor()) {
+                if (this.onGround && FancyBlockParticles.CONFIG.isRestOnFloor()) {
                     this.rotation.x = Math.round(this.rotation.x / 10.0D) * 10.0D;
                     this.rotation.z = Math.round(this.rotation.z / 10.0D) * 10.0D;
                 }
@@ -275,7 +275,7 @@ public class FBPTerrainParticle extends TerrainParticle {
 
                 this.yd *= 0.98D;
 
-                if (FancyBlockParticles.PHYSICS_CONFIG.isEntityCollision()) {
+                if (FancyBlockParticles.CONFIG.isEntityCollision()) {
                     var entities = this.level.getEntities(null, this.getBoundingBox());
 
                     for (var entity : entities) {
@@ -296,10 +296,10 @@ public class FBPTerrainParticle extends TerrainParticle {
                                 this.xd += x * d / 20.0D;
                                 this.zd += z * d / 20.0D;
 
-                                if (!FancyBlockParticles.PHYSICS_CONFIG.isRandomRotation())
+                                if (!FancyBlockParticles.CONFIG.isRandomRotation())
                                     this.calculateYAngle();
 
-                                if (!FancyBlockParticles.RENDER_CONFIG.isFrozen())
+                                if (!FancyBlockParticles.CONFIG.isFrozen())
                                     this.onGround = false;
                             }
                         }
@@ -309,7 +309,7 @@ public class FBPTerrainParticle extends TerrainParticle {
                 // Water movement
 
                 if (this.onGround) {
-                    if (FancyBlockParticles.PHYSICS_CONFIG.isLowTraction()) {
+                    if (FancyBlockParticles.CONFIG.isLowTraction()) {
                         this.xd *= 0.932D;
                         this.zd *= 0.932D;
                     } else {
@@ -376,7 +376,7 @@ public class FBPTerrainParticle extends TerrainParticle {
 
         this.onGround = y != yo && yo < 0.0D;
 
-        if (!FancyBlockParticles.PHYSICS_CONFIG.isLowTraction() && !FancyBlockParticles.PHYSICS_CONFIG.isBounceOffWalls()) {
+        if (!FancyBlockParticles.CONFIG.isLowTraction() && !FancyBlockParticles.CONFIG.isBounceOffWalls()) {
             if (x != xo)
                 this.xd *= 0.7D;
 
@@ -401,7 +401,7 @@ public class FBPTerrainParticle extends TerrainParticle {
 
     @Override
     public void render(VertexConsumer buffer, Camera info, float partialTicks) {
-        if (!FancyBlockParticles.RENDER_CONFIG.isEnabled())
+        if (!FancyBlockParticles.CONFIG.isEnabled())
             this.lifetime = 0;
 
         if (FBPKeyMappings.KILL_PARTICLES.get().isDown())
@@ -410,7 +410,7 @@ public class FBPTerrainParticle extends TerrainParticle {
         var u0 = 0.0F;
         var v0 = 0.0F;
 
-        if (!FancyBlockParticles.RENDER_CONFIG.isCartoonMode()) {
+        if (!FancyBlockParticles.CONFIG.isCartoonMode()) {
             u0 = this.sprite.getU(this.uo / 4.0F);
             v0 = this.sprite.getV(this.vo / 4.0F);
         }
@@ -428,20 +428,20 @@ public class FBPTerrainParticle extends TerrainParticle {
 
         var alpha = (float) Mth.lerp(partialTicks, this.lastAlpha, this.alpha);
 
-        if (FancyBlockParticles.PHYSICS_CONFIG.isRestOnFloor())
+        if (FancyBlockParticles.CONFIG.isRestOnFloor())
             posY += (float) scale;
 
         var smoothRotation = new Vector3d(0.0D, 0.0D, 0.0D);
 
-        if (FancyBlockParticles.RENDER_CONFIG.getRotationMultiplier() > 0.0F) {
+        if (FancyBlockParticles.CONFIG.getRotationMultiplier() > 0.0F) {
             smoothRotation.y = this.rotation.y;
             smoothRotation.z = this.rotation.z;
 
-            if (!FancyBlockParticles.PHYSICS_CONFIG.isRandomRotation())
+            if (!FancyBlockParticles.CONFIG.isRandomRotation())
                 smoothRotation.x = this.rotation.x;
 
-            if (!FancyBlockParticles.RENDER_CONFIG.isFrozen()) {
-                if (FancyBlockParticles.PHYSICS_CONFIG.isRandomRotation()) {
+            if (!FancyBlockParticles.CONFIG.isFrozen()) {
+                if (FancyBlockParticles.CONFIG.isRandomRotation()) {
                     smoothRotation.y = Mth.lerp(partialTicks, this.lastRotation.y, this.rotation.y);
                     smoothRotation.z = Mth.lerp(partialTicks, this.lastRotation.z, this.rotation.z);
                 } else
@@ -449,18 +449,18 @@ public class FBPTerrainParticle extends TerrainParticle {
             }
         }
 
-        FBPRenderHelper.renderCubeShaded(buffer, new Vector2f[]{ new Vector2f(u1, v1), new Vector2f(u1, v0), new Vector2f(u0, v0), new Vector2f(u0, v1) }, posX, posY, posZ, scale, smoothRotation, light, this.rCol, this.gCol, this.bCol, alpha, FancyBlockParticles.RENDER_CONFIG.isCartoonMode());
+        FBPRenderHelper.renderCubeShaded(buffer, new Vector2f[]{ new Vector2f(u1, v1), new Vector2f(u1, v0), new Vector2f(u0, v0), new Vector2f(u0, v1) }, posX, posY, posZ, scale, smoothRotation, light, this.rCol, this.gCol, this.bCol, alpha, FancyBlockParticles.CONFIG.isCartoonMode());
     }
 
     @Override
     public int getLightColor(float partialTick) {
         var box = this.getBoundingBox();
 
-        return this.level.hasChunkAt(BlockPos.containing(this.x, this.y, this.z)) ? LevelRenderer.getLightColor(this.level, this.state, BlockPos.containing(this.x, this.y + ((box.maxY - box.minY) * 0.66D) + 0.01D - (FancyBlockParticles.PHYSICS_CONFIG.isRestOnFloor() ? this.quadSize / 10.0D : 0.0D), this.z)) : 0;
+        return this.level.hasChunkAt(BlockPos.containing(this.x, this.y, this.z)) ? LevelRenderer.getLightColor(this.level, this.state, BlockPos.containing(this.x, this.y + ((box.maxY - box.minY) * 0.66D) + 0.01D - (FancyBlockParticles.CONFIG.isRestOnFloor() ? this.quadSize / 10.0D : 0.0D), this.z)) : 0;
     }
 
     private double getMultiplier() {
-        return Math.sqrt(this.xd * this.xd + this.zd * this.zd) * (FancyBlockParticles.PHYSICS_CONFIG.isRandomRotation() ? 200.0D : 500.0D) * FancyBlockParticles.RENDER_CONFIG.getRotationMultiplier();
+        return Math.sqrt(this.xd * this.xd + this.zd * this.zd) * (FancyBlockParticles.CONFIG.isRandomRotation() ? 200.0D : 500.0D) * FancyBlockParticles.CONFIG.getRotationMultiplier();
     }
 
     private void calculateYAngle() {

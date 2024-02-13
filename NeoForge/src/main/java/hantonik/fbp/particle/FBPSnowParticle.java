@@ -61,7 +61,7 @@ public class FBPSnowParticle extends WaterDropParticle {
 
         this.gravity = 1.0F;
 
-        this.quadSize *= (float) FBPConstants.RANDOM.nextDouble(FancyBlockParticles.RENDER_CONFIG.getScaleMultiplier() - 0.25D, FancyBlockParticles.RENDER_CONFIG.getScaleMultiplier() + 0.25D);
+        this.quadSize *= (float) FBPConstants.RANDOM.nextDouble(FancyBlockParticles.CONFIG.getScaleMultiplier() - 0.25D, FancyBlockParticles.CONFIG.getScaleMultiplier() + 0.25D);
         this.lifetime = FBPConstants.RANDOM.nextInt(250, 300);
 
         this.rCol = 1.0F;
@@ -77,7 +77,7 @@ public class FBPSnowParticle extends WaterDropParticle {
 
         this.multiplier = 1.0F;
 
-        if (FancyBlockParticles.PHYSICS_CONFIG.isRandomFadingSpeed())
+        if (FancyBlockParticles.CONFIG.isRandomFadingSpeed())
             this.multiplier *= FBPConstants.RANDOM.nextFloat(0.7F, 1.0F);
 
         this.scale(1);
@@ -111,7 +111,7 @@ public class FBPSnowParticle extends WaterDropParticle {
             if (this.y < Minecraft.getInstance().player.getY() - (Minecraft.getInstance().options.renderDistance().get() * 16.0D))
                 this.remove();
 
-            this.rotation.add(this.rotationStep.mul(FancyBlockParticles.RENDER_CONFIG.getRotationMultiplier() * 5.0D, new Vector3d()));
+            this.rotation.add(this.rotationStep.mul(FancyBlockParticles.CONFIG.getRotationMultiplier() * 5.0D, new Vector3d()));
 
             if (this.age >= this.lifetime) {
                 this.quadSize *= 0.75F * this.multiplier;
@@ -144,7 +144,7 @@ public class FBPSnowParticle extends WaterDropParticle {
 
             this.move(this.xd, this.yd, this.zd);
 
-            if (this.onGround && FancyBlockParticles.PHYSICS_CONFIG.isRestOnFloor()) {
+            if (this.onGround && FancyBlockParticles.CONFIG.isRestOnFloor()) {
                 this.rotation.x = Math.round(this.rotation.x / 90.0D) * 90.0D;
                 this.rotation.z = Math.round(this.rotation.z / 90.0D) * 90.0D;
             }
@@ -194,7 +194,7 @@ public class FBPSnowParticle extends WaterDropParticle {
 
         this.onGround = y != yo && yo < 0.0D;
 
-        if (!FancyBlockParticles.PHYSICS_CONFIG.isLowTraction() && !FancyBlockParticles.PHYSICS_CONFIG.isBounceOffWalls()) {
+        if (!FancyBlockParticles.CONFIG.isLowTraction() && !FancyBlockParticles.CONFIG.isBounceOffWalls()) {
             if (x != xo)
                 this.xd *= 0.699D;
             if (z != zo)
@@ -209,13 +209,13 @@ public class FBPSnowParticle extends WaterDropParticle {
 
     @Override
     public void render(VertexConsumer buffer, Camera info, float partialTicks) {
-        if (!FancyBlockParticles.RENDER_CONFIG.isEnabled())
+        if (!FancyBlockParticles.CONFIG.isEnabled())
             this.lifetime = 0;
 
         var u0 = 0.0F;
         var v0 = 0.0F;
 
-        if (!FancyBlockParticles.RENDER_CONFIG.isCartoonMode()) {
+        if (!FancyBlockParticles.CONFIG.isCartoonMode()) {
             u0 = this.sprite.getU(this.uo / 4.0F);
             v0 = this.sprite.getV(this.vo / 4.0F);
         }
@@ -232,22 +232,22 @@ public class FBPSnowParticle extends WaterDropParticle {
         var alpha = (float) Mth.lerp(partialTicks, this.lastAlpha, this.alpha);
         var scale = (float) Mth.lerp(partialTicks, this.lastScale, this.quadSize) / 10.0F;
 
-        if (FancyBlockParticles.PHYSICS_CONFIG.isRestOnFloor())
+        if (FancyBlockParticles.CONFIG.isRestOnFloor())
             posY += scale;
 
         var smoothRotation = new Vector3d(0.0D, 0.0D, 0.0D);
 
-        if (FancyBlockParticles.RENDER_CONFIG.getRotationMultiplier() > 0.0D) {
+        if (FancyBlockParticles.CONFIG.getRotationMultiplier() > 0.0D) {
             smoothRotation.y = this.rotation.y;
             smoothRotation.z = this.rotation.z;
 
-            if (!FancyBlockParticles.PHYSICS_CONFIG.isRandomRotation())
+            if (!FancyBlockParticles.CONFIG.isRandomRotation())
                 smoothRotation.x = this.rotation.x;
 
-            if (!FancyBlockParticles.RENDER_CONFIG.isFrozen()) {
+            if (!FancyBlockParticles.CONFIG.isFrozen()) {
                 var vec = this.rotation.lerp(this.lastRotation, partialTicks, new Vector3d());
 
-                if (FancyBlockParticles.PHYSICS_CONFIG.isRandomRotation()) {
+                if (FancyBlockParticles.CONFIG.isRandomRotation()) {
                     smoothRotation.y = vec.y;
                     smoothRotation.z = vec.z;
                 } else
@@ -255,14 +255,14 @@ public class FBPSnowParticle extends WaterDropParticle {
             }
         }
 
-        FBPRenderHelper.renderCubeShaded(buffer, new Vector2f[]{ new Vector2f(u1, v1), new Vector2f(u1, v0), new Vector2f(u0, v0), new Vector2f(u0, v1) }, posX, posY, posZ, scale, smoothRotation, light, this.rCol, this.gCol, this.bCol, alpha, FancyBlockParticles.RENDER_CONFIG.isCartoonMode());
+        FBPRenderHelper.renderCubeShaded(buffer, new Vector2f[]{ new Vector2f(u1, v1), new Vector2f(u1, v0), new Vector2f(u0, v0), new Vector2f(u0, v1) }, posX, posY, posZ, scale, smoothRotation, light, this.rCol, this.gCol, this.bCol, alpha, FancyBlockParticles.CONFIG.isCartoonMode());
     }
 
     @Override
     public int getLightColor(float partialTick) {
         var i = super.getLightColor(partialTick);
 
-        if (!FancyBlockParticles.PHYSICS_CONFIG.isFancySmoke())
+        if (!FancyBlockParticles.CONFIG.isFancySmoke())
             return i;
 
         var j = 0;

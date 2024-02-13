@@ -37,7 +37,7 @@ public class FBPLavaParticle extends LavaParticle {
     public FBPLavaParticle(ClientLevel level, double x, double y, double z) {
         super(level, x, y, z);
 
-        this.quadSize *= (float) (FancyBlockParticles.RENDER_CONFIG.getScaleMultiplier() * 20.0F);
+        this.quadSize *= (float) (FancyBlockParticles.CONFIG.getScaleMultiplier() * 20.0F);
         this.lifetime = FBPConstants.RANDOM.nextInt(10, 15);
 
         this.rCol = 1.0F;
@@ -57,7 +57,7 @@ public class FBPLavaParticle extends LavaParticle {
 
         this.multiplier = 1.0D;
 
-        if (FancyBlockParticles.PHYSICS_CONFIG.isRandomFadingSpeed())
+        if (FancyBlockParticles.CONFIG.isRandomFadingSpeed())
             this.multiplier *= FBPConstants.RANDOM.nextDouble(0.9875D, 1.0D);
 
         this.scale(1);
@@ -85,8 +85,6 @@ public class FBPLavaParticle extends LavaParticle {
 
     @Override
     public void tick() {
-//        super.tick();
-
         this.xo = this.x;
         this.yo = this.y;
         this.zo = this.z;
@@ -94,7 +92,7 @@ public class FBPLavaParticle extends LavaParticle {
         this.lastAlpha = this.alpha;
         this.lastScale = this.quadSize;
 
-        if (!FancyBlockParticles.PHYSICS_CONFIG.isFancyFlame())
+        if (!FancyBlockParticles.CONFIG.isFancyFlame())
             this.removed = true;
 
         if (++this.age >= this.lifetime) {
@@ -172,7 +170,7 @@ public class FBPLavaParticle extends LavaParticle {
 
     @Override
     public void render(VertexConsumer buffer, Camera info, float partialTicks) {
-        if (!FancyBlockParticles.RENDER_CONFIG.isEnabled())
+        if (!FancyBlockParticles.CONFIG.isEnabled())
             this.lifetime = 0;
 
         var u = this.sprite.getU(1.1F / 4.0F);
