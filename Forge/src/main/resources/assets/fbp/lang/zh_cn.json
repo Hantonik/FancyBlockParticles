@@ -1,0 +1,106 @@
+{
+  "key.categories.fbp": "Fancy Block Particles",
+
+  "key.fbp.toggle": "启用/禁用",
+  "key.fbp.settings": "打开设置",
+  "key.fbp.freeze": "切换冻结效果",
+  "key.fbp.kill_particles": "清除粒子",
+  "key.fbp.fast_blacklist": "快速添加方块到黑名单",
+
+  "screen.fbp.freeze": "§l冻结效果！",
+
+  "screen.fbp.settings": "Fancy Block Particles - 设置",
+  "screen.fbp.blacklist": "将方块列入黑名单",
+
+  "screen.fbp.reset_confirm": "您确定要重置 FBP 设置吗？",
+  "screen.fbp.reload_alert": "配置已成功重新加载！",
+
+  "button.fbp.homepage": "FBP 主页在这里！",
+  "button.fbp.report": "发现了错误吗？\n在这里报告！",
+
+  "button.fbp.enabled": "已启用",
+  "button.fbp.particles_decay": "粒子衰减",
+
+  "button.fbp.particles_per_axis": "每轴粒子数：",
+  "button.fbp.min_lifetime": "粒子最小寿命：",
+  "button.fbp.max_lifetime": "粒子最大寿命：",
+  "button.fbp.scale_multiplier": "尺寸倍增器：",
+  "button.fbp.rotation_multiplier": "旋转倍增器：",
+  "button.fbp.gravity_multiplier": "重力倍增器：",
+  "button.fbp.weather_particle_density": "天气粒子密度：",
+
+  "button.fbp.fancy_flame": "华丽火焰",
+  "button.fbp.fancy_smoke": "华丽烟雾",
+  "button.fbp.fancy_rain": "华丽雨滴",
+  "button.fbp.fancy_snow": "华丽雪花",
+  "button.fbp.fancy_place_animation": "华丽放置动画",
+
+  "button.fbp.smart_breaking": "智能破坏",
+  "button.fbp.low_traction": "低牵引力",
+  "button.fbp.spawn_while_frozen": "冻结时生成",
+  "button.fbp.smooth_animation_lighting": "流畅动画照明",
+
+  "button.fbp.spawn_place_particles": "生成放置粒子",
+  "button.fbp.rest_on_floor": "休息在地板上",
+  "button.fbp.bounce_off_walls": "在墙上弹跳",
+  "button.fbp.entity_collision": "实体碰撞",
+  "button.fbp.water_physics": "水物理",
+
+  "button.fbp.random_scale": "随机缩放",
+  "button.fbp.random_rotation": "随机旋转",
+  "button.fbp.random_fading_speed": "随机消退速度",
+
+  "button.fbp.previous": "< 上一页",
+  "button.fbp.next": "下一页 >",
+
+  "button.fbp.reload": "重新加载配置",
+  "button.fbp.reset": "重置",
+  "button.fbp.done": "完成",
+
+  "button.fbp.ticks": " 个刻度",
+
+  "tooltip.fbp.default": "默认：",
+
+  "tooltip.fbp.enabled": "启用或禁用 FBP。",
+  "tooltip.fbp.particles_decay": "如果禁用，粒子将不会消失。",
+
+  "tooltip.fbp.particles_per_axis": "在 x、y 和 z 轴上破坏粒子的数量。",
+  "tooltip.fbp.min_lifetime": "粒子寿命的最小、随机值。\n如果您希望每个粒子同时消失，请为最小和最大粒子寿命设置相同的值。",
+  "tooltip.fbp.max_lifetime": "粒子寿命的最大、随机值。\n如果您希望每个粒子同时消失，请为最小和最大粒子寿命设置相同的值。",
+  "tooltip.fbp.scale_multiplier": "粒子尺寸倍增器。值越高，粒子越大。",
+  "tooltip.fbp.rotation_multiplier": "粒子旋转倍增器。值越高，粒子旋转得越快且更多。",
+  "tooltip.fbp.gravity_multiplier": "粒子重力倍增器。值越高，粒子下落得越快。",
+  "tooltip.fbp.weather_particle_density": "天气粒子密度。值越高，天气粒子越多。",
+
+  "tooltip.fbp.fancy_flame": "启用或禁用华丽的火焰粒子。",
+  "tooltip.fbp.fancy_smoke": "启用或禁用华丽的烟雾粒子。",
+  "tooltip.fbp.fancy_rain": "启用或禁用华丽的雨滴粒子。",
+  "tooltip.fbp.fancy_snow": "启用或禁用华丽的雪花粒子。",
+  "tooltip.fbp.fancy_place_animation": "启用或禁用华丽的方块放置动画。",
+
+  "tooltip.fbp.smart_breaking": "启用或禁用智能破坏。",
+  "tooltip.fbp.low_traction": "启用或禁用粒子低牵引力。",
+  "tooltip.fbp.spawn_while_frozen": "启用或禁用冻结时生成的粒子。",
+  "tooltip.fbp.smooth_animation_lighting": "启用或禁用流畅动画照明。",
+
+  "tooltip.fbp.spawn_place_particles": "启用或禁用生成方块放置粒子。",
+  "tooltip.fbp.rest_on_floor": "启用或禁用粒子在地板上休息。",
+  "tooltip.fbp.bounce_off_walls": "启用或禁用粒子在墙上弹跳。",
+  "tooltip.fbp.entity_collision": "启用或禁用粒子与实体的碰撞。",
+  "tooltip.fbp.water_physics": "启用或禁用粒子水物理。",
+
+  "tooltip.fbp.random_scale": "启用或禁用粒子随机缩放。",
+  "tooltip.fbp.random_rotation": "启用或禁用粒子随机旋转。",
+  "tooltip.fbp.random_fading_speed": "启用或禁用粒子随机消退速度。",
+
+  "button.fbp.true": "§a是",
+  "button.fbp.false": "§c否",
+
+  "tooltip.fbp.animation": "放置动画",
+  "tooltip.fbp.particles": "粒子",
+
+  "tooltip.fbp.add": "添加",
+  "tooltip.fbp.remove": "移除",
+
+  "text.fbp.version": "版本：%s"
+}
