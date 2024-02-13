@@ -15,6 +15,7 @@ import net.minecraft.core.particles.BlockParticleOption;
 import net.minecraft.core.particles.ParticleOptions;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.core.particles.SimpleParticleType;
+import net.minecraft.util.Mth;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.block.LiquidBlock;
 import net.minecraft.world.level.block.RenderShape;
@@ -81,26 +82,34 @@ public abstract class MixinParticleEngine {
 
         callback.cancel();
 
-        if (!state.isAir()) {
-            var sprite = Minecraft.getInstance().getBlockRenderer().getBlockModelShaper().getTexture(state, this.level, pos);
+        if (!state.isAir() && state.shouldSpawnTerrainParticles()) {
+            var shape = state.getShape(this.level, pos);
+            var sprite = Minecraft.getInstance().getBlockRenderer().getBlockModelShaper().getParticleIcon(state);
+
             var particlesPerAxis = FancyBlockParticles.CONFIG.getParticlesPerAxis();
 
+            shape.forAllBoxes((minX, minY, minZ, maxX, maxY, maxZ) -> {
+                var dx = Math.min(1.0D, maxX - minX);
+                var dy = Math.min(1.0D, maxY - minY);
+                var dz = Math.min(1.0D, maxZ - minZ);
 
-            for (var i = 0; i < particlesPerAxis; i++) {
-                for (var j = 0; j < particlesPerAxis; j++) {
-                    for (var k = 0; k < particlesPerAxis; k++) {
-                        var x = pos.getX() + ((i + 0.5D) / particlesPerAxis);
-                        var y = pos.getY() + ((j + 0.5D) / particlesPerAxis);
-                        var z = pos.getZ() + ((k + 0.5D) / particlesPerAxis);
+                var particlesPerX = Math.max(2, Mth.ceil(dx * particlesPerAxis));
+                var particlesPerY = Math.max(2, Mth.ceil(dy * particlesPerAxis));
+                var particlesPerZ = Math.max(2, Mth.ceil(dz * particlesPerAxis));
 
-                        if (!(state.getBlock() instanceof LiquidBlock) && !(FancyBlockParticles.RENDER_CONFIG.isFrozen() && !FancyBlockParticles.PHYSICS_CONFIG.isSpawnWhileFrozen()) && FancyBlockParticles.RENDER_CONFIG.isBlockParticlesEnabled(state.getBlock())) {
-                            var scale = FBPConstants.RANDOM.nextFloat(0.75F, 1.0F);
+                for (var i = 0; i < particlesPerX; i++) {
+                    for (var j = 0; j < particlesPerY; j++) {
+                        for (var k = 0; k < particlesPerZ; k++) {
+                            var x = ((i + 0.5D) / particlesPerX) * dx + minX;
+                            var y = ((j + 0.5D) / particlesPerY) * dy + minY;
+                            var z = ((k + 0.5D) / particlesPerZ) * dz + minZ;
 
-                            this.add(new FBPTerrainParticle(this.level, x, y, z, x - pos.getX() - 0.5D, -0.001D, z - pos.getZ() - 0.5D, scale, 1.0F, 1.0F, 1.0F, pos, state, null, sprite));
+                            if (!(state.getBlock() instanceof LiquidBlock) && !(FancyBlockParticles.CONFIG.isFrozen() && !FancyBlockParticles.CONFIG.isSpawnWhileFrozen()) && FancyBlockParticles.CONFIG.isBlockParticlesEnabled(state.getBlock()))
+                                this.add(new FBPTerrainParticle(this.level, pos.getX() + x, pos.getY() + y, pos.getZ() + z, x - 0.5D, -0.001D, z - 0.5D, FBPConstants.RANDOM.nextFloat(0.75F, 1.0F), 1.0F, 1.0F, 1.0F, pos, state, null, sprite));
                         }
                     }
                 }
-            }
+            });
         }
     }
 
