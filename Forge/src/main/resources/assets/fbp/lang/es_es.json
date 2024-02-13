@@ -35,6 +35,8 @@
   "button.fbp.fancy_snow": "Nieve Elegante",
   "button.fbp.fancy_place_animation": "Animación de Colocación Elegante",
 
+  "button.fbp.cartoon_mode": "Modo caricatura",
+
   "button.fbp.smart_breaking": "Ruptura Inteligente",
   "button.fbp.low_traction": "Baja Tracción",
   "button.fbp.spawn_while_frozen":  "Generar Mientras Está Congelado",
@@ -77,6 +79,8 @@
   "tooltip.fbp.fancy_rain": "Activar o desactivar partículas de lluvia elegantes.",
   "tooltip.fbp.fancy_snow": "Activar o desactivar partículas de nieve elegantes.",
   "tooltip.fbp.fancy_place_animation": "Activar o desactivar animación elegante al colocar bloques.",
+
+  "tooltip.fbp.cartoon_mode": "Activar o desactivar el modo caricatura de partículas.",
 
   "tooltip.fbp.smart_breaking": "Activar o desactivar ruptura inteligente.",
   "tooltip.fbp.low_traction": "Activar o desactivar partículas de baja tracción.",

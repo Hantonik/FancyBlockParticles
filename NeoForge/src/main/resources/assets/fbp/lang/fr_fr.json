@@ -35,6 +35,8 @@
   "button.fbp.fancy_snow": "Neige élégante",
   "button.fbp.fancy_place_animation": "Animation de placement élégante",
 
+  "button.fbp.cartoon_mode": "Mode dessin animé",
+
   "button.fbp.smart_breaking": "Cassage intelligent",
   "button.fbp.low_traction": "Faible traction",
   "button.fbp.spawn_while_frozen": "Apparition en étant gelé",
@@ -77,6 +79,8 @@
   "tooltip.fbp.fancy_rain": "Activer ou désactiver les particules de pluie élégantes.",
   "tooltip.fbp.fancy_snow": "Activer ou désactiver les particules de neige élégantes.",
   "tooltip.fbp.fancy_place_animation": "Activer ou désactiver l'animation de placement élégante.",
+
+  "tooltip.fbp.cartoon_mode": "Activer ou désactiver le mode dessin animé des particules.",
 
   "tooltip.fbp.smart_breaking": "Activer ou désactiver le cassage intelligent.",
   "tooltip.fbp.low_traction": "Activer ou désactiver la faible traction des particules.",

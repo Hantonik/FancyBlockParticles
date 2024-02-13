@@ -35,6 +35,8 @@
   "button.fbp.fancy_snow": "华丽雪花",
   "button.fbp.fancy_place_animation": "华丽放置动画",
 
+  "button.fbp.cartoon_mode": "卡通模式",
+
   "button.fbp.smart_breaking": "智能破坏",
   "button.fbp.low_traction": "低牵引力",
   "button.fbp.spawn_while_frozen": "冻结时生成",
@@ -77,6 +79,8 @@
   "tooltip.fbp.fancy_rain": "启用或禁用华丽的雨滴粒子。",
   "tooltip.fbp.fancy_snow": "启用或禁用华丽的雪花粒子。",
   "tooltip.fbp.fancy_place_animation": "启用或禁用华丽的方块放置动画。",
+
+  "tooltip.fbp.cartoon_mode": "启用或禁用颗粒卡通模式。",
 
   "tooltip.fbp.smart_breaking": "启用或禁用智能破坏。",
   "tooltip.fbp.low_traction": "启用或禁用粒子低牵引力。",

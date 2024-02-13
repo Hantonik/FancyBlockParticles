@@ -35,6 +35,8 @@
   "button.fbp.fancy_snow": "Fancy snow",
   "button.fbp.fancy_place_animation": "Fancy placing animation",
 
+  "button.fbp.cartoon_mode": "Cartoon mode",
+
   "button.fbp.smart_breaking": "Smart breaking",
   "button.fbp.low_traction": "Low traction",
   "button.fbp.spawn_while_frozen": "Spawn while frozen",
@@ -77,6 +79,8 @@
   "tooltip.fbp.fancy_rain": "Enable or disable fancy rain particles.",
   "tooltip.fbp.fancy_snow": "Enable or disable fancy snow particles.",
   "tooltip.fbp.fancy_place_animation": "Enable or disable fancy block placing animation.",
+
+  "tooltip.fbp.cartoon_mode": "Enable or disable particles cartoon mode.",
 
   "tooltip.fbp.smart_breaking": "Enable or disable smart breaking.",
   "tooltip.fbp.low_traction": "Enable or disable particle low traction.",

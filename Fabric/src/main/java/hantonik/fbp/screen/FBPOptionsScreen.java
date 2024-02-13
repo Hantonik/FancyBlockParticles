@@ -130,6 +130,10 @@ public class FBPOptionsScreen extends Screen {
                 helper.addChild(SpacerElement.width(75));
 
                 helper.addChild(SpacerElement.width(75));
+                helper.addChild(new FBPToggleButton(0, 0, 275, 20, Component.translatable("button.fbp.cartoon_mode"), this.config::isCartoonMode, button -> this.config.setCartoonMode(!this.config.isCartoonMode())), 4).setTooltip(Tooltip.create(Component.translatable("tooltip.fbp.cartoon_mode").append(CommonComponents.NEW_LINE).append(CommonComponents.NEW_LINE).append(Component.translatable("tooltip.fbp.default")).append(Component.translatable("button.fbp." + defaultConfig.isCartoonMode()))));
+                helper.addChild(SpacerElement.width(75));
+
+                helper.addChild(SpacerElement.width(75));
                 helper.addChild(new FBPToggleButton(0, 0, 275, 20, Component.translatable("button.fbp.smart_breaking"), this.config::isSmartBreaking, button -> this.config.setSmartBreaking(!this.config.isSmartBreaking())), 4).setTooltip(Tooltip.create(Component.translatable("tooltip.fbp.smart_breaking").append(CommonComponents.NEW_LINE).append(CommonComponents.NEW_LINE).append(Component.translatable("tooltip.fbp.default")).append(Component.translatable("button.fbp." + defaultConfig.isSmartBreaking()))));
                 helper.addChild(SpacerElement.width(75));
                 helper.addChild(SpacerElement.width(75));
@@ -144,6 +148,9 @@ public class FBPOptionsScreen extends Screen {
             }
 
             case 2 -> {
+                helper.addChild(SpacerElement.width(75));
+                helper.addChild(new FBPToggleButton(0, 0, 275, 20, Component.translatable("button.fbp.smooth_animation_lighting"), this.config::isSmoothAnimationLighting, button -> this.config.setSmoothAnimationLighting(!this.config.isSmoothAnimationLighting())), 4).setTooltip(Tooltip.create(Component.translatable("tooltip.fbp.smooth_animation_lighting").append(CommonComponents.NEW_LINE).append(CommonComponents.NEW_LINE).append(Component.translatable("tooltip.fbp.default")).append(Component.translatable("button.fbp." + defaultConfig.isSmoothAnimationLighting()))));
+                helper.addChild(SpacerElement.width(75));
                 helper.addChild(SpacerElement.width(75));
                 helper.addChild(new FBPToggleButton(0, 0, 275, 20, Component.translatable("button.fbp.spawn_place_particles"), this.config::isSpawnPlaceParticles, button -> this.config.setSpawnPlaceParticles(!this.config.isSpawnPlaceParticles())), 4).setTooltip(Tooltip.create(Component.translatable("tooltip.fbp.spawn_place_particles").append(CommonComponents.NEW_LINE).append(CommonComponents.NEW_LINE).append(Component.translatable("tooltip.fbp.default")).append(Component.translatable("button.fbp." + defaultConfig.isSpawnPlaceParticles()))));
                 helper.addChild(SpacerElement.width(75));
@@ -170,8 +177,6 @@ public class FBPOptionsScreen extends Screen {
                 helper.addChild(SpacerElement.width(75));
                 helper.addChild(new FBPToggleButton(0, 0, 275, 20, Component.translatable("button.fbp.random_fading_speed"), this.config::isRandomFadingSpeed, button -> this.config.setRandomFadingSpeed(!this.config.isRandomFadingSpeed())), 4).setTooltip(Tooltip.create(Component.translatable("tooltip.fbp.random_fading_speed").append(CommonComponents.NEW_LINE).append(CommonComponents.NEW_LINE).append(Component.translatable("tooltip.fbp.default")).append(Component.translatable("button.fbp." + defaultConfig.isRandomFadingSpeed()))));
                 helper.addChild(SpacerElement.width(75));
-
-                helper.addChild(SpacerElement.height(20), 6);
             }
         }
 
@@ -199,7 +204,6 @@ public class FBPOptionsScreen extends Screen {
         var reloadButton = helper.addChild(Button.builder(Component.translatable("button.fbp.reload"), button -> {
             FancyBlockParticles.CONFIG.reload();
             this.config.setConfig(FancyBlockParticles.CONFIG.copy());
-            this.config.setConfig(FancyBlockParticles.CONFIG.copy());
 
             this.minecraft.setScreen(new AlertScreen(() -> this.minecraft.setScreen(this), Component.translatable("button.fbp.reload"), Component.translatable("screen.fbp.reload_alert")));
 
@@ -210,7 +214,6 @@ public class FBPOptionsScreen extends Screen {
         helper.addChild(SpacerElement.width(75));
         helper.addChild(Button.builder(Component.translatable("button.fbp.reset"), button -> this.minecraft.setScreen(new ConfirmScreen(confirm -> {
             if (confirm) {
-                this.config.reset();
                 this.config.reset();
 
                 this.rebuildWidgets();
