@@ -19,8 +19,8 @@ Yes, you can use this mod in your modpack!
 
 ### Settings
 FBP gives you the ability to customize the most essential breaking particle settings according to your preferences. To access the FBP panel, press **I** key (default) on your keyboard.
-![image](https://i.imgur.com/NuKYy02.png)
-You also have the option to adjust settings through the config files located at `config/fbp/render.json` and `config/fbp/physics.json` if you need.
+![image](https://i.imgur.com/4jHnDKm.png)
+You also have the option to adjust settings through the config file located at `config/fbp/config.json` if you need.
 
 ### Keybindings
 | Name                             |      Key      |
