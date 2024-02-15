@@ -29,7 +29,7 @@ mixin {
 println "Using Forge: $forge_version, for Minecraft: $mc_version, with Mappings: $mappings_channel-$mappings_version"
 
 minecraft {
-    mappings channel: mappings_channel, version: "$mappings_version-1.20.3" // Waiting for 1.20.4
+    mappings channel: mappings_channel, version: "$mappings_version-$mc_version"
 
     copyIdeResources = true
 

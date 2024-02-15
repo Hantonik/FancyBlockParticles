@@ -1,8 +1,6 @@
 package hantonik.fbp.screen.widget.button;
 
-import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.ChatFormatting;
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.AbstractSliderButton;
 import net.minecraft.network.chat.Component;
@@ -139,17 +137,7 @@ public class FBPSliderButton extends AbstractSliderButton {
 
         this.applyValue();
 
-        graphics.setColor(1.0F, 1.0F, 1.0F, this.alpha);
-
-        RenderSystem.enableBlend();
-        RenderSystem.defaultBlendFunc();
-        RenderSystem.enableDepthTest();
-
-        graphics.blitSprite(this.getSprite(), this.getX(), this.getY(), this.getWidth(), this.getHeight());
-        graphics.blitSprite(this.getHandleSprite(), this.getX() + (int) (this.value * (double) (this.width - 8)), this.getY(), 8, this.getHeight());
-        graphics.setColor(1.0F, 1.0F, 1.0F, 1.0F);
-
-        this.renderScrollingString(graphics, Minecraft.getInstance().font, 2, (this.active.getAsBoolean() ? 0xFFFFFF : 0xA0A0A0) | Mth.ceil(this.alpha * 255.0F) << 24);
+        super.renderWidget(graphics, mouseX, mouseY, partialTick);
     }
 
     @Override

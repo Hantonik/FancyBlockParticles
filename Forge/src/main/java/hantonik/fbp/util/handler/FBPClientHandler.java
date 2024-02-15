@@ -12,17 +12,17 @@ import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.HitResult;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-import net.minecraftforge.client.event.ClientPauseEvent;
 import net.minecraftforge.client.event.RenderGuiOverlayEvent;
+import net.minecraftforge.client.event.ScreenEvent;
 import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 
 @OnlyIn(Dist.CLIENT)
 public final class FBPClientHandler {
     @SubscribeEvent
-    public void onClientPause(final ClientPauseEvent event) {
-        if (event.isPaused())
-            if (!(Minecraft.getInstance().screen instanceof FBPOptionsScreen))
+    public void postScreenInit(final ScreenEvent.Init.Post event) {
+        if (event.getScreen().isPauseScreen())
+            if (!(event.getScreen() instanceof FBPOptionsScreen))
                 FancyBlockParticles.CONFIG.save();
     }
 
