@@ -60,7 +60,7 @@ public class FBPOptionsScreen extends Screen {
         helper.addChild(SpacerElement.height(0), 6);
 
         var defaultConfig = FBPConfig.DEFAULT_CONFIG;
-        
+
         switch (this.page) {
             case 0 -> {
                 helper.addChild(SpacerElement.width(75));

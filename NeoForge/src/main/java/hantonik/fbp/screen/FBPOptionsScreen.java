@@ -49,6 +49,7 @@ public class FBPOptionsScreen extends Screen {
 
         var version = Component.translatable("text.fbp.version", SharedConstants.getCurrentVersion().getName() + "-" + FancyBlockParticles.MOD_VERSION);
         this.addRenderableWidget(new StringWidget(5, this.height - 5 - 9, this.font.width(version), 9, version, this.font));
+
         var layout = new GridLayout();
         layout.defaultCellSetting().paddingTop(3).paddingHorizontal(2).alignVerticallyMiddle().alignHorizontallyCenter();
 

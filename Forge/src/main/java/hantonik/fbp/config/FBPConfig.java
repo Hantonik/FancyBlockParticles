@@ -404,7 +404,7 @@ public final class FBPConfig {
                 this.particlesPerAxis, this.weatherParticleDensity,
                 this.minLifetime, this.maxLifetime,
                 this.scaleMultiplier, this.rotationMultiplier, this.gravityMultiplier,
-                this.disabledParticles.stream().toList(), this.disabledAnimations.stream().toList()
+                List.copyOf(this.disabledParticles), List.copyOf(this.disabledAnimations)
         );
     }
 

@@ -32,6 +32,7 @@ import org.joml.Vector3d;
 @Environment(EnvType.CLIENT)
 public class FBPTerrainParticle extends TerrainParticle {
     private final BlockState state;
+    private final Direction side;
 
     private final double startY;
 
@@ -50,8 +51,6 @@ public class FBPTerrainParticle extends TerrainParticle {
 
     private boolean killToggle;
     private boolean modeDebounce;
-
-    private final Direction side;
 
     private final Vector3d rotation;
     private final Vector3d rotationStep;
