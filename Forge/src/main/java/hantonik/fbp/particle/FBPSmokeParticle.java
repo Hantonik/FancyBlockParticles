@@ -90,8 +90,10 @@ public class FBPSmokeParticle extends SmokeParticle {
 
             this.lifetime = FBPConstants.RANDOM.nextInt(5, 10);
         } else {
-            this.quadSize = scale;
+            this.quadSize = scale * 10.0F;
             this.yd *= 0.935D;
+
+            this.lifetime = FBPConstants.RANDOM.nextInt(7, 18);
         }
 
         this.quadSize *= (float) FancyBlockParticles.CONFIG.getScaleMultiplier();
