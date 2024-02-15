@@ -142,9 +142,6 @@ public class FBPOptionsScreen extends Screen {
                 helper.addChild(SpacerElement.width(75));
                 helper.addChild(new FBPToggleButton(0, 0, 275, 20, Component.translatable("button.fbp.spawn_while_frozen"), this.config::isSpawnWhileFrozen, button -> this.config.setSpawnWhileFrozen(!this.config.isSpawnWhileFrozen())), 4).setTooltip(Tooltip.create(Component.translatable("tooltip.fbp.spawn_while_frozen").append(CommonComponents.NEW_LINE).append(CommonComponents.NEW_LINE).append(Component.translatable("tooltip.fbp.default")).append(Component.translatable("button.fbp." + defaultConfig.isSpawnWhileFrozen()))));
                 helper.addChild(SpacerElement.width(75));
-                helper.addChild(SpacerElement.width(75));
-                helper.addChild(new FBPToggleButton(0, 0, 275, 20, Component.translatable("button.fbp.smooth_animation_lighting"), this.config::isSmoothAnimationLighting, button -> this.config.setSmoothAnimationLighting(!this.config.isSmoothAnimationLighting())), 4).setTooltip(Tooltip.create(Component.translatable("tooltip.fbp.smooth_animation_lighting").append(CommonComponents.NEW_LINE).append(CommonComponents.NEW_LINE).append(Component.translatable("tooltip.fbp.default")).append(Component.translatable("button.fbp." + defaultConfig.isSmoothAnimationLighting()))));
-                helper.addChild(SpacerElement.width(75));
             }
 
             case 2 -> {
