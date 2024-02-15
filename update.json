@@ -2,7 +2,9 @@
   "homepage": "https://www.curseforge.com/minecraft/mc-mods/fbp-renewed",
 
   "promos": {
-    "1.20.4-latest": "1.0.2.3-beta"
+    "1.20.4-latest": "1.0.2.3-beta",
+
+    "1.19.4-latest": "1.2.0.0-beta"
   },
 
   "1.20.4": {
@@ -12,5 +14,9 @@
     "1.0.2.0-beta": "Add physics config to FBP Settings menu. Fix Terrain Particles being disproportionate to block shape",
     "1.0.1.0-beta": "Cosmetic improvements",
     "1.0.0.0-beta": "Initial release for Minecraft 1.20.4"
+  },
+
+  "1.19.4": {
+    "1.2.0.0-beta": "Backport to Minecraft 1.19.4"
   }
 }

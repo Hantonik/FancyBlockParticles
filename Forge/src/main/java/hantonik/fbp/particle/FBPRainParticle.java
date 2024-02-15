@@ -191,12 +191,12 @@ public class FBPRainParticle extends WaterDropParticle {
         var v0 = 0.0F;
 
         if (!FancyBlockParticles.CONFIG.isCartoonMode()) {
-            u0 = this.sprite.getU(this.uo / 4.0F);
-            v0 = this.sprite.getV(this.vo / 4.0F);
+            u0 = this.sprite.getU(this.uo / 4.0F * 16.0F);
+            v0 = this.sprite.getV(this.vo / 4.0F * 16.0F);
         }
 
-        var u1 = this.sprite.getU((this.uo + 1.0F) / 4.0F);
-        var v1 = this.sprite.getV((this.vo + 1.0F) / 4.0F);
+        var u1 = this.sprite.getU((this.uo + 1.0F) / 4.0F * 16.0F);
+        var v1 = this.sprite.getV((this.vo + 1.0F) / 4.0F * 16.0F);
 
         var posX = (float) (Mth.lerp(partialTicks, this.xo, this.x) - info.getPosition().x);
         var posY = (float) (Mth.lerp(partialTicks, this.yo, this.y) - info.getPosition().y);

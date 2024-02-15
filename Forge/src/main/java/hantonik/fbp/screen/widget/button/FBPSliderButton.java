@@ -1,7 +1,7 @@
 package hantonik.fbp.screen.widget.button;
 
+import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.ChatFormatting;
-import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.network.chat.Component;
 import net.minecraftforge.client.gui.widget.ForgeSlider;
 
@@ -38,12 +38,12 @@ public class FBPSliderButton extends ForgeSlider {
     }
 
     @Override
-    public void renderWidget(GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTick) {
+    public void renderWidget(PoseStack stack, int mouseX, int mouseY, float partialTick) {
         super.active = this.active.getAsBoolean();
 
         this.applyValue();
 
-        super.renderWidget(guiGraphics, mouseX, mouseY, partialTick);
+        super.renderWidget(stack, mouseX, mouseY, partialTick);
     }
 
     @Override

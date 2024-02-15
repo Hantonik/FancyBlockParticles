@@ -3,7 +3,6 @@
   "package": "hantonik.fbp.mixins",
   "compatibilityLevel": "JAVA_17",
   "client": [
-    "MixinItemPickupParticle",
     "MixinLevelRenderer",
     "MixinParticleEngine"
   ],
