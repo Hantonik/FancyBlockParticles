@@ -4,7 +4,7 @@
   "promos": {
     "1.20.4-latest": "1.0.2.5-beta",
 
-    "1.20.1-latest": "1.1.0.1-beta"
+    "1.20.1-latest": "1.1.0.2-beta"
   },
 
   "1.20.4": {
@@ -19,6 +19,7 @@
   },
 
   "1.20.1": {
+    "1.1.0.2-beta": "[Forge] Fix unexpected Snow Particles in the desert",
     "1.1.0.1-beta": "Fix crash with SereneSeasons mod",
     "1.1.0.0-beta": "Backport to Minecraft 1.20.1"
   }

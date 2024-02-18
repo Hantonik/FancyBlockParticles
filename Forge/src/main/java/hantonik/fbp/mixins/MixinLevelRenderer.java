@@ -71,10 +71,12 @@ public abstract class MixinLevelRenderer implements ResourceManagerReloadListene
                 if (y <= surfaceHeight + 2)
                     y = surfaceHeight + 10;
 
-                if (FBPUtils.getPrecipitationAtLevelRenderer(this.level.getBiome(pos), pos) == Biome.Precipitation.RAIN) {
+                var precipitation = FBPUtils.getPrecipitationAtLevelRenderer(this.level.getBiome(pos), pos);
+
+                if (precipitation == Biome.Precipitation.RAIN) {
                     if (FancyBlockParticles.CONFIG.isFancyRain())
                         this.minecraft.particleEngine.add(new FBPRainParticle(this.level, x, y, z, 0.1D, -(FBPConstants.RANDOM.nextDouble(0.75D, 0.99D) + td / 2.0D), 0.1D, this.minecraft.getBlockRenderer().getBlockModelShaper().getParticleIcon(Blocks.WATER.defaultBlockState())));
-                } else {
+                } else if (precipitation == Biome.Precipitation.SNOW) {
                     if (FancyBlockParticles.CONFIG.isFancySnow())
                         if (i % 2 == 0)
                             this.minecraft.particleEngine.add(new FBPSnowParticle(this.level, x, y, z, FBPConstants.RANDOM.nextDouble(-0.5D, 0.5D), -(FBPConstants.RANDOM.nextDouble(0.25D, 1.0D) + td * 1.5D), FBPConstants.RANDOM.nextDouble(-0.5D, 0.5D), this.minecraft.getBlockRenderer().getBlockModelShaper().getParticleIcon(Blocks.SNOW.defaultBlockState())));
