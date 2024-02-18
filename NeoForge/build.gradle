@@ -53,8 +53,15 @@ runs {
     }
 }
 
+repositories {
+    maven { url 'https://maven.minecraftforge.net/' }
+}
+
 dependencies {
     implementation "net.neoforged:neoforge:$neo_version"
+
+    compileOnly "com.github.glitchfiend:SereneSeasons-neoforge:$mc_version-$sereneseasons_version"
+    compileOnly "com.github.glitchfiend:GlitchCore-neoforge:$mc_version-$glitchcore_version"
 
     compileOnly "org.projectlombok:lombok:$lombok_version"
     annotationProcessor "org.projectlombok:lombok:$lombok_version"

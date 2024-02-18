@@ -72,6 +72,9 @@ dependencies {
 
     compileOnly "org.projectlombok:lombok:$lombok_version"
 
+    compileOnly fg.deobf("com.github.glitchfiend:SereneSeasons-forge:$mc_version-$sereneseasons_version")
+    compileOnly fg.deobf("com.github.glitchfiend:GlitchCore-forge:$mc_version-$glitchcore_version")
+
     compileOnly(annotationProcessor("io.github.llamalad7:mixinextras-common:$mixinextras_version"))
 
     implementation(jarJar("io.github.llamalad7:mixinextras-forge:$mixinextras_version")) {
