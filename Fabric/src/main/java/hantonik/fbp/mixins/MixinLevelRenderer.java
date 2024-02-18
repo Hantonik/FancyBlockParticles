@@ -1,5 +1,7 @@
 package hantonik.fbp.mixins;
 
+import com.llamalad7.mixinextras.sugar.Local;
+import com.mojang.blaze3d.systems.RenderSystem;
 import hantonik.fbp.FancyBlockParticles;
 import hantonik.fbp.particle.FBPRainParticle;
 import hantonik.fbp.particle.FBPSnowParticle;
@@ -8,6 +10,7 @@ import net.minecraft.client.Camera;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.renderer.LevelRenderer;
+import net.minecraft.client.renderer.LightTexture;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleOptions;
 import net.minecraft.core.particles.ParticleTypes;
@@ -87,16 +90,20 @@ public abstract class MixinLevelRenderer implements ResourceManagerReloadListene
             instance.addParticle(particleData, x, y, z, xSpeed, ySpeed, zSpeed);
     }
 
-    @Redirect(at = @At(value = "INVOKE", target = "Lnet/minecraft/world/level/biome/Biome;getPrecipitationAt(Lnet/minecraft/core/BlockPos;)Lnet/minecraft/world/level/biome/Biome$Precipitation;"), method = "renderSnowAndRain")
-    private Biome.Precipitation getPrecipitationAt(Biome instance, BlockPos pos) {
+    @Inject(at = @At(value = "INVOKE_ASSIGN", target = "Lnet/minecraft/world/level/biome/Biome;getPrecipitationAt(Lnet/minecraft/core/BlockPos;)Lnet/minecraft/world/level/biome/Biome$Precipitation;", shift = At.Shift.AFTER), method = "renderSnowAndRain", cancellable = true)
+    private void renderSnowAndRain(LightTexture lightTexture, float partialTick, double camX, double camY, double camZ, CallbackInfo callback, @Local Biome.Precipitation precipitation) {
         if (FancyBlockParticles.CONFIG.isEnabled()) {
-            if (instance.getPrecipitationAt(pos) == Biome.Precipitation.RAIN && FancyBlockParticles.CONFIG.isFancyRain())
-                return Biome.Precipitation.NONE;
+            if (precipitation == Biome.Precipitation.RAIN && FancyBlockParticles.CONFIG.isFancyRain())
+                callback.cancel();
 
-            if (instance.getPrecipitationAt(pos) == Biome.Precipitation.SNOW && FancyBlockParticles.CONFIG.isFancySnow())
-                return Biome.Precipitation.NONE;
+            if (precipitation == Biome.Precipitation.SNOW && FancyBlockParticles.CONFIG.isFancySnow())
+                callback.cancel();
         }
 
-        return instance.getPrecipitationAt(pos);
+        if (callback.isCancelled()) {
+            RenderSystem.enableCull();
+            RenderSystem.disableBlend();
+            lightTexture.turnOffLightLayer();
+        }
     }
 }
