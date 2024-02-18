@@ -72,6 +72,12 @@ dependencies {
 
     compileOnly "org.projectlombok:lombok:$lombok_version"
 
+    compileOnly(annotationProcessor("io.github.llamalad7:mixinextras-common:$mixinextras_version"))
+
+    implementation(jarJar("io.github.llamalad7:mixinextras-forge:$mixinextras_version")) {
+        jarJar.ranged(it, "[$mixinextras_version,)")
+    }
+
     annotationProcessor "org.spongepowered:mixin:$mixin_processor_version:processor"
     annotationProcessor "org.projectlombok:lombok:$lombok_version"
 }
@@ -82,7 +88,17 @@ afterEvaluate {
     tasks.configureReobfTaskForReobfJarJar.mustRunAfter(tasks.compileJava)
 }
 
-jar.finalizedBy('reobfJar')
+jar {
+    archiveClassifier = 'slim'
+
+    finalizedBy('reobfJar')
+}
+
+tasks.jarJar {
+    archiveClassifier = ''
+
+    finalizedBy('reobfJarJar')
+}
 
 java {
     withSourcesJar()
@@ -99,12 +115,12 @@ artifacts {
 project.evaluationDependsOn(':Changelog')
 
 tasks.register('publishCurseForge', TaskPublishCurseForge) {
-    dependsOn(tasks.jar)
+    dependsOn(tasks.jarJar)
     dependsOn(':Changelog:makeHtmlChangelog')
 
     apiToken = System.getenv('CURSEFORGE_TOKEN')
 
-    var modFile = upload('937011', tasks.jar.archiveFile)
+    var modFile = upload('937011', tasks.jarJar.archiveFile)
     modFile.displayName = "${base.archivesName.get()}-$version"
     modFile.releaseType = CFConstants.RELEASE_TYPE_BETA
     modFile.addGameVersion(mc_version, 'client')
@@ -129,11 +145,11 @@ modrinth {
 
     changelog = provider { file("${project(':Changelog').projectDir}/changelog.md").getText().replace([ '${version}': "$mc_version-$version" ]) }
 
-    uploadFile = tasks.jar
+    uploadFile = tasks.jarJar
     additionalFiles = [ tasks.sourcesJar ]
 }
 
-tasks.modrinth.dependsOn(tasks.jar)
+tasks.modrinth.dependsOn(tasks.jarJar)
 tasks.modrinth.dependsOn(tasks.sourcesJar)
 
 tasks.modrinth.dependsOn(':Changelog:makeMarkdownChangelog')
@@ -141,10 +157,10 @@ tasks.modrinth.dependsOn(':Changelog:makeMarkdownChangelog')
 publishing {
     publications {
         register('mavenJava', MavenPublication) {
-            artifact jar
-            artifact sourcesJar
-
             artifactId archivesBaseName
+
+            from components.java
+            jarJar.component(it)
         }
     }
 
