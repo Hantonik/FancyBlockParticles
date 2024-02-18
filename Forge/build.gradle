@@ -4,7 +4,7 @@ import net.darkhax.curseforgegradle.TaskPublishCurseForge
 plugins {
     id 'net.minecraftforge.gradle' version '6.+'
     id 'org.parchmentmc.librarian.forgegradle' version '1.+'
-    id 'org.spongepowered.mixin' version '0.7.+'
+    id 'org.spongepowered.mixin' version '0.7-SNAPSHOT'
     id 'io.freefair.lombok' version '6.6.+'
 
     id 'idea'
@@ -74,6 +74,12 @@ dependencies {
 
     annotationProcessor "org.spongepowered:mixin:$mixin_processor_version:processor"
     annotationProcessor "org.projectlombok:lombok:$lombok_version"
+}
+
+// Workaround for SpongePowered/MixinGradle#38
+afterEvaluate {
+    tasks.configureReobfTaskForReobfJar.mustRunAfter(tasks.compileJava)
+    tasks.configureReobfTaskForReobfJarJar.mustRunAfter(tasks.compileJava)
 }
 
 jar.finalizedBy('reobfJar')
