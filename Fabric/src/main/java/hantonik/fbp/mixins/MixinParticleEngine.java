@@ -16,7 +16,6 @@ import net.minecraft.core.particles.ParticleOptions;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.core.particles.SimpleParticleType;
 import net.minecraft.util.Mth;
-import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.block.LiquidBlock;
 import net.minecraft.world.level.block.RenderShape;
 import net.minecraft.world.level.block.state.BlockState;
@@ -30,6 +29,8 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
+import java.util.Random;
+
 @Mixin(ParticleEngine.class)
 public abstract class MixinParticleEngine {
     @Shadow
@@ -37,7 +38,7 @@ public abstract class MixinParticleEngine {
 
     @Final
     @Shadow
-    private RandomSource random;
+    private Random random;
 
     @Shadow
     public abstract void add(Particle effect);
@@ -82,7 +83,7 @@ public abstract class MixinParticleEngine {
 
         callback.cancel();
 
-        if (!state.isAir() && state.shouldSpawnTerrainParticles()) {
+        if (!state.isAir()) {
             var shape = state.getShape(this.level, pos);
             var sprite = Minecraft.getInstance().getBlockRenderer().getBlockModelShaper().getParticleIcon(state);
 

@@ -97,8 +97,8 @@
   "tooltip.fbp.random_rotation": "Activar o desactivar la rotación aleatoria de partículas.",
   "tooltip.fbp.random_fading_speed": "Activar o desactivar la velocidad de desvanecimiento aleatoria de partículas.",
 
-  "button.fbp.true": "§averdadero",
-  "button.fbp.false": "§cfalso",
+  "button.fbp.true": "verdadero",
+  "button.fbp.false": "falso",
 
   "tooltip.fbp.animation": "COLOCAR ANIMACIÓN",
   "tooltip.fbp.particles": "PARTÍCULAS",

@@ -1,6 +1,7 @@
 package hantonik.fbp.particle;
 
 import com.mojang.blaze3d.vertex.VertexConsumer;
+import com.mojang.math.Vector3f;
 import hantonik.fbp.FancyBlockParticles;
 import hantonik.fbp.util.FBPConstants;
 import hantonik.fbp.util.FBPRenderHelper;
@@ -21,18 +22,17 @@ import net.minecraft.util.Mth;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.phys.AABB;
 import org.jetbrains.annotations.Nullable;
-import org.joml.Vector3d;
 
 @Environment(EnvType.CLIENT)
 public class FBPLavaParticle extends LavaParticle {
-    private double startScale;
-    private double lastScale;
+    private float startScale;
+    private float lastScale;
 
-    private double lastAlpha;
-    private double scaleAlpha;
+    private float lastAlpha;
+    private float scaleAlpha;
 
-    private double multiplier;
-    private final Vector3d[] cube;
+    private float multiplier;
+    private final Vector3f[] cube;
 
     public FBPLavaParticle(ClientLevel level, double x, double y, double z) {
         super(level, x, y, z);
@@ -48,17 +48,17 @@ public class FBPLavaParticle extends LavaParticle {
 
         this.sprite = Minecraft.getInstance().getBlockRenderer().getBlockModelShaper().getParticleIcon(Blocks.WHITE_CONCRETE.defaultBlockState());
 
-        this.cube = new Vector3d[FBPConstants.CUBE.length];
+        this.cube = new Vector3f[FBPConstants.CUBE.length];
 
         var angleY = this.random.nextFloat();
 
         for (var i = 0; i < FBPConstants.CUBE.length; i++)
             this.cube[i] = FBPRenderHelper.rotate(FBPConstants.CUBE[i], 0, angleY, 0);
 
-        this.multiplier = 1.0D;
+        this.multiplier = 1.0F;
 
         if (FancyBlockParticles.CONFIG.isRandomFadingSpeed())
-            this.multiplier *= FBPConstants.RANDOM.nextDouble(0.9875D, 1.0D);
+            this.multiplier *= FBPConstants.RANDOM.nextFloat(0.9875F, 1.0F);
 
         this.scale(1);
     }
@@ -96,10 +96,10 @@ public class FBPLavaParticle extends LavaParticle {
             this.removed = true;
 
         if (++this.age >= this.lifetime) {
-            this.quadSize *= (float) (0.95F * this.multiplier);
+            this.quadSize *= 0.95F * this.multiplier;
 
             if (this.alpha > 0.01D && this.quadSize <= this.scaleAlpha)
-                this.alpha *= (float) (0.9F * this.multiplier);
+                this.alpha *= 0.9F * this.multiplier;
 
             if (this.alpha <= 0.01D)
                 this.remove();
@@ -184,22 +184,22 @@ public class FBPLavaParticle extends LavaParticle {
 
         var light = this.getLightColor(partialTicks);
 
-        var alpha = (float) (this.lastAlpha + (this.alpha - this.lastAlpha) * partialTicks);
+        var alpha = this.lastAlpha + (this.alpha - this.lastAlpha) * partialTicks;
 
         if (this.age >= this.lifetime)
-            this.gCol = (float) (scale / this.startScale);
+            this.gCol = scale / this.startScale;
 
-        var cube = new Vector3d[this.cube.length];
+        var cube = new Vector3f[this.cube.length];
 
         for (var i = 0; i < cube.length; i++) {
-            var corner = new Vector3d();
-
-            corner.x = this.cube[i].x;
-            corner.y = this.cube[i].y;
-            corner.z = this.cube[i].z;
+            var corner = new Vector3f(
+                    this.cube[i].x(),
+                    this.cube[i].y(),
+                    this.cube[i].z()
+            );
 
             corner.mul(scale / 80);
-            corner.add(posX, posY, posZ);
+            corner.add((float) posX, (float) posY, (float) posZ);
 
             cube[i] = corner;
         }
@@ -207,7 +207,7 @@ public class FBPLavaParticle extends LavaParticle {
         this.putCube(buffer, cube, u, v, light, this.rCol, this.gCol, this.bCol, alpha);
     }
 
-    private void putCube(VertexConsumer buffer, Vector3d[] cube, float u, float v, int light, float r, float g, float b, float a) {
+    private void putCube(VertexConsumer buffer, Vector3f[] cube, float u, float v, int light, float r, float g, float b, float a) {
         var brightness = 1.0F;
 
         float red;
@@ -233,8 +233,8 @@ public class FBPLavaParticle extends LavaParticle {
         }
     }
 
-    private void addVertex(VertexConsumer buffer, Vector3d pos, float u, float v, int light, float red, float green, float blue, float alpha) {
-        buffer.vertex(pos.x, pos.y, pos.z).uv(u, v).color(red, green, blue, alpha).uv2(light).endVertex();
+    private void addVertex(VertexConsumer buffer, Vector3f pos, float u, float v, int light, float red, float green, float blue, float alpha) {
+        buffer.vertex(pos.x(), pos.y(), pos.z()).uv(u, v).color(red, green, blue, alpha).uv2(light).endVertex();
     }
 
     @Override
@@ -252,7 +252,7 @@ public class FBPLavaParticle extends LavaParticle {
 
         i = j | k << 16;
 
-        var pos = BlockPos.containing(this.x, this.y, this.z);
+        var pos = new BlockPos(this.x, this.y, this.z);
 
         if (this.level.isLoaded(pos))
             j = this.level.getLightEngine().getRawBrightness(pos, 0);

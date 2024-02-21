@@ -5,6 +5,7 @@ import com.mojang.blaze3d.vertex.BufferBuilder;
 import com.mojang.blaze3d.vertex.DefaultVertexFormat;
 import com.mojang.blaze3d.vertex.Tesselator;
 import com.mojang.blaze3d.vertex.VertexFormat;
+import com.mojang.math.Vector3f;
 import hantonik.fbp.FancyBlockParticles;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
@@ -14,7 +15,6 @@ import net.minecraft.client.renderer.texture.TextureManager;
 import net.minecraft.world.inventory.InventoryMenu;
 import net.minecraftforge.fml.loading.FMLPaths;
 import org.jetbrains.annotations.NotNull;
-import org.joml.Vector3d;
 
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -26,19 +26,19 @@ public final class FBPConstants {
 
     public static final SplittableRandom RANDOM = new SplittableRandom();
 
-    public static final Vector3d[] CUBE = new Vector3d[] {
-            new Vector3d(1.0D, 1.0D, -1.0D),   new Vector3d(1.0D, 1.0D, 1.0D),   new Vector3d(-1.0D, 1.0D, 1.0D),  new Vector3d(-1.0D, 1.0D, -1.0D),
-            new Vector3d(-1.0D, -1.0D, -1.0D), new Vector3d(-1.0D, -1.0D, 1.0D), new Vector3d(1.0D, -1.0D, 1.0D),  new Vector3d(1.0D, -1.0D, -1.0D),
-            new Vector3d(-1.0D, -1.0D, 1.0D),  new Vector3d(-1.0D, 1.0D, 1.0D),  new Vector3d(1.0D, 1.0D, 1.0D),   new Vector3d(1.0D, -1.0D, 1.0D),
-            new Vector3d(1.0D, -1.0D, -1.0D),  new Vector3d(1.0D, 1.0D, -1.0D),  new Vector3d(-1.0D, 1.0D, -1.0D), new Vector3d(-1.0D, -1.0D, -1.0D),
-            new Vector3d(-1.0D, -1.0D, -1.0D), new Vector3d(-1.0D, 1.0D, -1.0D), new Vector3d(-1.0D, 1.0D, 1.0D),  new Vector3d(-1.0D, -1.0D, 1.0D),
-            new Vector3d(1.0D, -1.0D, 1.0D),   new Vector3d(1.0D, 1.0D, 1.0D),   new Vector3d(1.0D, 1.0D, -1.0D),  new Vector3d(1.0D, -1.0D, -1.0D)
+    public static final Vector3f[] CUBE = new Vector3f[] {
+            new Vector3f(1.0F, 1.0F, -1.0F),   new Vector3f(1.0F, 1.0F, 1.0F),   new Vector3f(-1.0F, 1.0F, 1.0F),  new Vector3f(-1.0F, 1.0F, -1.0F),
+            new Vector3f(-1.0F, -1.0F, -1.0F), new Vector3f(-1.0F, -1.0F, 1.0F), new Vector3f(1.0F, -1.0F, 1.0F),  new Vector3f(1.0F, -1.0F, -1.0F),
+            new Vector3f(-1.0F, -1.0F, 1.0F),  new Vector3f(-1.0F, 1.0F, 1.0F),  new Vector3f(1.0F, 1.0F, 1.0F),   new Vector3f(1.0F, -1.0F, 1.0F),
+            new Vector3f(1.0F, -1.0F, -1.0F),  new Vector3f(1.0F, 1.0F, -1.0F),  new Vector3f(-1.0F, 1.0F, -1.0F), new Vector3f(-1.0F, -1.0F, -1.0F),
+            new Vector3f(-1.0F, -1.0F, -1.0F), new Vector3f(-1.0F, 1.0F, -1.0F), new Vector3f(-1.0F, 1.0F, 1.0F),  new Vector3f(-1.0F, -1.0F, 1.0F),
+            new Vector3f(1.0F, -1.0F, 1.0F),   new Vector3f(1.0F, 1.0F, 1.0F),   new Vector3f(1.0F, 1.0F, -1.0F),  new Vector3f(1.0F, -1.0F, -1.0F)
     };
 
-    public static final Vector3d[] CUBE_NORMALS = new Vector3d[] {
-            new Vector3d(0.0D, 1.0D, 0.0D), new Vector3d(0.0D, -1.0D, 0.0D),
-            new Vector3d(0.0D, 0.0D, 1.0D), new Vector3d(0.0D, 0.0D, -1.0D),
-            new Vector3d(-1.0D, 0.0D, 0.0D), new Vector3d(1.0D, 0.0D, 0.0D)
+    public static final Vector3f[] CUBE_NORMALS = new Vector3f[] {
+            new Vector3f(0.0F, 1.0F, 0.0F), new Vector3f(0.0F, -1.0F, 0.0F),
+            new Vector3f(0.0F, 0.0F, 1.0F), new Vector3f(0.0F, 0.0F, -1.0F),
+            new Vector3f(-1.0F, 0.0F, 0.0F), new Vector3f(1.0F, 0.0F, 0.0F)
     };
 
     public static final ParticleRenderType FBP_PARTICLE_RENDER = new ParticleRenderType() {

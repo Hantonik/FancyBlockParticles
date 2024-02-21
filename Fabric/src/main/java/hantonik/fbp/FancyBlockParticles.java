@@ -1,6 +1,7 @@
 package hantonik.fbp;
 
 import com.google.common.collect.ImmutableList;
+import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.logging.LogUtils;
 import hantonik.fbp.config.FBPConfig;
 import hantonik.fbp.init.FBPKeyMappings;
@@ -14,11 +15,11 @@ import net.fabricmc.fabric.api.client.screen.v1.ScreenEvents;
 import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.Util;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.GuiComponent;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.particle.ParticleEngine;
 import net.minecraft.client.particle.ParticleRenderType;
-import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.HitResult;
@@ -88,8 +89,8 @@ public final class FancyBlockParticles implements ClientModInitializer {
                 FancyBlockParticles.CONFIG.setFrozen(!FancyBlockParticles.CONFIG.isFrozen());
     }
 
-    public void onRenderHud(GuiGraphics graphics, float partialTick) {
+    public void onRenderHud(PoseStack stack, float partialTick) {
         if (FancyBlockParticles.CONFIG.isEnabled() && FancyBlockParticles.CONFIG.isFrozen())
-            graphics.drawCenteredString(Minecraft.getInstance().font, Component.translatable("screen.fbp.freeze"), graphics.guiWidth() / 2, 5, 0x0080FF);
+            GuiComponent.drawCenteredString(stack, Minecraft.getInstance().font, new TranslatableComponent("screen.fbp.freeze"), Minecraft.getInstance().getWindow().getGuiScaledWidth() / 2, 5, 0x0080FF);
     }
 }

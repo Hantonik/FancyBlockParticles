@@ -97,8 +97,8 @@
   "tooltip.fbp.random_rotation": "Włącz lub wyłącz losową rotację.",
   "tooltip.fbp.random_fading_speed": "Włącz lub wyłącz losową prędkość zanikania.",
 
-  "button.fbp.true": "§atak",
-  "button.fbp.false": "§cnie",
+  "button.fbp.true": "tak",
+  "button.fbp.false": "nie",
 
   "tooltip.fbp.animation": "ANIMACJA POŁOŻENIA",
   "tooltip.fbp.particles": "CZĄSTECZKI",

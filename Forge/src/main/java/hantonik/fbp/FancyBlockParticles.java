@@ -35,7 +35,8 @@ public final class FancyBlockParticles {
         bus.register(this);
 
         DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> () -> {
-            bus.register(new FBPKeyMappings());
+            FBPKeyMappings.register();
+            
             bus.register(FancyBlockParticles.CONFIG);
         });
     }
