@@ -54,7 +54,7 @@ public class FBPOptionsScreen extends Screen {
         this.addRenderableWidget(new StringWidget(5, this.height - 5 - 9, this.font.width(version), 9, version, this.font));
 
         var layout = new GridLayout();
-        layout.defaultCellSetting().paddingTop(3).paddingHorizontal(2).alignVerticallyMiddle().alignHorizontallyCenter();
+        layout.defaultCellSetting().paddingTop(3).paddingLeft(3).paddingRight(2).alignVerticallyMiddle().alignHorizontallyCenter();
 
         var helper = layout.createRowHelper(6);
 
