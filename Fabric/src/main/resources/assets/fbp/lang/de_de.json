@@ -106,5 +106,6 @@
   "tooltip.fbp.add": "HINZUFÜGEN",
   "tooltip.fbp.remove": "ENTFERNEN",
 
-  "text.fbp.version": "Version: %s"
+  "text.fbp.version": "Version: %s",
+  "text.fbp.page": "Seite %d von %d"
 }
