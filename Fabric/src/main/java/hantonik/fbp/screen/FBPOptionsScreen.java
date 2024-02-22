@@ -43,7 +43,7 @@ public class FBPOptionsScreen extends Screen {
 
         this.config = FancyBlockParticles.CONFIG.copy();
 
-        this.pageCount = 3;
+        this.pageCount = 4;
         this.page = 1;
     }
 
@@ -137,6 +137,9 @@ public class FBPOptionsScreen extends Screen {
                 helper.addChild(SpacerElement.width(75));
                 helper.addChild(new FBPToggleButton(0, 0, 275, 20, Component.translatable("button.fbp.cartoon_mode"), this.config::isCartoonMode, button -> this.config.setCartoonMode(!this.config.isCartoonMode())), 4).setTooltip(Tooltip.create(Component.translatable("tooltip.fbp.cartoon_mode").append(CommonComponents.NEW_LINE).append(CommonComponents.NEW_LINE).append(Component.translatable("tooltip.fbp.default")).append(Component.translatable("button.fbp." + defaultConfig.isCartoonMode()))));
                 helper.addChild(SpacerElement.width(75));
+                helper.addChild(SpacerElement.width(75));
+                helper.addChild(new FBPToggleButton(0, 0, 275, 20, Component.translatable("button.fbp.cull_particles"), this.config::isCullParticles, button -> this.config.setCullParticles(!this.config.isCullParticles())), 4).setTooltip(Tooltip.create(Component.translatable("tooltip.fbp.cull_particles").append(CommonComponents.NEW_LINE).append(CommonComponents.NEW_LINE).append(Component.translatable("tooltip.fbp.default")).append(Component.translatable("button.fbp." + defaultConfig.isCullParticles()))));
+                helper.addChild(SpacerElement.width(75));
 
                 helper.addChild(SpacerElement.width(75));
                 helper.addChild(new FBPToggleButton(0, 0, 275, 20, Component.translatable("button.fbp.smart_breaking"), this.config::isSmartBreaking, button -> this.config.setSmartBreaking(!this.config.isSmartBreaking())), 4).setTooltip(Tooltip.create(Component.translatable("tooltip.fbp.smart_breaking").append(CommonComponents.NEW_LINE).append(CommonComponents.NEW_LINE).append(Component.translatable("tooltip.fbp.default")).append(Component.translatable("button.fbp." + defaultConfig.isSmartBreaking()))));
@@ -144,14 +147,11 @@ public class FBPOptionsScreen extends Screen {
                 helper.addChild(SpacerElement.width(75));
                 helper.addChild(new FBPToggleButton(0, 0, 275, 20, Component.translatable("button.fbp.low_traction"), this.config::isLowTraction, button -> this.config.setLowTraction(!this.config.isLowTraction())), 4).setTooltip(Tooltip.create(Component.translatable("tooltip.fbp.low_traction").append(CommonComponents.NEW_LINE).append(CommonComponents.NEW_LINE).append(Component.translatable("tooltip.fbp.default")).append(Component.translatable("button.fbp." + defaultConfig.isLowTraction()))));
                 helper.addChild(SpacerElement.width(75));
-                helper.addChild(SpacerElement.width(75));
-                helper.addChild(new FBPToggleButton(0, 0, 275, 20, Component.translatable("button.fbp.spawn_while_frozen"), this.config::isSpawnWhileFrozen, button -> this.config.setSpawnWhileFrozen(!this.config.isSpawnWhileFrozen())), 4).setTooltip(Tooltip.create(Component.translatable("tooltip.fbp.spawn_while_frozen").append(CommonComponents.NEW_LINE).append(CommonComponents.NEW_LINE).append(Component.translatable("tooltip.fbp.default")).append(Component.translatable("button.fbp." + defaultConfig.isSpawnWhileFrozen()))));
-                helper.addChild(SpacerElement.width(75));
             }
 
             case 3 -> {
                 helper.addChild(SpacerElement.width(75));
-                helper.addChild(new FBPToggleButton(0, 0, 275, 20, Component.translatable("button.fbp.smooth_animation_lighting"), this.config::isSmoothAnimationLighting, button -> this.config.setSmoothAnimationLighting(!this.config.isSmoothAnimationLighting())), 4).setTooltip(Tooltip.create(Component.translatable("tooltip.fbp.smooth_animation_lighting").append(CommonComponents.NEW_LINE).append(CommonComponents.NEW_LINE).append(Component.translatable("tooltip.fbp.default")).append(Component.translatable("button.fbp." + defaultConfig.isSmoothAnimationLighting()))));
+                helper.addChild(new FBPToggleButton(0, 0, 275, 20, Component.translatable("button.fbp.spawn_while_frozen"), this.config::isSpawnWhileFrozen, button -> this.config.setSpawnWhileFrozen(!this.config.isSpawnWhileFrozen())), 4).setTooltip(Tooltip.create(Component.translatable("tooltip.fbp.spawn_while_frozen").append(CommonComponents.NEW_LINE).append(CommonComponents.NEW_LINE).append(Component.translatable("tooltip.fbp.default")).append(Component.translatable("button.fbp." + defaultConfig.isSpawnWhileFrozen()))));
                 helper.addChild(SpacerElement.width(75));
                 helper.addChild(SpacerElement.width(75));
                 helper.addChild(new FBPToggleButton(0, 0, 275, 20, Component.translatable("button.fbp.spawn_place_particles"), this.config::isSpawnPlaceParticles, button -> this.config.setSpawnPlaceParticles(!this.config.isSpawnPlaceParticles())), 4).setTooltip(Tooltip.create(Component.translatable("tooltip.fbp.spawn_place_particles").append(CommonComponents.NEW_LINE).append(CommonComponents.NEW_LINE).append(Component.translatable("tooltip.fbp.default")).append(Component.translatable("button.fbp." + defaultConfig.isSpawnPlaceParticles()))));
@@ -179,6 +179,21 @@ public class FBPOptionsScreen extends Screen {
                 helper.addChild(SpacerElement.width(75));
                 helper.addChild(new FBPToggleButton(0, 0, 275, 20, Component.translatable("button.fbp.random_fading_speed"), this.config::isRandomFadingSpeed, button -> this.config.setRandomFadingSpeed(!this.config.isRandomFadingSpeed())), 4).setTooltip(Tooltip.create(Component.translatable("tooltip.fbp.random_fading_speed").append(CommonComponents.NEW_LINE).append(CommonComponents.NEW_LINE).append(Component.translatable("tooltip.fbp.default")).append(Component.translatable("button.fbp." + defaultConfig.isRandomFadingSpeed()))));
                 helper.addChild(SpacerElement.width(75));
+            }
+
+            case 4 -> {
+                helper.addChild(SpacerElement.width(75));
+                helper.addChild(new FBPToggleButton(0, 0, 275, 20, Component.translatable("button.fbp.smooth_animation_lighting"), this.config::isSmoothAnimationLighting, button -> this.config.setSmoothAnimationLighting(!this.config.isSmoothAnimationLighting())), 4).setTooltip(Tooltip.create(Component.translatable("tooltip.fbp.smooth_animation_lighting").append(CommonComponents.NEW_LINE).append(CommonComponents.NEW_LINE).append(Component.translatable("tooltip.fbp.default")).append(Component.translatable("button.fbp." + defaultConfig.isSmoothAnimationLighting()))));
+                helper.addChild(SpacerElement.width(75));
+
+                helper.addChild(SpacerElement.height(20), 6);
+                helper.addChild(SpacerElement.height(20), 6);
+                helper.addChild(SpacerElement.height(20), 6);
+                helper.addChild(SpacerElement.height(20), 6);
+                helper.addChild(SpacerElement.height(20), 6);
+                helper.addChild(SpacerElement.height(20), 6);
+                helper.addChild(SpacerElement.height(20), 6);
+                helper.addChild(SpacerElement.height(20), 6);
             }
         }
 
