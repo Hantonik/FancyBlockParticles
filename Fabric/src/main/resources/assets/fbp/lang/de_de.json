@@ -36,6 +36,7 @@
   "button.fbp.fancy_place_animation": "Elegante Platzierungsanimation",
 
   "button.fbp.cartoon_mode": "Cartoon-Modus",
+  "button.fbp.cull_particles": "Partikel eliminieren",
 
   "button.fbp.smart_breaking": "Intelligentes Abbauen",
   "button.fbp.low_traction": "Geringe Traktion",
@@ -81,6 +82,7 @@
   "tooltip.fbp.fancy_place_animation": "Aktiviere oder deaktiviere schicke Blockplatzierungsanimation.",
 
   "tooltip.fbp.cartoon_mode": "Aktivieren oder deaktivieren Sie den Partikel-Cartoon-Modus.",
+  "tooltip.fbp.cull_particles": "Aktiviere oder deaktiviere das Aussortieren von Partikeln.",
 
   "tooltip.fbp.smart_breaking": "Aktiviere oder deaktiviere intelligentes Brechen.",
   "tooltip.fbp.low_traction": "Aktiviere oder deaktiviere Partikel mit geringer Traktion.",

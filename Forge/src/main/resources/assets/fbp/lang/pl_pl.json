@@ -36,6 +36,7 @@
   "button.fbp.fancy_place_animation": "Fantazyjna animacja stawiania",
 
   "button.fbp.cartoon_mode": "Tryb kreskówkowy",
+  "button.fbp.cull_particles": "Eliminacja cząsteczek",
 
   "button.fbp.smart_breaking": "Inteligentne burzenie",
   "button.fbp.low_traction": "Niska trakcja",
@@ -81,6 +82,7 @@
   "tooltip.fbp.fancy_place_animation": "Włącz lub wyłącz fantazyjną animację stawiania.",
 
   "tooltip.fbp.cartoon_mode": "Włącz lub wyłącz tryb kreskówkowy cząsteczek.",
+  "tooltip.fbp.cull_particles": "Włącz lub wyłącz eliminację cząsteczek.",
 
   "tooltip.fbp.smart_breaking": "Włącz lub wyłącz inteligentne burzenie.",
   "tooltip.fbp.low_traction": "Włącz lub wyłącz niską trakcję cząsteczek.",

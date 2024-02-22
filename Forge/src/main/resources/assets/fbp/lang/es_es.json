@@ -36,6 +36,7 @@
   "button.fbp.fancy_place_animation": "Animación de Colocación Elegante",
 
   "button.fbp.cartoon_mode": "Modo caricatura",
+  "button.fbp.cull_particles": "Eliminar partículas",
 
   "button.fbp.smart_breaking": "Ruptura Inteligente",
   "button.fbp.low_traction": "Baja Tracción",
@@ -81,6 +82,7 @@
   "tooltip.fbp.fancy_place_animation": "Activar o desactivar animación elegante al colocar bloques.",
 
   "tooltip.fbp.cartoon_mode": "Activar o desactivar el modo caricatura de partículas.",
+  "tooltip.fbp.cull_particles": "Activar o desactivar el eliminado de partículas.",
 
   "tooltip.fbp.smart_breaking": "Activar o desactivar ruptura inteligente.",
   "tooltip.fbp.low_traction": "Activar o desactivar partículas de baja tracción.",

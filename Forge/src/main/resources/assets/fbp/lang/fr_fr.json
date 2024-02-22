@@ -36,6 +36,7 @@
   "button.fbp.fancy_place_animation": "Animation de placement élégante",
 
   "button.fbp.cartoon_mode": "Mode dessin animé",
+  "button.fbp.cull_particles": "Éliminer les particules",
 
   "button.fbp.smart_breaking": "Cassage intelligent",
   "button.fbp.low_traction": "Faible traction",
@@ -81,6 +82,7 @@
   "tooltip.fbp.fancy_place_animation": "Activer ou désactiver l'animation de placement élégante.",
 
   "tooltip.fbp.cartoon_mode": "Activer ou désactiver le mode dessin animé des particules.",
+  "tooltip.fbp.cull_particles": "Activer ou désactiver l'élimination des particules.",
 
   "tooltip.fbp.smart_breaking": "Activer ou désactiver le cassage intelligent.",
   "tooltip.fbp.low_traction": "Activer ou désactiver la faible traction des particules.",
