@@ -35,6 +35,7 @@ public class FBPOptionsScreen extends Screen {
 
     private final FBPConfig config;
 
+    private final int pageCount;
     private int page;
 
     public FBPOptionsScreen() {
@@ -42,7 +43,8 @@ public class FBPOptionsScreen extends Screen {
 
         this.config = FancyBlockParticles.CONFIG.copy();
 
-        this.page = 0;
+        this.pageCount = 3;
+        this.page = 1;
     }
 
     @Override
@@ -65,7 +67,7 @@ public class FBPOptionsScreen extends Screen {
         var defaultConfig = FBPConfig.DEFAULT_CONFIG;
 
         switch (this.page) {
-            case 0 -> {
+            case 1 -> {
                 helper.addChild(SpacerElement.width(75));
                 helper.addChild(new FBPToggleButton(0, 0, 275, 20, Component.translatable("button.fbp.enabled"), this.config::isEnabled, button -> this.config.setEnabled(!this.config.isEnabled())), 4).setTooltip(Tooltip.create(Component.translatable("tooltip.fbp.enabled").append(CommonComponents.NEW_LINE).append(CommonComponents.NEW_LINE).append(Component.translatable("tooltip.fbp.default")).append(Component.translatable("button.fbp." + defaultConfig.isEnabled()))));
                 helper.addChild(SpacerElement.width(75));
@@ -115,7 +117,7 @@ public class FBPOptionsScreen extends Screen {
                 helper.addChild(SpacerElement.width(75));
             }
 
-            case 1 -> {
+            case 2 -> {
                 helper.addChild(SpacerElement.width(75));
                 helper.addChild(new FBPToggleButton(0, 0, 275, 20, Component.translatable("button.fbp.fancy_flame"), this.config::isFancyFlame, button -> this.config.setFancyFlame(!this.config.isFancyFlame())), 4).setTooltip(Tooltip.create(Component.translatable("tooltip.fbp.fancy_flame").append(CommonComponents.NEW_LINE).append(CommonComponents.NEW_LINE).append(Component.translatable("tooltip.fbp.default")).append(Component.translatable("button.fbp." + defaultConfig.isFancyFlame()))));
                 helper.addChild(SpacerElement.width(75));
@@ -147,7 +149,7 @@ public class FBPOptionsScreen extends Screen {
                 helper.addChild(SpacerElement.width(75));
             }
 
-            case 2 -> {
+            case 3 -> {
                 helper.addChild(SpacerElement.width(75));
                 helper.addChild(new FBPToggleButton(0, 0, 275, 20, Component.translatable("button.fbp.smooth_animation_lighting"), this.config::isSmoothAnimationLighting, button -> this.config.setSmoothAnimationLighting(!this.config.isSmoothAnimationLighting())), 4).setTooltip(Tooltip.create(Component.translatable("tooltip.fbp.smooth_animation_lighting").append(CommonComponents.NEW_LINE).append(CommonComponents.NEW_LINE).append(Component.translatable("tooltip.fbp.default")).append(Component.translatable("button.fbp." + defaultConfig.isSmoothAnimationLighting()))));
                 helper.addChild(SpacerElement.width(75));
@@ -181,21 +183,15 @@ public class FBPOptionsScreen extends Screen {
         }
 
         var previousButton = helper.addChild(Button.builder(Component.translatable("button.fbp.previous"), button -> {
-            switch (this.page) {
-                case 1 -> this.page = 0;
-                case 2 -> this.page = 1;
-            }
+            this.page = Math.max(1, this.page - 1);
 
             this.rebuildWidgets();
         }).width(75).build());
 
-        helper.addChild(SpacerElement.width(275), 4);
+        helper.addChild(new StringWidget(275, 20, Component.translatable("text.fbp.page", this.page, this.pageCount), this.font), 4);
 
         var nextButton = helper.addChild(Button.builder(Component.translatable("button.fbp.next"), button -> {
-            switch (this.page) {
-                case 0 -> this.page = 1;
-                case 1 -> this.page = 2;
-            }
+            this.page = Math.min(this.pageCount, this.page + 1);
 
             this.rebuildWidgets();
         }).width(75).build());
@@ -233,9 +229,9 @@ public class FBPOptionsScreen extends Screen {
                 widget.active = !FancyBlockParticles.CONFIG.isLocked();
 
             if (widget == previousButton)
-                widget.active = this.page != 0;
+                widget.active = this.page > 1;
             if (widget == nextButton)
-                widget.active = this.page != 2;
+                widget.active = this.page < this.pageCount;
         });
 
         layout.visitWidgets(this::addRenderableWidget);

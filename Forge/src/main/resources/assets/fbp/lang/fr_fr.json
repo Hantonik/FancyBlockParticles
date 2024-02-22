@@ -106,5 +106,6 @@
   "tooltip.fbp.add": "AJOUTER",
   "tooltip.fbp.remove": "SUPPRIMER",
 
-  "text.fbp.version": "Version : %s"
+  "text.fbp.version": "Version : %s",
+  "text.fbp.page": "Page %d sur %d"
 }
