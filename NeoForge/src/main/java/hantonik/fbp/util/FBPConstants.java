@@ -79,7 +79,10 @@ public final class FBPConstants {
             RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
             RenderSystem.setShader(GameRenderer::getRendertypeTranslucentShader);
 
-            RenderSystem.enableCull();
+            if (FancyBlockParticles.CONFIG.isCullParticles())
+                RenderSystem.enableCull();
+            else
+                RenderSystem.disableCull();
 
             buffer.begin(VertexFormat.Mode.QUADS, DefaultVertexFormat.BLOCK);
         }

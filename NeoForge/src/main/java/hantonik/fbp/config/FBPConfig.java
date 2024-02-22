@@ -36,6 +36,7 @@ public final class FBPConfig {
     private static final boolean DEFAULT_FROZEN = false;
     private static final boolean DEFAULT_INFINITE_DURATION = false;
     private static final boolean DEFAULT_CARTOON_MODE = false;
+    private static final boolean DEFAULT_CULL_PARTICLES = false;
 
     private static final boolean DEFAULT_FANCY_FLAME = true;
     private static final boolean DEFAULT_FANCY_SMOKE = true;
@@ -74,7 +75,7 @@ public final class FBPConfig {
 
     public static final FBPConfig DEFAULT_CONFIG = new FBPConfig(
             DEFAULT_ENABLED, DEFAULT_LOCKED,
-            DEFAULT_FROZEN, DEFAULT_INFINITE_DURATION, DEFAULT_CARTOON_MODE,
+            DEFAULT_FROZEN, DEFAULT_INFINITE_DURATION, DEFAULT_CARTOON_MODE, DEFAULT_CULL_PARTICLES,
             DEFAULT_FANCY_FLAME, DEFAULT_FANCY_SMOKE, DEFAULT_FANCY_RAIN, DEFAULT_FANCY_SNOW, DEFAULT_SMOOTH_ANIMATION_LIGHTING,
             DEFAULT_SMART_BREAKING, DEFAULT_LOW_TRACTION, DEFAULT_SPAWN_WHILE_FROZEN, DEFAULT_SMOOTH_ANIMATION_LIGHTING,
             DEFAULT_SPAWN_PLACE_PARTICLES,
@@ -92,6 +93,7 @@ public final class FBPConfig {
     private boolean frozen;
     private boolean infiniteDuration;
     private boolean cartoonMode;
+    private boolean cullParticles;
 
     private boolean fancyFlame;
     private boolean fancySmoke;
@@ -171,6 +173,7 @@ public final class FBPConfig {
         this.frozen = config.frozen;
         this.infiniteDuration = config.infiniteDuration;
         this.cartoonMode = config.cartoonMode;
+        this.cullParticles = config.cullParticles;
 
         this.fancyFlame = config.fancyFlame;
         this.fancySmoke = config.fancySmoke;
@@ -214,6 +217,7 @@ public final class FBPConfig {
         this.frozen = config.frozen;
         this.infiniteDuration = config.infiniteDuration;
         this.cartoonMode = config.cartoonMode;
+        this.cullParticles = config.cullParticles;
 
         this.fancyFlame = config.fancyFlame;
         this.fancySmoke = config.fancySmoke;
@@ -281,6 +285,7 @@ public final class FBPConfig {
             this.frozen = GsonHelper.getAsBoolean(json, "frozen", DEFAULT_FROZEN);
             this.infiniteDuration = GsonHelper.getAsBoolean(json, "infiniteDuration", DEFAULT_INFINITE_DURATION);
             this.cartoonMode = GsonHelper.getAsBoolean(json, "cartoonMode", DEFAULT_CARTOON_MODE);
+            this.cullParticles = GsonHelper.getAsBoolean(json, "cullParticles", DEFAULT_CULL_PARTICLES);
 
             this.fancyFlame = GsonHelper.getAsBoolean(json, "fancyFlame", DEFAULT_FANCY_FLAME);
             this.fancySmoke = GsonHelper.getAsBoolean(json, "fancySmoke", DEFAULT_FANCY_SMOKE);
@@ -344,6 +349,7 @@ public final class FBPConfig {
             json.addProperty("frozen", this.frozen);
             json.addProperty("infiniteDuration", this.infiniteDuration);
             json.addProperty("cartoonMode", this.cartoonMode);
+            json.addProperty("cullParticles", this.cullParticles);
 
             json.addProperty("fancyFlame", this.fancyFlame);
             json.addProperty("fancySmoke", this.fancySmoke);
@@ -396,7 +402,7 @@ public final class FBPConfig {
     public FBPConfig copy() {
         return new FBPConfig(
                 this.enabled, this.locked,
-                this.frozen, this.infiniteDuration, this.cartoonMode,
+                this.frozen, this.infiniteDuration, this.cartoonMode, this.cullParticles,
                 this.fancyFlame, this.fancySmoke, this.fancyRain, this.fancySnow, this.fancyPlaceAnimation,
                 this.smartBreaking, this.lowTraction, this.spawnWhileFrozen, this.smoothAnimationLighting,
                 this.spawnPlaceParticles,
