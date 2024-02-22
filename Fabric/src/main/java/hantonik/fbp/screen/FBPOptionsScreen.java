@@ -35,6 +35,7 @@ public class FBPOptionsScreen extends Screen {
 
     private final FBPConfig config;
 
+    private final int pageCount;
     private int page;
 
     public FBPOptionsScreen() {
@@ -42,7 +43,8 @@ public class FBPOptionsScreen extends Screen {
 
         this.config = FancyBlockParticles.CONFIG.copy();
 
-        this.page = 0;
+        this.pageCount = 3;
+        this.page = 1;
     }
 
     @Override
@@ -53,7 +55,7 @@ public class FBPOptionsScreen extends Screen {
         var defaultConfig = FBPConfig.DEFAULT_CONFIG;
 
         switch (this.page) {
-            case 0 -> {
+            case 1 -> {
                 this.addRenderableWidget(new FBPToggleButton(this.width / 2 - 138, this.height / 13 + 20, 275, 20, new TranslatableComponent("button.fbp.enabled"), this.config::isEnabled, button -> this.config.setEnabled(!this.config.isEnabled()), (button, stack, mouseX, mouseY) -> this.renderTooltip(stack, new TranslatableComponent("tooltip.fbp.enabled").append(CommonComponents.NEW_LINE).append(new TranslatableComponent("tooltip.fbp.default")).append(new TranslatableComponent("button.fbp." + defaultConfig.isEnabled()).withStyle(defaultConfig.isEnabled() ? ChatFormatting.GREEN : ChatFormatting.RED)), mouseX, mouseY)));
                 this.addRenderableWidget(new FBPToggleButton(this.width / 2 - 138, this.height / 13 + 43, 275, 20, new TranslatableComponent("button.fbp.particles_decay"), () -> !this.config.isInfiniteDuration(), button -> this.config.setInfiniteDuration(!this.config.isInfiniteDuration()), (button, stack, mouseX, mouseY) -> this.renderTooltip(stack, new TranslatableComponent("tooltip.fbp.particles_decay").append(CommonComponents.NEW_LINE).append(new TranslatableComponent("tooltip.fbp.default")).append(new TranslatableComponent("button.fbp." + !defaultConfig.isInfiniteDuration()).withStyle(!defaultConfig.isInfiniteDuration() ? ChatFormatting.GREEN : ChatFormatting.RED)), mouseX, mouseY)));
                 this.addRenderableWidget(new FBPSliderButton(this.width / 2 - 138, this.height / 13 + 66, 275, new TranslatableComponent("button.fbp.particles_per_axis"), TextComponent.EMPTY, this.config.getParticlesPerAxis(), FancyBlockParticles.CONFIG.getParticlesPerAxis(), 0, 16, 1, button -> this.config.setParticlesPerAxis(button.getValueInt()), () -> !FancyBlockParticles.CONFIG.isLocked(), (widget, stack, mouseX, mouseY) -> this.renderTooltip(stack, new TranslatableComponent("tooltip.fbp.particles_per_axis").append(CommonComponents.NEW_LINE).append(new TranslatableComponent("tooltip.fbp.default").append(new TextComponent(String.valueOf(defaultConfig.getParticlesPerAxis())).withStyle(ChatFormatting.YELLOW))), mouseX, mouseY)));
@@ -84,7 +86,7 @@ public class FBPOptionsScreen extends Screen {
                 this.addRenderableWidget(new FBPSliderButton(this.width / 2 - 138, this.height / 13 + 204, 275, new TranslatableComponent("button.fbp.weather_particle_density"), new TextComponent("x"), this.config.getWeatherParticleDensity(), FancyBlockParticles.CONFIG.getWeatherParticleDensity(), 0.0D, 2.0D, 0.05D, button -> this.config.setWeatherParticleDensity(button.getValue()), () -> !FancyBlockParticles.CONFIG.isLocked(), (widget, stack, mouseX, mouseY) -> this.renderTooltip(stack, new TranslatableComponent("tooltip.fbp.weather_particle_density").append(CommonComponents.NEW_LINE).append(new TranslatableComponent("tooltip.fbp.default").append(new TextComponent(String.valueOf(defaultConfig.getWeatherParticleDensity())).withStyle(ChatFormatting.YELLOW))), mouseX, mouseY)));
             }
 
-            case 1 -> {
+            case 2 -> {
                 this.addRenderableWidget(new FBPToggleButton(this.width / 2 - 138, this.height / 13 + 20, 275, 20, new TranslatableComponent("button.fbp.fancy_flame"), this.config::isFancyFlame, button -> this.config.setFancyFlame(!this.config.isFancyFlame()), (button, stack, mouseX, mouseY) -> this.renderTooltip(stack, new TranslatableComponent("tooltip.fbp.fancy_flame").append(CommonComponents.NEW_LINE).append(new TranslatableComponent("tooltip.fbp.default")).append(new TranslatableComponent("button.fbp." + defaultConfig.isFancyFlame()).withStyle(defaultConfig.isFancyFlame() ? ChatFormatting.GREEN : ChatFormatting.RED)), mouseX, mouseY)));
                 this.addRenderableWidget(new FBPToggleButton(this.width / 2 - 138, this.height / 13 + 43, 275, 20, new TranslatableComponent("button.fbp.fancy_smoke"), this.config::isFancySmoke, button -> this.config.setFancySmoke(!this.config.isFancySmoke()), (button, stack, mouseX, mouseY) -> this.renderTooltip(stack, new TranslatableComponent("tooltip.fbp.fancy_smoke").append(CommonComponents.NEW_LINE).append(new TranslatableComponent("tooltip.fbp.default")).append(new TranslatableComponent("button.fbp." + defaultConfig.isFancySmoke()).withStyle(defaultConfig.isFancySmoke() ? ChatFormatting.GREEN : ChatFormatting.RED)), mouseX, mouseY)));
                 this.addRenderableWidget(new FBPToggleButton(this.width / 2 - 138, this.height / 13 + 66, 275, 20, new TranslatableComponent("button.fbp.fancy_rain"), this.config::isFancyRain, button -> this.config.setFancyRain(!this.config.isFancyRain()), (button, stack, mouseX, mouseY) -> this.renderTooltip(stack, new TranslatableComponent("tooltip.fbp.fancy_rain").append(CommonComponents.NEW_LINE).append(new TranslatableComponent("tooltip.fbp.default")).append(new TranslatableComponent("button.fbp." + defaultConfig.isFancyRain()).withStyle(defaultConfig.isFancyRain() ? ChatFormatting.GREEN : ChatFormatting.RED)), mouseX, mouseY)));
@@ -96,7 +98,7 @@ public class FBPOptionsScreen extends Screen {
                 this.addRenderableWidget(new FBPToggleButton(this.width / 2 - 138, this.height / 13 + 204, 275, 20, new TranslatableComponent("button.fbp.spawn_while_frozen"), this.config::isSpawnWhileFrozen, button -> this.config.setSpawnWhileFrozen(!this.config.isSpawnWhileFrozen()), (button, stack, mouseX, mouseY) -> this.renderTooltip(stack, new TranslatableComponent("tooltip.fbp.spawn_while_frozen").append(CommonComponents.NEW_LINE).append(new TranslatableComponent("tooltip.fbp.default")).append(new TranslatableComponent("button.fbp." + defaultConfig.isSpawnWhileFrozen()).withStyle(defaultConfig.isSpawnWhileFrozen() ? ChatFormatting.GREEN : ChatFormatting.RED)), mouseX, mouseY)));
             }
 
-            case 2 -> {
+            case 3 -> {
                 this.addRenderableWidget(new FBPToggleButton(this.width / 2 - 138, this.height / 13 + 20, 275, 20, new TranslatableComponent("button.fbp.smooth_animation_lighting"), this.config::isSmoothAnimationLighting, button -> this.config.setSmoothAnimationLighting(!this.config.isSmoothAnimationLighting()), (button, stack, mouseX, mouseY) -> this.renderTooltip(stack, new TranslatableComponent("tooltip.fbp.smooth_animation_lighting").append(CommonComponents.NEW_LINE).append(new TranslatableComponent("tooltip.fbp.default")).append(new TranslatableComponent("button.fbp." + defaultConfig.isSmoothAnimationLighting()).withStyle(defaultConfig.isSmoothAnimationLighting() ? ChatFormatting.GREEN : ChatFormatting.RED)), mouseX, mouseY)));
                 this.addRenderableWidget(new FBPToggleButton(this.width / 2 - 138, this.height / 13 + 43, 275, 20, new TranslatableComponent("button.fbp.spawn_place_particles"), this.config::isSpawnPlaceParticles, button -> this.config.setSpawnPlaceParticles(!this.config.isSpawnPlaceParticles()), (button, stack, mouseX, mouseY) -> this.renderTooltip(stack, new TranslatableComponent("tooltip.fbp.spawn_place_particles").append(CommonComponents.NEW_LINE).append(new TranslatableComponent("tooltip.fbp.default")).append(new TranslatableComponent("button.fbp." + defaultConfig.isSpawnPlaceParticles()).withStyle(defaultConfig.isSpawnPlaceParticles() ? ChatFormatting.GREEN : ChatFormatting.RED)), mouseX, mouseY)));
                 this.addRenderableWidget(new FBPToggleButton(this.width / 2 - 138, this.height / 13 + 66, 275, 20, new TranslatableComponent("button.fbp.rest_on_floor"), this.config::isRestOnFloor, button -> this.config.setRestOnFloor(!this.config.isRestOnFloor()), (button, stack, mouseX, mouseY) -> this.renderTooltip(stack, new TranslatableComponent("tooltip.fbp.rest_on_floor").append(CommonComponents.NEW_LINE).append(new TranslatableComponent("tooltip.fbp.default")).append(new TranslatableComponent("button.fbp." + defaultConfig.isRestOnFloor()).withStyle(defaultConfig.isRestOnFloor() ? ChatFormatting.GREEN : ChatFormatting.RED)), mouseX, mouseY)));
@@ -110,20 +112,14 @@ public class FBPOptionsScreen extends Screen {
         }
 
         var previousButton = this.addRenderableWidget(new Button(this.width / 2 - 138 - 3 - 75, this.height / 13 + 227, 75, 20, new TranslatableComponent("button.fbp.previous"), button -> {
-            switch (this.page) {
-                case 1 -> this.page = 0;
-                case 2 -> this.page = 1;
-            }
+            this.page = Math.max(1, this.page - 1);
 
             this.clearWidgets();
             this.init();
         }));
 
         var nextButton = this.addRenderableWidget(new Button(this.width / 2 + 138 + 2, this.height / 13 + 227, 75, 20, new TranslatableComponent("button.fbp.next"), button -> {
-            switch (this.page) {
-                case 0 -> this.page = 1;
-                case 1 -> this.page = 2;
-            }
+            this.page = Math.min(this.pageCount, this.page + 1);
 
             this.clearWidgets();
             this.init();
@@ -158,9 +154,9 @@ public class FBPOptionsScreen extends Screen {
                     widget.active = !FancyBlockParticles.CONFIG.isLocked();
 
                 if (widget == previousButton)
-                    widget.active = this.page != 0;
+                    widget.active = this.page > 1;
                 if (widget == nextButton)
-                    widget.active = this.page != 2;
+                    widget.active = this.page < this.pageCount;
             }
         }
     }
@@ -247,6 +243,7 @@ public class FBPOptionsScreen extends Screen {
 
         super.render(stack, mouseX, mouseY, partialTick);
 
+        drawCenteredString(stack, this.font, new TranslatableComponent("text.fbp.page", this.page, this.pageCount), this.width / 2, this.height / 13 + 227 + this.font.lineHeight / 2 + 1, 0xFFFFFF | 255 << 24);
         drawCenteredString(stack, this.font, this.title, this.width / 2, this.height / 13 + 4, 0xFFFFFF | 255 << 24);
     }
 

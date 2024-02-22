@@ -106,5 +106,6 @@
   "tooltip.fbp.add": "添加",
   "tooltip.fbp.remove": "移除",
 
-  "text.fbp.version": "版本：%s"
+  "text.fbp.version": "版本：%s",
+  "text.fbp.page": "第%d页共%d页"
 }
