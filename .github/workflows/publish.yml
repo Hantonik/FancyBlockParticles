@@ -88,6 +88,8 @@ jobs:
 
     needs: [build, changelog]
 
+    continue-on-error: true
+
     steps:
       - name: 'Checkout repository'
         uses: actions/checkout@v4
@@ -121,6 +123,8 @@ jobs:
     runs-on: ubuntu-latest
 
     needs: [build, changelog, publish]
+
+    continue-on-error: true
 
     steps:
       - name: 'Checkout repository'
