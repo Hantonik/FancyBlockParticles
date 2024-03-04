@@ -2,6 +2,7 @@ package hantonik.fbp.screen.widget.button;
 
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.components.Tooltip;
 import net.minecraft.network.chat.Component;
 import net.neoforged.neoforge.client.gui.widget.ExtendedSlider;
 
@@ -14,7 +15,7 @@ public class FBPSliderButton extends ExtendedSlider {
 
     private final double defaultValue;
 
-    public FBPSliderButton(int x, int y, int width, Component prefix, Component suffix, double value, double defaultValue, double minValue, double maxValue, double step, Consumer<FBPSliderButton> action, BooleanSupplier active) {
+    public FBPSliderButton(int x, int y, int width, Component prefix, Component suffix, double value, double defaultValue, double minValue, double maxValue, double step, Consumer<FBPSliderButton> action, BooleanSupplier active, Tooltip tooltip) {
         super(x, y, width, 20, prefix, suffix, minValue, maxValue, value, step, 0, true);
 
         this.action = action;
@@ -23,6 +24,8 @@ public class FBPSliderButton extends ExtendedSlider {
         this.defaultValue = defaultValue;
 
         this.updateMessage();
+
+        this.setTooltip(tooltip);
     }
 
     @Override

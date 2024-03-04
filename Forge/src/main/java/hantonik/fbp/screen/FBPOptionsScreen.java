@@ -12,6 +12,7 @@ import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.*;
 import net.minecraft.client.gui.layouts.FrameLayout;
 import net.minecraft.client.gui.layouts.GridLayout;
+import net.minecraft.client.gui.layouts.LayoutElement;
 import net.minecraft.client.gui.layouts.SpacerElement;
 import net.minecraft.client.gui.screens.AlertScreen;
 import net.minecraft.client.gui.screens.ConfirmScreen;
@@ -25,14 +26,16 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import org.lwjgl.glfw.GLFW;
 
+import java.util.List;
+
 @OnlyIn(Dist.CLIENT)
 public class FBPOptionsScreen extends Screen {
     private static final WidgetSprites LOGO_SPRITES = new WidgetSprites(new ResourceLocation(FancyBlockParticles.MOD_ID, "logo"), new ResourceLocation(FancyBlockParticles.MOD_ID, "logo_highlighted"));
     private static final WidgetSprites REPORT_SPRITES = new WidgetSprites(new ResourceLocation(FancyBlockParticles.MOD_ID, "report"), new ResourceLocation(FancyBlockParticles.MOD_ID, "report_highlighted"));
 
     private final FBPConfig config;
+    private final List<LayoutElement> options;
 
-    private final int pageCount;
     private int page;
 
     public FBPOptionsScreen() {
@@ -40,7 +43,56 @@ public class FBPOptionsScreen extends Screen {
 
         this.config = FancyBlockParticles.CONFIG.copy();
 
-        this.pageCount = 4;
+        var defaultConfig = FBPConfig.DEFAULT_CONFIG;
+
+        var minLifetimeSlider = new DelayedSupplier<FBPSliderButton>();
+        var maxLifetimeSlider = new DelayedSupplier<FBPSliderButton>();
+
+        minLifetimeSlider.setSupplier(() -> new FBPSliderButton(0, 0, 275, Component.translatable("button.fbp.min_lifetime"), Component.translatable("button.fbp.ticks"), this.config.getMinLifetime(), FancyBlockParticles.CONFIG.getMinLifetime(), 0, 100, 1, button -> {
+            this.config.setMinLifetime(button.getValueInt());
+
+            if (button.getValue() > maxLifetimeSlider.get().getValue())
+                maxLifetimeSlider.get().setValue(button.getValue());
+        }, () -> !this.config.isInfiniteDuration() && !FancyBlockParticles.CONFIG.isLocked(), Tooltip.create(Component.translatable("tooltip.fbp.min_lifetime").append(CommonComponents.NEW_LINE).append(CommonComponents.NEW_LINE).append(Component.translatable("tooltip.fbp.default")).append(Component.literal(String.valueOf(defaultConfig.getMinLifetime())).withStyle(ChatFormatting.YELLOW)))));
+
+        maxLifetimeSlider.setSupplier(() -> new FBPSliderButton(0, 0, 275, Component.translatable("button.fbp.max_lifetime"), Component.translatable("button.fbp.ticks"), this.config.getMaxLifetime(), FancyBlockParticles.CONFIG.getMaxLifetime(), 0, 100, 1, button -> {
+            this.config.setMaxLifetime(button.getValueInt());
+
+            if (button.getValue() < minLifetimeSlider.get().getValue())
+                minLifetimeSlider.get().setValue(button.getValue());
+        }, () -> !this.config.isInfiniteDuration() && !FancyBlockParticles.CONFIG.isLocked(), Tooltip.create(Component.translatable("tooltip.fbp.max_lifetime").append(CommonComponents.NEW_LINE).append(CommonComponents.NEW_LINE).append(Component.translatable("tooltip.fbp.default")).append(Component.literal(String.valueOf(defaultConfig.getMaxLifetime())).withStyle(ChatFormatting.YELLOW)))));
+
+        this.options = List.of(
+                new FBPToggleButton(Component.translatable("button.fbp.enabled"), this.config::isEnabled, builder -> builder.width(275), button -> this.config.setEnabled(!this.config.isEnabled()), Tooltip.create(Component.translatable("tooltip.fbp.enabled").append(CommonComponents.NEW_LINE).append(CommonComponents.NEW_LINE).append(Component.translatable("tooltip.fbp.default")).append(Component.translatable("button.fbp." + defaultConfig.isEnabled())))),
+                new FBPToggleButton(Component.translatable("button.fbp.particles_decay"), () -> !this.config.isInfiniteDuration(), builder -> builder.width(275), button -> this.config.setInfiniteDuration(!this.config.isInfiniteDuration()), Tooltip.create(Component.translatable("tooltip.fbp.particles_decay").append(CommonComponents.NEW_LINE).append(CommonComponents.NEW_LINE).append(Component.translatable("tooltip.fbp.default")).append(Component.translatable("button.fbp." + !defaultConfig.isInfiniteDuration())))),
+                new FBPSliderButton(0, 0, 275, Component.translatable("button.fbp.particles_per_axis"), Component.empty(), this.config.getParticlesPerAxis(), FancyBlockParticles.CONFIG.getParticlesPerAxis(), 0, 16, 1, button -> this.config.setParticlesPerAxis(button.getValueInt()), () -> !FancyBlockParticles.CONFIG.isLocked(), Tooltip.create(Component.translatable("tooltip.fbp.particles_per_axis").append(CommonComponents.NEW_LINE).append(CommonComponents.NEW_LINE).append(Component.translatable("tooltip.fbp.default")).append(Component.literal(String.valueOf(defaultConfig.getParticlesPerAxis())).withStyle(ChatFormatting.YELLOW)))),
+                minLifetimeSlider.get(),
+                maxLifetimeSlider.get(),
+                new FBPSliderButton(0, 0, 275, Component.translatable("button.fbp.scale_multiplier"), Component.literal("x"), this.config.getScaleMultiplier(), FancyBlockParticles.CONFIG.getScaleMultiplier(), 0.0D, 2.0D, 0.05D, button -> this.config.setScaleMultiplier(button.getValue()), () -> !FancyBlockParticles.CONFIG.isLocked(), Tooltip.create(Component.translatable("tooltip.fbp.scale_multiplier").append(CommonComponents.NEW_LINE).append(CommonComponents.NEW_LINE).append(Component.translatable("tooltip.fbp.default")).append(Component.literal(String.valueOf(defaultConfig.getScaleMultiplier())).withStyle(ChatFormatting.YELLOW)))),
+                new FBPSliderButton(0, 0, 275, Component.translatable("button.fbp.rotation_multiplier"), Component.literal("x"), this.config.getRotationMultiplier(), FancyBlockParticles.CONFIG.getRotationMultiplier(), 0.0D, 2.0D, 0.05D, button -> this.config.setRotationMultiplier(button.getValue()), () -> !FancyBlockParticles.CONFIG.isLocked(), Tooltip.create(Component.translatable("tooltip.fbp.rotation_multiplier").append(CommonComponents.NEW_LINE).append(CommonComponents.NEW_LINE).append(Component.translatable("tooltip.fbp.default")).append(Component.literal(String.valueOf(defaultConfig.getRotationMultiplier())).withStyle(ChatFormatting.YELLOW)))),
+                new FBPSliderButton(0, 0, 275, Component.translatable("button.fbp.gravity_multiplier"), Component.literal("x"), this.config.getGravityMultiplier(), FancyBlockParticles.CONFIG.getGravityMultiplier(), 0.0D, 2.0D, 0.05D, button -> this.config.setGravityMultiplier(button.getValue()), () -> !FancyBlockParticles.CONFIG.isLocked(), Tooltip.create(Component.translatable("tooltip.fbp.gravity_multiplier").append(CommonComponents.NEW_LINE).append(CommonComponents.NEW_LINE).append(Component.translatable("tooltip.fbp.default")).append(Component.literal(String.valueOf(defaultConfig.getGravityMultiplier())).withStyle(ChatFormatting.YELLOW)))),
+                new FBPSliderButton(0, 0, 275, Component.translatable("button.fbp.weather_particle_density"), Component.literal("x"), this.config.getWeatherParticleDensity(), FancyBlockParticles.CONFIG.getWeatherParticleDensity(), 0.0D, 2.0D, 0.05D, button -> this.config.setWeatherParticleDensity(button.getValue()), () -> !FancyBlockParticles.CONFIG.isLocked(), Tooltip.create(Component.translatable("tooltip.fbp.weather_particle_density").append(CommonComponents.NEW_LINE).append(CommonComponents.NEW_LINE).append(Component.translatable("tooltip.fbp.default")).append(Component.literal(String.valueOf(defaultConfig.getWeatherParticleDensity())).withStyle(ChatFormatting.YELLOW)))),
+                new FBPToggleButton(Component.translatable("button.fbp.fancy_flame"), this.config::isFancyFlame, builder -> builder.width(275), button -> this.config.setFancyFlame(!this.config.isFancyFlame()), Tooltip.create(Component.translatable("tooltip.fbp.fancy_flame").append(CommonComponents.NEW_LINE).append(CommonComponents.NEW_LINE).append(Component.translatable("tooltip.fbp.default")).append(Component.translatable("button.fbp." + defaultConfig.isFancyFlame())))),
+                new FBPToggleButton(Component.translatable("button.fbp.fancy_smoke"), this.config::isFancySmoke, builder -> builder.width(275), button -> this.config.setFancySmoke(!this.config.isFancySmoke()), Tooltip.create(Component.translatable("tooltip.fbp.fancy_smoke").append(CommonComponents.NEW_LINE).append(CommonComponents.NEW_LINE).append(Component.translatable("tooltip.fbp.default")).append(Component.translatable("button.fbp." + defaultConfig.isFancySmoke())))),
+                new FBPToggleButton(Component.translatable("button.fbp.fancy_rain"), this.config::isFancyRain, builder -> builder.width(275), button -> this.config.setFancyRain(!this.config.isFancyRain()), Tooltip.create(Component.translatable("tooltip.fbp.fancy_rain").append(CommonComponents.NEW_LINE).append(CommonComponents.NEW_LINE).append(Component.translatable("tooltip.fbp.default")).append(Component.translatable("button.fbp." + defaultConfig.isFancyRain())))),
+                new FBPToggleButton(Component.translatable("button.fbp.fancy_snow"), this.config::isFancySnow, builder -> builder.width(275), button -> this.config.setFancySnow(!this.config.isFancySnow()), Tooltip.create(Component.translatable("tooltip.fbp.fancy_snow").append(CommonComponents.NEW_LINE).append(CommonComponents.NEW_LINE).append(Component.translatable("tooltip.fbp.default")).append(Component.translatable("button.fbp." + defaultConfig.isFancySnow())))),
+                new FBPToggleButton(Component.translatable("button.fbp.fancy_place_animation"), this.config::isFancyPlaceAnimation, builder -> builder.width(275), button -> this.config.setFancyPlaceAnimation(!this.config.isFancyPlaceAnimation()), Tooltip.create(Component.translatable("tooltip.fbp.fancy_place_animation").append(CommonComponents.NEW_LINE).append(CommonComponents.NEW_LINE).append(Component.translatable("tooltip.fbp.default")).append(Component.translatable("button.fbp." + defaultConfig.isFancyPlaceAnimation())))),
+                new FBPToggleButton(Component.translatable("button.fbp.cartoon_mode"), this.config::isCartoonMode, builder -> builder.width(275), button -> this.config.setCartoonMode(!this.config.isCartoonMode()), Tooltip.create(Component.translatable("tooltip.fbp.cartoon_mode").append(CommonComponents.NEW_LINE).append(CommonComponents.NEW_LINE).append(Component.translatable("tooltip.fbp.default")).append(Component.translatable("button.fbp." + defaultConfig.isCartoonMode())))),
+                new FBPToggleButton(Component.translatable("button.fbp.cull_particles"), this.config::isCullParticles, builder -> builder.width(275), button -> this.config.setCullParticles(!this.config.isCullParticles()), Tooltip.create(Component.translatable("tooltip.fbp.cull_particles").append(CommonComponents.NEW_LINE).append(CommonComponents.NEW_LINE).append(Component.translatable("tooltip.fbp.default")).append(Component.translatable("button.fbp." + defaultConfig.isCullParticles())))),
+                new FBPToggleButton(Component.translatable("button.fbp.smart_breaking"), this.config::isSmartBreaking, builder -> builder.width(275), button -> this.config.setSmartBreaking(!this.config.isSmartBreaking()), Tooltip.create(Component.translatable("tooltip.fbp.smart_breaking").append(CommonComponents.NEW_LINE).append(CommonComponents.NEW_LINE).append(Component.translatable("tooltip.fbp.default")).append(Component.translatable("button.fbp." + defaultConfig.isSmartBreaking())))),
+                new FBPToggleButton(Component.translatable("button.fbp.low_traction"), this.config::isLowTraction, builder -> builder.width(275), button -> this.config.setLowTraction(!this.config.isLowTraction()), Tooltip.create(Component.translatable("tooltip.fbp.low_traction").append(CommonComponents.NEW_LINE).append(CommonComponents.NEW_LINE).append(Component.translatable("tooltip.fbp.default")).append(Component.translatable("button.fbp." + defaultConfig.isLowTraction())))),
+                new FBPToggleButton(Component.translatable("button.fbp.spawn_while_frozen"), this.config::isSpawnWhileFrozen, builder -> builder.width(275), button -> this.config.setSpawnWhileFrozen(!this.config.isSpawnWhileFrozen()), Tooltip.create(Component.translatable("tooltip.fbp.spawn_while_frozen").append(CommonComponents.NEW_LINE).append(CommonComponents.NEW_LINE).append(Component.translatable("tooltip.fbp.default")).append(Component.translatable("button.fbp." + defaultConfig.isSpawnWhileFrozen())))),
+                new FBPToggleButton(Component.translatable("button.fbp.spawn_place_particles"), this.config::isSpawnPlaceParticles, builder -> builder.width(275), button -> this.config.setSpawnPlaceParticles(!this.config.isSpawnPlaceParticles()), Tooltip.create(Component.translatable("tooltip.fbp.spawn_place_particles").append(CommonComponents.NEW_LINE).append(CommonComponents.NEW_LINE).append(Component.translatable("tooltip.fbp.default")).append(Component.translatable("button.fbp." + defaultConfig.isSpawnPlaceParticles())))),
+                new FBPToggleButton(Component.translatable("button.fbp.rest_on_floor"), this.config::isRestOnFloor, builder -> builder.width(275), button -> this.config.setRestOnFloor(!this.config.isRestOnFloor()), Tooltip.create(Component.translatable("tooltip.fbp.rest_on_floor").append(CommonComponents.NEW_LINE).append(CommonComponents.NEW_LINE).append(Component.translatable("tooltip.fbp.default")).append(Component.translatable("button.fbp." + defaultConfig.isRestOnFloor())))),
+                new FBPToggleButton(Component.translatable("button.fbp.bounce_off_walls"), this.config::isBounceOffWalls, builder -> builder.width(275), button -> this.config.setBounceOffWalls(!this.config.isBounceOffWalls()), Tooltip.create(Component.translatable("tooltip.fbp.bounce_off_walls").append(CommonComponents.NEW_LINE).append(CommonComponents.NEW_LINE).append(Component.translatable("tooltip.fbp.default")).append(Component.translatable("button.fbp." + defaultConfig.isBounceOffWalls())))),
+                new FBPToggleButton(Component.translatable("button.fbp.entity_collision"), this.config::isEntityCollision, builder -> builder.width(275), button -> this.config.setEntityCollision(!this.config.isEntityCollision()), Tooltip.create(Component.translatable("tooltip.fbp.entity_collision").append(CommonComponents.NEW_LINE).append(CommonComponents.NEW_LINE).append(Component.translatable("tooltip.fbp.default")).append(Component.translatable("button.fbp." + defaultConfig.isEntityCollision())))),
+                new FBPToggleButton(Component.translatable("button.fbp.water_physics"), this.config::isWaterPhysics, builder -> builder.width(275), button -> this.config.setWaterPhysics(!this.config.isWaterPhysics()), Tooltip.create(Component.translatable("tooltip.fbp.water_physics").append(CommonComponents.NEW_LINE).append(CommonComponents.NEW_LINE).append(Component.translatable("tooltip.fbp.default")).append(Component.translatable("button.fbp." + defaultConfig.isWaterPhysics())))),
+                new FBPToggleButton(Component.translatable("button.fbp.random_scale"), this.config::isRandomScale, builder -> builder.width(275), button -> this.config.setRandomScale(!this.config.isRandomScale()), Tooltip.create(Component.translatable("tooltip.fbp.random_scale").append(CommonComponents.NEW_LINE).append(CommonComponents.NEW_LINE).append(Component.translatable("tooltip.fbp.default")).append(Component.translatable("button.fbp." + defaultConfig.isRandomScale())))),
+                new FBPToggleButton(Component.translatable("button.fbp.random_rotation"), this.config::isRandomRotation, builder -> builder.width(275), button -> this.config.setRandomRotation(!this.config.isRandomRotation()), Tooltip.create(Component.translatable("tooltip.fbp.random_rotation").append(CommonComponents.NEW_LINE).append(CommonComponents.NEW_LINE).append(Component.translatable("tooltip.fbp.default")).append(Component.translatable("button.fbp." + defaultConfig.isRandomRotation())))),
+                new FBPToggleButton(Component.translatable("button.fbp.random_fading_speed"), this.config::isRandomFadingSpeed, builder -> builder.width(275), button -> this.config.setRandomFadingSpeed(!this.config.isRandomFadingSpeed()), Tooltip.create(Component.translatable("tooltip.fbp.random_fading_speed").append(CommonComponents.NEW_LINE).append(CommonComponents.NEW_LINE).append(Component.translatable("tooltip.fbp.default")).append(Component.translatable("button.fbp." + defaultConfig.isRandomFadingSpeed())))),
+                new FBPToggleButton(Component.translatable("button.fbp.smooth_animation_lighting"), this.config::isSmoothAnimationLighting, builder -> builder.width(275), button -> this.config.setSmoothAnimationLighting(!this.config.isSmoothAnimationLighting()), Tooltip.create(Component.translatable("tooltip.fbp.smooth_animation_lighting").append(CommonComponents.NEW_LINE).append(CommonComponents.NEW_LINE).append(Component.translatable("tooltip.fbp.default")).append(Component.translatable("button.fbp." + defaultConfig.isSmoothAnimationLighting()))))
+        );
+
         this.page = 1;
     }
 
@@ -61,137 +113,18 @@ public class FBPOptionsScreen extends Screen {
         helper.addChild(new StringWidget(this.title, this.font), 6);
         helper.addChild(SpacerElement.height(0), 6);
 
-        var defaultConfig = FBPConfig.DEFAULT_CONFIG;
+        var optionsPerPage = Math.min(Math.max((this.height - 145) / 20, 1), this.options.size());
+        var pageCount = (int) Math.ceil((double) this.options.size() / optionsPerPage);
 
-        switch (this.page) {
-            case 1 -> {
-                helper.addChild(SpacerElement.width(75));
-                helper.addChild(new FBPToggleButton(Component.translatable("button.fbp.enabled"), this.config::isEnabled, builder -> builder.width(275), button -> this.config.setEnabled(!this.config.isEnabled())), 4).setTooltip(Tooltip.create(Component.translatable("tooltip.fbp.enabled").append(CommonComponents.NEW_LINE).append(CommonComponents.NEW_LINE).append(Component.translatable("tooltip.fbp.default")).append(Component.translatable("button.fbp." + defaultConfig.isEnabled()))));
-                helper.addChild(SpacerElement.width(75));
-                helper.addChild(SpacerElement.width(75));
-                helper.addChild(new FBPToggleButton(Component.translatable("button.fbp.particles_decay"), () -> !this.config.isInfiniteDuration(), builder -> builder.width(275), button -> this.config.setInfiniteDuration(!this.config.isInfiniteDuration())), 4).setTooltip(Tooltip.create(Component.translatable("tooltip.fbp.particles_decay").append(CommonComponents.NEW_LINE).append(CommonComponents.NEW_LINE).append(Component.translatable("tooltip.fbp.default")).append(Component.translatable("button.fbp." + !defaultConfig.isInfiniteDuration()))));
-                helper.addChild(SpacerElement.width(75));
+        if (this.page > pageCount)
+            this.page = pageCount;
 
-                helper.addChild(SpacerElement.width(75));
-                helper.addChild(new FBPSliderButton(0, 0, 275, Component.translatable("button.fbp.particles_per_axis"), Component.empty(), this.config.getParticlesPerAxis(), FancyBlockParticles.CONFIG.getParticlesPerAxis(), 0, 16, 1, button -> this.config.setParticlesPerAxis(button.getValueInt()), () -> !FancyBlockParticles.CONFIG.isLocked()), 4).setTooltip(Tooltip.create(Component.translatable("tooltip.fbp.particles_per_axis").append(CommonComponents.NEW_LINE).append(CommonComponents.NEW_LINE).append(Component.translatable("tooltip.fbp.default")).append(Component.literal(String.valueOf(defaultConfig.getParticlesPerAxis())).withStyle(ChatFormatting.YELLOW))));
-                helper.addChild(SpacerElement.width(75));
+        var startElement = (this.page - 1) * optionsPerPage;
 
-                var minLifetimeSlider = new DelayedSupplier<FBPSliderButton>();
-                var maxLifetimeSlider = new DelayedSupplier<FBPSliderButton>();
-
-                minLifetimeSlider.setSupplier(() -> new FBPSliderButton(0, 0, 275, Component.translatable("button.fbp.min_lifetime"), Component.translatable("button.fbp.ticks"), this.config.getMinLifetime(), FancyBlockParticles.CONFIG.getMinLifetime(), 0, 100, 1, button -> {
-                    this.config.setMinLifetime(button.getValueInt());
-
-                    if (button.getValue() > maxLifetimeSlider.get().getValue())
-                        maxLifetimeSlider.get().setValue(button.getValue());
-                }, () -> !this.config.isInfiniteDuration() && !FancyBlockParticles.CONFIG.isLocked()));
-
-                maxLifetimeSlider.setSupplier(() -> new FBPSliderButton(0, 0, 275, Component.translatable("button.fbp.max_lifetime"), Component.translatable("button.fbp.ticks"), this.config.getMaxLifetime(), FancyBlockParticles.CONFIG.getMaxLifetime(), 0, 100, 1, button -> {
-                    this.config.setMaxLifetime(button.getValueInt());
-
-                    if (button.getValue() < minLifetimeSlider.get().getValue())
-                        minLifetimeSlider.get().setValue(button.getValue());
-                }, () -> !this.config.isInfiniteDuration() && !FancyBlockParticles.CONFIG.isLocked()));
-
-                helper.addChild(SpacerElement.width(75));
-                helper.addChild(minLifetimeSlider.get(), 4).setTooltip(Tooltip.create(Component.translatable("tooltip.fbp.min_lifetime").append(CommonComponents.NEW_LINE).append(CommonComponents.NEW_LINE).append(Component.translatable("tooltip.fbp.default")).append(Component.literal(String.valueOf(defaultConfig.getMinLifetime())).withStyle(ChatFormatting.YELLOW))));
-                helper.addChild(SpacerElement.width(75));
-                helper.addChild(SpacerElement.width(75));
-                helper.addChild(maxLifetimeSlider.get(), 4).setTooltip(Tooltip.create(Component.translatable("tooltip.fbp.max_lifetime").append(CommonComponents.NEW_LINE).append(CommonComponents.NEW_LINE).append(Component.translatable("tooltip.fbp.default")).append(Component.literal(String.valueOf(defaultConfig.getMaxLifetime())).withStyle(ChatFormatting.YELLOW))));
-                helper.addChild(SpacerElement.width(75));
-
-                helper.addChild(SpacerElement.width(75));
-                helper.addChild(new FBPSliderButton(0, 0, 275, Component.translatable("button.fbp.scale_multiplier"), Component.literal("x"), this.config.getScaleMultiplier(), FancyBlockParticles.CONFIG.getScaleMultiplier(), 0.0D, 2.0D, 0.05D, button -> this.config.setScaleMultiplier(button.getValue()), () -> !FancyBlockParticles.CONFIG.isLocked()), 4).setTooltip(Tooltip.create(Component.translatable("tooltip.fbp.scale_multiplier").append(CommonComponents.NEW_LINE).append(CommonComponents.NEW_LINE).append(Component.translatable("tooltip.fbp.default")).append(Component.literal(String.valueOf(defaultConfig.getScaleMultiplier())).withStyle(ChatFormatting.YELLOW))));
-                helper.addChild(SpacerElement.width(75));
-                helper.addChild(SpacerElement.width(75));
-                helper.addChild(new FBPSliderButton(0, 0, 275, Component.translatable("button.fbp.rotation_multiplier"), Component.literal("x"), this.config.getRotationMultiplier(), FancyBlockParticles.CONFIG.getRotationMultiplier(), 0.0D, 2.0D, 0.05D, button -> this.config.setRotationMultiplier(button.getValue()), () -> !FancyBlockParticles.CONFIG.isLocked()), 4).setTooltip(Tooltip.create(Component.translatable("tooltip.fbp.rotation_multiplier").append(CommonComponents.NEW_LINE).append(CommonComponents.NEW_LINE).append(Component.translatable("tooltip.fbp.default")).append(Component.literal(String.valueOf(defaultConfig.getRotationMultiplier())).withStyle(ChatFormatting.YELLOW))));
-                helper.addChild(SpacerElement.width(75));
-                helper.addChild(SpacerElement.width(75));
-                helper.addChild(new FBPSliderButton(0, 0, 275, Component.translatable("button.fbp.gravity_multiplier"), Component.literal("x"), this.config.getGravityMultiplier(), FancyBlockParticles.CONFIG.getGravityMultiplier(), 0.0D, 2.0D, 0.05D, button -> this.config.setGravityMultiplier(button.getValue()), () -> !FancyBlockParticles.CONFIG.isLocked()), 4).setTooltip(Tooltip.create(Component.translatable("tooltip.fbp.gravity_multiplier").append(CommonComponents.NEW_LINE).append(CommonComponents.NEW_LINE).append(Component.translatable("tooltip.fbp.default")).append(Component.literal(String.valueOf(defaultConfig.getGravityMultiplier())).withStyle(ChatFormatting.YELLOW))));
-                helper.addChild(SpacerElement.width(75));
-                helper.addChild(SpacerElement.width(75));
-                helper.addChild(new FBPSliderButton(0, 0, 275, Component.translatable("button.fbp.weather_particle_density"), Component.literal("x"), this.config.getWeatherParticleDensity(), FancyBlockParticles.CONFIG.getWeatherParticleDensity(), 0.0D, 2.0D, 0.05D, button -> this.config.setWeatherParticleDensity(button.getValue()), () -> !FancyBlockParticles.CONFIG.isLocked()), 4).setTooltip(Tooltip.create(Component.translatable("tooltip.fbp.weather_particle_density").append(CommonComponents.NEW_LINE).append(CommonComponents.NEW_LINE).append(Component.translatable("tooltip.fbp.default")).append(Component.literal(String.valueOf(defaultConfig.getWeatherParticleDensity())).withStyle(ChatFormatting.YELLOW))));
-                helper.addChild(SpacerElement.width(75));
-            }
-
-            case 2 -> {
-                helper.addChild(SpacerElement.width(75));
-                helper.addChild(new FBPToggleButton(Component.translatable("button.fbp.fancy_flame"), this.config::isFancyFlame, builder -> builder.width(275), button -> this.config.setFancyFlame(!this.config.isFancyFlame())), 4).setTooltip(Tooltip.create(Component.translatable("tooltip.fbp.fancy_flame").append(CommonComponents.NEW_LINE).append(CommonComponents.NEW_LINE).append(Component.translatable("tooltip.fbp.default")).append(Component.translatable("button.fbp." + defaultConfig.isFancyFlame()))));
-                helper.addChild(SpacerElement.width(75));
-                helper.addChild(SpacerElement.width(75));
-                helper.addChild(new FBPToggleButton(Component.translatable("button.fbp.fancy_smoke"), this.config::isFancySmoke, builder -> builder.width(275), button -> this.config.setFancySmoke(!this.config.isFancySmoke())), 4).setTooltip(Tooltip.create(Component.translatable("tooltip.fbp.fancy_smoke").append(CommonComponents.NEW_LINE).append(CommonComponents.NEW_LINE).append(Component.translatable("tooltip.fbp.default")).append(Component.translatable("button.fbp." + defaultConfig.isFancySmoke()))));
-                helper.addChild(SpacerElement.width(75));
-                helper.addChild(SpacerElement.width(75));
-                helper.addChild(new FBPToggleButton(Component.translatable("button.fbp.fancy_rain"), this.config::isFancyRain, builder -> builder.width(275), button -> this.config.setFancyRain(!this.config.isFancyRain())), 4).setTooltip(Tooltip.create(Component.translatable("tooltip.fbp.fancy_rain").append(CommonComponents.NEW_LINE).append(CommonComponents.NEW_LINE).append(Component.translatable("tooltip.fbp.default")).append(Component.translatable("button.fbp." + defaultConfig.isFancyRain()))));
-                helper.addChild(SpacerElement.width(75));
-                helper.addChild(SpacerElement.width(75));
-                helper.addChild(new FBPToggleButton(Component.translatable("button.fbp.fancy_snow"), this.config::isFancySnow, builder -> builder.width(275), button -> this.config.setFancySnow(!this.config.isFancySnow())), 4).setTooltip(Tooltip.create(Component.translatable("tooltip.fbp.fancy_snow").append(CommonComponents.NEW_LINE).append(CommonComponents.NEW_LINE).append(Component.translatable("tooltip.fbp.default")).append(Component.translatable("button.fbp." + defaultConfig.isFancySnow()))));
-                helper.addChild(SpacerElement.width(75));
-                helper.addChild(SpacerElement.width(75));
-                helper.addChild(new FBPToggleButton(Component.translatable("button.fbp.fancy_place_animation"), this.config::isFancyPlaceAnimation, builder -> builder.width(275), button -> this.config.setFancyPlaceAnimation(!this.config.isFancyPlaceAnimation())), 4).setTooltip(Tooltip.create(Component.translatable("tooltip.fbp.fancy_place_animation").append(CommonComponents.NEW_LINE).append(CommonComponents.NEW_LINE).append(Component.translatable("tooltip.fbp.default")).append(Component.translatable("button.fbp." + defaultConfig.isFancyPlaceAnimation()))));
-                helper.addChild(SpacerElement.width(75));
-
-                helper.addChild(SpacerElement.width(75));
-                helper.addChild(new FBPToggleButton(Component.translatable("button.fbp.cartoon_mode"), this.config::isCartoonMode, builder -> builder.width(275), button -> this.config.setCartoonMode(!this.config.isCartoonMode())), 4).setTooltip(Tooltip.create(Component.translatable("tooltip.fbp.cartoon_mode").append(CommonComponents.NEW_LINE).append(CommonComponents.NEW_LINE).append(Component.translatable("tooltip.fbp.default")).append(Component.translatable("button.fbp." + defaultConfig.isCartoonMode()))));
-                helper.addChild(SpacerElement.width(75));
-                helper.addChild(SpacerElement.width(75));
-                helper.addChild(new FBPToggleButton(Component.translatable("button.fbp.cull_particles"), this.config::isCullParticles, builder -> builder.width(275), button -> this.config.setCullParticles(!this.config.isCullParticles())), 4).setTooltip(Tooltip.create(Component.translatable("tooltip.fbp.cull_particles").append(CommonComponents.NEW_LINE).append(CommonComponents.NEW_LINE).append(Component.translatable("tooltip.fbp.default")).append(Component.translatable("button.fbp." + defaultConfig.isCullParticles()))));
-                helper.addChild(SpacerElement.width(75));
-
-                helper.addChild(SpacerElement.width(75));
-                helper.addChild(new FBPToggleButton(Component.translatable("button.fbp.smart_breaking"), this.config::isSmartBreaking, builder -> builder.width(275), button -> this.config.setSmartBreaking(!this.config.isSmartBreaking())), 4).setTooltip(Tooltip.create(Component.translatable("tooltip.fbp.smart_breaking").append(CommonComponents.NEW_LINE).append(CommonComponents.NEW_LINE).append(Component.translatable("tooltip.fbp.default")).append(Component.translatable("button.fbp." + defaultConfig.isSmartBreaking()))));
-                helper.addChild(SpacerElement.width(75));
-                helper.addChild(SpacerElement.width(75));
-                helper.addChild(new FBPToggleButton(Component.translatable("button.fbp.low_traction"), this.config::isLowTraction, builder -> builder.width(275), button -> this.config.setLowTraction(!this.config.isLowTraction())), 4).setTooltip(Tooltip.create(Component.translatable("tooltip.fbp.low_traction").append(CommonComponents.NEW_LINE).append(CommonComponents.NEW_LINE).append(Component.translatable("tooltip.fbp.default")).append(Component.translatable("button.fbp." + defaultConfig.isLowTraction()))));
-                helper.addChild(SpacerElement.width(75));
-            }
-
-            case 3 -> {
-                helper.addChild(SpacerElement.width(75));
-                helper.addChild(new FBPToggleButton(Component.translatable("button.fbp.spawn_while_frozen"), this.config::isSpawnWhileFrozen, builder -> builder.width(275), button -> this.config.setSpawnWhileFrozen(!this.config.isSpawnWhileFrozen())), 4).setTooltip(Tooltip.create(Component.translatable("tooltip.fbp.spawn_while_frozen").append(CommonComponents.NEW_LINE).append(CommonComponents.NEW_LINE).append(Component.translatable("tooltip.fbp.default")).append(Component.translatable("button.fbp." + defaultConfig.isSpawnWhileFrozen()))));
-                helper.addChild(SpacerElement.width(75));
-                helper.addChild(SpacerElement.width(75));
-                helper.addChild(new FBPToggleButton(Component.translatable("button.fbp.spawn_place_particles"), this.config::isSpawnPlaceParticles, builder -> builder.width(275), button -> this.config.setSpawnPlaceParticles(!this.config.isSpawnPlaceParticles())), 4).setTooltip(Tooltip.create(Component.translatable("tooltip.fbp.spawn_place_particles").append(CommonComponents.NEW_LINE).append(CommonComponents.NEW_LINE).append(Component.translatable("tooltip.fbp.default")).append(Component.translatable("button.fbp." + defaultConfig.isSpawnPlaceParticles()))));
-                helper.addChild(SpacerElement.width(75));
-
-                helper.addChild(SpacerElement.width(75));
-                helper.addChild(new FBPToggleButton(Component.translatable("button.fbp.rest_on_floor"), this.config::isRestOnFloor, builder -> builder.width(275), button -> this.config.setRestOnFloor(!this.config.isRestOnFloor())), 4).setTooltip(Tooltip.create(Component.translatable("tooltip.fbp.rest_on_floor").append(CommonComponents.NEW_LINE).append(CommonComponents.NEW_LINE).append(Component.translatable("tooltip.fbp.default")).append(Component.translatable("button.fbp." + defaultConfig.isRestOnFloor()))));
-                helper.addChild(SpacerElement.width(75));
-                helper.addChild(SpacerElement.width(75));
-                helper.addChild(new FBPToggleButton(Component.translatable("button.fbp.bounce_off_walls"), this.config::isBounceOffWalls, builder -> builder.width(275), button -> this.config.setBounceOffWalls(!this.config.isBounceOffWalls())), 4).setTooltip(Tooltip.create(Component.translatable("tooltip.fbp.bounce_off_walls").append(CommonComponents.NEW_LINE).append(CommonComponents.NEW_LINE).append(Component.translatable("tooltip.fbp.default")).append(Component.translatable("button.fbp." + defaultConfig.isBounceOffWalls()))));
-                helper.addChild(SpacerElement.width(75));
-                helper.addChild(SpacerElement.width(75));
-                helper.addChild(new FBPToggleButton(Component.translatable("button.fbp.entity_collision"), this.config::isEntityCollision, builder -> builder.width(275), button -> this.config.setEntityCollision(!this.config.isEntityCollision())), 4).setTooltip(Tooltip.create(Component.translatable("tooltip.fbp.entity_collision").append(CommonComponents.NEW_LINE).append(CommonComponents.NEW_LINE).append(Component.translatable("tooltip.fbp.default")).append(Component.translatable("button.fbp." + defaultConfig.isEntityCollision()))));
-                helper.addChild(SpacerElement.width(75));
-                helper.addChild(SpacerElement.width(75));
-                helper.addChild(new FBPToggleButton(Component.translatable("button.fbp.water_physics"), this.config::isWaterPhysics, builder -> builder.width(275), button -> this.config.setWaterPhysics(!this.config.isWaterPhysics())), 4).setTooltip(Tooltip.create(Component.translatable("tooltip.fbp.water_physics").append(CommonComponents.NEW_LINE).append(CommonComponents.NEW_LINE).append(Component.translatable("tooltip.fbp.default")).append(Component.translatable("button.fbp." + defaultConfig.isWaterPhysics()))));
-                helper.addChild(SpacerElement.width(75));
-
-                helper.addChild(SpacerElement.width(75));
-                helper.addChild(new FBPToggleButton(Component.translatable("button.fbp.random_scale"), this.config::isRandomScale, builder -> builder.width(275), button -> this.config.setRandomScale(!this.config.isRandomScale())), 4).setTooltip(Tooltip.create(Component.translatable("tooltip.fbp.random_scale").append(CommonComponents.NEW_LINE).append(CommonComponents.NEW_LINE).append(Component.translatable("tooltip.fbp.default")).append(Component.translatable("button.fbp." + defaultConfig.isRandomScale()))));
-                helper.addChild(SpacerElement.width(75));
-                helper.addChild(SpacerElement.width(75));
-                helper.addChild(new FBPToggleButton(Component.translatable("button.fbp.random_rotation"), this.config::isRandomRotation, builder -> builder.width(275), button -> this.config.setRandomRotation(!this.config.isRandomRotation())), 4).setTooltip(Tooltip.create(Component.translatable("tooltip.fbp.random_rotation").append(CommonComponents.NEW_LINE).append(CommonComponents.NEW_LINE).append(Component.translatable("tooltip.fbp.default")).append(Component.translatable("button.fbp." + defaultConfig.isRandomRotation()))));
-                helper.addChild(SpacerElement.width(75));
-                helper.addChild(SpacerElement.width(75));
-                helper.addChild(new FBPToggleButton(Component.translatable("button.fbp.random_fading_speed"), this.config::isRandomFadingSpeed, builder -> builder.width(275), button -> this.config.setRandomFadingSpeed(!this.config.isRandomFadingSpeed())), 4).setTooltip(Tooltip.create(Component.translatable("tooltip.fbp.random_fading_speed").append(CommonComponents.NEW_LINE).append(CommonComponents.NEW_LINE).append(Component.translatable("tooltip.fbp.default")).append(Component.translatable("button.fbp." + defaultConfig.isRandomFadingSpeed()))));
-                helper.addChild(SpacerElement.width(75));
-            }
-
-            case 4 -> {
-                helper.addChild(SpacerElement.width(75));
-                helper.addChild(new FBPToggleButton(Component.translatable("button.fbp.smooth_animation_lighting"), this.config::isSmoothAnimationLighting, builder -> builder.width(275), button -> this.config.setSmoothAnimationLighting(!this.config.isSmoothAnimationLighting())), 4).setTooltip(Tooltip.create(Component.translatable("tooltip.fbp.smooth_animation_lighting").append(CommonComponents.NEW_LINE).append(CommonComponents.NEW_LINE).append(Component.translatable("tooltip.fbp.default")).append(Component.translatable("button.fbp." + defaultConfig.isSmoothAnimationLighting()))));
-                helper.addChild(SpacerElement.width(75));
-
-                helper.addChild(SpacerElement.height(20), 6);
-                helper.addChild(SpacerElement.height(20), 6);
-                helper.addChild(SpacerElement.height(20), 6);
-                helper.addChild(SpacerElement.height(20), 6);
-                helper.addChild(SpacerElement.height(20), 6);
-                helper.addChild(SpacerElement.height(20), 6);
-                helper.addChild(SpacerElement.height(20), 6);
-                helper.addChild(SpacerElement.height(20), 6);
-            }
+        for (var i = startElement; i < optionsPerPage + startElement; i++) {
+            helper.addChild(SpacerElement.width(75));
+            helper.addChild(this.options.size() > i ? this.options.get(i) : SpacerElement.height(20), 4);
+            helper.addChild(SpacerElement.width(75));
         }
 
         var previousButton = helper.addChild(Button.builder(Component.translatable("button.fbp.previous"), button -> {
@@ -200,10 +133,10 @@ public class FBPOptionsScreen extends Screen {
             this.rebuildWidgets();
         }).width(75).build());
 
-        helper.addChild(new StringWidget(275, 20, Component.translatable("text.fbp.page", this.page, this.pageCount), this.font), 4);
+        helper.addChild(new StringWidget(275, 20, Component.translatable("text.fbp.page", this.page, pageCount), this.font), 4);
 
         var nextButton = helper.addChild(Button.builder(Component.translatable("button.fbp.next"), button -> {
-            this.page = Math.min(this.pageCount, this.page + 1);
+            this.page = Math.min(pageCount, this.page + 1);
 
             this.rebuildWidgets();
         }).width(75).build());
@@ -243,7 +176,7 @@ public class FBPOptionsScreen extends Screen {
             if (widget == previousButton)
                 widget.active = this.page > 1;
             if (widget == nextButton)
-                widget.active = this.page < this.pageCount;
+                widget.active = this.page < pageCount;
         });
 
         layout.visitWidgets(this::addRenderableWidget);
