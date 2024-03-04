@@ -3,6 +3,7 @@ package hantonik.fbp.screen.widget.button;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.AbstractSliderButton;
+import net.minecraft.client.gui.components.Tooltip;
 import net.minecraft.network.chat.Component;
 import net.minecraft.util.Mth;
 import org.lwjgl.glfw.GLFW;
@@ -26,7 +27,7 @@ public class FBPSliderButton extends AbstractSliderButton {
 
     private final DecimalFormat format;
 
-    public FBPSliderButton(int x, int y, int width, Component prefix, Component suffix, double value, double defaultValue, double minValue, double maxValue, double step, Consumer<FBPSliderButton> action, BooleanSupplier active) {
+    public FBPSliderButton(int x, int y, int width, Component prefix, Component suffix, double value, double defaultValue, double minValue, double maxValue, double step, Consumer<FBPSliderButton> action, BooleanSupplier active, Tooltip tooltip) {
         super(x, y, width, 20, Component.empty(), 0D);
 
         this.prefix = prefix;
@@ -45,6 +46,8 @@ public class FBPSliderButton extends AbstractSliderButton {
         this.format = step == 0.0D || this.stepSize == Math.floor(this.stepSize) ? new DecimalFormat("0") : new DecimalFormat(String.valueOf(this.stepSize).replaceAll("\\d", "0"));
 
         this.updateMessage();
+
+        this.setTooltip(tooltip);
     }
 
     public double getValue() {
