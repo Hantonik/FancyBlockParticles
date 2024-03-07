@@ -111,7 +111,7 @@ public class FBPBlacklistScreen extends Screen {
         var x = this.width / 2;
         var y = this.height / 2;
 
-        mouseX = Mth.clamp(mouseX, this.animationButton.get().x + 30, this.particleButton.get().y + 30);
+        mouseX = Mth.clamp(mouseX, this.animationButton.get().x + 30, this.particleButton.get().x + 30);
         mouseY = y + 35;
 
         blit(stack, this.animationButton.get().x + 30, this.animationButton.get().y + 30 - 10, 0, 0, 195, 20);
@@ -134,14 +134,16 @@ public class FBPBlacklistScreen extends Screen {
             drawCenteredString(stack, this.font, this.particleButton.get().isBlackListed() ? new TranslatableComponent("tooltip.fbp.remove").withStyle(ChatFormatting.BOLD, ChatFormatting.RED) : new TranslatableComponent("tooltip.fbp.add").withStyle(ChatFormatting.BOLD, ChatFormatting.GREEN), this.particleButton.get().x + 30, this.particleButton.get().y + 30 + 35, 0);
         }
 
-        stack.pushPose();
+        RenderSystem.getModelViewStack().pushPose();
 
-        stack.translate(x - 32, y - 32 - 57.0, 0.0F);
-        stack.scale(4.0F, 4.0F, 1.0F);
+        RenderSystem.getModelViewStack().translate(x - 32, y - 32 - 57.0, 0.0F);
+        RenderSystem.getModelViewStack().scale(4.0F, 4.0F, 1.0F);
+        RenderSystem.applyModelViewMatrix();
 
         this.itemRenderer.renderGuiItem(this.displayStack, 0, 0);
 
-        stack.popPose();
+        RenderSystem.getModelViewStack().popPose();
+        RenderSystem.applyModelViewMatrix();
 
         super.render(stack, mouseX, mouseY, partialTick);
 
