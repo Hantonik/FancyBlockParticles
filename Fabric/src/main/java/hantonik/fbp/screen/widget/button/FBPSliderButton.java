@@ -1,11 +1,11 @@
 package hantonik.fbp.screen.widget.button;
 
-import com.mojang.blaze3d.systems.RenderSystem;
+import com.mojang.blaze3d.vertex.PoseStack;
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
 import net.minecraft.ChatFormatting;
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.AbstractSliderButton;
-import net.minecraft.client.gui.components.Tooltip;
+import net.minecraft.client.gui.components.Widget;
 import net.minecraft.network.chat.Component;
 import net.minecraft.util.Mth;
 import org.lwjgl.glfw.GLFW;
@@ -27,9 +27,11 @@ public class FBPSliderButton extends AbstractSliderButton {
     private final Consumer<FBPSliderButton> action;
     private final BooleanSupplier active;
 
+    private final OnTooltip onTooltip;
+
     private final DecimalFormat format;
 
-    public FBPSliderButton(int x, int y, int width, Component prefix, Component suffix, double value, double defaultValue, double minValue, double maxValue, double step, Consumer<FBPSliderButton> action, BooleanSupplier active, Tooltip tooltip) {
+    public FBPSliderButton(int x, int y, int width, Component prefix, Component suffix, double value, double defaultValue, double minValue, double maxValue, double step, Consumer<FBPSliderButton> action, BooleanSupplier active, OnTooltip onTooltip) {
         super(x, y, width, 20, Component.empty(), 0D);
 
         this.prefix = prefix;
@@ -41,6 +43,8 @@ public class FBPSliderButton extends AbstractSliderButton {
         this.action = action;
         this.active = active;
 
+        this.onTooltip = onTooltip;
+
         this.stepSize = Math.abs(step);
         this.value = this.snapToNearest((value - minValue) / (maxValue - minValue));
         this.defaultValue = defaultValue;
@@ -48,8 +52,6 @@ public class FBPSliderButton extends AbstractSliderButton {
         this.format = step == 0.0D || this.stepSize == Math.floor(this.stepSize) ? new DecimalFormat("0") : new DecimalFormat(String.valueOf(this.stepSize).replaceAll("\\d", "0"));
 
         this.updateMessage();
-
-        this.setTooltip(tooltip);
     }
 
     public double getValue() {
@@ -107,7 +109,7 @@ public class FBPSliderButton extends AbstractSliderButton {
     }
 
     private void setValueFromMouse(double mouseX) {
-        this.setSliderValue((mouseX - (this.getX() + 4)) / (this.width - 8));
+        this.setSliderValue((mouseX - (this.x + 4)) / (this.width - 8));
     }
 
     private void setSliderValue(double value) {
@@ -137,26 +139,29 @@ public class FBPSliderButton extends AbstractSliderButton {
     }
 
     @Override
-    public void renderWidget(GuiGraphics graphics, int mouseX, int mouseY, float partialTick) {
+    public void renderButton(PoseStack stack, int mouseX, int mouseY, float partialTick) {
         super.active = this.active.getAsBoolean();
 
         this.applyValue();
 
-        graphics.setColor(1.0F, 1.0F, 1.0F, this.alpha);
+        super.renderButton(stack, mouseX, mouseY, partialTick);
 
-        RenderSystem.enableBlend();
-        RenderSystem.defaultBlendFunc();
-        RenderSystem.enableDepthTest();
+        if (this.isHoveredOrFocused())
+            this.renderToolTip(stack, mouseX, mouseY);
+    }
 
-        graphics.blitSprite(this.getSprite(), this.getX(), this.getY(), this.getWidth(), this.getHeight());
-        graphics.blitSprite(this.getHandleSprite(), this.getX() + (int) (this.value * (double) (this.width - 8)), this.getY(), 8, this.getHeight());
-        graphics.setColor(1.0F, 1.0F, 1.0F, 1.0F);
-
-        this.renderScrollingString(graphics, Minecraft.getInstance().font, 2, (this.active.getAsBoolean() ? 0xFFFFFF : 0xA0A0A0) | Mth.ceil(this.alpha * 255.0F) << 24);
+    @Override
+    public void renderToolTip(PoseStack poseStack, int mouseX, int mouseY) {
+        this.onTooltip.onTooltip(this, poseStack, mouseX, mouseY);
     }
 
     @Override
     public void applyValue() {
         this.action.accept(this);
+    }
+
+    @Environment(EnvType.CLIENT)
+    public interface OnTooltip {
+        void onTooltip(Widget widget, PoseStack stack, int mouseX, int mouseY);
     }
 }

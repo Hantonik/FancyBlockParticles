@@ -58,9 +58,6 @@ subprojects {
 }
 
 tasks.register('publishMod') {
-    dependsOn(':Forge:publishCurseForge').finalizedBy(':NeoForge:publishCurseForge')
-    dependsOn(':Forge:modrinth').finalizedBy(':NeoForge:modrinth')
-
-    tasks.getByPath(':NeoForge:publishCurseForge').finalizedBy(':Fabric:publishCurseForge')
-    tasks.getByPath(':NeoForge:modrinth').finalizedBy(':Fabric:modrinth')
+    dependsOn(':Forge:publishCurseForge').finalizedBy(':Fabric:publishCurseForge')
+    dependsOn(':Forge:modrinth').finalizedBy(':Fabric:modrinth')
 }

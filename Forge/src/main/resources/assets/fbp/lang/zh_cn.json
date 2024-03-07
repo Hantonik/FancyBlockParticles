@@ -99,8 +99,8 @@
   "tooltip.fbp.random_rotation": "启用或禁用粒子随机旋转。",
   "tooltip.fbp.random_fading_speed": "启用或禁用粒子随机消退速度。",
 
-  "button.fbp.true": "§a是",
-  "button.fbp.false": "§c否",
+  "button.fbp.true": "是",
+  "button.fbp.false": "否",
 
   "tooltip.fbp.animation": "放置动画",
   "tooltip.fbp.particles": "粒子",

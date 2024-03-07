@@ -99,8 +99,8 @@
   "tooltip.fbp.random_rotation": "Enable or disable particles random rotation.",
   "tooltip.fbp.random_fading_speed": "Enable or disable particles random fading speed.",
 
-  "button.fbp.true": "§atrue",
-  "button.fbp.false": "§cfalse",
+  "button.fbp.true": "true",
+  "button.fbp.false": "false",
 
   "tooltip.fbp.animation": "PLACING ANIMATION",
   "tooltip.fbp.particles": "PARTICLES",

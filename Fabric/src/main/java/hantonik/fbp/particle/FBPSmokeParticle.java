@@ -1,6 +1,7 @@
 package hantonik.fbp.particle;
 
 import com.mojang.blaze3d.vertex.VertexConsumer;
+import com.mojang.math.Vector3f;
 import hantonik.fbp.FancyBlockParticles;
 import hantonik.fbp.util.FBPConstants;
 import hantonik.fbp.util.FBPRenderHelper;
@@ -21,18 +22,17 @@ import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.CandleBlock;
 import net.minecraft.world.phys.AABB;
 import org.jetbrains.annotations.Nullable;
-import org.joml.Vector3d;
 
 @Environment(EnvType.CLIENT)
 public class FBPSmokeParticle extends SmokeParticle {
-    private double lastScale;
+    private float lastScale;
 
-    private double lastAlpha;
-    private double scaleAlpha;
+    private float lastAlpha;
+    private float scaleAlpha;
 
-    private double multiplier;
+    private float multiplier;
 
-    private final Vector3d[] cube;
+    private final Vector3f[] cube;
 
     public FBPSmokeParticle(ClientLevel level, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed, float scale) {
         super(level, x, y, z, xSpeed, ySpeed, zSpeed, scale, new SpriteSet() {
@@ -56,7 +56,7 @@ public class FBPSmokeParticle extends SmokeParticle {
         this.quadSize = scale * 10.0F;
         this.scaleAlpha = this.quadSize * 0.85F;
 
-        var state = level.getBlockState(BlockPos.containing(x, y, z));
+        var state = level.getBlockState(new BlockPos(x, y, z));
 
         if (state.is(Blocks.FIRE) || state.is(Blocks.SOUL_FIRE)) {
             this.quadSize *= 0.65F;
@@ -68,7 +68,7 @@ public class FBPSmokeParticle extends SmokeParticle {
 
             this.yd *= 0.35F;
 
-            this.scaleAlpha = this.quadSize * 0.5D;
+            this.scaleAlpha = this.quadSize * 0.5F;
 
             this.lifetime = FBPConstants.RANDOM.nextInt(7, 18);
         } else if (state.is(Blocks.TORCH) || state.is(Blocks.WALL_TORCH) || state.is(Blocks.SOUL_TORCH) || state.is(Blocks.SOUL_WALL_TORCH) || state.getBlock() instanceof CandleBlock) {
@@ -86,7 +86,7 @@ public class FBPSmokeParticle extends SmokeParticle {
             this.gCol = 0.275F;
             this.bCol = 0.275F;
 
-            this.scaleAlpha = this.quadSize * 0.75D;
+            this.scaleAlpha = this.quadSize * 0.75F;
 
             this.lifetime = FBPConstants.RANDOM.nextInt(5, 10);
         } else {
@@ -98,7 +98,7 @@ public class FBPSmokeParticle extends SmokeParticle {
 
         this.quadSize *= (float) FancyBlockParticles.CONFIG.getScaleMultiplier();
 
-        this.cube = new Vector3d[FBPConstants.CUBE.length];
+        this.cube = new Vector3f[FBPConstants.CUBE.length];
 
         var angleY = this.random.nextFloat();
 
@@ -107,10 +107,10 @@ public class FBPSmokeParticle extends SmokeParticle {
 
         this.alpha = 1.0F;
 
-        this.multiplier = 0.75D;
+        this.multiplier = 0.75F;
 
         if (FancyBlockParticles.CONFIG.isRandomFadingSpeed())
-            this.multiplier = Mth.clamp(FBPConstants.RANDOM.nextDouble(0.425D, 1.15D), 0.5432D, 1.0D);
+            this.multiplier = Mth.clamp(FBPConstants.RANDOM.nextFloat(0.425F, 1.15F), 0.5432F, 1.0F);
 
         this.scale(1);
     }
@@ -135,10 +135,10 @@ public class FBPSmokeParticle extends SmokeParticle {
         this.lastScale = this.quadSize;
 
         if (++this.age >= this.lifetime) {
-            this.quadSize *= (float) (0.9F * this.multiplier);
+            this.quadSize *= 0.9F * this.multiplier;
 
             if (this.alpha > 0.01D && this.quadSize <= this.scaleAlpha)
-                this.alpha *= (float) (0.76F * this.multiplier);
+                this.alpha *= 0.76F * this.multiplier;
 
             if (this.alpha <= 0.01D)
                 this.remove();
@@ -215,23 +215,23 @@ public class FBPSmokeParticle extends SmokeParticle {
         var posY = Mth.lerp(partialTicks, this.yo, this.y) - info.getPosition().y;
         var posZ = Mth.lerp(partialTicks, this.zo, this.z) - info.getPosition().z;
 
-        var scale = (float) Mth.lerp(partialTicks, this.lastScale, this.quadSize);
+        var scale = Mth.lerp(partialTicks, this.lastScale, this.quadSize);
 
         var light = this.getLightColor(partialTicks);
 
-        var alpha = (float) Mth.lerp(partialTicks, this.lastAlpha, this.alpha);
+        var alpha = Mth.lerp(partialTicks, this.lastAlpha, this.alpha);
 
-        var cube = new Vector3d[this.cube.length];
+        var cube = new Vector3f[this.cube.length];
 
         for (var i = 0; i < cube.length; i++) {
-            var corner = new Vector3d();
-
-            corner.x = this.cube[i].x;
-            corner.y = this.cube[i].y;
-            corner.z = this.cube[i].z;
+            var corner = new Vector3f(
+                    this.cube[i].x(),
+                    this.cube[i].y(),
+                    this.cube[i].z()
+            );
 
             corner.mul(scale / 20);
-            corner.add(posX, posY, posZ);
+            corner.add((float) posX, (float) posY, (float) posZ);
 
             cube[i] = corner;
         }
@@ -239,7 +239,7 @@ public class FBPSmokeParticle extends SmokeParticle {
         this.putCube(buffer, cube, u, v, light, this.rCol, this.gCol, this.bCol, alpha);
     }
 
-    private void putCube(VertexConsumer buffer, Vector3d[] cube, float u, float v, int light, float r, float g, float b, float a) {
+    private void putCube(VertexConsumer buffer, Vector3f[] cube, float u, float v, int light, float r, float g, float b, float a) {
         var brightness = 1.0F;
 
         float red;
@@ -265,8 +265,8 @@ public class FBPSmokeParticle extends SmokeParticle {
         }
     }
 
-    private void addVector(VertexConsumer buffer, Vector3d pos, float u, float v, int light, float red, float green, float blue, float alpha) {
-        buffer.vertex(pos.x, pos.y, pos.z).uv(u, v).color(red, green, blue, alpha).uv2(light).endVertex();
+    private void addVector(VertexConsumer buffer, Vector3f pos, float u, float v, int light, float red, float green, float blue, float alpha) {
+        buffer.vertex(pos.x(), pos.y(), pos.z()).uv(u, v).color(red, green, blue, alpha).uv2(light).endVertex();
     }
 
     @Override
@@ -278,7 +278,7 @@ public class FBPSmokeParticle extends SmokeParticle {
 
         var j = 0;
 
-        var pos = BlockPos.containing(this.x, this.y, this.z);
+        var pos = new BlockPos(this.x, this.y, this.z);
 
         if (this.level.isLoaded(pos))
             j = this.level.getLightEngine().getRawBrightness(pos, 0);

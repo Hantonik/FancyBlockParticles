@@ -40,7 +40,6 @@ jobs:
           mkdir artifacts
           cp Fabric/build/libs/*.jar artifacts
           cp Forge/build/libs/*.jar artifacts
-          cp NeoForge/build/libs/*.jar artifacts
 
       - name: 'Upload artifacts'
         uses: actions/upload-artifact@v3

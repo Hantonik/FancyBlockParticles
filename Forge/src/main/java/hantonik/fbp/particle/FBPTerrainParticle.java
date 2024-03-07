@@ -1,6 +1,7 @@
 package hantonik.fbp.particle;
 
 import com.mojang.blaze3d.vertex.VertexConsumer;
+import com.mojang.math.Vector3f;
 import hantonik.fbp.FancyBlockParticles;
 import hantonik.fbp.init.FBPKeyMappings;
 import hantonik.fbp.util.FBPConstants;
@@ -23,28 +24,27 @@ import net.minecraft.util.Mth;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
+import net.minecraft.world.phys.Vec2;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import org.jetbrains.annotations.Nullable;
-import org.joml.Vector2f;
-import org.joml.Vector3d;
 
 @OnlyIn(Dist.CLIENT)
 public class FBPTerrainParticle extends TerrainParticle {
     private final BlockState state;
     private final Direction side;
 
-    private final double startY;
+    private final float startY;
 
-    private final double scaleAlpha;
-
-    private double lastAlpha;
-    private double lastScale;
+    private final float scaleAlpha;
 
     private double lastXSpeed;
     private double lastZSpeed;
 
-    private double multiplier;
+    private float lastAlpha;
+    private float lastScale;
+
+    private float multiplier;
 
     private final boolean destroyed;
     private boolean wasFrozen;
@@ -52,9 +52,9 @@ public class FBPTerrainParticle extends TerrainParticle {
     private boolean killToggle;
     private boolean modeDebounce;
 
-    private final Vector3d rotation;
-    private final Vector3d rotationStep;
-    private final Vector3d lastRotation;
+    private final Vector3f rotation;
+    private final Vector3f rotationStep;
+    private final Vector3f lastRotation;
 
     public FBPTerrainParticle(ClientLevel level, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed, float scale, float red, float green, float blue, BlockPos pos, BlockState state, @Nullable Direction side, @Nullable TextureAtlasSprite sprite) {
         super(level, x, y, z, xSpeed, ySpeed, zSpeed, state);
@@ -65,16 +65,16 @@ public class FBPTerrainParticle extends TerrainParticle {
 
         this.state = state;
 
-        this.rotation = new Vector3d();
-        this.lastRotation = new Vector3d();
+        this.rotation = new Vector3f();
+        this.lastRotation = new Vector3f();
 
-        this.rotationStep = new Vector3d(FBPConstants.RANDOM.nextDouble() > 0.5D ? 1 : -1, FBPConstants.RANDOM.nextDouble() > 0.5D ? 1 : -1, FBPConstants.RANDOM.nextDouble() > 0.5D ? 1 : -1);
+        this.rotationStep = new Vector3f(FBPConstants.RANDOM.nextDouble() > 0.5D ? 1 : -1, FBPConstants.RANDOM.nextDouble() > 0.5D ? 1 : -1, FBPConstants.RANDOM.nextDouble() > 0.5D ? 1 : -1);
 
         this.side = side;
 
         this.pos = pos;
 
-        this.rotation.set(this.rotationStep);
+        this.rotation.load(this.rotationStep);
 
         if (scale > -1.0D)
             this.quadSize = scale;
@@ -100,7 +100,7 @@ public class FBPTerrainParticle extends TerrainParticle {
         this.modeDebounce = !FancyBlockParticles.CONFIG.isRandomRotation();
 
         if (this.modeDebounce) {
-            this.rotation.zero();
+            this.rotation.set(0.0F, 0.0F, 0.0F);
             this.calculateYAngle();
         }
 
@@ -108,9 +108,9 @@ public class FBPTerrainParticle extends TerrainParticle {
         this.quadSize = (float) (FancyBlockParticles.CONFIG.getScaleMultiplier() * (FancyBlockParticles.CONFIG.isRandomScale() ? this.quadSize : 1.0F));
         this.lifetime = (int) FBPConstants.RANDOM.nextFloat(Math.min(FancyBlockParticles.CONFIG.getMinLifetime(), FancyBlockParticles.CONFIG.getMaxLifetime()), Math.max(FancyBlockParticles.CONFIG.getMinLifetime(), FancyBlockParticles.CONFIG.getMaxLifetime()) + 0.5F);
 
-        this.scaleAlpha = this.quadSize * 0.82D;
+        this.scaleAlpha = this.quadSize * 0.82F;
 
-        this.startY = this.y;
+        this.startY = (float) this.y;
 
         this.destroyed = (side == null);
 
@@ -122,15 +122,15 @@ public class FBPTerrainParticle extends TerrainParticle {
                     this.sprite = quads.get(0).getSprite();
             }
 
-            if (this.sprite.atlasLocation() == MissingTextureAtlasSprite.getLocation())
-                this.setSprite(Minecraft.getInstance().getBlockRenderer().getBlockModelShaper().getTexture(this.state, this.level, this.pos));
+            if (this.sprite.atlas().location() == MissingTextureAtlasSprite.getLocation())
+                this.setSprite(Minecraft.getInstance().getBlockRenderer().getBlockModelShaper().getParticleIcon(this.state));
         } else
             this.sprite = sprite;
 
-        this.multiplier = 0.75D;
+        this.multiplier = 0.75F;
 
         if (FancyBlockParticles.CONFIG.isRandomFadingSpeed())
-            this.multiplier = Mth.clamp(FBPConstants.RANDOM.nextDouble(0.5D, 0.9D), 0.55D, 0.8D);
+            this.multiplier = Mth.clamp(FBPConstants.RANDOM.nextFloat(0.5F, 0.9F), 0.55F, 0.8F);
 
         this.scale(1);
         this.multiplyColor(this.pos);
@@ -196,7 +196,7 @@ public class FBPTerrainParticle extends TerrainParticle {
         this.yo = this.y;
         this.zo = this.z;
 
-        this.lastRotation.set(this.rotation);
+        this.lastRotation.load(this.rotation);
 
         this.lastAlpha = this.alpha;
         this.lastScale = this.quadSize;
@@ -207,35 +207,39 @@ public class FBPTerrainParticle extends TerrainParticle {
                     if (!this.modeDebounce) {
                         this.modeDebounce = true;
 
-                        this.rotation.z = 0.0D;
+                        this.rotation.set(this.rotation.x(), this.rotation.y(), 0.0F);
 
                         this.calculateYAngle();
                     }
 
                     if (allowedToMove) {
-                        var x = Mth.abs((float) (this.rotationStep.x * this.getMultiplier()));
+                        var x = Mth.abs((float) (this.rotationStep.x() * this.getMultiplier()));
 
                         if (this.xd > 0.0D) {
                             if (this.zd > 0.0D)
-                                this.rotation.x -= x;
+                                this.rotation.add(-x, 0.0F, 0.0F);
                             else if (this.zd < 0.0D)
-                                this.rotation.x += x;
+                                this.rotation.add(x, 0.0F, 0.0F);
                         } else if (this.xd < 0.0D) {
                             if (this.zd < 0.0D)
-                                this.rotation.x += x;
+                                this.rotation.add(x, 0.0F, 0.0F);
                             else if (this.zd > 0.0D)
-                                this.rotation.x -= x;
+                                this.rotation.add(-x, 0.0F, 0.0F);
                         }
                     }
                 } else {
                     if (this.modeDebounce) {
                         this.modeDebounce = false;
 
-                        this.rotation.z = FBPConstants.RANDOM.nextDouble(30.0D, 400.0D);
+                        this.rotation.set(this.rotation.x(), this.rotation.y(), FBPConstants.RANDOM.nextFloat(30.0F, 400.0F));
                     }
 
-                    if (allowedToMove)
-                        this.rotation.add(this.rotationStep.mul(this.getMultiplier(), new Vector3d()));
+                    if (allowedToMove) {
+                        var step = this.rotationStep.copy();
+                        step.mul((float) this.getMultiplier());
+
+                        this.rotation.add(step);
+                    }
                 }
             }
 
@@ -243,10 +247,10 @@ public class FBPTerrainParticle extends TerrainParticle {
                 this.age++;
 
             if (this.age >= this.lifetime || this.killToggle) {
-                this.quadSize *= (float) (0.9F * this.multiplier);
+                this.quadSize *= 0.9F * this.multiplier;
 
                 if (this.alpha > 0.01D && this.quadSize <= this.scaleAlpha)
-                    this.alpha *= (float) (0.7F * this.multiplier);
+                    this.alpha *= 0.7F * this.multiplier;
 
                 if (this.alpha <= 0.01D)
                     this.remove();
@@ -258,10 +262,8 @@ public class FBPTerrainParticle extends TerrainParticle {
 
                 this.move(this.xd, this.yd, this.zd);
 
-                if (this.onGround && FancyBlockParticles.CONFIG.isRestOnFloor()) {
-                    this.rotation.x = Math.round(this.rotation.x / 10.0D) * 10.0D;
-                    this.rotation.z = Math.round(this.rotation.z / 10.0D) * 10.0D;
-                }
+                if (this.onGround && FancyBlockParticles.CONFIG.isRestOnFloor())
+                    this.rotation.set(Math.round(this.rotation.x() / 10.0F) * 10.0F, this.rotation.y(), Math.round(this.rotation.z() / 10.0F) * 10.0F);
 
                 if (Mth.abs((float) this.xd) > 0.00001D)
                     this.lastXSpeed = this.xd;
@@ -411,12 +413,12 @@ public class FBPTerrainParticle extends TerrainParticle {
         var v0 = 0.0F;
 
         if (!FancyBlockParticles.CONFIG.isCartoonMode()) {
-            u0 = this.sprite.getU(this.uo / 4.0F);
-            v0 = this.sprite.getV(this.vo / 4.0F);
+            u0 = this.sprite.getU(this.uo / 4.0F * 16.0F);
+            v0 = this.sprite.getV(this.vo / 4.0F * 16.0F);
         }
 
-        var u1 = this.sprite.getU((this.uo + 1.0F) / 4.0F);
-        var v1 = this.sprite.getV((this.vo + 1.0F) / 4.0F);
+        var u1 = this.sprite.getU((this.uo + 1.0F) / 4.0F * 16.0F);
+        var v1 = this.sprite.getV((this.vo + 1.0F) / 4.0F * 16.0F);
 
         var posX = (float) (Mth.lerp(partialTicks, this.xo, this.x) - info.getPosition().x);
         var posY = (float) (Mth.lerp(partialTicks, this.yo, this.y) - info.getPosition().y);
@@ -426,37 +428,35 @@ public class FBPTerrainParticle extends TerrainParticle {
 
         var light = this.getLightColor(partialTicks);
 
-        var alpha = (float) Mth.lerp(partialTicks, this.lastAlpha, this.alpha);
+        var alpha = Mth.lerp(partialTicks, this.lastAlpha, this.alpha);
 
         if (FancyBlockParticles.CONFIG.isRestOnFloor())
-            posY += (float) scale;
+            posY += scale;
 
-        var smoothRotation = new Vector3d(0.0D, 0.0D, 0.0D);
+        var smoothRotation = new Vector3f();
 
-        if (FancyBlockParticles.CONFIG.getRotationMultiplier() > 0.0F) {
-            smoothRotation.y = this.rotation.y;
-            smoothRotation.z = this.rotation.z;
+        if (FancyBlockParticles.CONFIG.getRotationMultiplier() > 0.0D) {
+            smoothRotation.set(smoothRotation.x(), this.rotation.y(), this.rotation.z());
 
             if (!FancyBlockParticles.CONFIG.isRandomRotation())
-                smoothRotation.x = this.rotation.x;
+                smoothRotation.set(this.rotation.x(), smoothRotation.y(), smoothRotation.z());
 
             if (!FancyBlockParticles.CONFIG.isFrozen()) {
-                if (FancyBlockParticles.CONFIG.isRandomRotation()) {
-                    smoothRotation.y = Mth.lerp(partialTicks, this.lastRotation.y, this.rotation.y);
-                    smoothRotation.z = Mth.lerp(partialTicks, this.lastRotation.z, this.rotation.z);
-                } else
-                    smoothRotation.x = Mth.lerp(partialTicks, this.lastRotation.x, this.rotation.x);
+                if (FancyBlockParticles.CONFIG.isRandomRotation())
+                    smoothRotation.set(smoothRotation.x(), Mth.lerp(partialTicks, this.lastRotation.y(), this.rotation.y()), Mth.lerp(partialTicks, this.lastRotation.z(), this.rotation.z()));
+                else
+                    smoothRotation.set(Mth.lerp(partialTicks, this.lastRotation.x(), this.rotation.x()), smoothRotation.y(), smoothRotation.z());
             }
         }
 
-        FBPRenderHelper.renderCubeShaded(buffer, new Vector2f[]{ new Vector2f(u1, v1), new Vector2f(u1, v0), new Vector2f(u0, v0), new Vector2f(u0, v1) }, posX, posY, posZ, scale, smoothRotation, light, this.rCol, this.gCol, this.bCol, alpha, FancyBlockParticles.CONFIG.isCartoonMode());
+        FBPRenderHelper.renderCubeShaded(buffer, new Vec2[]{ new Vec2(u1, v1), new Vec2(u1, v0), new Vec2(u0, v0), new Vec2(u0, v1) }, posX, posY, posZ, scale, smoothRotation, light, this.rCol, this.gCol, this.bCol, alpha, FancyBlockParticles.CONFIG.isCartoonMode());
     }
 
     @Override
     public int getLightColor(float partialTick) {
         var box = this.getBoundingBox();
 
-        return this.level.hasChunkAt(BlockPos.containing(this.x, this.y, this.z)) ? LevelRenderer.getLightColor(this.level, this.state, BlockPos.containing(this.x, this.y + ((box.maxY - box.minY) * 0.66D) + 0.01D - (FancyBlockParticles.CONFIG.isRestOnFloor() ? this.quadSize / 10.0D : 0.0D), this.z)) : 0;
+        return this.level.hasChunkAt(new BlockPos(this.x, this.y, this.z)) ? LevelRenderer.getLightColor(this.level, this.state, new BlockPos(this.x, this.y + ((box.maxY - box.minY) * 0.66D) + 0.01D - (FancyBlockParticles.CONFIG.isRestOnFloor() ? this.quadSize / 10.0D : 0.0D), this.z)) : 0;
     }
 
     private double getMultiplier() {
@@ -464,8 +464,8 @@ public class FBPTerrainParticle extends TerrainParticle {
     }
 
     private void calculateYAngle() {
-        var sin = Math.toDegrees(Math.asin(this.xd / Math.sqrt(this.xd * this.xd + this.zd * this.zd)));
-        this.rotation.y = this.zd > 0.0D ? -sin : sin;
+        var sin = (float) Math.toDegrees(Math.asin(this.xd / Math.sqrt(this.xd * this.xd + this.zd * this.zd)));
+        this.rotation.set(this.rotation.x(), this.zd > 0.0F ? -sin : sin, this.rotation.z());
     }
 
     @OnlyIn(Dist.CLIENT)

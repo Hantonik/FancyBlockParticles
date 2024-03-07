@@ -1,5 +1,7 @@
 package hantonik.fbp.screen;
 
+import com.mojang.blaze3d.systems.RenderSystem;
+import com.mojang.blaze3d.vertex.PoseStack;
 import hantonik.fbp.FancyBlockParticles;
 import hantonik.fbp.init.FBPKeyMappings;
 import hantonik.fbp.screen.widget.button.FBPBlacklistButton;
@@ -8,10 +10,10 @@ import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.Screen;
+import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.core.Registry;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
@@ -80,7 +82,7 @@ public class FBPBlacklistScreen extends Screen {
         if (FBPKeyMappings.FAST_BLACKLIST.matches(keyCode, scanCode)) {
             for (var widget : this.children()) {
                 if (widget instanceof FBPBlacklistButton button) {
-                    if (button.isHovered()) {
+                    if (button.isHoveredOrFocused()) {
                         button.onPress();
 
                         return true;
@@ -95,46 +97,57 @@ public class FBPBlacklistScreen extends Screen {
     }
 
     @Override
-    public void render(GuiGraphics graphics, int mouseX, int mouseY, float partialTick) {
+    public void render(PoseStack stack, int mouseX, int mouseY, float partialTick) {
+        RenderSystem.setShader(GameRenderer::getPositionTexShader);
+        RenderSystem.setShaderTexture(0, WIDGETS);
+        RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
+        RenderSystem.enableBlend();
+        RenderSystem.defaultBlendFunc();
+        RenderSystem.enableDepthTest();
+
+        this.renderBackground(stack);
+
         var x = this.width / 2;
         var y = this.height / 2;
 
-        mouseX = Mth.clamp(mouseX, this.animationButton.get().getX() + 30, this.particleButton.get().getX() + 30);
+        mouseX = Mth.clamp(mouseX, this.animationButton.get().x + 30, this.particleButton.get().x + 30);
         mouseY = y + 35;
 
-        graphics.blit(WIDGETS, this.animationButton.get().getX() + 30, this.animationButton.get().getY() + 30 - 10, 0, 0, 195, 20);
-        graphics.drawCenteredString(this.font, Component.literal("<").withStyle(this.animationButton.get().active ? ChatFormatting.GREEN : ChatFormatting.RED).append("             ").append(Component.literal(">").withStyle(this.particleButton.get().active ? ChatFormatting.GREEN : ChatFormatting.RED)), this.animationButton.get().getX() + 30 + 100, this.animationButton.get().getY() + 30 - 4, 0);
+        blit(stack, this.animationButton.get().x + 30, this.animationButton.get().y + 30 - 10, 0, 0, 195, 20);
+        drawCenteredString(stack, this.font, Component.literal("<").withStyle(this.animationButton.get().active ? ChatFormatting.GREEN : ChatFormatting.RED).append("             ").append(Component.literal(">").withStyle(this.particleButton.get().active ? ChatFormatting.GREEN : ChatFormatting.RED)), this.animationButton.get().x + 30 + 100, this.animationButton.get().y + 30 - 4, 0);
 
-        graphics.drawCenteredString(this.font, this.title.copy().withStyle(ChatFormatting.BOLD, ChatFormatting.GREEN), x, 10, 0);
+        drawCenteredString(stack, this.font, this.title.copy().withStyle(ChatFormatting.BOLD, ChatFormatting.GREEN), x, 10, 0);
 
-        var displayId = BuiltInRegistries.ITEM.getKey(this.displayStack.getItem());
-        graphics.drawCenteredString(this.font, Component.literal(displayId.getNamespace()).withStyle(ChatFormatting.GOLD).append(Component.literal(":").withStyle(ChatFormatting.RED)).append(Component.literal(displayId.getPath()).withStyle(ChatFormatting.GREEN)).withStyle(ChatFormatting.BOLD), x, y - 19, 0);
+        var displayId = Registry.ITEM.getKey(this.displayStack.getItem());
+        drawCenteredString(stack, this.font, Component.literal(displayId.getNamespace()).withStyle(ChatFormatting.GOLD).append(Component.literal(":").withStyle(ChatFormatting.RED)).append(Component.literal(displayId.getPath()).withStyle(ChatFormatting.GREEN)).withStyle(ChatFormatting.BOLD), x, y - 19, 0);
 
         if (this.animationButton.get().isMouseOver(mouseX, mouseY)) {
-            graphics.drawCenteredString(this.font, Component.translatable("tooltip.fbp.animation").withStyle(ChatFormatting.BOLD, ChatFormatting.GREEN), this.animationButton.get().getX() + 30, this.animationButton.get().getY() + 30 - 42, 0);
+            drawCenteredString(stack, this.font, Component.translatable("tooltip.fbp.animation").withStyle(ChatFormatting.BOLD, ChatFormatting.GREEN), this.animationButton.get().x + 30, this.animationButton.get().y + 30 - 42, 0);
 
-            graphics.drawCenteredString(this.font, this.animationButton.get().isBlackListed() ? Component.translatable("tooltip.fbp.remove").withStyle(ChatFormatting.BOLD, ChatFormatting.RED) : Component.translatable("tooltip.fbp.add").withStyle(ChatFormatting.BOLD, ChatFormatting.GREEN), this.animationButton.get().getX() + 30, this.animationButton.get().getY() + 30 + 35, 0);
+            drawCenteredString(stack, this.font, this.animationButton.get().isBlackListed() ? Component.translatable("tooltip.fbp.remove").withStyle(ChatFormatting.BOLD, ChatFormatting.RED) : Component.translatable("tooltip.fbp.add").withStyle(ChatFormatting.BOLD, ChatFormatting.GREEN), this.animationButton.get().x + 30, this.animationButton.get().y + 30 + 35, 0);
         }
 
         if (this.particleButton.get().isMouseOver(mouseX, mouseY)) {
-            graphics.drawCenteredString(this.font, Component.translatable("tooltip.fbp.particles").withStyle(ChatFormatting.BOLD, ChatFormatting.GREEN), this.particleButton.get().getX() + 30, this.particleButton.get().getY() + 30 - 42, 0);
+            drawCenteredString(stack, this.font, Component.translatable("tooltip.fbp.particles").withStyle(ChatFormatting.BOLD, ChatFormatting.GREEN), this.particleButton.get().x + 30, this.particleButton.get().y + 30 - 42, 0);
 
-            graphics.drawCenteredString(this.font, this.particleButton.get().isBlackListed() ? Component.translatable("tooltip.fbp.remove").withStyle(ChatFormatting.BOLD, ChatFormatting.RED) : Component.translatable("tooltip.fbp.add").withStyle(ChatFormatting.BOLD, ChatFormatting.GREEN), this.particleButton.get().getX() + 30, this.particleButton.get().getY() + 30 + 35, 0);
+            drawCenteredString(stack, this.font, this.particleButton.get().isBlackListed() ? Component.translatable("tooltip.fbp.remove").withStyle(ChatFormatting.BOLD, ChatFormatting.RED) : Component.translatable("tooltip.fbp.add").withStyle(ChatFormatting.BOLD, ChatFormatting.GREEN), this.particleButton.get().x + 30, this.particleButton.get().y + 30 + 35, 0);
         }
 
-        graphics.pose().pushPose();
+        RenderSystem.getModelViewStack().pushPose();
 
-        graphics.pose().translate(x - 32, y - 32 - 57.0, 0.0F);
-        graphics.pose().scale(4.0F, 4.0F, 1.0F);
+        RenderSystem.getModelViewStack().translate(x - 32, y - 32 - 57.0, 0.0F);
+        RenderSystem.getModelViewStack().scale(4.0F, 4.0F, 1.0F);
+        RenderSystem.applyModelViewMatrix();
 
-        graphics.renderItem(this.displayStack, 0, 0);
+        this.itemRenderer.renderGuiItem(this.displayStack, 0, 0);
 
-        graphics.pose().popPose();
+        RenderSystem.getModelViewStack().popPose();
+        RenderSystem.applyModelViewMatrix();
 
-        super.render(graphics, mouseX, mouseY, partialTick);
+        super.render(stack, mouseX, mouseY, partialTick);
 
         var mouseOver = this.animationButton.get().isMouseOver(mouseX, mouseY) ? this.animationButton.get() : (this.particleButton.get().isMouseOver(mouseX, mouseY) ? this.particleButton.get() : null);
-        graphics.blit(WIDGETS, mouseX - 20 / 2, mouseY - 20 / 2, mouseOver != null && !mouseOver.active ? 256 - 20 * 2 : 256 - 20, 256 - 20, 20, 20);
+        blit(stack, mouseX - 20 / 2, mouseY - 20 / 2, mouseOver != null && !mouseOver.active ? 256 - 20 * 2 : 256 - 20, 256 - 20, 20, 20);
     }
 
     @Override

@@ -1,6 +1,7 @@
 package hantonik.fbp.particle;
 
 import com.mojang.blaze3d.vertex.VertexConsumer;
+import com.mojang.math.Vector3f;
 import hantonik.fbp.FancyBlockParticles;
 import hantonik.fbp.util.FBPConstants;
 import hantonik.fbp.util.FBPRenderHelper;
@@ -17,21 +18,20 @@ import net.minecraft.core.Direction;
 import net.minecraft.util.Mth;
 import net.minecraft.world.level.LightLayer;
 import net.minecraft.world.level.block.LiquidBlock;
-import org.joml.Vector2f;
-import org.joml.Vector3d;
+import net.minecraft.world.phys.Vec2;
 
 @Environment(EnvType.CLIENT)
 public class FBPRainParticle extends WaterDropParticle {
-    private final double angleY;
+    private final float angleY;
 
     private final float uo;
     private final float vo;
 
-    private double height;
+    private float height;
 
-    private double lastAlpha;
-    private double lastScale;
-    private double lastHeight;
+    private float lastAlpha;
+    private float lastScale;
+    private float lastHeight;
 
     private float multiplier;
 
@@ -44,7 +44,7 @@ public class FBPRainParticle extends WaterDropParticle {
 
         this.sprite = sprite;
 
-        this.angleY = FBPConstants.RANDOM.nextDouble() * 45.0D;
+        this.angleY = FBPConstants.RANDOM.nextFloat() * 45.0F;
 
         this.uo = this.random.nextFloat() * 3.0F;
         this.vo = this.random.nextFloat() * 3.0F;
@@ -102,7 +102,7 @@ public class FBPRainParticle extends WaterDropParticle {
                     this.remove();
             }
 
-            if (this.level.getBlockState(BlockPos.containing(this.x, this.y, this.z)).getBlock() instanceof LiquidBlock)
+            if (this.level.getBlockState(new BlockPos(this.x, this.y, this.z)).getBlock() instanceof LiquidBlock)
                 this.remove();
 
             this.yd -= 0.04D * this.gravity;
@@ -191,12 +191,12 @@ public class FBPRainParticle extends WaterDropParticle {
         var v0 = 0.0F;
 
         if (!FancyBlockParticles.CONFIG.isCartoonMode()) {
-            u0 = this.sprite.getU(this.uo / 4.0F);
-            v0 = this.sprite.getV(this.vo / 4.0F);
+            u0 = this.sprite.getU(this.uo / 4.0F * 16.0F);
+            v0 = this.sprite.getV(this.vo / 4.0F * 16.0F);
         }
 
-        var u1 = this.sprite.getU((this.uo + 1.0F) / 4.0F);
-        var v1 = this.sprite.getV((this.vo + 1.0F) / 4.0F);
+        var u1 = this.sprite.getU((this.uo + 1.0F) / 4.0F * 16.0F);
+        var v1 = this.sprite.getV((this.vo + 1.0F) / 4.0F * 16.0F);
 
         var posX = (float) (Mth.lerp(partialTicks, this.xo, this.x) - info.getPosition().x);
         var posY = (float) (Mth.lerp(partialTicks, this.yo, this.y) - info.getPosition().y);
@@ -204,13 +204,13 @@ public class FBPRainParticle extends WaterDropParticle {
 
         var light = this.getLightColor(partialTicks);
 
-        var alpha = (float) Mth.lerp(partialTicks, this.lastAlpha, this.alpha);
-        var width = (float) Mth.lerp(partialTicks, this.lastScale, this.quadSize) / 10.0F;
-        var height = (float) Mth.lerp(partialTicks, this.lastHeight, this.height) / 10.0F;
+        var alpha = Mth.lerp(partialTicks, this.lastAlpha, this.alpha);
+        var width = Mth.lerp(partialTicks, this.lastScale, this.quadSize) / 10.0F;
+        var height = Mth.lerp(partialTicks, this.lastHeight, this.height) / 10.0F;
 
-        var smoothRotation = new Vector3d(0.0D, this.angleY, 0.0D);
+        var smoothRotation = new Vector3f(0.0F, this.angleY, 0.0F);
 
-        FBPRenderHelper.renderCubeShaded(buffer, new Vector2f[]{ new Vector2f(u1, v1), new Vector2f(u1, v0), new Vector2f(u0, v0), new Vector2f(u0, v1) }, posX, posY + height, posZ, width, height, smoothRotation, light, this.rCol, this.gCol, this.bCol, alpha, FancyBlockParticles.CONFIG.isCartoonMode());
+        FBPRenderHelper.renderCubeShaded(buffer, new Vec2[]{ new Vec2(u1, v1), new Vec2(u1, v0), new Vec2(u0, v0), new Vec2(u0, v1) }, posX, posY + height, posZ, width, height, smoothRotation, light, this.rCol, this.gCol, this.bCol, alpha, FancyBlockParticles.CONFIG.isCartoonMode());
     }
 
     @Override
@@ -222,7 +222,7 @@ public class FBPRainParticle extends WaterDropParticle {
 
         var j = 0;
 
-        var pos = BlockPos.containing(this.x, this.y, this.z);
+        var pos = new BlockPos(this.x, this.y, this.z);
 
         if (this.level.isLoaded(pos))
             j = this.level.getLightEngine().getLayerListener(LightLayer.BLOCK).getLightValue(pos);

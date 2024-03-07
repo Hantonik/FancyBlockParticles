@@ -82,7 +82,7 @@ public abstract class MixinParticleEngine {
 
         callback.cancel();
 
-        if (!state.isAir() && state.shouldSpawnTerrainParticles()) {
+        if (!state.isAir()) {
             var shape = state.getShape(this.level, pos);
             var sprite = Minecraft.getInstance().getBlockRenderer().getBlockModelShaper().getParticleIcon(state);
 
