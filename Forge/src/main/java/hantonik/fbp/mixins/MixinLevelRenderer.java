@@ -13,7 +13,6 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.renderer.LevelRenderer;
 import net.minecraft.client.renderer.LightTexture;
-import net.minecraft.client.renderer.ViewArea;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleOptions;
 import net.minecraft.core.particles.ParticleTypes;
@@ -40,8 +39,6 @@ public abstract class MixinLevelRenderer implements ResourceManagerReloadListene
     @Shadow
     @Nullable
     private ClientLevel level;
-
-    @Shadow private @org.jetbrains.annotations.Nullable ViewArea viewArea;
 
     @Inject(at = @At("HEAD"), method = "tickRain")
     private void tickRain(Camera camera, CallbackInfo callback) {
