@@ -29,6 +29,7 @@
   "button.fbp.gravity_multiplier": "Gravity multiplier: ",
   "button.fbp.weather_particle_density": "Weather particle density: ",
 
+  "button.fbp.fancy_block_breaking": "Fancy block breaking",
   "button.fbp.fancy_flame": "Fancy flame",
   "button.fbp.fancy_smoke": "Fancy smoke",
   "button.fbp.fancy_rain": "Fancy rain",
@@ -75,6 +76,7 @@
   "tooltip.fbp.gravity_multiplier": "Particle gravity multiplier. The higher the value, the faster the particles will fall to the ground.",
   "tooltip.fbp.weather_particle_density": "Weather particle density. The higher the value, the more weather particles will appear.",
 
+  "tooltip.fbp.fancy_block_breaking": "Enable or disable fancy block breaking particles.",
   "tooltip.fbp.fancy_flame": "Enable or disable fancy flame particles.",
   "tooltip.fbp.fancy_smoke": "Enable or disable fancy smoke particles.",
   "tooltip.fbp.fancy_rain": "Enable or disable fancy rain particles.",

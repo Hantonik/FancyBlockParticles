@@ -29,6 +29,7 @@
   "button.fbp.gravity_multiplier": "Schwerkraftmultiplikator: ",
   "button.fbp.weather_particle_density": "Wetter-Partikeldichte: ",
 
+  "button.fbp.fancy_block_breaking": "Elegantes Blockzerbrechen",
   "button.fbp.fancy_flame": "Eleganter Flammen",
   "button.fbp.fancy_smoke": "Eleganter Rauch",
   "button.fbp.fancy_rain": "Eleganter Regen",
@@ -75,6 +76,7 @@
   "tooltip.fbp.gravity_multiplier": "Schwerkraftmultiplikator der Partikel. Je höher der Wert, desto schneller fallen die Partikel zu Boden.",
   "tooltip.fbp.weather_particle_density": "Wetter-Partikeldichte. Je höher der Wert, desto mehr Wetterpartikel werden erscheinen.",
 
+  "tooltip.fbp.fancy_block_breaking": "Aktiviere oder deaktiviere die Partikel für das elegante Blockzerbrechen.",
   "tooltip.fbp.fancy_flame": "Aktiviere oder deaktiviere schicke Flammenpartikel.",
   "tooltip.fbp.fancy_smoke": "Wählen Sie aus, ob Sie elegante Rauchpartikel aktivieren oder deaktivieren möchten.",
   "tooltip.fbp.fancy_rain": "Aktiviere oder deaktiviere schicke Regenpartikel.",

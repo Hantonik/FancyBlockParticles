@@ -78,7 +78,7 @@ public abstract class MixinParticleEngine {
 
     @Inject(at = @At("HEAD"), method = "destroy", cancellable = true)
     public void destroy(BlockPos pos, BlockState state, CallbackInfo callback) {
-        if (!FancyBlockParticles.CONFIG.isEnabled())
+        if (!FancyBlockParticles.CONFIG.isEnabled() || !FancyBlockParticles.CONFIG.isFancyBlockBraking())
             return;
 
         callback.cancel();
