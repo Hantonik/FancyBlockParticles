@@ -29,6 +29,7 @@
   "button.fbp.gravity_multiplier": "Multiplicateur de gravité : ",
   "button.fbp.weather_particle_density": "Densité des particules météorologiques : ",
 
+  "button.fbp.fancy_block_breaking": "La destruction de blocs élégante",
   "button.fbp.fancy_flame": "Flammes élégantes",
   "button.fbp.fancy_smoke": "Fumée élégante",
   "button.fbp.fancy_rain": "Pluie élégante",
@@ -75,6 +76,7 @@
   "tooltip.fbp.gravity_multiplier": "Multiplicateur de gravité des particules. Plus la valeur est élevée, plus les particules tomberont rapidement au sol.",
   "tooltip.fbp.weather_particle_density": "Densité des particules météorologiques. Plus la valeur est élevée, plus les particules météorologiques apparaîtront.",
 
+  "tooltip.fbp.fancy_block_breaking": "Activer ou désactiver les particules élégantes de destruction de blocs.",
   "tooltip.fbp.fancy_flame": "Activer ou désactiver les particules de flamme élégantes.",
   "tooltip.fbp.fancy_smoke": "Activer ou désactiver les particules de fumée élégantes.",
   "tooltip.fbp.fancy_rain": "Activer ou désactiver les particules de pluie élégantes.",

@@ -29,6 +29,7 @@
   "button.fbp.gravity_multiplier": "Mnożnik grawitacji: ",
   "button.fbp.weather_particle_density": "Gęstość cząsteczek wody: ",
 
+  "button.fbp.fancy_block_breaking": "Fantazyjne niszczenie bloków",
   "button.fbp.fancy_flame": "Fantazyjny płomień",
   "button.fbp.fancy_smoke": "Fantazyjny dym",
   "button.fbp.fancy_rain": "Fantazyjny deszcz",
@@ -75,6 +76,7 @@
   "tooltip.fbp.gravity_multiplier": "Mnożnik grawitacji cząsteczek. Im wyższa wartość, tym szybciej cząsteczki spadną na ziemię.",
   "tooltip.fbp.weather_particle_density": "Gęstość cząsteczek pogody. Im wyższa wartość, tym więcej cząsteczek pogody się pojawi.",
 
+  "tooltip.fbp.fancy_block_breaking": "Włącz lub wyłącz cząsteczki fantazyjnego niszczenia bloków.",
   "tooltip.fbp.fancy_flame": "Włącz lub wyłącz cząsteczki fantazyjnego płomienia.",
   "tooltip.fbp.fancy_smoke": "Włącz lub wyłącz cząsteczki fantazyjnego dymu.",
   "tooltip.fbp.fancy_rain": "Włącz lub wyłącz cząsteczki fantazyjnego deszczu.",
