@@ -29,6 +29,7 @@
   "button.fbp.gravity_multiplier": "重力倍增器：",
   "button.fbp.weather_particle_density": "天气粒子密度：",
 
+  "button.fbp.fancy_block_breaking": "精致方块破碎",
   "button.fbp.fancy_flame": "华丽火焰",
   "button.fbp.fancy_smoke": "华丽烟雾",
   "button.fbp.fancy_rain": "华丽雨滴",
@@ -75,6 +76,7 @@
   "tooltip.fbp.gravity_multiplier": "粒子重力倍增器。值越高，粒子下落得越快。",
   "tooltip.fbp.weather_particle_density": "天气粒子密度。值越高，天气粒子越多。",
 
+  "tooltip.fbp.fancy_block_breaking": "启用或禁用精致方块破碎粒子。",
   "tooltip.fbp.fancy_flame": "启用或禁用华丽的火焰粒子。",
   "tooltip.fbp.fancy_smoke": "启用或禁用华丽的烟雾粒子。",
   "tooltip.fbp.fancy_rain": "启用或禁用华丽的雨滴粒子。",
