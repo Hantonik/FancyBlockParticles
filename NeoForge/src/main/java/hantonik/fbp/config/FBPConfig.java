@@ -38,6 +38,7 @@ public final class FBPConfig {
     private static final boolean DEFAULT_CARTOON_MODE = false;
     private static final boolean DEFAULT_CULL_PARTICLES = false;
 
+    private static final boolean DEFAULT_FANCY_BLOCK_BREAKING = true;
     private static final boolean DEFAULT_FANCY_FLAME = true;
     private static final boolean DEFAULT_FANCY_SMOKE = true;
     private static final boolean DEFAULT_FANCY_RAIN = true;
@@ -76,7 +77,7 @@ public final class FBPConfig {
     public static final FBPConfig DEFAULT_CONFIG = new FBPConfig(
             DEFAULT_ENABLED, DEFAULT_LOCKED,
             DEFAULT_FROZEN, DEFAULT_INFINITE_DURATION, DEFAULT_CARTOON_MODE, DEFAULT_CULL_PARTICLES,
-            DEFAULT_FANCY_FLAME, DEFAULT_FANCY_SMOKE, DEFAULT_FANCY_RAIN, DEFAULT_FANCY_SNOW, DEFAULT_SMOOTH_ANIMATION_LIGHTING,
+            DEFAULT_FANCY_BLOCK_BREAKING, DEFAULT_FANCY_FLAME, DEFAULT_FANCY_SMOKE, DEFAULT_FANCY_RAIN, DEFAULT_FANCY_SNOW, DEFAULT_SMOOTH_ANIMATION_LIGHTING,
             DEFAULT_SMART_BREAKING, DEFAULT_LOW_TRACTION, DEFAULT_SPAWN_WHILE_FROZEN, DEFAULT_SMOOTH_ANIMATION_LIGHTING,
             DEFAULT_SPAWN_PLACE_PARTICLES,
             DEFAULT_REST_ON_FLOOR, DEFAULT_BOUNCE_OFF_WALLS, DEFAULT_ENTITY_COLLISION, DEFAULT_WATER_PHYSICS,
@@ -95,6 +96,7 @@ public final class FBPConfig {
     private boolean cartoonMode;
     private boolean cullParticles;
 
+    private boolean fancyBlockBraking;
     private boolean fancyFlame;
     private boolean fancySmoke;
     private boolean fancyRain;
@@ -175,6 +177,7 @@ public final class FBPConfig {
         this.cartoonMode = config.cartoonMode;
         this.cullParticles = config.cullParticles;
 
+        this.fancyBlockBraking = config.fancyBlockBraking;
         this.fancyFlame = config.fancyFlame;
         this.fancySmoke = config.fancySmoke;
         this.fancyRain = config.fancyRain;
@@ -219,6 +222,7 @@ public final class FBPConfig {
         this.cartoonMode = config.cartoonMode;
         this.cullParticles = config.cullParticles;
 
+        this.fancyBlockBraking = config.fancyBlockBraking;
         this.fancyFlame = config.fancyFlame;
         this.fancySmoke = config.fancySmoke;
         this.fancyRain = config.fancyRain;
@@ -287,6 +291,7 @@ public final class FBPConfig {
             this.cartoonMode = GsonHelper.getAsBoolean(json, "cartoonMode", DEFAULT_CARTOON_MODE);
             this.cullParticles = GsonHelper.getAsBoolean(json, "cullParticles", DEFAULT_CULL_PARTICLES);
 
+            this.fancyBlockBraking = GsonHelper.getAsBoolean(json, "fancyBlockBraking", DEFAULT_FANCY_BLOCK_BREAKING);
             this.fancyFlame = GsonHelper.getAsBoolean(json, "fancyFlame", DEFAULT_FANCY_FLAME);
             this.fancySmoke = GsonHelper.getAsBoolean(json, "fancySmoke", DEFAULT_FANCY_SMOKE);
             this.fancyRain = GsonHelper.getAsBoolean(json, "fancyRain", DEFAULT_FANCY_RAIN);
@@ -351,6 +356,7 @@ public final class FBPConfig {
             json.addProperty("cartoonMode", this.cartoonMode);
             json.addProperty("cullParticles", this.cullParticles);
 
+            json.addProperty("fancyBlockBraking", this.fancyBlockBraking);
             json.addProperty("fancyFlame", this.fancyFlame);
             json.addProperty("fancySmoke", this.fancySmoke);
             json.addProperty("fancyRain", this.fancyRain);
@@ -403,7 +409,7 @@ public final class FBPConfig {
         return new FBPConfig(
                 this.enabled, this.locked,
                 this.frozen, this.infiniteDuration, this.cartoonMode, this.cullParticles,
-                this.fancyFlame, this.fancySmoke, this.fancyRain, this.fancySnow, this.fancyPlaceAnimation,
+                this.fancyBlockBraking, this.fancyFlame, this.fancySmoke, this.fancyRain, this.fancySnow, this.fancyPlaceAnimation,
                 this.smartBreaking, this.lowTraction, this.spawnWhileFrozen, this.smoothAnimationLighting,
                 this.spawnPlaceParticles,
                 this.restOnFloor, this.bounceOffWalls, this.entityCollision, this.waterPhysics,
