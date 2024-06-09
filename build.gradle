@@ -1,42 +1,86 @@
 plugins {
+    id 'org.spongepowered.gradle.vanilla' version '0.2.+' apply false
+
     id 'net.darkhax.curseforgegradle' version '1.+' apply false
     id 'com.modrinth.minotaur' version '2.+' apply false
+
+    id 'io.freefair.lombok' version '8.+' apply false
 
     id 'net.neoforged.gradleutils' version '3.+'
 }
 
-apply from: 'buildtools/ColoredOutput.gradle'
-
 gradleutils.version {
     tags {
-        label = 'beta'
+        if (mod_version_label != 'release')
+            label = mod_version_label
 
         appendCommitOffset = false
     }
 }
 
-println "Starting build of $mod_name, Version: ${gradleutils.version.toString()}"
+println "$mod_name, Version: ${gradleutils.version.toString()}"
+println "Minecraft: $mc_version, Mappings: $mappings_channel-$mappings_version"
 
 subprojects {
+    if (name != 'Changelog') {
+        apply plugin: 'java'
+
+        if (name != 'Common') {
+            apply plugin: 'net.darkhax.curseforgegradle'
+            apply plugin: 'com.modrinth.minotaur'
+
+            java {
+                withSourcesJar()
+
+                sourceCompatibility = JavaVersion."VERSION_$java_version"
+                targetCompatibility = JavaVersion."VERSION_$java_version"
+            }
+
+            evaluationDependsOn(':Common')
+        }
+
+        apply plugin: 'io.freefair.lombok'
+
+        apply plugin: 'idea'
+        apply plugin: 'maven-publish'
+
+        java.toolchain.languageVersion = JavaLanguageVersion.of(java_version)
+
+        idea {
+            module {
+                downloadSources = true
+                downloadJavadoc = true
+            }
+        }
+    }
+
     version = gradleutils.version.toString()
     group = "hantonik.$mod_id"
 
     tasks.withType(ProcessResources).configureEach {
+        from project(':Common').sourceSets.main.resources
+
         var replaceProperties = [
-                'mod_version': version,
+                'mod_id': mod_id,
                 'mod_name': mod_name,
+                'mod_version': version,
 
                 'mc_version': mc_version,
-
-                'loader_version': loader_version,
-                'fabric_version': fabric_version
+                'java_version': java_version
         ]
 
         inputs.properties replaceProperties
 
-        filesMatching([ 'META-INF/mods.toml', 'fabric.mod.json', 'pack.mcmeta' ]) {
+        filesMatching([ 'META-INF/*mods.toml', 'fabric.mod.json', 'pack.mcmeta' ]) {
             expand replaceProperties
         }
+    }
+
+    tasks.withType(JavaCompile).configureEach {
+        if (!name.startsWith('neo'))
+            source project(':Common').sourceSets.main.allSource
+
+        options.encoding = 'UTF-8'
     }
 
     tasks.withType(Jar).configureEach {
@@ -45,15 +89,11 @@ subprojects {
                     'Specification-Title': mod_id,
                     'Specification-Vendor': 'Hantonik',
                     'Specification-Version': '1',
-                    'Implementation-Title': project.name,
+                    'Implementation-Title': rootProject.name,
                     'Implementation-Version': jar.archiveVersion,
                     'Implementation-Vendor': 'Hantonik'
             ])
         }
-    }
-
-    tasks.withType(JavaCompile).configureEach {
-        options.encoding = 'UTF-8'
     }
 }
 

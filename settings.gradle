@@ -11,8 +11,9 @@ pluginManagement {
 }
 
 include (
-    "Forge",
-    "NeoForge",
+    "Common",
     "Fabric",
+    "NeoForge",
+    "Forge",
     "Changelog"
 )

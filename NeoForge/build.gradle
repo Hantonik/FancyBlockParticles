@@ -2,23 +2,14 @@ import net.darkhax.curseforgegradle.Constants as CFConstants
 import net.darkhax.curseforgegradle.TaskPublishCurseForge
 
 plugins {
-    id 'net.neoforged.gradle.userdev' version '7.+'
-    id 'io.freefair.lombok' version '6.6.+'
-
-    id 'idea'
-    id 'maven-publish'
+    id 'net.neoforged.gradle.userdev' version '7.0.124'
 }
-
-apply plugin: 'net.darkhax.curseforgegradle'
-apply plugin: 'com.modrinth.minotaur'
 
 base {
     archivesName = "$mod_name-$mc_version-neoforge"
 }
 
-java.toolchain.languageVersion = JavaLanguageVersion.of(17)
-
-println "Using NeoForge: $neo_version, for Minecraft: $mc_version, with Mappings: $mappings_channel-$mappings_version"
+println "NeoForge: $neo_version"
 
 minecraft.accessTransformers.file('src/main/resources/META-INF/accesstransformer.cfg')
 
@@ -31,10 +22,12 @@ subsystems {
 
 runs {
     configureEach {
-        workingDirectory file('run')
+        workingDirectory project(':Common').file('run')
 
         systemProperty 'forge.logging.markers', 'REGISTRIES'
         systemProperty 'forge.logging.console.level', 'debug'
+
+        systemProperty 'forge.enabledGameTestNamespaces', mod_id
 
         systemProperty 'mixin.env.remapRefMap', 'true'
         systemProperty 'mixin.env.refMapRemappingFile', "$buildDir/createSrgToMcp/output.srg"
@@ -42,13 +35,9 @@ runs {
         modSource sourceSets.main
     }
 
-    client {
-        systemProperty 'forge.enabledGameTestNamespaces', mod_id
-    }
+    client
 
     server {
-        systemProperty 'forge.enabledGameTestNamespaces', mod_id
-
         programArgument '--nogui'
     }
 }
@@ -60,6 +49,8 @@ repositories {
 dependencies {
     implementation "net.neoforged:neoforge:$neo_version"
 
+    compileOnly project(':Common')
+
     compileOnly "com.github.glitchfiend:SereneSeasons-neoforge:$mc_version-$sereneseasons_version"
     compileOnly "com.github.glitchfiend:GlitchCore-neoforge:$mc_version-$glitchcore_version"
 
@@ -67,11 +58,8 @@ dependencies {
     annotationProcessor "org.projectlombok:lombok:$lombok_version"
 }
 
-java {
-    withSourcesJar()
-
-    sourceCompatibility = JavaVersion.VERSION_17
-    targetCompatibility = JavaVersion.VERSION_17
+sourcesJar {
+    from project(':Common').sourceSets.main.allSource
 }
 
 artifacts {
@@ -92,7 +80,7 @@ tasks.register('publishCurseForge', TaskPublishCurseForge) {
     modFile.releaseType = CFConstants.RELEASE_TYPE_BETA
     modFile.addGameVersion(mc_version, 'client')
     modFile.addModLoader('NeoForge')
-    modFile.addJavaVersion 'Java 17'
+    modFile.addJavaVersion "Java $java_version"
 
     modFile.changelogType = CFConstants.CHANGELOG_HTML
     modFile.changelog = file("${project(':Changelog').projectDir}/changelog.html").getText().replace([ '${version}': "$mc_version-$version" ])

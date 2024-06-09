@@ -1,0 +1,11 @@
+{
+  "required": true,
+  "package": "hantonik.fbp.mixin",
+  "compatibilityLevel": "JAVA_18",
+  "client": [
+    "MixinLevelRenderer",
+    "MixinOptionsScreen",
+    "MixinParticleEngine"
+  ],
+  "minVersion": "0.8"
+}

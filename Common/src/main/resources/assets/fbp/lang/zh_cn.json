@@ -1,0 +1,171 @@
+{
+  "key.fbp.category": "Fancy Block Particles",
+
+  "key.fbp.toggle_mod": "启用/禁用模组",
+  "key.fbp.open_settings": "打开设置",
+  "key.fbp.freeze_particles": "切换冻结效果",
+  "key.fbp.kill_particles": "消除粒子",
+  "key.fbp.add_to_blacklist": "快速添加方块到黑名单",
+  "key.fbp.reload_config": "重新加载配置",
+
+  "gui.fbp.freeze_effect": "冻结效果！",
+
+  "gui.fbp.blacklist.blacklist": "黑名单",
+  "gui.fbp.blacklist.whitelist": "白名单",
+
+  "screen.fbp.fast_blacklist": "快速添加方块到黑名单",
+
+  "screen.fbp.settings": "设置",
+
+  "screen.fbp.category.animations": "动画",
+  "screen.fbp.category.flame": "火焰",
+  "screen.fbp.category.overlay": "覆盖",
+  "screen.fbp.category.rain": "雨",
+  "screen.fbp.category.smoke": "烟雾",
+  "screen.fbp.category.snow": "雪",
+  "screen.fbp.category.terrain": "地形",
+  "screen.fbp.category.weather": "天气",
+
+  "screen.fbp.terrain.animation_blacklist": "动画黑名单",
+  "screen.fbp.terrain.particle_blacklist": "粒子黑名单",
+
+  "screen.fbp.reset_confirm": "你确定要重置FBP设置吗？",
+  "screen.fbp.reload_alert": "配置已成功重新加载！",
+
+  "button.fbp.animations.fancy_placing_animation": "高级放置动画",
+  "button.fbp.animations.smooth_animation_lighting": "平滑动画照明",
+
+  "button.fbp.common.particles_decay": "粒子衰减",
+
+  "button.fbp.common.spawn_while_frozen": "冻结时生成",
+
+  "button.fbp.common.random_size": "随机大小",
+  "button.fbp.common.random_rotation": "随机旋转",
+  "button.fbp.common.random_fading_speed": "随机消退速度",
+
+  "button.fbp.common.min_lifetime": "最短寿命",
+  "button.fbp.common.max_lifetime": "最长寿命",
+
+  "button.fbp.common.size_multiplier": "大小倍增器",
+  "button.fbp.common.rotation_multiplier": "旋转倍增器",
+  "button.fbp.common.gravity_multiplier": "重力倍增器",
+
+  "button.fbp.common.render_distance": "渲染距离",
+  "button.fbp.common.simulation_distance": "模拟距离",
+
+  "button.fbp.common.water_physics": "水物理",
+  "button.fbp.common.rest_on_floor": "落在地面",
+  "button.fbp.common.low_traction": "低牵引力",
+  "button.fbp.common.bounce_off_walls": "碰撞墙壁反弹",
+
+  "button.fbp.common.reload": "重新加载配置",
+  "button.fbp.common.reset": "重置",
+  "button.fbp.common.done": "完成",
+
+  "button.fbp.common.true": "§a开",
+  "button.fbp.common.false": "§c关",
+
+  "button.fbp.common.ticks": " 刻",
+
+  "button.fbp.flame.fancy_flame_particles": "高级火焰粒子",
+
+  "button.fbp.global.enabled": "启用",
+
+  "button.fbp.global.freeze_effect": "冻结效果",
+  "button.fbp.global.cartoon_mode": "卡通模式",
+  "button.fbp.global.cull_particles": "剔除粒子",
+
+  "button.fbp.overlay.freeze_effect_overlay": "冻结效果覆盖层",
+
+  "button.fbp.rain.particle_density": "雨粒子密度",
+
+  "button.fbp.smoke.fancy_smoke_particles": "高级烟雾粒子",
+
+  "button.fbp.snow.particle_density": "雪粒子密度",
+
+  "button.fbp.terrain.fancy_breaking_particles": "高级破碎粒子",
+  "button.fbp.terrain.fancy_placing_particles": "高级放置粒子",
+  "button.fbp.terrain.fancy_cracking_particles": "高级裂纹粒子",
+
+  "button.fbp.terrain.smart_breaking": "智能破碎",
+  "button.fbp.terrain.entity_collision": "实体碰撞",
+
+  "button.fbp.terrain.particles_per_axis": "每轴粒子数",
+
+  "button.fbp.weather.fancy_rain_particles": "高级雨粒子",
+  "button.fbp.weather.fancy_snow_particles": "高级雪粒子",
+
+  "widget.fbp.global.categories": "类别",
+
+  "widget.fbp.overlay.freeze_effect_color": "冻结效果颜色",
+
+  "tooltip.fbp.animations.fancy_placing_animation": "启用/禁用高级放置动画。",
+  "tooltip.fbp.animations.smooth_animation_lighting": "启用/禁用平滑动画照明。",
+
+  "tooltip.fbp.common.homepage": "FBP主页在这里！",
+  "tooltip.fbp.common.report": "发现了一个错误？\n在这里报告！",
+
+  "tooltip.fbp.common.particles_decay": "粒子是否应该衰减？",
+
+  "tooltip.fbp.common.spawn_while_frozen": "粒子在冻结效果期间是否生成？",
+
+  "tooltip.fbp.common.random_size": "粒子大小是否随机？",
+  "tooltip.fbp.common.random_rotation": "粒子旋转是否随机？",
+  "tooltip.fbp.common.random_fading_speed": "粒子消退速度是否随机？",
+
+  "tooltip.fbp.common.min_lifetime": "粒子最短寿命。",
+  "tooltip.fbp.common.max_lifetime": "粒子最长寿命。",
+
+  "tooltip.fbp.common.size_multiplier": "粒子大小倍增器。",
+  "tooltip.fbp.common.rotation_multiplier": "粒子旋转倍增器。",
+  "tooltip.fbp.common.gravity_multiplier": "粒子重力倍增器。",
+
+  "tooltip.fbp.common.render_distance": "粒子渲染距离。",
+  "tooltip.fbp.common.simulation_distance": "粒子模拟距离。",
+
+  "tooltip.fbp.common.water_physics": "粒子是否有水物理效果？",
+  "tooltip.fbp.common.rest_on_floor": "粒子是否应落在地面上？\n禁用时，只有一半的粒子会在地面上。",
+  "tooltip.fbp.common.low_traction": "粒子是否应有低牵引力？",
+  "tooltip.fbp.common.bounce_off_walls": "粒子是否应碰撞墙壁反弹？",
+
+  "tooltip.fbp.common.option_unsupported": "敬请期待！",
+
+  "tooltip.fbp.flame.fancy_flame_particles": "启用/禁用高级火焰粒子。\n禁用时，将恢复默认粒子。",
+
+  "tooltip.fbp.global.enabled": "启用/禁用FBP模组。\n禁用时，将恢复默认粒子。",
+
+  "tooltip.fbp.global.freeze_effect": "启用/禁用冻结效果。",
+  "tooltip.fbp.global.cartoon_mode": "启用/禁用卡通模式。",
+  "tooltip.fbp.global.cull_particles": "启用/禁用粒子剔除。\n启用时，通过仅渲染玩家可见的对象来优化性能，提高游戏性能。",
+
+  "tooltip.fbp.overlay.freeze_effect_overlay": "启用/禁用冻结效果覆盖层。\n启用时，在冻结效果期间，屏幕顶部会显示消息。",
+
+  "tooltip.fbp.rain.particle_density": "雨粒子密度。",
+
+  "tooltip.fbp.smoke.fancy_smoke_particles": "启用/禁用高级烟雾粒子。\n禁用时，将恢复默认粒子。",
+
+  "tooltip.fbp.snow.particle_density": "雪粒子密度。",
+
+  "tooltip.fbp.terrain.fancy_breaking_particles": "启用/禁用高级破碎粒子。\n禁用时，将恢复默认粒子。",
+  "tooltip.fbp.terrain.fancy_placing_particles": "启用/禁用高级放置粒子。\n禁用时，将恢复默认粒子。",
+  "tooltip.fbp.terrain.fancy_cracking_particles": "启用/禁用高级裂纹粒子。\n禁用时，将恢复默认粒子。",
+
+  "tooltip.fbp.terrain.smart_breaking": "启用/禁用智能破碎。\n启用时，改进破坏方块时的粒子物理效果。",
+  "tooltip.fbp.terrain.entity_collision": "启用/禁用实体碰撞。",
+
+  "tooltip.fbp.terrain.particles_per_axis": "每轴粒子数。",
+
+  "tooltip.fbp.weather.fancy_rain_particles": "启用/禁用高级雨粒子。\n禁用时，将恢复默认粒子。",
+  "tooltip.fbp.weather.fancy_snow_particles": "启用/禁用高级雪粒子。\n禁用时，将恢复默认粒子。",
+
+  "tooltip.fbp.chunks": " 区块",
+  "tooltip.fbp.default": "默认: ",
+
+  "tooltip.fbp.animation": "放置动画",
+  "tooltip.fbp.particles": "粒子",
+
+  "tooltip.fbp.add": "添加",
+  "tooltip.fbp.remove": "移除",
+
+  "text.fbp.version": "版本: %s"
+}

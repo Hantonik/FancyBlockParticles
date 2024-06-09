@@ -1,0 +1,9 @@
+{
+  "required": true,
+  "package": "hantonik.fbp.mixin",
+  "compatibilityLevel": "JAVA_18",
+  "client": [
+    "MixinItemPickupParticle"
+  ],
+  "minVersion": "0.8"
+}
