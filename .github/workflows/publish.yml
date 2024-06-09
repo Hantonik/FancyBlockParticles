@@ -3,11 +3,14 @@ name: 'Publish'
 on:
   workflow_dispatch:
     inputs:
-      suffix:
-        type: string
-        required: false
+      label:
+        type: choice
+        description: 'Version label'
+        options:
+          - -beta
+          - -alpha
         default: ''
-        description: 'Suffix/Release type'
+        required: false
 
 permissions:
   contents: write
@@ -145,7 +148,7 @@ jobs:
         with:
           include: Changelog/**
           find: "${version}"
-          replace: "`${{ steps.latest-tag.outputs.tag }}${{ inputs.suffix }}`"
+          replace: "`${{ steps.latest-tag.outputs.tag }}${{ inputs.label }}`"
           regex: false
 
       - name: 'Download ${{ matrix.loader }} artifacts'
@@ -158,7 +161,7 @@ jobs:
       - name: 'Create release'
         uses: softprops/action-gh-release@v1
         with:
-          name: "${{ github.event.repository.name }}-${{ github.ref_name }}-${{ steps.latest-tag.outputs.tag }}${{ inputs.suffix }}"
+          name: "${{ github.event.repository.name }}-${{ github.ref_name }}-${{ steps.latest-tag.outputs.tag }}${{ inputs.label }}"
           tag_name: ${{ steps.latest-tag.outputs.tag }}
           target_commitish: ${{ github.ref }}
           body_path: Changelog/changelog.md
