@@ -5,56 +5,52 @@ plugins {
     id 'net.minecraftforge.gradle' version '6.+'
     id 'org.parchmentmc.librarian.forgegradle' version '1.+'
     id 'org.spongepowered.mixin' version '0.7-SNAPSHOT'
-    id 'io.freefair.lombok' version '6.6.+'
-
-    id 'idea'
-    id 'maven-publish'
 }
-
-apply plugin: 'net.darkhax.curseforgegradle'
-apply plugin: 'com.modrinth.minotaur'
 
 base {
     archivesName = "$mod_name-$mc_version-forge"
 }
 
-java.toolchain.languageVersion = JavaLanguageVersion.of(17)
-
 mixin {
-    add sourceSets.main, "${mod_id}.refmap.json"
-
     config "${mod_id}.mixins.json"
+    config "${mod_id}.forge.mixins.json"
 }
 
-println "Using Forge: $forge_version, for Minecraft: $mc_version, with Mappings: $mappings_channel-$mappings_version"
+println "Forge: $forge_version"
 
 minecraft {
     mappings channel: mappings_channel, version: "$mappings_version-$mc_version"
 
+    reobf = false
     copyIdeResources = true
 
     accessTransformer = file('src/main/resources/META-INF/accesstransformer.cfg')
 
     runs {
         configureEach {
-            workingDirectory file('run')
+            workingDirectory project(':Common').file('run')
 
             property 'forge.logging.markers', 'REGISTRIES'
             property 'forge.logging.console.level', 'debug'
+
+            property 'forge.enabledGameTestNamespaces', mod_id
 
             property 'mixin.env.remapRefMap', 'true'
             property 'mixin.env.refMapRemappingFile', "$buildDir/createSrgToMcp/output.srg"
 
             ideaModule "${rootProject.name}.${project.name}.main"
+
+            mods {
+                "${mod_id}" {
+                    source sourceSets.main
+                    source project(':Common').sourceSets.main
+                }
+            }
         }
 
-        client {
-            property 'forge.enabledGameTestNamespaces', mod_id
-        }
+        client
 
         server {
-            property 'forge.enabledGameTestNamespaces', mod_id
-
             args '--nogui'
         }
     }
@@ -67,47 +63,51 @@ sourceSets.each {
     it.java.destinationDirectory = dir
 }
 
+repositories {
+    mavenCentral() {
+        content {
+            includeGroup 'org.projectlombok'
+        }
+    }
+}
+
 dependencies {
     minecraft "net.minecraftforge:forge:$mc_version-$forge_version"
 
+    compileOnly project(':Common')
+
+    compileOnly "com.github.glitchfiend:SereneSeasons-forge:$mc_version-$sereneseasons_version"
+    compileOnly "com.github.glitchfiend:GlitchCore-forge:$mc_version-$glitchcore_version"
+
     compileOnly "org.projectlombok:lombok:$lombok_version"
 
-    compileOnly fg.deobf("com.github.glitchfiend:SereneSeasons-forge:$mc_version-$sereneseasons_version")
-    compileOnly fg.deobf("com.github.glitchfiend:GlitchCore-forge:$mc_version-$glitchcore_version")
-
-    compileOnly(annotationProcessor("io.github.llamalad7:mixinextras-common:$mixinextras_version"))
-
-    implementation(jarJar("io.github.llamalad7:mixinextras-forge:$mixinextras_version")) {
-        jarJar.ranged(it, "[$mixinextras_version,)")
-    }
-
-    annotationProcessor "org.spongepowered:mixin:$mixin_processor_version:processor"
     annotationProcessor "org.projectlombok:lombok:$lombok_version"
+    annotationProcessor "org.spongepowered:mixin:$mixin_processor_version:processor"
+
+    implementation('net.sf.jopt-simple:jopt-simple:5.0.4') { version { strictly '5.0.4' } }
 }
 
 // Workaround for SpongePowered/MixinGradle#38
-afterEvaluate {
-    tasks.configureReobfTaskForReobfJar.mustRunAfter(tasks.compileJava)
-    tasks.configureReobfTaskForReobfJarJar.mustRunAfter(tasks.compileJava)
+if (minecraft.reobf) {
+    afterEvaluate {
+        tasks.configureReobfTaskForReobfJar.mustRunAfter(tasks.compileJava)
+        tasks.configureReobfTaskForReobfJarJar.mustRunAfter(tasks.compileJava)
+    }
 }
 
 jar {
-    archiveClassifier = 'slim'
+    manifest {
+        attributes([
+                'MixinConfigs': "${mod_id}.mixins.json,${mod_id}.forge.mixins.json"
+        ])
+    }
 
-    finalizedBy('reobfJar')
+    if (minecraft.reobf)
+        finalizedBy('reobfJar')
 }
 
-tasks.jarJar {
-    archiveClassifier = ''
-
-    finalizedBy('reobfJarJar')
-}
-
-java {
-    withSourcesJar()
-
-    sourceCompatibility = JavaVersion.VERSION_17
-    targetCompatibility = JavaVersion.VERSION_17
+sourcesJar {
+    from project(':Common').sourceSets.main.allSource
 }
 
 artifacts {
@@ -118,17 +118,17 @@ artifacts {
 project.evaluationDependsOn(':Changelog')
 
 tasks.register('publishCurseForge', TaskPublishCurseForge) {
-    dependsOn(tasks.jarJar)
+    dependsOn(tasks.jar)
     dependsOn(':Changelog:makeHtmlChangelog')
 
     apiToken = System.getenv('CURSEFORGE_TOKEN')
 
-    var modFile = upload('937011', tasks.jarJar.archiveFile)
+    var modFile = upload('937011', tasks.jar.archiveFile)
     modFile.displayName = "${base.archivesName.get()}-$version"
     modFile.releaseType = CFConstants.RELEASE_TYPE_BETA
     modFile.addGameVersion(mc_version, 'client')
     modFile.addModLoader('Forge')
-    modFile.addJavaVersion 'Java 17'
+    modFile.addJavaVersion "Java $java_version"
 
     modFile.changelogType = CFConstants.CHANGELOG_HTML
     modFile.changelog = file("${project(':Changelog').projectDir}/changelog.html").getText().replace([ '${version}': "$mc_version-$version" ])
@@ -148,11 +148,11 @@ modrinth {
 
     changelog = provider { file("${project(':Changelog').projectDir}/changelog.md").getText().replace([ '${version}': "$mc_version-$version" ]) }
 
-    uploadFile = tasks.jarJar
+    uploadFile = tasks.jar
     additionalFiles = [ tasks.sourcesJar ]
 }
 
-tasks.modrinth.dependsOn(tasks.jarJar)
+tasks.modrinth.dependsOn(tasks.jar)
 tasks.modrinth.dependsOn(tasks.sourcesJar)
 
 tasks.modrinth.dependsOn(':Changelog:makeMarkdownChangelog')
@@ -160,10 +160,10 @@ tasks.modrinth.dependsOn(':Changelog:makeMarkdownChangelog')
 publishing {
     publications {
         register('mavenJava', MavenPublication) {
-            artifactId archivesBaseName
+            artifact jar
+            artifact sourcesJar
 
-            from components.java
-            jarJar.component(it)
+            artifactId archivesBaseName
         }
     }
 

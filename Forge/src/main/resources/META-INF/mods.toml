@@ -1,7 +1,9 @@
 modLoader="javafml"
-loaderVersion="[49,)"
+loaderVersion="[50,)"
 license="GPLv3"
 issueTrackerURL="https://github.com/Hantonik/FancyBlockParticles/issues"
+
+clientSideOnly=true
 
 [[mods]]
     modId="fbp"
@@ -17,13 +19,13 @@ issueTrackerURL="https://github.com/Hantonik/FancyBlockParticles/issues"
 [[dependencies.fbp]]
     modId="forge"
     mandatory=true
-    versionRange="[49,)"
+    versionRange="[50,)"
     ordering="NONE"
-    side="BOTH"
+    side="CLIENT"
 
 [[dependencies.fbp]]
     modId="minecraft"
     mandatory=true
-    versionRange="[1.20.4,1.21)"
+    versionRange="[1.20.6,1.21)"
     ordering="NONE"
-    side="BOTH"
+    side="CLIENT"
