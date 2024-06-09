@@ -1,0 +1,171 @@
+{
+  "key.fbp.category": "Fancy Block Particles",
+
+  "key.fbp.toggle_mod": "Włącz/wyłącz moda",
+  "key.fbp.open_settings": "Otwórz ustawienia",
+  "key.fbp.freeze_particles": "Przełącz efekt zamrożenia",
+  "key.fbp.kill_particles": "Usuń cząsteczki",
+  "key.fbp.add_to_blacklist": "Szybkie dodawanie bloków do czarnej listy",
+  "key.fbp.reload_config": "Przeładuj konfigurację",
+
+  "gui.fbp.freeze_effect": "Efekt zamrożenia!",
+
+  "gui.fbp.blacklist.blacklist": "Czarna lista",
+  "gui.fbp.blacklist.whitelist": "Biała lista",
+
+  "screen.fbp.fast_blacklist": "Dodaj blok do czarnej listy",
+
+  "screen.fbp.settings": "Ustawienia",
+
+  "screen.fbp.category.animations": "Animacje",
+  "screen.fbp.category.flame": "Płomień",
+  "screen.fbp.category.overlay": "Nakładka",
+  "screen.fbp.category.rain": "Deszcz",
+  "screen.fbp.category.smoke": "Dym",
+  "screen.fbp.category.snow": "Śnieg",
+  "screen.fbp.category.terrain": "Teren",
+  "screen.fbp.category.weather": "Pogoda",
+
+  "screen.fbp.terrain.animation_blacklist": "Czarna lista animacji",
+  "screen.fbp.terrain.particle_blacklist": "Czarna lista cząsteczek",
+
+  "screen.fbp.reset_confirm": "Czy jesteś pewien, że chcesz zresetować ustawienia FBP?",
+  "screen.fbp.reload_alert": "Konfiguracja została przeładowana pomyślnie!",
+
+  "button.fbp.animations.fancy_placing_animation": "Fantazyjna animacja kładzenia",
+  "button.fbp.animations.smooth_animation_lighting": "Gładkie oświetlenie animacji",
+
+  "button.fbp.common.particles_decay": "Cząsteczki znikają",
+
+  "button.fbp.common.spawn_while_frozen": "Powstawanie podczas zamrożenia",
+
+  "button.fbp.common.random_size": "Losowy rozmiar",
+  "button.fbp.common.random_rotation": "Losowa rotacja",
+  "button.fbp.common.random_fading_speed": "Losowa prędkość znikania",
+
+  "button.fbp.common.min_lifetime": "Minimalny czas istnienia",
+  "button.fbp.common.max_lifetime": "Maksymalny czas istnienia",
+
+  "button.fbp.common.size_multiplier": "Mnożnik rozmiaru",
+  "button.fbp.common.rotation_multiplier": "Mnożnik rotacji",
+  "button.fbp.common.gravity_multiplier": "Mnożnik grawitacji",
+
+  "button.fbp.common.render_distance": "Zasięg renderowania",
+  "button.fbp.common.simulation_distance": "Zasięg symulacji",
+
+  "button.fbp.common.water_physics": "Fizyka wody",
+  "button.fbp.common.rest_on_floor": "Spoczywanie na ziemi",
+  "button.fbp.common.low_traction": "Zmniejszona trakcja",
+  "button.fbp.common.bounce_off_walls": "Odbijanie od ścian",
+
+  "button.fbp.common.reload": "Przeładuj konfigurację",
+  "button.fbp.common.reset": "Zresetuj",
+  "button.fbp.common.done": "Gotowe",
+
+  "button.fbp.common.true": "§aON",
+  "button.fbp.common.false": "§cOFF",
+
+  "button.fbp.common.ticks": " tiki",
+
+  "button.fbp.flame.fancy_flame_particles": "Fantazyjne cząsteczki płomieni",
+
+  "button.fbp.global.enabled": "Włączone",
+
+  "button.fbp.global.freeze_effect": "Efekt zamrożenia",
+  "button.fbp.global.cartoon_mode": "Tryb kreskówki",
+  "button.fbp.global.cull_particles": "Selekcja cząsteczek",
+
+  "button.fbp.overlay.freeze_effect_overlay": "Nakładka efektu zamrożenia",
+
+  "button.fbp.rain.particle_density": "Gęstość cząsteczek deszczu",
+
+  "button.fbp.smoke.fancy_smoke_particles": "Fantazyjne cząsteczki dymu",
+
+  "button.fbp.snow.particle_density": "Gęstość cząsteczek śniegu",
+
+  "button.fbp.terrain.fancy_breaking_particles": "Fantazyjne cząsteczki destrukcji",
+  "button.fbp.terrain.fancy_placing_particles": "Fantazyjne cząsteczki kładzenia",
+  "button.fbp.terrain.fancy_cracking_particles": "Fantazyjne cząsteczki niszczenia",
+
+  "button.fbp.terrain.smart_breaking": "Inteligentne niszczenie",
+  "button.fbp.terrain.entity_collision": "Kolizja z bytami",
+
+  "button.fbp.terrain.particles_per_axis": "Ilość cząsteczek na oś",
+
+  "button.fbp.weather.fancy_rain_particles": "Fantazyjne cząsteczki deszczu",
+  "button.fbp.weather.fancy_snow_particles": "Fantazyjne cząsteczki śniegu",
+
+  "widget.fbp.global.categories": "Kategorie",
+
+  "widget.fbp.overlay.freeze_effect_color": "Kolor efektu zamrożenia",
+
+  "tooltip.fbp.animations.fancy_placing_animation": "Włącz/wyłącz fantazyjną animację kładzenia.",
+  "tooltip.fbp.animations.smooth_animation_lighting": "Czy animacja powinna być gładko oświetlona.",
+
+  "tooltip.fbp.common.homepage": "Strona główna FBP tutaj!",
+  "tooltip.fbp.common.report": "Znalazłeś błąd?\nZgłoś go tutaj!",
+
+  "tooltip.fbp.common.particles_decay": "Czy cząsteczki powinny znikać?",
+
+  "tooltip.fbp.common.spawn_while_frozen": "Czy cząsteczki powinny pojawiać się podczas efektu zamrożenia?",
+
+  "tooltip.fbp.common.random_size": "Czy rozmiar cząsteczek powinien być losowy?",
+  "tooltip.fbp.common.random_rotation": "Czy rotacja cząsteczek powinna być losowa?",
+  "tooltip.fbp.common.random_fading_speed": "Czy prędkość znikania cząsteczek powinna być losowa?",
+
+  "tooltip.fbp.common.min_lifetime": "Minimalna długość istnienia cząsteczek.",
+  "tooltip.fbp.common.max_lifetime": "Maksymalna długość istnienia cząsteczek.",
+
+  "tooltip.fbp.common.size_multiplier": "Mnożnik rozmiaru cząsteczek.",
+  "tooltip.fbp.common.rotation_multiplier": "Mnożnik rotacji cząsteczek.",
+  "tooltip.fbp.common.gravity_multiplier": "Mnożnik grawitacji cząsteczek.",
+
+  "tooltip.fbp.common.render_distance": "Zasięg renderowania cząsteczek.",
+  "tooltip.fbp.common.simulation_distance": "Zasięg symulacji cząsteczek.",
+
+  "tooltip.fbp.common.water_physics": "Czy cząsteczki powinny mieć fizykę wody?",
+  "tooltip.fbp.common.rest_on_floor": "Czy cząsteczki powinny spocząć na ziemi?\nPo wyłączeniu tylko połowa cząsteczki będzie znajdować się na ziemi.",
+  "tooltip.fbp.common.low_traction": "Czy cząsteczki powinny mieć zmniejszoną trakcję?",
+  "tooltip.fbp.common.bounce_off_walls": "Czy cząsteczki powinny odbijać się od ścian?",
+
+  "tooltip.fbp.common.option_unsupported": "Dostępne wkrótce!",
+
+  "tooltip.fbp.flame.fancy_flame_particles": "Włącz/wyłącz fantazyjne cząsteczki płomienia.\nGdy wyłączone przywrócone zostają domyślne cząsteczki.",
+
+  "tooltip.fbp.global.enabled": "Włącz/wyłącz moda FBP.\nGdy wyłączone przywrócone zostają domyślne cząsteczki.",
+
+  "tooltip.fbp.global.freeze_effect": "Włącz/wyłącz efekt zamrożenia.",
+  "tooltip.fbp.global.cartoon_mode": "Włącz/wyłącz tryb kreskówki.",
+  "tooltip.fbp.global.cull_particles": "Włącz/wyłącz selekcję cząsteczek.\nPo włączeniu optymalizuje wydajność, renderując tylko te obiekty, które są widoczne dla gracza.",
+
+  "tooltip.fbp.overlay.freeze_effect_overlay": "Włącz/wyłącz nakładkę efektu zamrożenia.\nPo włączeniu, podczas efektu zamrożenia na górze ekranu pojawi się informujący o tym tekst.",
+
+  "tooltip.fbp.rain.particle_density": "Gęstość cząsteczek deszczu.",
+
+  "tooltip.fbp.smoke.fancy_smoke_particles": "Włącz/wyłącz fantazyjne cząsteczki dymku.\nGdy wyłączone przywrócone zostają domyślne cząsteczki.",
+
+  "tooltip.fbp.snow.particle_density": "Gęstość cząsteczek śniegu.",
+
+  "tooltip.fbp.terrain.fancy_breaking_particles": "Włącz/wyłącz fantazyjne cząsteczki destrukcji.\nGdy wyłączone przywrócone zostają domyślne cząsteczki.",
+  "tooltip.fbp.terrain.fancy_placing_particles": "Włącz/wyłącz fantazyjne cząsteczki kładzenia.\nGdy wyłączone przywrócone zostają domyślne cząsteczki.",
+  "tooltip.fbp.terrain.fancy_cracking_particles": "Włącz/wyłącz fantazyjne cząsteczki niszczenia.\nGdy wyłączone przywrócone zostają domyślne cząsteczki.",
+
+  "tooltip.fbp.terrain.smart_breaking": "Włącz/wyłącz inteligentne niszczenie.\nPo włączeniu poprawia fizykę cząstek podczas pękania bloków.",
+  "tooltip.fbp.terrain.entity_collision": "Włącz/wyłącz kolizję z bytami.",
+
+  "tooltip.fbp.terrain.particles_per_axis": "Ilość cząsteczek na oś.",
+
+  "tooltip.fbp.weather.fancy_rain_particles": "Włącz/wyłącz fantazyjne cząsteczki deszczu.\nGdy wyłączone przywrócone zostają domyślne cząsteczki.",
+  "tooltip.fbp.weather.fancy_snow_particles": "Włącz/wyłącz fantazyjne cząsteczki śniegu.\nGdy wyłączone przywrócone zostają domyślne cząsteczki.",
+
+  "tooltip.fbp.chunks": " chunków",
+  "tooltip.fbp.default": "Domyślnie: ",
+
+  "tooltip.fbp.animation": "ANIMACJA KŁADZENIA",
+  "tooltip.fbp.particles": "CZĄSTECZKI",
+
+  "tooltip.fbp.add": "DODAJ",
+  "tooltip.fbp.remove": "USUŃ",
+
+  "text.fbp.version": "Wersja: %s"
+}

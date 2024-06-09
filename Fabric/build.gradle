@@ -4,48 +4,41 @@ import net.darkhax.curseforgegradle.Constants as CFConstants
 import net.darkhax.curseforgegradle.TaskPublishCurseForge
 
 plugins {
-	id 'fabric-loom' version '1.5.+'
-	id 'io.freefair.lombok' version '6.6.+'
-
-	id 'idea'
-	id 'maven-publish'
+	id 'fabric-loom' version '1.7.+'
 }
-
-apply plugin: 'net.darkhax.curseforgegradle'
-apply plugin: 'com.modrinth.minotaur'
 
 base {
 	archivesName = "$mod_name-$mc_version-fabric"
 }
 
-java.toolchain.languageVersion = JavaLanguageVersion.of(17)
-
-println "Using Fabric: $fabric_version, Loader: $loader_version, for Minecraft: $mc_version, with Mappings: $mappings_channel-$mappings_version"
+println "Fabric API: $fabric_version, Loader: $loader_version"
 
 loom {
 	runs {
+		configureEach {
+			ideConfigGenerated(true)
+			runDir("../Common/run")
+		}
+
 		client {
 			client()
 
-			setConfigName('Fabric Client')
-			ideConfigGenerated(true)
-			runDir('run')
+			setConfigName('Fabric: Client')
 		}
 
 		server {
 			server()
 
-			setConfigName('Fabric Server')
-			ideConfigGenerated(true)
-			runDir('run')
+			setConfigName('Fabric: Server')
 		}
 	}
 
 	mixin {
+		defaultRefmapName = "${mod_id}.refmap.json"
 		useLegacyMixinAp = false
 	}
 
-	accessWidenerPath.set(file("src/main/resources/${mod_id}.accesswidener"))
+	accessWidenerPath.set(project(':Common').file("src/main/resources/${mod_id}.accesswidener"))
 }
 
 repositories {
@@ -61,6 +54,8 @@ dependencies {
 		parchment("org.parchmentmc.data:parchment-$mc_version:$mappings_version@zip")
 	}
 
+	implementation project(':Common')
+
 	modImplementation "net.fabricmc:fabric-loader:$loader_version"
 	modImplementation "net.fabricmc.fabric-api:fabric-api:$fabric_version+$mc_version"
 
@@ -71,11 +66,8 @@ dependencies {
 	annotationProcessor "org.projectlombok:lombok:$lombok_version"
 }
 
-java {
-	withSourcesJar()
-
-	sourceCompatibility = JavaVersion.VERSION_17
-	targetCompatibility = JavaVersion.VERSION_17
+sourcesJar {
+	from project(':Common').sourceSets.main.allSource
 }
 
 artifacts {
@@ -96,7 +88,7 @@ tasks.register('publishCurseForge', TaskPublishCurseForge) {
 	modFile.releaseType = CFConstants.RELEASE_TYPE_BETA
 	modFile.addGameVersion(mc_version, 'client')
 	modFile.addModLoader 'Fabric'
-	modFile.addJavaVersion 'Java 17'
+	modFile.addJavaVersion "Java $java_version"
 	modFile.addRequirement 'fabric-api'
 
 	modFile.changelogType = CFConstants.CHANGELOG_HTML
