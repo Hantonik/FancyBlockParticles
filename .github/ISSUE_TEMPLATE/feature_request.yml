@@ -1,9 +1,8 @@
 name: 'Feature request'
 description: 'Have any suggestions? Let me know about them here!'
 
-title: '[Feature] <title>'
+title: '[Feature] '
 labels: [ 'enhancement' ]
-assignees: [ 'Hantonik' ]
 
 body:
   - type: markdown
@@ -16,7 +15,7 @@ body:
       label: 'Feature description:'
       description: |
         Please describe your idea as clearly as you can.
-      placeholder: 'Description, context, etc...'
+      placeholder: 'Description...'
     validations:
       required: true
   - type: dropdown
@@ -24,24 +23,28 @@ body:
       label: 'Minecraft version:'
       description: |
         What version of Minecraft would you like this on?
-        You can skip this if your request is not tied to any version.
-        
         Older versions are **not** supported!
+        
+        **You can skip this if your request is not tied to any version.**
       multiple: true
       options:
-        - '1.16.5'
-        - '1.17.1'
-        - '1.18.2'
-        - '1.19.4'
-        - '1.20.4'
-        - '1.21'
         - 'Newer'
+        - '1.21'
+        - '1.20.6'
+        - '1.20.4'
+        - '1.20.1'
+        - '1.19.4'
+        - '1.19.2'
+        - '1.18.2'
+        - '1.17.1'
+        - '1.16.5'
   - type: dropdown
     attributes:
       label: 'Modloader:'
       description: |
         What modloader would you like this on?
-        You can skip this if your request is not tied to any modloader (or select both).
+        
+        **You can skip this if your request is not tied to any modloader.**
       multiple: true
       options:
         - 'Forge'

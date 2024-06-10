@@ -1,9 +1,8 @@
 name: 'Bug report'
 description: 'If you notice any bugs or problems with FBP, report them here!'
 
-title: '[Bug] <title>'
+title: '[Bug] '
 labels: [ 'bug' ]
-assignees: [ 'Hantonik' ]
 
 body:
   - type: markdown
@@ -17,7 +16,7 @@ body:
       label: 'Issue description:'
       description: |
         "It doesn't work" is not really helpful.
-      placeholder: 'Description'
+      placeholder: 'Description...'
     validations:
       required: true
   - type: textarea
@@ -35,7 +34,7 @@ body:
   - type: input
     attributes:
       label: 'FBP version:'
-      placeholder: '1.0.0.0'
+      placeholder: 'e.g. 1.0.0.0'
     validations:
       required: true
   - type: dropdown
@@ -44,30 +43,23 @@ body:
       description: |
         Older versions are **not** supported!
       options:
+        - '1.20.6'
         - '1.20.4'
+        - '1.20.1'
         - '1.19.4'
+        - '1.19.2'
         - '1.18.2'
         - '1.17.1'
         - '1.16.5'
       multiple: true
     validations:
       required: true
-  - type: dropdown
-    attributes:
-      label: 'Modloader:'
-      description: |
-        What modloader does the bug occur on?
-      multiple: true
-      options:
-        - 'Forge'
-        - 'NeoForge'
-        - 'Fabric'
-    validations:
-      required: true
   - type: input
     attributes:
       label: 'Modloader version:'
-      placeholder: 'Forge / NeoForge / Fabric'
+      description: |
+        What modloader does the bug occur on?
+      placeholder: 'e.g. Forge 47.2.0'
     validations:
       required: true
   - type: textarea
