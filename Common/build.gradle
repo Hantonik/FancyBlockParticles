@@ -1,9 +1,5 @@
 apply plugin: 'org.spongepowered.gradle.vanilla'
 
-base {
-    archivesName = "$mod_name-$mc_version-common"
-}
-
 println "Using Minecraft: $mc_version"
 
 minecraft {
