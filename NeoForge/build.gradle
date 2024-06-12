@@ -36,10 +36,6 @@ runs {
     }
 
     client
-
-    server {
-        programArgument '--nogui'
-    }
 }
 
 repositories {

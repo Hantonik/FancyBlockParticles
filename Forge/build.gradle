@@ -49,10 +49,6 @@ minecraft {
         }
 
         client
-
-        server {
-            args '--nogui'
-        }
     }
 }
 
