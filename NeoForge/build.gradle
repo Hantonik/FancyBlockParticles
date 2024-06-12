@@ -2,7 +2,7 @@ import net.darkhax.curseforgegradle.Constants as CFConstants
 import net.darkhax.curseforgegradle.TaskPublishCurseForge
 
 plugins {
-    id 'net.neoforged.gradle.userdev' version '7.0.124'
+    id 'net.neoforged.gradle.userdev' version '7.0.97'
 }
 
 base {
@@ -51,8 +51,8 @@ dependencies {
 
     compileOnly project(':Common')
 
-    compileOnly "com.github.glitchfiend:SereneSeasons-neoforge:$mc_version-$sereneseasons_version"
-    compileOnly "com.github.glitchfiend:GlitchCore-neoforge:$mc_version-$glitchcore_version"
+    implementation "com.github.glitchfiend:SereneSeasons-neoforge:$mc_version-$sereneseasons_version"
+    implementation "com.github.glitchfiend:GlitchCore-neoforge:$mc_version-$glitchcore_version"
 
     compileOnly "org.projectlombok:lombok:$lombok_version"
     annotationProcessor "org.projectlombok:lombok:$lombok_version"

@@ -11,9 +11,13 @@ import net.neoforged.fml.ModList;
 import net.neoforged.fml.common.Mod;
 import net.neoforged.fml.event.lifecycle.FMLClientSetupEvent;
 import net.neoforged.fml.loading.FMLLoader;
-import net.neoforged.neoforge.client.event.*;
-import net.neoforged.neoforge.client.gui.IConfigScreenFactory;
+import net.neoforged.neoforge.client.ConfigScreenHandler;
+import net.neoforged.neoforge.client.event.ClientPauseUpdatedEvent;
+import net.neoforged.neoforge.client.event.RegisterClientReloadListenersEvent;
+import net.neoforged.neoforge.client.event.RegisterKeyMappingsEvent;
+import net.neoforged.neoforge.client.event.RenderGuiOverlayEvent;
 import net.neoforged.neoforge.common.NeoForge;
+import net.neoforged.neoforge.event.TickEvent;
 
 @Mod(FancyBlockParticles.MOD_ID)
 public final class FBPNeoForge {
@@ -27,16 +31,16 @@ public final class FBPNeoForge {
             bus.addListener(this::onRegisterClientReloadListeners);
         }
 
-        ModList.get().getModContainerById(FancyBlockParticles.MOD_ID).ifPresent(mc -> mc.registerExtensionPoint(IConfigScreenFactory.class, (minecraft, modsScreen) -> new FBPOptionsScreen(modsScreen)));
+        ModList.get().getModContainerById(FancyBlockParticles.MOD_ID).ifPresent(mc -> mc.registerExtensionPoint(ConfigScreenHandler.ConfigScreenFactory.class, () -> new ConfigScreenHandler.ConfigScreenFactory((minecraft, modsScreen) -> new FBPOptionsScreen(modsScreen))));
     }
 
     @SubscribeEvent
     public void clientSetup(final FMLClientSetupEvent event) {
         FancyBlockParticles.LOGGER.info(FancyBlockParticles.SETUP_MARKER, "Starting client setup...");
 
-        NeoForge.EVENT_BUS.addListener(this::postClientTick);
-        NeoForge.EVENT_BUS.addListener(this::postRenderGuiLayer);
-        NeoForge.EVENT_BUS.addListener(this::postClientPauseChange);
+        NeoForge.EVENT_BUS.addListener(this::onClientTick);
+        NeoForge.EVENT_BUS.addListener(this::postRenderGuiOverlay);
+        NeoForge.EVENT_BUS.addListener(this::onClientPauseUpdated);
 
         FancyBlockParticles.LOGGER.info(FancyBlockParticles.SETUP_MARKER, "Finished client setup!");
     }
@@ -49,15 +53,16 @@ public final class FBPNeoForge {
         event.registerReloadListener((ResourceManagerReloadListener) manager -> FancyBlockParticles.CONFIG.reload());
     }
 
-    private void postClientTick(final ClientTickEvent.Post event) {
-        FancyBlockParticles.postClientTick(Minecraft.getInstance());
+    private void onClientTick(final TickEvent.ClientTickEvent event) {
+        if (event.phase == TickEvent.Phase.END)
+            FancyBlockParticles.postClientTick(Minecraft.getInstance());
     }
 
-    private void postRenderGuiLayer(final RenderGuiLayerEvent.Post event) {
+    private void postRenderGuiOverlay(final RenderGuiOverlayEvent.Post event) {
         FancyBlockParticles.onRenderHud(event.getGuiGraphics());
     }
 
-    private void postClientPauseChange(final ClientPauseChangeEvent.Post event) {
+    private void onClientPauseUpdated(final ClientPauseUpdatedEvent event) {
         if (event.isPaused())
             FancyBlockParticles.onClientPause(Minecraft.getInstance().screen);
     }

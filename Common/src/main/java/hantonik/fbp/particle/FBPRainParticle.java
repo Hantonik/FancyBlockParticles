@@ -89,73 +89,75 @@ public class FBPRainParticle extends WaterDropParticle implements IKillableParti
         if (!FancyBlockParticles.CONFIG.global.isEnabled() || !FancyBlockParticles.CONFIG.rain.isEnabled())
             this.remove();
 
-        if (!Minecraft.getInstance().isPaused() && (!FancyBlockParticles.CONFIG.global.isFreezeEffect() || this.killToggle)) {
+        if (!Minecraft.getInstance().isPaused()) {
             if (this.killToggle)
                 this.remove();
 
-            this.age++;
+            if (!FancyBlockParticles.CONFIG.global.isFreezeEffect()) {
+                this.age++;
 
-            if (this.y < Minecraft.getInstance().player.getY() - (Minecraft.getInstance().options.renderDistance().get() * 9.0D))
-                this.remove();
-
-            if (!this.onGround) {
-                if (this.age < this.lifetime) {
-                    var max = FancyBlockParticles.CONFIG.rain.getSizeMultiplier() * 0.5F;
-
-                    if (this.quadSize < max) {
-                        this.quadSize += 0.05F * this.multiplier;
-
-                        if (this.quadSize > max)
-                            this.quadSize = max;
-
-                        this.height = this.quadSize;
-                    }
-
-                    if (this.alpha < 0.6F) {
-                        this.alpha += 0.085F * this.multiplier;
-
-                        if (this.alpha > 0.6F)
-                            this.alpha = 0.6F;
-                    }
-                } else
+                if (this.y < Minecraft.getInstance().player.getY() - (Minecraft.getInstance().options.renderDistance().get() * 9.0D))
                     this.remove();
-            }
 
-            var state = this.level.getBlockState(BlockPos.containing(this.x, this.y, this.z));
+                if (!this.onGround) {
+                    if (this.age < this.lifetime) {
+                        var max = FancyBlockParticles.CONFIG.rain.getSizeMultiplier() * 0.5F;
 
-            if (state.getBlock() instanceof LiquidBlock) {
-                this.remove();
+                        if (this.quadSize < max) {
+                            this.quadSize += 0.05F * this.multiplier;
 
-                if (state.getFluidState().is(FluidTags.LAVA) || state.is(Blocks.MAGMA_BLOCK) || CampfireBlock.isLitCampfire(state))
-                    Minecraft.getInstance().particleEngine.add(new FBPSmokeParticle.Provider(this.quadSize / 2.0F).createParticle(ParticleTypes.SMOKE, this.level, this.x, this.y, this.z, 0.0D, 0.05D, 0.0D));
-            }
+                            if (this.quadSize > max)
+                                this.quadSize = max;
 
-            this.yd -= 0.04D * this.gravity;
+                            this.height = this.quadSize;
+                        }
 
-            this.move(this.xd, this.yd, this.zd);
+                        if (this.alpha < 0.6F) {
+                            this.alpha += 0.085F * this.multiplier;
 
-            this.yd *= 1.00025D;
-
-            if (this.onGround) {
-                this.xd = 0.0D;
-                this.yd = -0.25D;
-                this.zd = 0.0D;
-
-                if (this.height > 0.075F)
-                    this.height *= 0.725F;
-
-                if (this.quadSize < this.targetSize) {
-                    this.quadSize += this.targetSize / 10.0F;
-
-                    if (this.quadSize > this.targetSize)
-                        this.quadSize = this.targetSize;
+                            if (this.alpha > 0.6F)
+                                this.alpha = 0.6F;
+                        }
+                    } else
+                        this.remove();
                 }
 
-                if (this.quadSize >= this.targetSize / 2.0F) {
-                    this.alpha *= 0.75F * this.multiplier;
+                var state = this.level.getBlockState(BlockPos.containing(this.x, this.y, this.z));
 
-                    if (this.alpha <= 0.001F)
-                        this.remove();
+                if (state.getBlock() instanceof LiquidBlock) {
+                    this.remove();
+
+                    if (state.getFluidState().is(FluidTags.LAVA) || state.is(Blocks.MAGMA_BLOCK) || CampfireBlock.isLitCampfire(state))
+                        Minecraft.getInstance().particleEngine.add(new FBPSmokeParticle.Provider(this.quadSize / 2.0F).createParticle(ParticleTypes.SMOKE, this.level, this.x, this.y, this.z, 0.0D, 0.05D, 0.0D));
+                }
+
+                this.yd -= 0.04D * this.gravity;
+
+                this.move(this.xd, this.yd, this.zd);
+
+                this.yd *= 1.00025D;
+
+                if (this.onGround) {
+                    this.xd = 0.0D;
+                    this.yd = -0.25D;
+                    this.zd = 0.0D;
+
+                    if (this.height > 0.075F)
+                        this.height *= 0.725F;
+
+                    if (this.quadSize < this.targetSize) {
+                        this.quadSize += this.targetSize / 10.0F;
+
+                        if (this.quadSize > this.targetSize)
+                            this.quadSize = this.targetSize;
+                    }
+
+                    if (this.quadSize >= this.targetSize / 2.0F) {
+                        this.alpha *= 0.75F * this.multiplier;
+
+                        if (this.alpha <= 0.001F)
+                            this.remove();
+                    }
                 }
             }
         }

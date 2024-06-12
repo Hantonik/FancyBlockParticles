@@ -8,6 +8,7 @@ import hantonik.fbp.screen.component.widget.button.FBPImageButton;
 import hantonik.fbp.screen.component.widget.button.FBPSliderButton;
 import hantonik.fbp.screen.component.widget.button.FBPToggleButton;
 import net.minecraft.SharedConstants;
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.components.StringWidget;
 import net.minecraft.client.gui.components.Tooltip;
@@ -49,7 +50,7 @@ public abstract class FBPAbstractOptionsScreen extends Screen {
 
         this.layout.addToHeader(new StringWidget(this.title, this.font), LayoutSettings::alignHorizontallyCenter);
 
-        this.list = this.addRenderableWidget(new FBPOptionsList(this.minecraft, this.width, this));
+        this.list = this.addRenderableWidget(new FBPOptionsList(this.minecraft, this.width, this.height - 64, this));
 
         this.initOptions();
 
@@ -88,20 +89,12 @@ public abstract class FBPAbstractOptionsScreen extends Screen {
         });
 
         this.layout.visitWidgets(this::addRenderableWidget);
-
-        this.repositionElements();
+        this.layout.arrangeElements();
     }
 
     protected abstract void initOptions();
 
     protected abstract void resetConfig();
-
-    @Override
-    protected void repositionElements() {
-        this.layout.arrangeElements();
-
-        this.list.updateSize(this.width, this.layout);
-    }
 
     @Override
     public boolean keyPressed(int keyCode, int scanCode, int modifiers) {
@@ -126,6 +119,11 @@ public abstract class FBPAbstractOptionsScreen extends Screen {
             screen.rebuildWidgets();
 
         this.minecraft.setScreen(this.lastScreen);
+    }
+
+    @Override
+    public void renderBackground(GuiGraphics graphics, int mouseX, int mouseY, float partialTick) {
+        this.renderDirtBackground(graphics);
     }
 
     protected void onDone() {

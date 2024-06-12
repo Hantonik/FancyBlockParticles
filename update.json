@@ -2,10 +2,22 @@
   "homepage": "https://www.curseforge.com/minecraft/mc-mods/fbp-renewed",
 
   "promos": {
-    "1.20.6-latest": "20.6.0.0-beta"
+    "1.20.4-latest": "20.4.0.0-beta"
   },
 
-  "1.20.6": {
-    "20.6.0.0-beta": "Thorough code rewrite. Port to Minecraft 1.20.6"
+  "1.20.4": {
+    "20.4.0.0-beta": "Backport to Minecraft 1.20.4",
+    "1.0.4.0-beta": "Add option to disable block breaking particles",
+    "1.0.3.1-beta": "Fix FBP Options Menu doesn't fix on the screen",
+    "1.0.3.0-beta": "Fix the position of the Done button. Add particle culling toggle option",
+    "1.0.2.6-beta": "Fix unexpected Snow Particles in the desert",
+    "1.0.2.5-beta": "Fix crash with SereneSeasons mod",
+    "1.0.2.4-beta": "[Fabric] Restore Item Pickup Particle",
+    "1.0.2.3-beta": "[Forge & NeoForge] Fix Smoke Particles too small",
+    "1.0.2.2-beta": "[Fabric] Fix duplicate button in FBP Settings menu",
+    "1.0.2.1-beta": "Add Cartoon Mode to FBP Settings menu",
+    "1.0.2.0-beta": "Add physics config to FBP Settings menu. Fix Terrain Particles being disproportionate to block shape",
+    "1.0.1.0-beta": "Cosmetic improvements",
+    "1.0.0.0-beta": "Initial release for Minecraft 1.20.4"
   }
 }

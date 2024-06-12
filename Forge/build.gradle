@@ -12,6 +12,8 @@ base {
 }
 
 mixin {
+    add sourceSets.main, "${mod_id}.refmap.json"
+
     config "${mod_id}.mixins.json"
     config "${mod_id}.forge.mixins.json"
 }
@@ -21,7 +23,6 @@ println "Forge: $forge_version"
 minecraft {
     mappings channel: mappings_channel, version: "$mappings_version-$mc_version"
 
-    reobf = false
     copyIdeResources = true
 
     accessTransformer = file('src/main/resources/META-INF/accesstransformer.cfg')
@@ -76,23 +77,19 @@ dependencies {
 
     compileOnly project(':Common')
 
-    compileOnly "com.github.glitchfiend:SereneSeasons-forge:$mc_version-$sereneseasons_version"
-    compileOnly "com.github.glitchfiend:GlitchCore-forge:$mc_version-$glitchcore_version"
+    implementation fg.deobf("com.github.glitchfiend:SereneSeasons-forge:$mc_version-$sereneseasons_version")
+    implementation fg.deobf("com.github.glitchfiend:GlitchCore-forge:$mc_version-$glitchcore_version")
 
     compileOnly "org.projectlombok:lombok:$lombok_version"
 
     annotationProcessor "org.projectlombok:lombok:$lombok_version"
     annotationProcessor "org.spongepowered:mixin:$mixin_processor_version:processor"
-
-    implementation('net.sf.jopt-simple:jopt-simple:5.0.4') { version { strictly '5.0.4' } }
 }
 
 // Workaround for SpongePowered/MixinGradle#38
-if (minecraft.reobf) {
-    afterEvaluate {
-        tasks.configureReobfTaskForReobfJar.mustRunAfter(tasks.compileJava)
-        tasks.configureReobfTaskForReobfJarJar.mustRunAfter(tasks.compileJava)
-    }
+afterEvaluate {
+    tasks.configureReobfTaskForReobfJar.mustRunAfter(tasks.compileJava)
+    tasks.configureReobfTaskForReobfJarJar.mustRunAfter(tasks.compileJava)
 }
 
 jar {
@@ -102,8 +99,7 @@ jar {
         ])
     }
 
-    if (minecraft.reobf)
-        finalizedBy('reobfJar')
+    finalizedBy('reobfJar')
 }
 
 sourcesJar {

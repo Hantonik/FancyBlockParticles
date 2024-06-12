@@ -122,7 +122,7 @@ public class FBPTerrainParticle extends TerrainParticle implements IKillablePart
                 var quads = Minecraft.getInstance().getBlockRenderer().getBlockModelShaper().getBlockModel(this.state).getQuads(this.state, side, this.random);
 
                 if (!quads.isEmpty())
-                    this.sprite = quads.getFirst().getSprite();
+                    this.sprite = quads.get(0).getSprite();
             }
 
             if (this.sprite.atlasLocation() == MissingTextureAtlasSprite.getLocation())
@@ -192,146 +192,148 @@ public class FBPTerrainParticle extends TerrainParticle implements IKillablePart
         if (!FancyBlockParticles.CONFIG.global.isEnabled() || (this.destroyed && !FancyBlockParticles.CONFIG.terrain.isFancyBreakingParticles()) || (!this.destroyed && !FancyBlockParticles.CONFIG.terrain.isFancyCrackingParticles()))
             this.remove();
 
-        if (!Minecraft.getInstance().isPaused() && (!FancyBlockParticles.CONFIG.global.isFreezeEffect() || this.killToggle)) {
+        if (!Minecraft.getInstance().isPaused()) {
             if (this.killToggle)
                 this.remove();
 
-            if (!FancyBlockParticles.CONFIG.terrain.isRandomRotation()) {
-                if (!this.modeDebounce) {
-                    this.modeDebounce = true;
+            if (!FancyBlockParticles.CONFIG.global.isFreezeEffect()) {
+                if (!FancyBlockParticles.CONFIG.terrain.isRandomRotation()) {
+                    if (!this.modeDebounce) {
+                        this.modeDebounce = true;
 
-                    this.rotation.z = 0.0D;
+                        this.rotation.z = 0.0D;
 
-                    this.calculateYAngle();
+                        this.calculateYAngle();
+                    }
+
+                    var x = Math.abs((this.rotationStep.x * this.getMultiplier()));
+
+                    if (this.xd > 0.0D) {
+                        if (this.zd > 0.0D)
+                            this.rotation.x -= x;
+                        else if (this.zd < 0.0D)
+                            this.rotation.x += x;
+                    } else if (this.xd < 0.0D) {
+                        if (this.zd < 0.0D)
+                            this.rotation.x += x;
+                        else if (this.zd > 0.0D)
+                            this.rotation.x -= x;
+                    }
+                } else {
+                    if (this.modeDebounce) {
+                        this.modeDebounce = false;
+
+                        this.rotation.z = FBPConstants.RANDOM.nextDouble(30.0D, 400.0D);
+                    }
+
+                    this.rotation.add(this.rotationStep.mul(this.getMultiplier(), new Vector3d()));
                 }
 
-                var x = Math.abs((this.rotationStep.x * this.getMultiplier()));
+                if (!FancyBlockParticles.CONFIG.terrain.isInfiniteDuration() && !FancyBlockParticles.CONFIG.global.isInfiniteDuration())
+                    this.age++;
 
-                if (this.xd > 0.0D) {
-                    if (this.zd > 0.0D)
-                        this.rotation.x -= x;
-                    else if (this.zd < 0.0D)
-                        this.rotation.x += x;
-                } else if (this.xd < 0.0D) {
-                    if (this.zd < 0.0D)
-                        this.rotation.x += x;
-                    else if (this.zd > 0.0D)
-                        this.rotation.x -= x;
-                }
-            } else {
-                if (this.modeDebounce) {
-                    this.modeDebounce = false;
+                if (this.age >= this.lifetime) {
+                    this.quadSize *= 0.9F * this.multiplier;
 
-                    this.rotation.z = FBPConstants.RANDOM.nextDouble(30.0D, 400.0D);
+                    if (this.alpha > 0.01D && this.quadSize <= this.scaleAlpha)
+                        this.alpha *= 0.7F * this.multiplier;
+
+                    if (this.alpha <= 0.01D)
+                        this.remove();
                 }
 
-                this.rotation.add(this.rotationStep.mul(this.getMultiplier(), new Vector3d()));
-            }
+                this.move(this.xd, this.yd, this.zd);
 
-            if (!FancyBlockParticles.CONFIG.terrain.isInfiniteDuration() && !FancyBlockParticles.CONFIG.global.isInfiniteDuration())
-                this.age++;
+                if (this.onGround && FancyBlockParticles.CONFIG.terrain.isRestOnFloor()) {
+                    this.rotation.x = Math.round(this.rotation.x / 10.0D) * 10.0D;
+                    this.rotation.z = Math.round(this.rotation.z / 10.0D) * 10.0D;
+                }
 
-            if (this.age >= this.lifetime) {
-                this.quadSize *= 0.9F * this.multiplier;
+                if (Math.abs(this.xd) > 0.00001D)
+                    this.lastXSpeed = this.xd;
+                if (Math.abs(this.zd) > 0.00001D)
+                    this.lastZSpeed = this.zd;
 
-                if (this.alpha > 0.01D && this.quadSize <= this.scaleAlpha)
-                    this.alpha *= 0.7F * this.multiplier;
+                this.xd *= 0.98D;
+                this.zd *= 0.98D;
 
-                if (this.alpha <= 0.01D)
-                    this.remove();
-            }
+                this.yd *= 0.98D;
 
-            this.move(this.xd, this.yd, this.zd);
+                if (FancyBlockParticles.CONFIG.terrain.isEntityCollision()) {
+                    var entities = this.level.getEntities(null, this.getBoundingBox());
 
-            if (this.onGround && FancyBlockParticles.CONFIG.terrain.isRestOnFloor()) {
-                this.rotation.x = Math.round(this.rotation.x / 10.0D) * 10.0D;
-                this.rotation.z = Math.round(this.rotation.z / 10.0D) * 10.0D;
-            }
+                    for (var entity : entities) {
+                        if (!entity.noPhysics) {
+                            var x = this.x - entity.position().x;
+                            var y = this.y - entity.position().y;
+                            var z = this.z - entity.position().z;
 
-            if (Math.abs(this.xd) > 0.00001D)
-                this.lastXSpeed = this.xd;
-            if (Math.abs(this.zd) > 0.00001D)
-                this.lastZSpeed = this.zd;
+                            var distance = Mth.absMax(Mth.absMax(x, y), z);
 
-            this.xd *= 0.98D;
-            this.zd *= 0.98D;
+                            if (distance >= 0.01D) {
+                                distance = Math.sqrt(distance);
 
-            this.yd *= 0.98D;
+                                x /= distance;
+                                y /= distance;
+                                z /= distance;
 
-            if (FancyBlockParticles.CONFIG.terrain.isEntityCollision()) {
-                var entities = this.level.getEntities(null, this.getBoundingBox());
+                                var d = Math.min(1.0D / distance, 1.0D);
 
-                for (var entity : entities) {
-                    if (!entity.noPhysics) {
-                        var x = this.x - entity.position().x;
-                        var y = this.y - entity.position().y;
-                        var z = this.z - entity.position().z;
+                                this.xd += x * d / 20.0D;
+                                this.yd += y * d / 20.0D - 0.04D * this.gravity;
+                                this.zd += z * d / 20.0D;
 
-                        var distance = Mth.absMax(Mth.absMax(x, y), z);
+                                if (!FancyBlockParticles.CONFIG.terrain.isRandomRotation())
+                                    this.calculateYAngle();
 
-                        if (distance >= 0.01D) {
-                            distance = Math.sqrt(distance);
-
-                            x /= distance;
-                            y /= distance;
-                            z /= distance;
-
-                            var d = Math.min(1.0D / distance, 1.0D);
-
-                            this.xd += x * d / 20.0D;
-                            this.yd += y * d / 20.0D - 0.04D * this.gravity;
-                            this.zd += z * d / 20.0D;
-
-                            if (!FancyBlockParticles.CONFIG.terrain.isRandomRotation())
-                                this.calculateYAngle();
-
-                            if (!FancyBlockParticles.CONFIG.global.isFreezeEffect())
-                                this.onGround = false;
+                                if (!FancyBlockParticles.CONFIG.global.isFreezeEffect())
+                                    this.onGround = false;
+                            }
                         }
                     }
                 }
-            }
 
-            if (FancyBlockParticles.CONFIG.terrain.isWaterPhysics() && this.isInWater(this.getBoundingBox())) {
+                if (FancyBlockParticles.CONFIG.terrain.isWaterPhysics() && this.isInWater(this.getBoundingBox())) {
 //                TODO: Water movement
 //                this.handleWaterMovement();
 
-                this.xd *= 0.95D;
-                this.zd *= 0.95D;
+                    this.xd *= 0.95D;
+                    this.zd *= 0.95D;
 
-                if (this.yd > -0.005D && this.yd < 0.005D)
-                    this.yd = 0.005D;
+                    if (this.yd > -0.005D && this.yd < 0.005D)
+                        this.yd = 0.005D;
 
-                if (this.yd < 0.0D)
-                    this.yd *= 0.79D * FBPConstants.RANDOM.nextDouble(0.8D, 1.2D);
-                else {
-                    this.yd *= 1.1D * FBPConstants.RANDOM.nextDouble(0.8D, 0.9D);
+                    if (this.yd < 0.0D)
+                        this.yd *= 0.79D * FBPConstants.RANDOM.nextDouble(0.8D, 1.2D);
+                    else {
+                        this.yd *= 1.1D * FBPConstants.RANDOM.nextDouble(0.8D, 0.9D);
 
-                    if (!this.isInWater(this.getBoundingBox().move(this.xd, 0.3D, this.zd)))
-                        this.yd *= 0.9D;
+                        if (!this.isInWater(this.getBoundingBox().move(this.xd, 0.3D, this.zd)))
+                            this.yd *= 0.9D;
+                    }
+
+                    if (!FancyBlockParticles.CONFIG.terrain.isRandomRotation())
+                        this.calculateYAngle();
+
+                    this.onGround = false;
+                    this.wasInWater = true;
+
+                    return;
+                } else {
+                    if (!this.onGround)
+                        this.yd -= (this.wasInWater ? 0.02D : 0.04D) * this.gravity;
+
+                    this.wasInWater = false;
                 }
 
-                if (!FancyBlockParticles.CONFIG.terrain.isRandomRotation())
-                    this.calculateYAngle();
-
-                this.onGround = false;
-                this.wasInWater = true;
-
-                return;
-            } else {
-                if (!this.onGround)
-                    this.yd -= (this.wasInWater ? 0.02D : 0.04D) * this.gravity;
-
-                this.wasInWater = false;
-            }
-
-            if (this.onGround) {
-                if (FancyBlockParticles.CONFIG.terrain.isLowTraction()) {
-                    this.xd *= 0.932D;
-                    this.zd *= 0.932D;
-                } else {
-                    this.xd *= 0.665D;
-                    this.zd *= 0.665D;
+                if (this.onGround) {
+                    if (FancyBlockParticles.CONFIG.terrain.isLowTraction()) {
+                        this.xd *= 0.932D;
+                        this.zd *= 0.932D;
+                    } else {
+                        this.xd *= 0.665D;
+                        this.zd *= 0.665D;
+                    }
                 }
             }
         }
