@@ -165,7 +165,9 @@ jobs:
           tag_name: ${{ steps.latest-tag.outputs.tag }}
           target_commitish: ${{ github.ref }}
           body_path: Changelog/changelog.md
-          files: artifacts/*
+          files: |
+            'artifacts/*'
+            '!artifacts/*-slim.*'
 
       - name: 'Upload changelog'
         uses: actions/upload-artifact@v4
