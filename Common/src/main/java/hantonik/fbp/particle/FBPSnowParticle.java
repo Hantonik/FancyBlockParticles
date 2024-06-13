@@ -2,6 +2,7 @@ package hantonik.fbp.particle;
 
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import hantonik.fbp.FancyBlockParticles;
+import hantonik.fbp.platform.Services;
 import hantonik.fbp.util.FBPConstants;
 import hantonik.fbp.util.FBPRenderHelper;
 import lombok.RequiredArgsConstructor;
@@ -139,90 +140,95 @@ public class FBPSnowParticle extends WaterDropParticle implements IKillableParti
         if (!FancyBlockParticles.CONFIG.global.isEnabled() || !FancyBlockParticles.CONFIG.snow.isEnabled())
             this.remove();
 
-        if (!Minecraft.getInstance().isPaused() && (!FancyBlockParticles.CONFIG.global.isFreezeEffect() || this.killToggle)) {
-            if (this.killToggle || this.y < Minecraft.getInstance().player.getY() - (Minecraft.getInstance().options.renderDistance().get() * 16.0D))
+        if (!Minecraft.getInstance().isPaused()) {
+            if (this.killToggle)
                 this.remove();
 
-            if (!FancyBlockParticles.CONFIG.snow.isInfiniteDuration() && !FancyBlockParticles.CONFIG.global.isInfiniteDuration())
-                this.age++;
-
-            this.rotation.add(this.rotationStep.mul(FancyBlockParticles.CONFIG.snow.getRotationMultiplier() * 5.0F, new Vector3d()));
-
-            var pos = BlockPos.containing(this.x, this.y, this.z);
-            var precipitation = this.level.getBiome(pos).value().getPrecipitationAt(pos);
-
-            if (this.age >= this.lifetime || precipitation != Biome.Precipitation.SNOW) {
-                this.quadSize *= 0.75F * this.multiplier;
-
-                if (this.alpha > 0.01F && this.quadSize <= this.scaleAlpha)
-                    this.alpha *= 0.65F * this.multiplier;
-
-                if (this.alpha < 0.01F) {
+            if (!FancyBlockParticles.CONFIG.global.isFreezeEffect()) {
+                if (this.y < Minecraft.getInstance().player.getY() - (Minecraft.getInstance().options.renderDistance().get() * 16.0D))
                     this.remove();
 
-                    if (precipitation == Biome.Precipitation.RAIN)
-                        Minecraft.getInstance().particleEngine.add(new FBPRainParticle.Provider().createParticle(ParticleTypes.RAIN.getType(), this.level, x, y, z, 0.0D, 0.0D, 0.0D));
-                }
-            } else {
-                if (this.quadSize < this.targetSize) {
-                    this.quadSize += 0.075F * this.multiplier;
-
-                    if (this.quadSize > this.targetSize)
-                        this.quadSize = this.targetSize;
-                }
-
-                if (this.alpha < 1.0F) {
-                    this.alpha += 0.045F * this.multiplier;
-
-                    if (this.alpha > 1.0F)
-                        this.alpha = 1.0F;
-                }
-            }
-
-            var state = this.level.getBlockState(pos);
-
-            if (state.getBlock() instanceof LiquidBlock) {
-                this.remove();
-
-                if (state.getFluidState().is(FluidTags.LAVA) || state.is(Blocks.MAGMA_BLOCK) || CampfireBlock.isLitCampfire(state))
-                    Minecraft.getInstance().particleEngine.add(new FBPSmokeParticle.Provider(this.quadSize / 5.0F).createParticle(ParticleTypes.SMOKE, this.level, this.x, this.y, this.z, 0.0D, 0.05D, 0.0D));
-            }
-
-            if (!this.onGround)
-                this.yd -= 0.04D * this.gravity;
-
-            this.move(this.xd, this.yd, this.zd);
-
-            if (Math.abs(this.xd) > 0.00001D)
-                this.lastXSpeed = this.xd;
-            if (Math.abs(this.zd) > 0.00001D)
-                this.lastZSpeed = this.zd;
-
-            if (this.onGround && FancyBlockParticles.CONFIG.snow.isRestOnFloor()) {
-                this.rotation.x = Math.round(this.rotation.x / 90.0D) * 90.0D;
-                this.rotation.z = Math.round(this.rotation.z / 90.0D) * 90.0D;
-            }
-
-            this.xd *= 0.98D;
-
-            if (this.yd < -0.2D)
-                this.yd *= 0.75D;
-
-            this.zd *= 0.98D;
-
-            if (this.onGround) {
-                if (FancyBlockParticles.CONFIG.snow.isLowTraction()) {
-                    this.xd *= 0.932D;
-                    this.zd *= 0.932D;
-                } else {
-                    this.xd *= 0.665D;
-                    this.zd *= 0.665D;
-                }
-
-                this.rotationStep.mul(0.85D);
-
                 if (!FancyBlockParticles.CONFIG.snow.isInfiniteDuration() && !FancyBlockParticles.CONFIG.global.isInfiniteDuration())
-                    this.age += 2;
+                    this.age++;
+
+                this.rotation.add(this.rotationStep.mul(FancyBlockParticles.CONFIG.snow.getRotationMultiplier() * 5.0F, new Vector3d()));
+
+                var pos = BlockPos.containing(this.x, this.y, this.z);
+                var precipitation = Services.CLIENT.getPrecipitationAt(this.level.getBiome(pos), pos);
+
+                if (this.age >= this.lifetime || precipitation != Biome.Precipitation.SNOW) {
+                    this.quadSize *= 0.75F * this.multiplier;
+
+                    if (this.alpha > 0.01F && this.quadSize <= this.scaleAlpha)
+                        this.alpha *= 0.65F * this.multiplier;
+
+                    if (this.alpha < 0.01F) {
+                        this.remove();
+
+                        if (precipitation == Biome.Precipitation.RAIN)
+                            Minecraft.getInstance().particleEngine.add(new FBPRainParticle.Provider().createParticle(ParticleTypes.RAIN.getType(), this.level, x, y, z, 0.0D, 0.0D, 0.0D));
+                    }
+                } else {
+                    if (this.quadSize < this.targetSize) {
+                        this.quadSize += 0.075F * this.multiplier;
+
+                        if (this.quadSize > this.targetSize)
+                            this.quadSize = this.targetSize;
+                    }
+
+                    if (this.alpha < 1.0F) {
+                        this.alpha += 0.045F * this.multiplier;
+
+                        if (this.alpha > 1.0F)
+                            this.alpha = 1.0F;
+                    }
+                }
+
+                var state = this.level.getBlockState(pos);
+
+                if (state.getBlock() instanceof LiquidBlock) {
+                    this.remove();
+
+                    if (state.getFluidState().is(FluidTags.LAVA) || state.is(Blocks.MAGMA_BLOCK) || CampfireBlock.isLitCampfire(state))
+                        Minecraft.getInstance().particleEngine.add(new FBPSmokeParticle.Provider(this.quadSize / 5.0F).createParticle(ParticleTypes.SMOKE, this.level, this.x, this.y, this.z, 0.0D, 0.05D, 0.0D));
+                }
+
+                if (!this.onGround)
+                    this.yd -= 0.04D * this.gravity;
+
+                this.move(this.xd, this.yd, this.zd);
+
+                if (Math.abs(this.xd) > 0.00001D)
+                    this.lastXSpeed = this.xd;
+                if (Math.abs(this.zd) > 0.00001D)
+                    this.lastZSpeed = this.zd;
+
+                if (this.onGround && FancyBlockParticles.CONFIG.snow.isRestOnFloor()) {
+                    this.rotation.x = Math.round(this.rotation.x / 90.0D) * 90.0D;
+                    this.rotation.z = Math.round(this.rotation.z / 90.0D) * 90.0D;
+                }
+
+                this.xd *= 0.98D;
+
+                if (this.yd < -0.2D)
+                    this.yd *= 0.75D;
+
+                this.zd *= 0.98D;
+
+                if (this.onGround) {
+                    if (FancyBlockParticles.CONFIG.snow.isLowTraction()) {
+                        this.xd *= 0.932D;
+                        this.zd *= 0.932D;
+                    } else {
+                        this.xd *= 0.665D;
+                        this.zd *= 0.665D;
+                    }
+
+                    this.rotationStep.mul(0.85D);
+
+                    if (!FancyBlockParticles.CONFIG.snow.isInfiniteDuration() && !FancyBlockParticles.CONFIG.global.isInfiniteDuration())
+                        this.age += 2;
+                }
             }
         }
 
@@ -294,12 +300,12 @@ public class FBPSnowParticle extends WaterDropParticle implements IKillableParti
         var v0 = 0.0F;
 
         if (!FancyBlockParticles.CONFIG.global.isCartoonMode()) {
-            u0 = this.sprite.getU(this.uo / 4.0F);
-            v0 = this.sprite.getV(this.vo / 4.0F);
+            u0 = this.sprite.getU(this.uo / 4.0F * 16.0F);
+            v0 = this.sprite.getV(this.vo / 4.0F * 16.0F);
         }
 
-        var u1 = this.sprite.getU((this.uo + 1.0F) / 4.0F);
-        var v1 = this.sprite.getV((this.vo + 1.0F) / 4.0F);
+        var u1 = this.sprite.getU((this.uo + 1.0F) / 4.0F * 16.0F);
+        var v1 = this.sprite.getV((this.vo + 1.0F) / 4.0F * 16.0F);
 
         var posX = Mth.lerp(partialTick, this.xo, this.x) - info.getPosition().x;
         var posY = Mth.lerp(partialTick, this.yo, this.y) - info.getPosition().y;

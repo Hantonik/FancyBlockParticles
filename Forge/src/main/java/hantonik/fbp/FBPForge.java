@@ -3,12 +3,14 @@ package hantonik.fbp;
 import hantonik.fbp.init.FBPKeyMappings;
 import hantonik.fbp.screen.FBPOptionsScreen;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.screens.PauseScreen;
 import net.minecraft.server.packs.resources.ResourceManagerReloadListener;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.ConfigScreenHandler;
-import net.minecraftforge.client.event.ClientPauseChangeEvent;
 import net.minecraftforge.client.event.RegisterClientReloadListenersEvent;
 import net.minecraftforge.client.event.RegisterKeyMappingsEvent;
+import net.minecraftforge.client.event.RenderGuiOverlayEvent;
+import net.minecraftforge.client.event.ScreenEvent;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -39,9 +41,8 @@ public final class FBPForge {
         FancyBlockParticles.LOGGER.info(FancyBlockParticles.SETUP_MARKER, "Starting client setup...");
 
         MinecraftForge.EVENT_BUS.addListener(this::onClientTick);
-        MinecraftForge.EVENT_BUS.addListener(this::postClientPauseChange);
-
-        Minecraft.getInstance().gui.layers.add(((graphics, partialTick) -> FancyBlockParticles.onRenderHud(graphics)));
+        MinecraftForge.EVENT_BUS.addListener(this::postScreenInit);
+        MinecraftForge.EVENT_BUS.addListener(this::postRenderGuiOverlay);
 
         FancyBlockParticles.LOGGER.info(FancyBlockParticles.SETUP_MARKER, "Finished client setup!");
     }
@@ -59,8 +60,12 @@ public final class FBPForge {
             FancyBlockParticles.postClientTick(Minecraft.getInstance());
     }
 
-    private void postClientPauseChange(final ClientPauseChangeEvent.Post event) {
-        if (event.isPaused())
-            FancyBlockParticles.onClientPause(Minecraft.getInstance().screen);
+    private void postScreenInit(final ScreenEvent.Init.Post event) {
+        if (event.getScreen() instanceof PauseScreen screen)
+            FancyBlockParticles.onClientPause(screen);
+    }
+
+    private void postRenderGuiOverlay(final RenderGuiOverlayEvent.Post event) {
+        FancyBlockParticles.onRenderHud(event.getGuiGraphics());
     }
 }

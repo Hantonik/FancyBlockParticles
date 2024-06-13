@@ -22,7 +22,7 @@ import org.joml.Vector3d;
 
 import java.util.List;
 
-public class FBPWhiteSmokeParticle extends WhiteSmokeParticle implements IKillableParticle {
+public class FBPWhiteSmokeParticle extends SmokeParticle implements IKillableParticle {
     private final Vector3d[] rotatedCube;
 
     private final float multiplier;
@@ -99,39 +99,41 @@ public class FBPWhiteSmokeParticle extends WhiteSmokeParticle implements IKillab
         if (!FancyBlockParticles.CONFIG.global.isEnabled() || !FancyBlockParticles.CONFIG.smoke.isEnabled())
             this.remove();
 
-        if (!Minecraft.getInstance().isPaused() && (!FancyBlockParticles.CONFIG.global.isFreezeEffect() || this.killToggle)) {
+        if (!Minecraft.getInstance().isPaused()) {
             if (this.killToggle)
                 this.remove();
 
-            if (!FancyBlockParticles.CONFIG.smoke.isInfiniteDuration() && !FancyBlockParticles.CONFIG.global.isInfiniteDuration())
-                this.age++;
+            if (!FancyBlockParticles.CONFIG.global.isFreezeEffect()) {
+                if (!FancyBlockParticles.CONFIG.smoke.isInfiniteDuration() && !FancyBlockParticles.CONFIG.global.isInfiniteDuration())
+                    this.age++;
 
-            if (this.age >= this.lifetime) {
-                this.quadSize *= 0.9F * this.multiplier;
+                if (this.age >= this.lifetime) {
+                    this.quadSize *= 0.9F * this.multiplier;
 
-                if (this.alpha > 0.01D && this.quadSize <= this.scaleAlpha)
-                    this.alpha *= 0.76F * this.multiplier;
+                    if (this.alpha > 0.01D && this.quadSize <= this.scaleAlpha)
+                        this.alpha *= 0.76F * this.multiplier;
 
-                if (this.alpha <= 0.01D)
-                    this.remove();
-            }
+                    if (this.alpha <= 0.01D)
+                        this.remove();
+                }
 
-            this.yd += 0.004D;
+                this.yd += 0.004D;
 
-            this.move(this.xd, this.yd, this.zd);
+                this.move(this.xd, this.yd, this.zd);
 
-            if (this.y == this.yo) {
-                this.xd *= 1.1D;
-                this.zd *= 1.1D;
-            }
+                if (this.y == this.yo) {
+                    this.xd *= 1.1D;
+                    this.zd *= 1.1D;
+                }
 
-            this.xd *= 0.95D;
-            this.yd *= 0.95D;
-            this.zd *= 0.95D;
+                this.xd *= 0.95D;
+                this.yd *= 0.95D;
+                this.zd *= 0.95D;
 
-            if (this.onGround) {
-                this.xd *= 0.9D;
-                this.zd *= 0.9D;
+                if (this.onGround) {
+                    this.xd *= 0.9D;
+                    this.zd *= 0.9D;
+                }
             }
         }
     }
@@ -197,8 +199,8 @@ public class FBPWhiteSmokeParticle extends WhiteSmokeParticle implements IKillab
 
     @Override
     public void render(VertexConsumer buffer, Camera info, float partialTick) {
-        var u = this.sprite.getU(1.1F / 4.0F);
-        var v = this.sprite.getV(1.1F / 4.0F);
+        var u = this.sprite.getU(1.1F / 4.0F * 16.0F);
+        var v = this.sprite.getV(1.1F / 4.0F * 16.0F);
 
         var posX = Mth.lerp(partialTick, this.xo, this.x) - info.getPosition().x;
         var posY = Mth.lerp(partialTick, this.yo, this.y) - info.getPosition().y;

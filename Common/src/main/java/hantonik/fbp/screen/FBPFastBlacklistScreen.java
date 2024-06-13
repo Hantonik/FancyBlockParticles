@@ -89,8 +89,7 @@ public class FBPFastBlacklistScreen extends Screen {
 
     @Override
     public void render(GuiGraphics graphics, int mouseX, int mouseY, float partialTick) {
-        this.renderBackground(graphics, mouseX, mouseY, partialTick);
-        this.renderMenuBackground(graphics);
+        this.renderBackground(graphics);
 
         var x = this.width / 2;
         var y = this.height / 2;

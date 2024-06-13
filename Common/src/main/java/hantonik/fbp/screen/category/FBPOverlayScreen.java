@@ -22,12 +22,12 @@ public class FBPOverlayScreen extends FBPAbstractOptionsScreen {
 
     @Override
     protected void initOptions() {
-        var colorBox = new EditBox(this.font, 150, 20, Component.translatable("widget.fbp.overlay.freeze_effect_color"));
+        var colorBox = new EditBox(this.font, 0, 0, 150, 20, Component.translatable("widget.fbp.overlay.freeze_effect_color"));
 
         colorBox.setValue("#" + String.format("%06X", this.config.overlay.getFreezeEffectColor()));
         colorBox.setEditable(!this.config.global.isLocked() && this.config.overlay.isFreezeEffectOverlay());
         colorBox.setFilter(text -> text.toUpperCase(Locale.ENGLISH).matches("^#[0-F.]{0,6}$"));
-        colorBox.setFormatter((text, pos) -> FormattedCharSequence.forward(text, text.length() == 7 ? Style.EMPTY.withColor(TextColor.parseColor(text).getOrThrow()) : Style.EMPTY));
+        colorBox.setFormatter((text, pos) -> FormattedCharSequence.forward(text, text.length() == 7 ? Style.EMPTY.withColor(TextColor.parseColor(text)) : Style.EMPTY));
         colorBox.setResponder(text -> {
             if (text.length() == 7)
                 this.config.overlay.setFreezeEffectColor(Integer.parseInt(text.substring(1), 16));

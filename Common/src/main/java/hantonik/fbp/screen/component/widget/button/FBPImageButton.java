@@ -3,21 +3,16 @@ package hantonik.fbp.screen.component.widget.button;
 import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.ImageButton;
-import net.minecraft.client.gui.components.WidgetSprites;
 import net.minecraft.client.renderer.GameRenderer;
-import net.minecraft.network.chat.Component;
+import net.minecraft.resources.ResourceLocation;
 
 public class FBPImageButton extends ImageButton {
-    public FBPImageButton(int width, int height, WidgetSprites sprites, OnPress onPress, Component message) {
-        super(width, height, sprites, onPress, message);
+    public FBPImageButton(int width, int height, ResourceLocation texture, OnPress onPress) {
+        this(0, 0, width, height, texture, onPress);
     }
 
-    public FBPImageButton(int x, int y, int width, int height, WidgetSprites sprites, OnPress onPress, Component message) {
-        super(x, y, width, height, sprites, onPress, message);
-    }
-
-    public FBPImageButton(int x, int y, int width, int height, WidgetSprites sprites, OnPress onPress) {
-        super(x, y, width, height, sprites, onPress);
+    public FBPImageButton(int x, int y, int width, int height, ResourceLocation texture, OnPress onPress) {
+        super(x, y, width, height, 0, 0, texture, onPress);
     }
 
     @Override

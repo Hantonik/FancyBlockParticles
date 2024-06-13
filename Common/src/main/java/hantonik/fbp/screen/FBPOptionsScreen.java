@@ -6,15 +6,14 @@ import hantonik.fbp.screen.category.*;
 import hantonik.fbp.screen.component.widget.button.FBPToggleButton;
 import net.minecraft.client.gui.components.StringWidget;
 import net.minecraft.client.gui.components.Tooltip;
-import net.minecraft.client.gui.components.WidgetSprites;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.CommonComponents;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 
 public class FBPOptionsScreen extends FBPAbstractOptionsScreen {
-    public static final WidgetSprites LOGO_SPRITES = new WidgetSprites(new ResourceLocation(FancyBlockParticles.MOD_ID, "logo"), new ResourceLocation(FancyBlockParticles.MOD_ID, "logo_highlighted"));
-    public static final WidgetSprites REPORT_SPRITES = new WidgetSprites(new ResourceLocation(FancyBlockParticles.MOD_ID, "report"), new ResourceLocation(FancyBlockParticles.MOD_ID, "report_highlighted"));
+    public static final ResourceLocation LOGO_TEXTURE = new ResourceLocation(FancyBlockParticles.MOD_ID, "textures/gui/logo.png");
+    public static final ResourceLocation REPORT_TEXTURE = new ResourceLocation(FancyBlockParticles.MOD_ID, "textures/gui/report.png");
 
     public FBPOptionsScreen(Screen lastScreen) {
         super(Component.translatable("screen.fbp.settings"), lastScreen, FancyBlockParticles.CONFIG.copy());

@@ -1,9 +1,5 @@
 apply plugin: 'org.spongepowered.gradle.vanilla'
 
-base {
-    archivesName = "$mod_name-$mc_version-common"
-}
-
 println "Using Minecraft: $mc_version"
 
 minecraft {
@@ -21,6 +17,9 @@ repositories {
 
 dependencies {
     compileOnly "org.spongepowered:mixin:0.8.+"
+
+    compileOnly "io.github.llamalad7:mixinextras-common:$mixin_extras_version"
+    annotationProcessor "io.github.llamalad7:mixinextras-common:$mixin_extras_version"
 
     compileOnly "org.projectlombok:lombok:$lombok_version"
     annotationProcessor "org.projectlombok:lombok:$lombok_version"
