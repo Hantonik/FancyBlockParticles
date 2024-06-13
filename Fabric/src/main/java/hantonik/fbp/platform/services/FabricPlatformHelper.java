@@ -11,11 +11,6 @@ public final class FabricPlatformHelper implements IPlatformHelper {
     }
 
     @Override
-    public boolean isModLoaded(String modId) {
-        return FabricLoader.getInstance().isModLoaded(modId);
-    }
-
-    @Override
     public Path getConfigDir() {
         return FabricLoader.getInstance().getConfigDir();
     }
