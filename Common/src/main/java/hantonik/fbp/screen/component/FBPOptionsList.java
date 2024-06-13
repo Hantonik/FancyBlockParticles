@@ -16,8 +16,8 @@ import java.util.List;
 public class FBPOptionsList extends ContainerObjectSelectionList<FBPOptionsList.Entry> {
     private final FBPAbstractOptionsScreen screen;
 
-    public FBPOptionsList(Minecraft minecraft, int width, FBPAbstractOptionsScreen screen) {
-        super(minecraft, width, screen.layout.getContentHeight(), screen.layout.getHeaderHeight(), 25);
+    public FBPOptionsList(Minecraft minecraft, int width, int height, FBPAbstractOptionsScreen screen) {
+        super(minecraft, width, height, screen.layout.getHeaderHeight(), height - screen.layout.getFooterHeight(), 25);
 
         this.centerListVertically = false;
         this.screen = screen;
@@ -46,7 +46,12 @@ public class FBPOptionsList extends ContainerObjectSelectionList<FBPOptionsList.
 
     @Override
     public int getRowWidth() {
-        return 310;
+        return 400;
+    }
+
+    @Override
+    protected int getScrollbarPosition() {
+        return super.getScrollbarPosition() + 32;
     }
 
     protected static class Entry extends ContainerObjectSelectionList.Entry<Entry> {

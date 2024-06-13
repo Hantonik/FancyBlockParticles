@@ -2,10 +2,16 @@
   "homepage": "https://www.curseforge.com/minecraft/mc-mods/fbp-renewed",
 
   "promos": {
-    "1.20.6-latest": "20.6.0.0-beta"
+    "1.20.1-latest": "20.1.0.0-beta"
   },
 
-  "1.20.6": {
-    "20.6.0.0-beta": "Thorough code rewrite. Port to Minecraft 1.20.6"
+  "1.20.1": {
+    "20.1.0.0-beta": "Backport to Minecraft 1.20.1",
+    "1.1.2.0-beta": "Add option to disable block breaking particles",
+    "1.1.1.1-beta": "Fix FBP Options Menu doesn't fix on the screen",
+    "1.1.1.0-beta": "Fix the position of the Done button. Add particle culling toggle option",
+    "1.1.0.2-beta": "[Forge] Fix unexpected Snow Particles in the desert",
+    "1.1.0.1-beta": "Fix crash with SereneSeasons mod",
+    "1.1.0.0-beta": "Backport to Minecraft 1.20.1"
   }
 }

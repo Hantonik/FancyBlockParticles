@@ -112,39 +112,41 @@ public class FBPFlameParticle extends FlameParticle implements IKillableParticle
         if (!FancyBlockParticles.CONFIG.global.isEnabled() || !FancyBlockParticles.CONFIG.flame.isEnabled())
             this.remove();
 
-        if (!Minecraft.getInstance().isPaused() && (!FancyBlockParticles.CONFIG.global.isFreezeEffect() || this.killToggle)) {
+        if (!Minecraft.getInstance().isPaused()) {
             if (this.killToggle)
                 this.remove();
 
-            if (!FancyBlockParticles.CONFIG.flame.isInfiniteDuration() && !FancyBlockParticles.CONFIG.global.isInfiniteDuration())
-                this.age++;
+            if (!FancyBlockParticles.CONFIG.global.isFreezeEffect()) {
+                if (!FancyBlockParticles.CONFIG.flame.isInfiniteDuration() && !FancyBlockParticles.CONFIG.global.isInfiniteDuration())
+                    this.age++;
 
-            if (this.age >= this.lifetime) {
-                this.quadSize *= this.multiplier * 0.95F;
+                if (this.age >= this.lifetime) {
+                    this.quadSize *= this.multiplier * 0.95F;
 
-                if (this.alpha > 0.01D && this.quadSize <= this.scaleAlpha)
-                    this.alpha *= this.multiplier * 0.95F;
+                    if (this.alpha > 0.01D && this.quadSize <= this.scaleAlpha)
+                        this.alpha *= this.multiplier * 0.95F;
 
-                var state = this.level.getBlockState(BlockPos.containing(this.x, this.y, this.z));
+                    var state = this.level.getBlockState(BlockPos.containing(this.x, this.y, this.z));
 
-                if (this.alpha <= 0.01D)
-                    this.remove();
-                else if (this.alpha <= 0.325D && this.hasChild && (state.getBlock() instanceof TorchBlock || state.getBlock() instanceof CandleBlock)) {
-                    this.hasChild = false;
+                    if (this.alpha <= 0.01D)
+                        this.remove();
+                    else if (this.alpha <= 0.325D && this.hasChild && (state.getBlock() instanceof TorchBlock || state.getBlock() instanceof CandleBlock)) {
+                        this.hasChild = false;
 
-                    Minecraft.getInstance().particleEngine.add(new FBPFlameParticle(this.level, this.startPos.x, this.startPos.y, this.startPos.z, 0, 0, 0, this.isSoulFire, false));
+                        Minecraft.getInstance().particleEngine.add(new FBPFlameParticle(this.level, this.startPos.x, this.startPos.y, this.startPos.z, 0, 0, 0, this.isSoulFire, false));
+                    }
                 }
-            }
 
-            this.yd -= 0.02D * this.gravity;
+                this.yd -= 0.02D * this.gravity;
 
-            this.move(0.0D, this.yd, 0.0D);
+                this.move(0.0D, this.yd, 0.0D);
 
-            this.yd *= 0.95D;
+                this.yd *= 0.95D;
 
-            if (this.onGround) {
-                this.xd *= 0.9D;
-                this.zd *= 0.9D;
+                if (this.onGround) {
+                    this.xd *= 0.9D;
+                    this.zd *= 0.9D;
+                }
             }
         }
     }
@@ -217,8 +219,8 @@ public class FBPFlameParticle extends FlameParticle implements IKillableParticle
 
     @Override
     public void render(VertexConsumer buffer, Camera info, float partialTick) {
-        var u = this.sprite.getU(1.1F / 4.0F);
-        var v = this.sprite.getV(1.1F / 4.0F);
+        var u = this.sprite.getU(1.1F / 4.0F * 16.0F);
+        var v = this.sprite.getV(1.1F / 4.0F * 16.0F);
 
         var posX = Mth.lerp(partialTick, this.xo, this.x) - info.getPosition().x;
         var posY = Mth.lerp(partialTick, this.yo, this.y) - info.getPosition().y;

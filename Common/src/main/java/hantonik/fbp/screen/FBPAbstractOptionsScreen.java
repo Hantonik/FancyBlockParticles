@@ -8,6 +8,7 @@ import hantonik.fbp.screen.component.widget.button.FBPImageButton;
 import hantonik.fbp.screen.component.widget.button.FBPSliderButton;
 import hantonik.fbp.screen.component.widget.button.FBPToggleButton;
 import net.minecraft.SharedConstants;
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.components.StringWidget;
 import net.minecraft.client.gui.components.Tooltip;
@@ -18,7 +19,6 @@ import net.minecraft.client.gui.screens.AlertScreen;
 import net.minecraft.client.gui.screens.ConfirmScreen;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.ClickEvent;
-import net.minecraft.network.chat.CommonComponents;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.Style;
 import org.lwjgl.glfw.GLFW;
@@ -44,12 +44,12 @@ public abstract class FBPAbstractOptionsScreen extends Screen {
 
     @Override
     protected void init() {
-        this.layout.addToHeader(new FBPImageButton(25, 25, FBPOptionsScreen.LOGO_SPRITES, button -> this.handleComponentClicked(Style.EMPTY.withClickEvent(new ClickEvent(ClickEvent.Action.OPEN_URL, "https://www.curseforge.com/minecraft/mc-mods/fbp-renewed"))), CommonComponents.EMPTY), settings -> settings.alignHorizontallyLeft().alignVerticallyTop().padding(10)).setTooltip(Tooltip.create(Component.translatable("tooltip.fbp.common.homepage")));
-        this.layout.addToHeader(new FBPImageButton(25, 25, FBPOptionsScreen.REPORT_SPRITES, button -> this.handleComponentClicked(Style.EMPTY.withClickEvent(new ClickEvent(ClickEvent.Action.OPEN_URL, "https://github.com/Hantonik/FancyBlockParticles/issues"))), CommonComponents.EMPTY), settings -> settings.alignHorizontallyRight().alignVerticallyTop().padding(10)).setTooltip(Tooltip.create(Component.translatable("tooltip.fbp.common.report")));
+        this.layout.addToHeader(new FBPImageButton(25, 25, FBPOptionsScreen.LOGO_TEXTURE, button -> this.handleComponentClicked(Style.EMPTY.withClickEvent(new ClickEvent(ClickEvent.Action.OPEN_URL, "https://www.curseforge.com/minecraft/mc-mods/fbp-renewed")))), LayoutSettings.defaults().alignHorizontallyLeft().alignVerticallyTop().padding(10)).setTooltip(Tooltip.create(Component.translatable("tooltip.fbp.common.homepage")));
+        this.layout.addToHeader(new FBPImageButton(25, 25, FBPOptionsScreen.REPORT_TEXTURE, button -> this.handleComponentClicked(Style.EMPTY.withClickEvent(new ClickEvent(ClickEvent.Action.OPEN_URL, "https://github.com/Hantonik/FancyBlockParticles/issues")))), LayoutSettings.defaults().alignHorizontallyRight().alignVerticallyTop().padding(10)).setTooltip(Tooltip.create(Component.translatable("tooltip.fbp.common.report")));
 
-        this.layout.addToHeader(new StringWidget(this.title, this.font), LayoutSettings::alignHorizontallyCenter);
+        this.layout.addToHeader(new StringWidget(this.title, this.font), LayoutSettings.defaults().alignHorizontallyCenter().alignVerticallyMiddle());
 
-        this.list = this.addRenderableWidget(new FBPOptionsList(this.minecraft, this.width, this));
+        this.list = this.addRenderableWidget(new FBPOptionsList(this.minecraft, this.width, this.height, this));
 
         this.initOptions();
 
@@ -80,7 +80,7 @@ public abstract class FBPAbstractOptionsScreen extends Screen {
         this.layout.addToFooter(footer);
 
         var version = Component.translatable("text.fbp.version", SharedConstants.getCurrentVersion().getName() + "-" + FancyBlockParticles.MOD_VERSION);
-        this.layout.addToFooter(new StringWidget(this.font.width(version), 9, version, this.font), settings -> settings.alignHorizontallyLeft().alignVerticallyBottom().paddingLeft(5).paddingBottom(3));
+        this.layout.addToFooter(new StringWidget(this.font.width(version), 9, version, this.font), LayoutSettings.defaults().alignHorizontallyLeft().alignVerticallyBottom().paddingLeft(5).paddingBottom(3));
 
         this.layout.visitWidgets(widget -> {
             if (widget instanceof FBPToggleButton || widget instanceof FBPSliderButton)
@@ -88,20 +88,12 @@ public abstract class FBPAbstractOptionsScreen extends Screen {
         });
 
         this.layout.visitWidgets(this::addRenderableWidget);
-
-        this.repositionElements();
+        this.layout.arrangeElements();
     }
 
     protected abstract void initOptions();
 
     protected abstract void resetConfig();
-
-    @Override
-    protected void repositionElements() {
-        this.layout.arrangeElements();
-
-        this.list.updateSize(this.width, this.layout);
-    }
 
     @Override
     public boolean keyPressed(int keyCode, int scanCode, int modifiers) {
@@ -126,6 +118,11 @@ public abstract class FBPAbstractOptionsScreen extends Screen {
             screen.rebuildWidgets();
 
         this.minecraft.setScreen(this.lastScreen);
+    }
+
+    @Override
+    public void renderBackground(GuiGraphics graphics) {
+        this.renderDirtBackground(graphics);
     }
 
     protected void onDone() {

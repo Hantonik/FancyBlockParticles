@@ -1,13 +1,17 @@
 package hantonik.fbp.mixin;
 
+import com.llamalad7.mixinextras.sugar.Local;
+import com.llamalad7.mixinextras.sugar.ref.LocalRef;
 import hantonik.fbp.FancyBlockParticles;
 import hantonik.fbp.particle.FBPRainParticle;
 import hantonik.fbp.particle.FBPSnowParticle;
+import hantonik.fbp.platform.Services;
 import hantonik.fbp.util.FBPConstants;
 import net.minecraft.client.Camera;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.renderer.LevelRenderer;
+import net.minecraft.client.renderer.LightTexture;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleOptions;
 import net.minecraft.core.particles.ParticleTypes;
@@ -57,7 +61,7 @@ public abstract class MixinLevelRenderer implements ResourceManagerReloadListene
                     var pos = BlockPos.containing(x, y, z);
                     var surfaceHeight = this.level.getHeightmapPos(Heightmap.Types.MOTION_BLOCKING, pos).getY();
 
-                    var precipitation = this.level.getBiome(pos).value().getPrecipitationAt(pos);
+                    var precipitation = Services.CLIENT.getPrecipitationAt(this.level.getBiome(pos), pos);
 
                     if (this.minecraft.cameraEntity.position().distanceTo(new Vec3(x, y, z)) > (precipitation == Biome.Precipitation.RAIN ? FancyBlockParticles.CONFIG.rain.getSimulationDistance() : FancyBlockParticles.CONFIG.snow.getSimulationDistance()) * 16.0F)
                         continue;
@@ -94,16 +98,13 @@ public abstract class MixinLevelRenderer implements ResourceManagerReloadListene
         instance.addParticle(particleOptions, x, y, z, xd, yd, zd);
     }
 
-    @Redirect(at = @At(value = "INVOKE", target = "Lnet/minecraft/world/level/biome/Biome;getPrecipitationAt(Lnet/minecraft/core/BlockPos;)Lnet/minecraft/world/level/biome/Biome$Precipitation;"), method = "renderSnowAndRain")
-    private Biome.Precipitation getPrecipitationAt(Biome instance, BlockPos pos) {
+    @Inject(at = @At(value = "INVOKE_ASSIGN", target = "Lnet/minecraft/world/level/biome/Biome;getPrecipitationAt(Lnet/minecraft/core/BlockPos;)Lnet/minecraft/world/level/biome/Biome$Precipitation;", shift = At.Shift.AFTER), method = "renderSnowAndRain", cancellable = true)
+    private void renderSnowAndRain(LightTexture light, float partialTick, double camX, double camY, double camZ, CallbackInfo callback, @Local LocalRef<Biome.Precipitation> precipitation) {
         if (FancyBlockParticles.CONFIG.global.isEnabled()) {
-            if (instance.getPrecipitationAt(pos) == Biome.Precipitation.RAIN && FancyBlockParticles.CONFIG.rain.isEnabled())
-                return Biome.Precipitation.NONE;
-
-            if (instance.getPrecipitationAt(pos) == Biome.Precipitation.SNOW && FancyBlockParticles.CONFIG.snow.isEnabled())
-                return Biome.Precipitation.NONE;
+            if (precipitation.get() == Biome.Precipitation.RAIN && FancyBlockParticles.CONFIG.rain.isEnabled())
+                precipitation.set(Biome.Precipitation.NONE);
+            else if (precipitation.get() == Biome.Precipitation.SNOW && FancyBlockParticles.CONFIG.snow.isEnabled())
+                precipitation.set(Biome.Precipitation.NONE);
         }
-
-        return instance.getPrecipitationAt(pos);
     }
 }

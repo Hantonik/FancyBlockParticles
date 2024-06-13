@@ -91,43 +91,45 @@ public class FBPLavaParticle extends LavaParticle implements IKillableParticle {
         if (!FancyBlockParticles.CONFIG.global.isEnabled() || !FancyBlockParticles.CONFIG.flame.isEnabled())
             this.remove();
 
-        if (!Minecraft.getInstance().isPaused() && (!FancyBlockParticles.CONFIG.global.isFreezeEffect() || this.killToggle)) {
+        if (!Minecraft.getInstance().isPaused()) {
             if (this.killToggle)
                 this.remove();
 
-            if (!FancyBlockParticles.CONFIG.flame.isInfiniteDuration() && !FancyBlockParticles.CONFIG.global.isInfiniteDuration())
-                this.age++;
+            if (!FancyBlockParticles.CONFIG.global.isFreezeEffect()) {
+                if (!FancyBlockParticles.CONFIG.flame.isInfiniteDuration() && !FancyBlockParticles.CONFIG.global.isInfiniteDuration())
+                    this.age++;
 
-            if (this.age >= this.lifetime) {
-                this.quadSize *= this.multiplier * 0.9F;
+                if (this.age >= this.lifetime) {
+                    this.quadSize *= this.multiplier * 0.9F;
 
-                if (this.alpha > 0.01D && this.quadSize <= this.scaleAlpha)
-                    this.alpha *= this.multiplier * 0.9F;
+                    if (this.alpha > 0.01D && this.quadSize <= this.scaleAlpha)
+                        this.alpha *= this.multiplier * 0.9F;
 
-                if (this.alpha <= 0.01D)
-                    this.remove();
-            }
+                    if (this.alpha <= 0.01D)
+                        this.remove();
+                }
 
-            if (!this.removed)
-                if (FBPConstants.RANDOM.nextFloat() > (float) this.age / (float) this.lifetime && FBPConstants.RANDOM.nextFloat() > 0.3F)
-                    this.level.addParticle(ParticleTypes.SMOKE, this.x, this.y, this.z, this.xd, this.yd, this.zd);
+                if (!this.removed)
+                    if (FBPConstants.RANDOM.nextFloat() > (float) this.age / (float) this.lifetime && FBPConstants.RANDOM.nextFloat() > 0.3F)
+                        this.level.addParticle(ParticleTypes.SMOKE, this.x, this.y, this.z, this.xd, this.yd, this.zd);
 
-            this.yd -= 0.04D * this.gravity;
+                this.yd -= 0.04D * this.gravity;
 
-            this.move(this.xd, this.yd, this.zd);
+                this.move(this.xd, this.yd, this.zd);
 
-            if (this.speedUpWhenYMotionIsBlocked && this.y == this.yo) {
-                this.xd *= 1.1D;
-                this.zd *= 1.1D;
-            }
+                if (this.speedUpWhenYMotionIsBlocked && this.y == this.yo) {
+                    this.xd *= 1.1D;
+                    this.zd *= 1.1D;
+                }
 
-            this.xd *= 0.95D;
-            this.yd *= 0.95D;
-            this.zd *= 0.95D;
+                this.xd *= 0.95D;
+                this.yd *= 0.95D;
+                this.zd *= 0.95D;
 
-            if (this.onGround) {
-                this.xd *= 0.9D;
-                this.zd *= 0.9D;
+                if (this.onGround) {
+                    this.xd *= 0.9D;
+                    this.zd *= 0.9D;
+                }
             }
         }
     }
@@ -193,8 +195,8 @@ public class FBPLavaParticle extends LavaParticle implements IKillableParticle {
 
     @Override
     public void render(VertexConsumer buffer, Camera info, float partialTick) {
-        var u = this.sprite.getU(1.1F / 4.0F);
-        var v = this.sprite.getV(1.1F / 4.0F);
+        var u = this.sprite.getU(1.1F / 4.0F * 16.0F);
+        var v = this.sprite.getV(1.1F / 4.0F * 16.0F);
 
         var posX = Mth.lerp(partialTick, this.xo, this.x) - info.getPosition().x;
         var posY = Mth.lerp(partialTick, this.yo, this.y) - info.getPosition().y;

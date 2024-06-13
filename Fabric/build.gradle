@@ -25,16 +25,9 @@ loom {
 
 			setConfigName('Fabric: Client')
 		}
-
-		server {
-			server()
-
-			setConfigName('Fabric: Server')
-		}
 	}
 
 	mixin {
-		defaultRefmapName = "${mod_id}.refmap.json"
 		useLegacyMixinAp = false
 	}
 
@@ -54,13 +47,10 @@ dependencies {
 		parchment("org.parchmentmc.data:parchment-$mc_version:$mappings_version@zip")
 	}
 
-	implementation project(':Common')
+	compileOnly project(':Common')
 
 	modImplementation "net.fabricmc:fabric-loader:$loader_version"
 	modImplementation "net.fabricmc.fabric-api:fabric-api:$fabric_version+$mc_version"
-
-	modCompileOnly "com.github.glitchfiend:SereneSeasons-fabric:$mc_version-$sereneseasons_version"
-	modCompileOnly "com.github.glitchfiend:GlitchCore-fabric:$mc_version-$glitchcore_version"
 
 	compileOnly "org.projectlombok:lombok:$lombok_version"
 	annotationProcessor "org.projectlombok:lombok:$lombok_version"

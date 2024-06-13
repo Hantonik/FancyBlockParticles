@@ -3,6 +3,7 @@ package hantonik.fbp.mixin;
 import hantonik.fbp.FancyBlockParticles;
 import hantonik.fbp.init.FBPKeyMappings;
 import hantonik.fbp.particle.*;
+import hantonik.fbp.platform.Services;
 import hantonik.fbp.util.FBPConstants;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ClientLevel;
@@ -59,18 +60,14 @@ public abstract class MixinParticleEngine {
                 callback.setReturnValue(new FBPLavaParticle.Provider().createParticle((SimpleParticleType) particleData, this.level, x, y, z, xd, yd, zd));
         }
 
-        if (FancyBlockParticles.CONFIG.smoke.isEnabled() && !(callback.getReturnValue() instanceof FBPSmokeParticle)) {
+        if (FancyBlockParticles.CONFIG.smoke.isEnabled() && !(callback.getReturnValue() instanceof FBPSmokeParticle))
             if (particleData.getType() == ParticleTypes.SMOKE || particleData.getType() == ParticleTypes.LARGE_SMOKE)
                 callback.setReturnValue(new FBPSmokeParticle.Provider(((SingleQuadParticle) callback.getReturnValue()).getQuadSize(1)).createParticle((SimpleParticleType) particleData, this.level, x, y, z, xd, yd, zd));
-
-            if (particleData.getType() == ParticleTypes.WHITE_SMOKE)
-                callback.setReturnValue(new FBPWhiteSmokeParticle.Provider(((SingleQuadParticle) callback.getReturnValue()).getQuadSize(1)).createParticle((SimpleParticleType) particleData, this.level, x, y, z, xd, yd, zd));
-        }
 
         if ((FancyBlockParticles.CONFIG.rain.isEnabled() || FancyBlockParticles.CONFIG.snow.isEnabled()) && !(callback.getReturnValue() instanceof FBPRainParticle) && !(callback.getReturnValue() instanceof FBPSnowParticle)) {
             if (particleData.getType() == ParticleTypes.RAIN) {
                 var pos = BlockPos.containing(x, y, z);
-                var precipitation = this.level.getBiome(pos).value().getPrecipitationAt(pos);
+                var precipitation = Services.CLIENT.getPrecipitationAt(this.level.getBiome(pos), pos);
 
                 if (precipitation == Biome.Precipitation.SNOW)
                     callback.setReturnValue(new FBPSnowParticle.Provider().createParticle((SimpleParticleType) particleData, this.level, x, y, z, xd, yd, zd));
@@ -106,7 +103,7 @@ public abstract class MixinParticleEngine {
 
         callback.cancel();
 
-        if (!state.isAir() && state.shouldSpawnTerrainParticles()) {
+        if (!state.isAir() && state.shouldSpawnParticlesOnBreak()) {
             var shape = state.getShape(this.level, pos);
             var sprite = Minecraft.getInstance().getBlockRenderer().getBlockModelShaper().getParticleIcon(state);
 
