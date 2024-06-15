@@ -29,13 +29,6 @@ subprojects {
             apply plugin: 'net.darkhax.curseforgegradle'
             apply plugin: 'com.modrinth.minotaur'
 
-            java {
-                withSourcesJar()
-
-                sourceCompatibility = JavaVersion."VERSION_$java_version"
-                targetCompatibility = JavaVersion."VERSION_$java_version"
-            }
-
             evaluationDependsOn(':Common')
         }
 
@@ -44,7 +37,14 @@ subprojects {
         apply plugin: 'idea'
         apply plugin: 'maven-publish'
 
-        java.toolchain.languageVersion = JavaLanguageVersion.of(java_version)
+        java {
+            toolchain.languageVersion = JavaLanguageVersion.of(java_version)
+
+            withSourcesJar()
+
+            sourceCompatibility = JavaVersion."VERSION_$java_version"
+            targetCompatibility = JavaVersion."VERSION_$java_version"
+        }
 
         idea {
             module {
@@ -56,6 +56,12 @@ subprojects {
 
     version = gradleutils.version.toString()
     group = "hantonik.$mod_id"
+
+    tasks.withType(JavaCompile).configureEach {
+        source project(':Common').sourceSets.main.allSource
+
+        options.encoding = 'UTF-8'
+    }
 
     tasks.withType(ProcessResources).configureEach {
         from project(':Common').sourceSets.main.resources
@@ -74,12 +80,6 @@ subprojects {
         filesMatching([ 'META-INF/*mods.toml', 'fabric.mod.json', 'pack.mcmeta' ]) {
             expand replaceProperties
         }
-    }
-
-    tasks.withType(JavaCompile).configureEach {
-        source project(':Common').sourceSets.main.allSource
-
-        options.encoding = 'UTF-8'
     }
 
     tasks.withType(Jar).configureEach {
