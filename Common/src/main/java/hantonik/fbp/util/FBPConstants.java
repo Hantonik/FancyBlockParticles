@@ -16,7 +16,7 @@ import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.client.renderer.texture.TextureManager;
 import net.minecraft.world.inventory.InventoryMenu;
 import net.minecraft.world.level.block.Blocks;
-import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import org.joml.Vector3d;
 
 import java.nio.file.Path;
@@ -48,8 +48,9 @@ public final class FBPConstants {
     public static final Supplier<TextureAtlasSprite> FBP_PARTICLE_SPRITE = () -> Minecraft.getInstance().getBlockRenderer().getBlockModelShaper().getParticleIcon(Blocks.WHITE_CONCRETE.defaultBlockState());
 
     public static final ParticleRenderType FBP_PARTICLE_RENDER = new ParticleRenderType() {
+        @Nullable
         @Override
-        public void begin(BufferBuilder buffer, @NotNull TextureManager manager) {
+        public BufferBuilder begin(Tesselator tesselator, TextureManager manager) {
             RenderSystem.enableBlend();
             RenderSystem.defaultBlendFunc();
             RenderSystem.depthMask(true);
@@ -59,25 +60,19 @@ public final class FBPConstants {
 
             RenderSystem.enableCull();
 
-            buffer.begin(VertexFormat.Mode.QUADS, DefaultVertexFormat.PARTICLE);
+            return tesselator.begin(VertexFormat.Mode.QUADS, DefaultVertexFormat.PARTICLE);
         }
 
         @Override
-        public void end(Tesselator tesselator) {
-            tesselator.end();
-
-            RenderSystem.disableBlend();
-            RenderSystem.setShaderTexture(0, InventoryMenu.BLOCK_ATLAS);
-            RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
-            RenderSystem.setShader(GameRenderer::getParticleShader);
-
-            RenderSystem.disableCull();
+        public String toString() {
+            return "FBP_PARTICLE_RENDER";
         }
     };
 
     public static final ParticleRenderType FBP_TERRAIN_RENDER = new ParticleRenderType() {
+        @Nullable
         @Override
-        public void begin(BufferBuilder buffer, TextureManager manager) {
+        public BufferBuilder begin(Tesselator tesselator, TextureManager manager) {
             RenderSystem.enableBlend();
             RenderSystem.defaultBlendFunc();
             RenderSystem.depthMask(true);
@@ -90,19 +85,12 @@ public final class FBPConstants {
             else
                 RenderSystem.disableCull();
 
-            buffer.begin(VertexFormat.Mode.QUADS, DefaultVertexFormat.BLOCK);
+            return tesselator.begin(VertexFormat.Mode.QUADS, DefaultVertexFormat.BLOCK);
         }
 
         @Override
-        public void end(Tesselator tesselator) {
-            tesselator.end();
-
-            RenderSystem.disableBlend();
-            RenderSystem.setShaderTexture(0, InventoryMenu.BLOCK_ATLAS);
-            RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
-            RenderSystem.setShader(GameRenderer::getParticleShader);
-
-            RenderSystem.disableCull();
+        public String toString() {
+            return "FBP_TERRAIN_RENDER";
         }
     };
 }

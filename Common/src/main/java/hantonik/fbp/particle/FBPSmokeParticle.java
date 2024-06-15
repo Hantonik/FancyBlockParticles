@@ -284,7 +284,7 @@ public class FBPSmokeParticle extends SmokeParticle implements IKillableParticle
     }
 
     private void addVertex(VertexConsumer buffer, Vector3d pos, float u, float v, int light, float rCol, float gCol, float bCol, float alpha) {
-        buffer.vertex(pos.x, pos.y, pos.z).uv(u, v).color(rCol, gCol, bCol, alpha).uv2(light).endVertex();
+        buffer.addVertex((float) pos.x, (float) pos.y, (float) pos.z).setUv(u, v).setColor(rCol, gCol, bCol, alpha).setLight(light);
     }
 
     @RequiredArgsConstructor

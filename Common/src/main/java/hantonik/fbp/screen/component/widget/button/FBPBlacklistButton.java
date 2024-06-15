@@ -9,7 +9,7 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 
 public class FBPBlacklistButton extends Button {
-    private static final ResourceLocation WIDGETS = new ResourceLocation(FancyBlockParticles.MOD_ID, "textures/gui/widgets.png");
+    private static final ResourceLocation WIDGETS = ResourceLocation.tryBuild(FancyBlockParticles.MOD_ID, "textures/gui/widgets.png");
 
     private final boolean particle;
     @Getter

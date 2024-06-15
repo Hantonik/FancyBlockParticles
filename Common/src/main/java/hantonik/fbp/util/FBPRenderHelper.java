@@ -69,7 +69,7 @@ public final class FBPRenderHelper {
     }
 
     public static void addVertex(VertexConsumer buffer, Vector3d pos, float u, float v, int light, float red, float green, float blue, float alpha, Vector3d normal) {
-        buffer.vertex(pos.x, pos.y, pos.z).color(red, green, blue, alpha).uv(u, v).uv2(light).normal((float) normal.x, (float) normal.y, (float) normal.z).endVertex();
+        buffer.addVertex((float) pos.x, (float) pos.y, (float) pos.z).setColor(red, green, blue, alpha).setUv(u, v).setLight(light).setNormal((float) normal.x, (float) normal.y, (float) normal.z);
     }
 
     public static Vector3d rotate(Vector3d vector, float angleX, float angleY, float angleZ) {

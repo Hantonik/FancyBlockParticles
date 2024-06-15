@@ -2,11 +2,10 @@
   "homepage": "https://www.curseforge.com/minecraft/mc-mods/fbp-renewed",
 
   "promos": {
-    "1.20.6-latest": "20.6.0.1-beta"
+    "1.21-latest": "21.0.0.0-beta"
   },
 
-  "1.20.6": {
-    "20.6.0.1-beta": "Fixed a crash when particles were killed during the freeze effect",
-    "20.6.0.0-beta": "Thorough code rewrite. Port to Minecraft 1.20.6"
+  "1.21": {
+    "21.0.0.0-beta": "Update to Minecraft 1.21"
   }
 }

@@ -18,7 +18,7 @@ import net.minecraft.world.level.block.state.BlockState;
 import org.lwjgl.glfw.GLFW;
 
 public class FBPFastBlacklistScreen extends Screen {
-    private static final ResourceLocation WIDGETS = new ResourceLocation(FancyBlockParticles.MOD_ID, "textures/gui/widgets.png");
+    private static final ResourceLocation WIDGETS = ResourceLocation.tryBuild(FancyBlockParticles.MOD_ID, "textures/gui/widgets.png");
 
     private final BlockState state;
     private final ItemStack displayStack;

@@ -244,7 +244,7 @@ public final class FBPConfig implements IFBPConfig<FBPConfig> {
             this.disabledParticles = Util.make(Lists.newArrayList(), disabled -> {
                 if (json.has("disabledParticles")) {
                     for (var entry : GsonHelper.getAsJsonArray(json, "disabledParticles"))
-                        disabled.add(Services.REGISTRY.getBlock(new ResourceLocation(entry.getAsString())));
+                        disabled.add(Services.REGISTRY.getBlock(ResourceLocation.tryParse(entry.getAsString())));
                 } else
                     disabled.addAll(DEFAULT_DISABLED_PARTICLES);
             });
@@ -252,7 +252,7 @@ public final class FBPConfig implements IFBPConfig<FBPConfig> {
             this.disabledAnimations = Util.make(Lists.newArrayList(), disabled -> {
                 if (json.has("disabledAnimations")) {
                     for (var entry : GsonHelper.getAsJsonArray(json, "disabledAnimations"))
-                        disabled.add(Services.REGISTRY.getBlock(new ResourceLocation(entry.getAsString())));
+                        disabled.add(Services.REGISTRY.getBlock(ResourceLocation.tryParse(entry.getAsString())));
                 } else
                     disabled.addAll(DEFAULT_DISABLED_ANIMATIONS);
             });
