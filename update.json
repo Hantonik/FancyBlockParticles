@@ -2,10 +2,11 @@
   "homepage": "https://www.curseforge.com/minecraft/mc-mods/fbp-renewed",
 
   "promos": {
-    "1.21-latest": "21.0.0.0-beta"
+    "1.21-latest": "21.0.0.1-beta"
   },
 
   "1.21": {
+    "21.0.0.1-beta": "Fix a crash when Breeze shoots projectile. Fix a crash on Freeze effect",
     "21.0.0.0-beta": "Update to Minecraft 1.21"
   }
 }
