@@ -10,7 +10,8 @@ pluginManagement {
 }
 
 include (
-    "Forge",
+    "Common",
     "Fabric",
+    "Forge",
     "Changelog"
 )

@@ -1,0 +1,171 @@
+{
+  "key.fbp.category": "Fancy Block Particles",
+
+  "key.fbp.toggle_mod": "Mod aktivieren/deaktivieren",
+  "key.fbp.open_settings": "Einstellungen öffnen",
+  "key.fbp.freeze_particles": "Freeze-Effekt umschalten",
+  "key.fbp.kill_particles": "Partikel löschen",
+  "key.fbp.add_to_blacklist": "Block schnell zur Blacklist hinzufügen",
+  "key.fbp.reload_config": "Konfiguration neu laden",
+
+  "gui.fbp.freeze_effect": "Freeze-Effekt!",
+
+  "gui.fbp.blacklist.blacklist": "Blacklist",
+  "gui.fbp.blacklist.whitelist": "Whitelist",
+
+  "screen.fbp.fast_blacklist": "Block zur Blacklist hinzufügen",
+
+  "screen.fbp.settings": "Einstellungen",
+
+  "screen.fbp.category.animations": "Animationen",
+  "screen.fbp.category.flame": "Flamme",
+  "screen.fbp.category.overlay": "Overlay",
+  "screen.fbp.category.rain": "Regen",
+  "screen.fbp.category.smoke": "Rauch",
+  "screen.fbp.category.snow": "Schnee",
+  "screen.fbp.category.terrain": "Terrain",
+  "screen.fbp.category.weather": "Wetter",
+
+  "screen.fbp.terrain.animation_blacklist": "Animations-Blacklist",
+  "screen.fbp.terrain.particle_blacklist": "Partikel-Blacklist",
+
+  "screen.fbp.reset_confirm": "Sind Sie sicher, dass Sie die FBP-Einstellungen zurücksetzen möchten?",
+  "screen.fbp.reload_alert": "Konfiguration wurde erfolgreich neu geladen!",
+
+  "button.fbp.animations.fancy_placing_animation": "Fancy Platzierungsanimation",
+  "button.fbp.animations.smooth_animation_lighting": "Sanfte Animationsbeleuchtung",
+
+  "button.fbp.common.particles_decay": "Partikel zerfallen",
+
+  "button.fbp.common.spawn_while_frozen": "Beim Einfrieren spawnen",
+
+  "button.fbp.common.random_size": "Zufällige Größe",
+  "button.fbp.common.random_rotation": "Zufällige Rotation",
+  "button.fbp.common.random_fading_speed": "Zufällige Verblassungsgeschwindigkeit",
+
+  "button.fbp.common.min_lifetime": "Minimale Lebensdauer",
+  "button.fbp.common.max_lifetime": "Maximale Lebensdauer",
+
+  "button.fbp.common.size_multiplier": "Größenmultiplikator",
+  "button.fbp.common.rotation_multiplier": "Rotationsmultiplikator",
+  "button.fbp.common.gravity_multiplier": "Schwerkraftmultiplikator",
+
+  "button.fbp.common.render_distance": "Render-Distanz",
+  "button.fbp.common.simulation_distance": "Simulations-Distanz",
+
+  "button.fbp.common.water_physics": "Wasserphysik",
+  "button.fbp.common.rest_on_floor": "Auf dem Boden ruhen",
+  "button.fbp.common.low_traction": "Geringe Traktion",
+  "button.fbp.common.bounce_off_walls": "Von Wänden abprallen",
+
+  "button.fbp.common.reload": "Konfiguration neu laden",
+  "button.fbp.common.reset": "Zurücksetzen",
+  "button.fbp.common.done": "Fertig",
+
+  "button.fbp.common.true": "§aEIN",
+  "button.fbp.common.false": "§cAUS",
+
+  "button.fbp.common.ticks": " Ticks",
+
+  "button.fbp.flame.fancy_flame_particles": "Fancy Flammenpartikel",
+
+  "button.fbp.global.enabled": "Aktiviert",
+
+  "button.fbp.global.freeze_effect": "Freeze-Effekt",
+  "button.fbp.global.cartoon_mode": "Cartoon-Modus",
+  "button.fbp.global.cull_particles": "Partikel aussortieren",
+
+  "button.fbp.overlay.freeze_effect_overlay": "Freeze-Effekt-Overlay",
+
+  "button.fbp.rain.particle_density": "Regenpartikel-Dichte",
+
+  "button.fbp.smoke.fancy_smoke_particles": "Fancy Rauchpartikel",
+
+  "button.fbp.snow.particle_density": "Schneepartikel-Dichte",
+
+  "button.fbp.terrain.fancy_breaking_particles": "Fancy Zerstörungspartikel",
+  "button.fbp.terrain.fancy_placing_particles": "Fancy Platzierungspartikel",
+  "button.fbp.terrain.fancy_cracking_particles": "Fancy Risspartikel",
+
+  "button.fbp.terrain.smart_breaking": "Intelligentes Zerstören",
+  "button.fbp.terrain.entity_collision": "Kollision mit Entitäten",
+
+  "button.fbp.terrain.particles_per_axis": "Partikel pro Achse",
+
+  "button.fbp.weather.fancy_rain_particles": "Fancy Regenpartikel",
+  "button.fbp.weather.fancy_snow_particles": "Fancy Schneepartikel",
+
+  "widget.fbp.global.categories": "Kategorien",
+
+  "widget.fbp.overlay.freeze_effect_color": "Farbe des Freeze-Effekts",
+
+  "tooltip.fbp.animations.fancy_placing_animation": "Fancy Platzierungsanimation aktivieren/deaktivieren.",
+  "tooltip.fbp.animations.smooth_animation_lighting": "Sanfte Animationsbeleuchtung aktivieren/deaktivieren.",
+
+  "tooltip.fbp.common.homepage": "FBP-Homepage hier!",
+  "tooltip.fbp.common.report": "Einen Fehler gefunden?\nMelden Sie ihn hier!",
+
+  "tooltip.fbp.common.particles_decay": "Sollen Partikel zerfallen?",
+
+  "tooltip.fbp.common.spawn_while_frozen": "Sollen Partikel während des Freeze-Effekts spawnen?",
+
+  "tooltip.fbp.common.random_size": "Soll die Partikelgröße zufällig sein?",
+  "tooltip.fbp.common.random_rotation": "Soll die Partikelrotation zufällig sein?",
+  "tooltip.fbp.common.random_fading_speed": "Soll die Verblassungsgeschwindigkeit der Partikel zufällig sein?",
+
+  "tooltip.fbp.common.min_lifetime": "Minimale Partikel-Lebensdauer.",
+  "tooltip.fbp.common.max_lifetime": "Maximale Partikel-Lebensdauer.",
+
+  "tooltip.fbp.common.size_multiplier": "Partikelgrößen-Multiplikator.",
+  "tooltip.fbp.common.rotation_multiplier": "Partikelrotations-Multiplikator.",
+  "tooltip.fbp.common.gravity_multiplier": "Partikelschwerkraft-Multiplikator.",
+
+  "tooltip.fbp.common.render_distance": "Partikel-Render-Distanz.",
+  "tooltip.fbp.common.simulation_distance": "Partikel-Simulations-Distanz.",
+
+  "tooltip.fbp.common.water_physics": "Sollen Partikel Wasserphysik haben?",
+  "tooltip.fbp.common.rest_on_floor": "Sollen Partikel auf dem Boden ruhen?\nWenn deaktiviert, wird nur die Hälfte des Partikels auf dem Boden sein.",
+  "tooltip.fbp.common.low_traction": "Sollen Partikel geringe Traktion haben?",
+  "tooltip.fbp.common.bounce_off_walls": "Sollen Partikel von Wänden abprallen?",
+
+  "tooltip.fbp.common.option_unsupported": "Kommt bald!",
+
+  "tooltip.fbp.flame.fancy_flame_particles": "Fancy Flammenpartikel aktivieren/deaktivieren.\nWenn deaktiviert, werden die Standardpartikel wiederhergestellt.",
+
+  "tooltip.fbp.global.enabled": "FBP-Mod aktivieren/deaktivieren.\nWenn deaktiviert, werden die Standardpartikel wiederhergestellt.",
+
+  "tooltip.fbp.global.freeze_effect": "Freeze-Effekt aktivieren/deaktivieren.",
+  "tooltip.fbp.global.cartoon_mode": "Cartoon-Modus aktivieren/deaktivieren.",
+  "tooltip.fbp.global.cull_particles": "Partikelauswahl aktivieren/deaktivieren.\nWenn aktiviert, wird die Leistung optimiert, indem nur sichtbare Objekte gerendert werden, was die Spielleistung verbessert.",
+
+  "tooltip.fbp.overlay.freeze_effect_overlay": "Freeze-Effekt-Overlay aktivieren/deaktivieren.\nWenn aktiviert, wird während des Freeze-Effekts eine Nachricht oben auf dem Bildschirm angezeigt.",
+
+  "tooltip.fbp.rain.particle_density": "Dichte der Regenpartikel.",
+
+  "tooltip.fbp.smoke.fancy_smoke_particles": "Fancy Rauchpartikel aktivieren/deaktivieren.\nWenn deaktiviert, werden die Standardpartikel wiederhergestellt.",
+
+  "tooltip.fbp.snow.particle_density": "Dichte der Schneepartikel.",
+
+  "tooltip.fbp.terrain.fancy_breaking_particles": "Fancy Zerstörungspartikel aktivieren/deaktivieren.\nWenn deaktiviert, werden die Standardpartikel wiederhergestellt.",
+  "tooltip.fbp.terrain.fancy_placing_particles": "Fancy Platzierungspartikel aktivieren/deaktivieren.\nWenn deaktiviert, werden die Standardpartikel wiederhergestellt.",
+  "tooltip.fbp.terrain.fancy_cracking_particles": "Fancy Risspartikel aktivieren/deaktivieren.\nWenn deaktiviert, werden die Standardpartikel wiederhergestellt.",
+
+  "tooltip.fbp.terrain.smart_breaking": "Intelligentes Zerstören aktivieren/deaktivieren.\nWenn aktiviert, verbessert sich die Partikelphysik beim Zerstören von Blöcken.",
+  "tooltip.fbp.terrain.entity_collision": "Kollision mit Entitäten aktivieren/deaktivieren.",
+
+  "tooltip.fbp.terrain.particles_per_axis": "Anzahl der Partikel pro Achse.",
+
+  "tooltip.fbp.weather.fancy_rain_particles": "Fancy Regenpartikel aktivieren/deaktivieren.\nWenn deaktiviert, werden die Standardpartikel wiederhergestellt.",
+  "tooltip.fbp.weather.fancy_snow_particles": "Fancy Schneepartikel aktivieren/deaktivieren.\nWenn deaktiviert, werden die Standardpartikel wiederhergestellt.",
+
+  "tooltip.fbp.chunks": " Chunks",
+  "tooltip.fbp.default": "Standard: ",
+
+  "tooltip.fbp.animation": "PLATZIERUNGSANIMATION",
+  "tooltip.fbp.particles": "PARTIKEL",
+
+  "tooltip.fbp.add": "HINZUFÜGEN",
+  "tooltip.fbp.remove": "ENTFERNEN",
+
+  "text.fbp.version": "Version: %s"
+}

@@ -39,9 +39,11 @@ replay_*.log
 /setup.bat
 /.idea/
 /.gradle/
+/Common/src/test/
 /Forge/src/test/
 /NeoForge/src/test/
 /Fabric/src/test/
+/Common/run/
 /Forge/run/
 /NeoForge/run/
 /Fabric/run/

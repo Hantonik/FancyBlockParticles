@@ -3,11 +3,14 @@ name: 'Publish'
 on:
   workflow_dispatch:
     inputs:
-      suffix:
-        type: string
-        required: false
+      label:
+        type: choice
+        description: 'Version label'
+        options:
+          - -beta
+          - -alpha
         default: ''
-        description: 'Suffix/Release type'
+        required: false
 
 permissions:
   contents: write
@@ -17,6 +20,9 @@ jobs:
   build:
     name: 'Build'
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        loader: [ 'Forge', 'Fabric' ]
 
     steps:
       - name: 'Checkout repository'
@@ -31,25 +37,18 @@ jobs:
           java-version: '17'
           distribution: 'temurin'
 
-      - name: 'Build with Gradle'
+      - name: 'Build ${{ matrix.loader }} with Gradle'
         uses: gradle/gradle-build-action@v2
         with:
-          arguments: build
+          arguments: :${{ matrix.loader }}:build
           cache-read-only: false
 
-      - name: 'Move artifacts'
-        shell: bash
-        run: |
-          mkdir artifacts
-          cp Fabric/build/libs/*.jar artifacts
-          cp Forge/build/libs/*.jar artifacts
-
-      - name: 'Upload artifacts'
-        uses: actions/upload-artifact@v3
+      - name: 'Upload ${{ matrix.loader }} artifacts'
+        uses: actions/upload-artifact@v4
         with:
           if-no-files-found: error
-          name: 'Artifacts'
-          path: artifacts/*
+          name: 'Artifacts-${{ matrix.loader }}'
+          path: ${{ matrix.loader }}/build/libs/*.jar
 
   changelog:
     name: 'Generate changelog'
@@ -75,7 +74,7 @@ jobs:
           cache-read-only: false
 
       - name: 'Upload changelog'
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           if-no-files-found: error
           name: 'Changelog'
@@ -103,7 +102,7 @@ jobs:
           distribution: 'temurin'
 
       - name: 'Download changelog'
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         with:
           name: 'Changelog'
           path: Changelog/
@@ -139,7 +138,7 @@ jobs:
           fallback: '0.0.0.0'
 
       - name: 'Download changelog'
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         with:
           name: 'Changelog'
           path: Changelog/
@@ -149,27 +148,31 @@ jobs:
         with:
           include: Changelog/**
           find: "${version}"
-          replace: "`${{ steps.latest-tag.outputs.tag }}${{ inputs.suffix }}`"
+          replace: "`${{ steps.latest-tag.outputs.tag }}${{ inputs.label }}`"
           regex: false
 
-      - name: 'Download artifacts'
-        uses: actions/download-artifact@v3
+      - name: 'Download ${{ matrix.loader }} artifacts'
+        uses: actions/download-artifact@v4
         with:
-          name: 'Artifacts'
+          pattern: 'Artifacts-*'
           path: artifacts/
+          merge-multiple: true
 
       - name: 'Create release'
         uses: softprops/action-gh-release@v1
         with:
-          name: "${{ github.event.repository.name }}-${{ github.ref_name }}-${{ steps.latest-tag.outputs.tag }}${{ inputs.suffix }}"
+          name: "${{ github.event.repository.name }}-${{ github.ref_name }}-${{ steps.latest-tag.outputs.tag }}${{ inputs.label }}"
           tag_name: ${{ steps.latest-tag.outputs.tag }}
           target_commitish: ${{ github.ref }}
           body_path: Changelog/changelog.md
-          files: artifacts/*
+          files: |
+            'artifacts/*'
+            '!artifacts/*-slim.*'
 
       - name: 'Upload changelog'
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           if-no-files-found: error
           name: Changelog
           path: Changelog/changelog.**
+          overwrite: true
