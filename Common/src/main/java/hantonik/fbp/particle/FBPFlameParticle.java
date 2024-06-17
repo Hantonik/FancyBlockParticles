@@ -81,7 +81,7 @@ public class FBPFlameParticle extends FlameParticle implements IKillableParticle
     }
 
     @Override
-    public Particle scale(float scale) {
+    public FBPFlameParticle scale(float scale) {
         super.scale(scale);
 
         this.startSize = this.quadSize;
@@ -287,7 +287,7 @@ public class FBPFlameParticle extends FlameParticle implements IKillableParticle
     }
 
     @Nullable
-    private static FBPFlameParticle create(ClientLevel level, double x, double y, double z, double xd, double zd, boolean isSoulFire) {
+    private static FBPFlameParticle create(ClientLevel level, double x, double y, double z, double xd, double zd, float scale, boolean isSoulFire) {
         if (FancyBlockParticles.CONFIG.global.isFreezeEffect())
             return null;
 
@@ -296,7 +296,7 @@ public class FBPFlameParticle extends FlameParticle implements IKillableParticle
         if (state.getBlock() instanceof TorchBlock || state.getBlock() instanceof CandleBlock)
             y += 0.04D;
 
-        return new FBPFlameParticle(level, x, y - 0.06D, z, xd, FBPConstants.RANDOM.nextDouble() * 0.025D, zd, isSoulFire, !(state.getBlock() instanceof TorchBlock) && !(state.getBlock() instanceof CandleBlock));
+        return new FBPFlameParticle(level, x, y - 0.06D, z, xd, FBPConstants.RANDOM.nextDouble() * 0.025D, zd, isSoulFire, !(state.getBlock() instanceof TorchBlock) && !(state.getBlock() instanceof CandleBlock)).scale(scale);
     }
 
     @RequiredArgsConstructor
@@ -306,7 +306,7 @@ public class FBPFlameParticle extends FlameParticle implements IKillableParticle
         @Nullable
         @Override
         public Particle createParticle(SimpleParticleType type, ClientLevel level, double x, double y, double z, double xd, double yd, double zd) {
-            return create(level, x, y, z, xd, zd, this.isSoulFire);
+            return create(level, x, y, z, xd, zd, 1.0F, this.isSoulFire);
         }
     }
 
@@ -315,7 +315,7 @@ public class FBPFlameParticle extends FlameParticle implements IKillableParticle
         @Nullable
         @Override
         public Particle createParticle(SimpleParticleType type, ClientLevel level, double x, double y, double z, double xd, double yd, double zd) {
-            return create(level, x, y, z, xd, zd, false).scale(0.5F);
+            return create(level, x, y, z, xd, zd, 0.5F, false);
         }
     }
 }
