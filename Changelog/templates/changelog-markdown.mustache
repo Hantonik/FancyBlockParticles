@@ -1,4 +1,7 @@
 # Release ${version}:
 {{#commits}}
  - {{messageTitle}}
+ {{#messageBodyItems}}
+    * {{.}}
+ {{/messageBodyItems}}
 {{/commits}}

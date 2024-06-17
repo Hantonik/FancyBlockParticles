@@ -5,28 +5,20 @@ plugins {
     id 'net.minecraftforge.gradle' version '6.+'
     id 'org.parchmentmc.librarian.forgegradle' version '1.+'
     id 'org.spongepowered.mixin' version '0.7-SNAPSHOT'
-    id 'io.freefair.lombok' version '6.6.+'
-
-    id 'idea'
-    id 'maven-publish'
 }
-
-apply plugin: 'net.darkhax.curseforgegradle'
-apply plugin: 'com.modrinth.minotaur'
 
 base {
     archivesName = "$mod_name-$mc_version-forge"
 }
 
-java.toolchain.languageVersion = JavaLanguageVersion.of(17)
-
 mixin {
     add sourceSets.main, "${mod_id}.refmap.json"
 
     config "${mod_id}.mixins.json"
+    config "${mod_id}.forge.mixins.json"
 }
 
-println "Using Forge: $forge_version, for Minecraft: $mc_version, with Mappings: $mappings_channel-$mappings_version"
+println "Forge: $forge_version"
 
 minecraft {
     mappings channel: mappings_channel, version: "$mappings_version-$mc_version"
@@ -37,26 +29,27 @@ minecraft {
 
     runs {
         configureEach {
-            workingDirectory file('run')
+            workingDirectory project(':Common').file('run')
 
             property 'forge.logging.markers', 'REGISTRIES'
             property 'forge.logging.console.level', 'debug'
+
+            property 'forge.enabledGameTestNamespaces', mod_id
 
             property 'mixin.env.remapRefMap', 'true'
             property 'mixin.env.refMapRemappingFile', "$buildDir/createSrgToMcp/output.srg"
 
             ideaModule "${rootProject.name}.${project.name}.main"
+
+            mods {
+                "${mod_id}" {
+                    source sourceSets.main
+                    source project(':Common').sourceSets.main
+                }
+            }
         }
 
-        client {
-            property 'forge.enabledGameTestNamespaces', mod_id
-        }
-
-        server {
-            property 'forge.enabledGameTestNamespaces', mod_id
-
-            args '--nogui'
-        }
+        client
     }
 }
 
@@ -67,20 +60,30 @@ sourceSets.each {
     it.java.destinationDirectory = dir
 }
 
+repositories {
+    mavenCentral() {
+        content {
+            includeGroup 'org.projectlombok'
+        }
+    }
+}
+
 dependencies {
     minecraft "net.minecraftforge:forge:$mc_version-$forge_version"
 
-    compileOnly "org.projectlombok:lombok:$lombok_version"
+    compileOnly project(':Common')
 
-    compileOnly fg.deobf("com.github.glitchfiend:SereneSeasons:$mc_version-$sereneseasons_version")
+    implementation fg.deobf("com.github.glitchfiend:SereneSeasons:$mc_version-$sereneseasons_version")
 
-    compileOnly(annotationProcessor("io.github.llamalad7:mixinextras-common:$mixinextras_version"))
-
-    implementation(jarJar("io.github.llamalad7:mixinextras-forge:$mixinextras_version")) {
-        jarJar.ranged(it, "[$mixinextras_version,)")
+    implementation(jarJar("io.github.llamalad7:mixinextras-forge:$mixin_extras_version")) {
+        jarJar.ranged(it, "[$mixin_extras_version,)")
     }
 
+    implementation annotationProcessor("io.github.llamalad7:mixinextras-common:$mixin_extras_version")
+
     annotationProcessor "org.spongepowered:mixin:$mixin_processor_version:processor"
+
+    compileOnly "org.projectlombok:lombok:$lombok_version"
     annotationProcessor "org.projectlombok:lombok:$lombok_version"
 }
 
@@ -93,6 +96,12 @@ afterEvaluate {
 jar {
     archiveClassifier = 'slim'
 
+    manifest {
+        attributes([
+                'MixinConfigs': "${mod_id}.mixins.json,${mod_id}.forge.mixins.json"
+        ])
+    }
+
     finalizedBy('reobfJar')
 }
 
@@ -102,11 +111,8 @@ tasks.jarJar {
     finalizedBy('reobfJarJar')
 }
 
-java {
-    withSourcesJar()
-
-    sourceCompatibility = JavaVersion.VERSION_17
-    targetCompatibility = JavaVersion.VERSION_17
+sourcesJar {
+    from project(':Common').sourceSets.main.allSource
 }
 
 artifacts {
@@ -127,7 +133,7 @@ tasks.register('publishCurseForge', TaskPublishCurseForge) {
     modFile.releaseType = CFConstants.RELEASE_TYPE_BETA
     modFile.addGameVersion(mc_version, 'client')
     modFile.addModLoader('Forge')
-    modFile.addJavaVersion 'Java 17'
+    modFile.addJavaVersion "Java $java_version"
 
     modFile.changelogType = CFConstants.CHANGELOG_HTML
     modFile.changelog = file("${project(':Changelog').projectDir}/changelog.html").getText().replace([ '${version}': "$mc_version-$version" ])
@@ -159,10 +165,11 @@ tasks.modrinth.dependsOn(':Changelog:makeMarkdownChangelog')
 publishing {
     publications {
         register('mavenJava', MavenPublication) {
-            artifactId archivesBaseName
+            artifact sourcesJar
 
-            from components.java
             jarJar.component(it)
+
+            artifactId archivesBaseName
         }
     }
 

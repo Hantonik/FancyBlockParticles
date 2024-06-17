@@ -10,8 +10,7 @@ on:
 
   push:
     branches:
-      - 'feature/**'
-      - 'dev/**'
+      - '*/**'
 
   workflow_dispatch:
 
@@ -19,6 +18,9 @@ jobs:
   build:
     name: 'Build PR'
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        loader: [ 'Forge', 'Fabric' ]
 
     steps:
       - name: 'Checkout repository'
@@ -33,22 +35,15 @@ jobs:
           java-version: '17'
           distribution: 'temurin'
 
-      - name: 'Build with Gradle'
+      - name: 'Build ${{ matrix.loader }} with Gradle'
         uses: gradle/gradle-build-action@v2
         with:
-          arguments: build
+          arguments: :${{ matrix.loader }}:build
           cache-read-only: false
 
-      - name: 'Move artifacts'
-        shell: bash
-        run: |
-          mkdir artifacts
-          cp Fabric/build/libs/*.jar artifacts
-          cp Forge/build/libs/*.jar artifacts
-
-      - name: 'Upload artifacts'
-        uses: actions/upload-artifact@v3
+      - name: 'Upload ${{ matrix.loader }} artifacts'
+        uses: actions/upload-artifact@v4
         with:
           if-no-files-found: error
-          name: 'Artifacts'
-          path: artifacts/*
+          name: 'Artifacts-${{ matrix.loader }}'
+          path: ${{ matrix.loader }}/build/libs/*.jar

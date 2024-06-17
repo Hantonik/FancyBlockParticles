@@ -19,11 +19,11 @@ issueTrackerURL="https://github.com/Hantonik/FancyBlockParticles/issues"
     mandatory=true
     versionRange="[45,)"
     ordering="NONE"
-    side="BOTH"
+    side="CLIENT"
 
 [[dependencies.fbp]]
     modId="minecraft"
     mandatory=true
     versionRange="[1.19.4,1.20)"
     ordering="NONE"
-    side="BOTH"
+    side="CLIENT"

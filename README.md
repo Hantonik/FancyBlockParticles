@@ -12,28 +12,33 @@ This mod introduces 3D particles into the game, offering the flexibility to cust
 Yes, you can use this mod in your modpack!
 
 ### Particles
- - Block breaking particles
- - Flame and smoke particles
- - Rain particles
- - Snow particles
+ - Block breaking, placing and cracking particles
+ - Flame, lava and smoke particles
+ - Rain and snow particles
+
+### Animations
+ - Block placing animation (coming soon!)
 
 ### Settings
 FBP gives you the ability to customize the most essential breaking particle settings according to your preferences. To access the FBP panel, press **I** key (default) on your keyboard.
-![image](https://i.imgur.com/4jHnDKm.png)
+![image](https://i.imgur.com/WAVm2gQ.png)
 You also have the option to adjust settings through the config file located at `config/fbp/config.json` if you need.
 
 ### Keybindings
 | Name                             |      Key      |
 |----------------------------------|:-------------:|
-| Enable/Disable mod               |   **None**    |
-| Open mod settings                |     **I**     |
-| Freeze effect                    |     **R**     |
-| Kill particles                   |   **None**    |
+| Enable/disable mod               |  **Unbound**  |
+| Open settings                    |     **I**     |
+| Toggle freeze effect             |     **R**     |
+| Kill particles                   |  **Unbound**  |
 | Fast add block to blacklist      |     **X**     |
 | Fast add held block to blacklist | **Shift + X** |
+| Reload config                    |  **Unbound**  |
 
-### OptiFine & Iris compatibility
-FBP **should be** compatible with both OptiFine for Forge and NeoForge, as well as with Iris for Fabric.
+### OptiFine compatibility
+FBP **should be** compatible with OptiFine.
+\
+If you notice any bugs that occur exclusively when using FBP with OptiFine (or another shader mod), please report them [here](https://github.com/Hantonik/FancyBlockParticles/issues/new?labels=bug&amp;template=bug_report.yml "Enter all the necessary information!"). **However**, keep in mind that not all such issues can be resolved!
 
 ## Downloads
 
