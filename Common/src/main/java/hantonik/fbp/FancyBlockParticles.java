@@ -28,7 +28,7 @@ public final class FancyBlockParticles {
     public static final Logger LOGGER = LogUtils.getLogger();
     public static final Marker SETUP_MARKER = MarkerFactory.getMarker("SETUP");
 
-    public static final FBPConfig CONFIG = FBPConfig.load();
+    public static final FBPConfig CONFIG = FBPConfig.create();
 
     public static void postClientTick(Minecraft client) {
         if (FBPKeyMappings.TOGGLE_MOD.consumeClick()) {
@@ -65,7 +65,7 @@ public final class FancyBlockParticles {
         }
 
         if (FBPKeyMappings.RELOAD_CONFIG.consumeClick()) {
-            FancyBlockParticles.CONFIG.reload();
+            FancyBlockParticles.CONFIG.load();
             FancyBlockParticles.CONFIG.save();
         }
     }

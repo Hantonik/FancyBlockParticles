@@ -9,9 +9,9 @@ public interface IFBPConfig<T extends IFBPConfig<T>> {
         this.setConfig(config);
     }
 
-    default void reload() {}
+    default void load() {}
 
-    default void reload(JsonObject json) {}
+    default void load(JsonObject json) {}
 
     JsonObject save();
 
