@@ -58,7 +58,7 @@ public abstract class FBPAbstractOptionsScreen extends Screen {
 
         var footerHelper = footer.createRowHelper(2);
         footerHelper.addChild(Button.builder(Component.translatable("button.fbp.common.reload"), button -> {
-            FancyBlockParticles.CONFIG.reload();
+            FancyBlockParticles.CONFIG.load();
             this.config.setConfig(FancyBlockParticles.CONFIG.copy());
             this.activeConfig.setConfig(FancyBlockParticles.CONFIG.copy());
 
