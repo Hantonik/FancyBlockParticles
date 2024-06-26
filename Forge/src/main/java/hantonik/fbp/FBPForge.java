@@ -51,7 +51,7 @@ public final class FBPForge {
     }
 
     private void onRegisterClientReloadListeners(final RegisterClientReloadListenersEvent event) {
-        event.registerReloadListener((ResourceManagerReloadListener) manager -> FancyBlockParticles.CONFIG.reload());
+        event.registerReloadListener((ResourceManagerReloadListener) manager -> FancyBlockParticles.CONFIG.load());
     }
 
     private void onClientTick(final TickEvent.ClientTickEvent event) {

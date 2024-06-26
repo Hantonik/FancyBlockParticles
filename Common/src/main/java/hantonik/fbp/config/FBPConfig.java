@@ -3,7 +3,6 @@ package hantonik.fbp.config;
 import com.google.gson.*;
 import hantonik.fbp.FancyBlockParticles;
 import hantonik.fbp.platform.Services;
-import hantonik.fbp.platform.util.EnvironmentType;
 import hantonik.fbp.util.FBPConstants;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
@@ -62,12 +61,8 @@ public final class FBPConfig implements IFBPConfig<FBPConfig> {
         return !this.global.disabledAnimations.contains(block);
     }
 
-    public static FBPConfig load() {
-        var config = DEFAULT_CONFIG.copy();
-
-        Services.ENVIRONMENT.runOn(EnvironmentType.CLIENT, () -> config::reload);
-
-        return config;
+    public static FBPConfig create() {
+        return DEFAULT_CONFIG.copy();
     }
 
     @Override
@@ -95,7 +90,7 @@ public final class FBPConfig implements IFBPConfig<FBPConfig> {
     }
 
     @Override
-    public void reload() {
+    public void load() {
         try {
             Files.createDirectory(FBPConstants.CONFIG_PATH);
         } catch (FileAlreadyExistsException e) {
@@ -115,16 +110,20 @@ public final class FBPConfig implements IFBPConfig<FBPConfig> {
 
             var json = JsonParser.parseReader(new InputStreamReader(new FileInputStream(file))).getAsJsonObject();
 
-            this.global.reload(GsonHelper.getAsJsonObject(json, "global", new JsonObject()));
-            this.terrain.reload(GsonHelper.getAsJsonObject(json, "terrain", new JsonObject()));
-            this.flame.reload(GsonHelper.getAsJsonObject(json, "flame", new JsonObject()));
-            this.smoke.reload(GsonHelper.getAsJsonObject(json, "smoke", new JsonObject()));
-            this.rain.reload(GsonHelper.getAsJsonObject(json, "rain", new JsonObject()));
-            this.snow.reload(GsonHelper.getAsJsonObject(json, "snow", new JsonObject()));
-            this.animations.reload(GsonHelper.getAsJsonObject(json, "animations", new JsonObject()));
-            this.overlay.reload(GsonHelper.getAsJsonObject(json, "overlay", new JsonObject()));
+            this.global.load(GsonHelper.getAsJsonObject(json, "global", new JsonObject()));
+            this.terrain.load(GsonHelper.getAsJsonObject(json, "terrain", new JsonObject()));
+            this.flame.load(GsonHelper.getAsJsonObject(json, "flame", new JsonObject()));
+            this.smoke.load(GsonHelper.getAsJsonObject(json, "smoke", new JsonObject()));
+            this.rain.load(GsonHelper.getAsJsonObject(json, "rain", new JsonObject()));
+            this.snow.load(GsonHelper.getAsJsonObject(json, "snow", new JsonObject()));
+            this.animations.load(GsonHelper.getAsJsonObject(json, "animations", new JsonObject()));
+            this.overlay.load(GsonHelper.getAsJsonObject(json, "overlay", new JsonObject()));
         } catch (IOException e) {
             FancyBlockParticles.LOGGER.error("Could no load FBP config.", e);
+        } catch (JsonSyntaxException e) {
+            FancyBlockParticles.LOGGER.warn("FBP config file is corrupt! Generating a new one.");
+
+            this.save();
         }
     }
 
@@ -231,7 +230,7 @@ public final class FBPConfig implements IFBPConfig<FBPConfig> {
         }
 
         @Override
-        public void reload(JsonObject json) {
+        public void load(JsonObject json) {
             this.enabled = GsonHelper.getAsBoolean(json, "enabled", DEFAULT_ENABLED);
             this.locked = GsonHelper.getAsBoolean(json, "locked", DEFAULT_LOCKED);
             this.freezeEffect = GsonHelper.getAsBoolean(json, "freezeEffect", DEFAULT_FREEZE_EFFECT);
@@ -396,7 +395,7 @@ public final class FBPConfig implements IFBPConfig<FBPConfig> {
         }
 
         @Override
-        public void reload(JsonObject json) {
+        public void load(JsonObject json) {
             this.fancyBreakingParticles = GsonHelper.getAsBoolean(json, "fancyBreakingParticles", DEFAULT_FANCY_BREAKING_PARTICLES);
             this.fancyCrackingParticles = GsonHelper.getAsBoolean(json, "fancyCrackingParticles", DEFAULT_FANCY_CRACKING_PARTICLES);
 
@@ -531,7 +530,7 @@ public final class FBPConfig implements IFBPConfig<FBPConfig> {
         }
 
         @Override
-        public void reload(JsonObject json) {
+        public void load(JsonObject json) {
             this.enabled = GsonHelper.getAsBoolean(json, "enabled", DEFAULT_ENABLED);
 
             this.spawnWhileFrozen = GsonHelper.getAsBoolean(json, "spawnWhileFrozen", DEFAULT_SPAWN_WHILE_FROZEN);
@@ -645,7 +644,7 @@ public final class FBPConfig implements IFBPConfig<FBPConfig> {
         }
 
         @Override
-        public void reload(JsonObject json) {
+        public void load(JsonObject json) {
             this.enabled = GsonHelper.getAsBoolean(json, "enabled", DEFAULT_ENABLED);
 
             this.waterPhysics = GsonHelper.getAsBoolean(json, "waterPhysics", DEFAULT_WATER_PHYSICS);
@@ -796,7 +795,7 @@ public final class FBPConfig implements IFBPConfig<FBPConfig> {
         }
 
         @Override
-        public void reload(JsonObject json) {
+        public void load(JsonObject json) {
             this.enabled = GsonHelper.getAsBoolean(json, "enabled", DEFAULT_ENABLED);
 
             this.lowTraction = GsonHelper.getAsBoolean(json, "lowTraction", DEFAULT_LOW_TRACTION);
@@ -896,7 +895,7 @@ public final class FBPConfig implements IFBPConfig<FBPConfig> {
         }
 
         @Override
-        public void reload(JsonObject json) {
+        public void load(JsonObject json) {
             this.fancyPlacingAnimation = GsonHelper.getAsBoolean(json, "fancyPlacingAnimation", DEFAULT_FANCY_PLACING_ANIMATION);
             this.smoothAnimationLighting = GsonHelper.getAsBoolean(json, "smoothAnimationLighting", DEFAULT_SMOOTH_ANIMATION_LIGHTING);
         }
@@ -945,7 +944,7 @@ public final class FBPConfig implements IFBPConfig<FBPConfig> {
         }
 
         @Override
-        public void reload(JsonObject json) {
+        public void load(JsonObject json) {
             this.freezeEffectOverlay = GsonHelper.getAsBoolean(json, "freezeEffectOverlay", DEFAULT_FREEZE_EFFECT_OVERLAY);
             this.freezeEffectColor = GsonHelper.getAsInt(json, "freezeEffectColor", DEFAULT_FREEZE_EFFECT_COLOR);
         }

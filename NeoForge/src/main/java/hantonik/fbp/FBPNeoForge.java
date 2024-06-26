@@ -46,7 +46,7 @@ public final class FBPNeoForge {
     }
 
     private void onRegisterClientReloadListeners(final RegisterClientReloadListenersEvent event) {
-        event.registerReloadListener((ResourceManagerReloadListener) manager -> FancyBlockParticles.CONFIG.reload());
+        event.registerReloadListener((ResourceManagerReloadListener) manager -> FancyBlockParticles.CONFIG.load());
     }
 
     private void postClientTick(final ClientTickEvent.Post event) {
