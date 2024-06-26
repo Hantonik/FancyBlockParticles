@@ -31,7 +31,7 @@ public final class FBPFabric implements ClientModInitializer {
 
             @Override
             public void onResourceManagerReload(ResourceManager resourceManager) {
-                FancyBlockParticles.CONFIG.reload();
+                FancyBlockParticles.CONFIG.load();
             }
         });
 
