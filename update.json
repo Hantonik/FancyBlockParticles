@@ -2,10 +2,11 @@
   "homepage": "https://www.curseforge.com/minecraft/mc-mods/fbp-renewed",
 
   "promos": {
-    "1.19.4-latest": "19.4.0.1-beta"
+    "1.19.4-latest": "19.4.0.2-beta"
   },
 
   "1.19.4": {
+    "19.4.0.2-beta": "Fix publication on Modrinth",
     "19.4.0.1-beta": "Fix crash when config file is corrupt",
     "19.4.0.0-beta": "Backport to Minecraft 1.19.4",
     "1.2.2.0-beta": "Add option to disable block breaking particles",
