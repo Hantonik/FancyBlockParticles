@@ -136,7 +136,7 @@ modrinth {
     projectId = 'fbp-renewed'
 
     versionName = "${base.archivesName.get()}-$version"
-    versionNumber = version
+    versionNumber = "$version+forge"
     versionType = 'beta'
 
     gameVersions = [ mc_version ]
