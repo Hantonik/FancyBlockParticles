@@ -65,23 +65,21 @@ subprojects {
     }
 
     tasks.withType(ProcessResources).configureEach {
-        if (!it.name.startsWith('neo')) {
-            from project(':Common').sourceSets.main.resources
+        from project(':Common').sourceSets.main.resources
 
-            var replaceProperties = [
-                    'mod_id'      : mod_id,
-                    'mod_name'    : mod_name,
-                    'mod_version' : version,
+        var replaceProperties = [
+                'mod_id'      : mod_id,
+                'mod_name'    : mod_name,
+                'mod_version' : version,
 
-                    'mc_version'  : mc_version,
-                    'java_version': java_version
-            ]
+                'mc_version'  : mc_version,
+                'java_version': java_version
+        ]
 
-            inputs.properties replaceProperties
+        inputs.properties replaceProperties
 
-            filesMatching(['META-INF/*mods.toml', 'fabric.mod.json', 'pack.mcmeta']) {
-                expand replaceProperties
-            }
+        filesMatching(['META-INF/*mods.toml', 'fabric.mod.json', 'pack.mcmeta']) {
+            expand replaceProperties
         }
     }
 
