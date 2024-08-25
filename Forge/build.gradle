@@ -19,7 +19,7 @@ mixin {
 println "Forge: $forge_version"
 
 minecraft {
-    mappings channel: mappings_channel, version: "$mappings_version-$mc_version"
+    mappings channel: mappings_channel, version: "$mappings_version-1.21" // "$mappings_version-$mc_version"
 
     reobf = false
     copyIdeResources = true

@@ -1,8 +1,9 @@
 import net.darkhax.curseforgegradle.Constants as CFConstants
 import net.darkhax.curseforgegradle.TaskPublishCurseForge
+import org.slf4j.event.Level
 
 plugins {
-    id 'net.neoforged.gradle.userdev' version '7.+'
+    id 'net.neoforged.moddev' version '1.+'
 }
 
 base {
@@ -11,31 +12,42 @@ base {
 
 println "NeoForge: $neo_version"
 
-minecraft.accessTransformers.file('src/main/resources/META-INF/accesstransformer.cfg')
+neoForge {
+    version = neo_version
 
-subsystems {
     parchment {
-        minecraftVersion = mc_version
+        minecraftVersion = '1.21' // mc_version
         mappingsVersion = mappings_version
+    }
+
+    runs {
+        client {
+            client()
+
+            gameDirectory = project(':Common', {}).file('run')
+
+            systemProperty 'forge.logging.markers', 'REGISTRIES'
+            systemProperty 'forge.logging.console.level', 'debug'
+
+            systemProperty 'neoforge.enabledGameTestNamespaces', mod_id
+
+            systemProperty 'mixin.env.remapRefMap', 'true'
+            systemProperty 'mixin.env.refMapRemappingFile', "$buildDir/createSrgToMcp/output.srg"
+
+            logLevel = Level.DEBUG
+        }
+    }
+
+    mods {
+        "${mod_id}" {
+            sourceSet(sourceSets.main)
+            sourceSet(project(':Common').sourceSets.main)
+        }
     }
 }
 
-runs {
-    configureEach {
-        workingDirectory project(':Common').file('run')
-
-        systemProperty 'forge.logging.markers', 'REGISTRIES'
-        systemProperty 'forge.logging.console.level', 'debug'
-
-        systemProperty 'neoforge.enabledGameTestNamespaces', mod_id
-
-        systemProperty 'mixin.env.remapRefMap', 'true'
-        systemProperty 'mixin.env.refMapRemappingFile', "$buildDir/createSrgToMcp/output.srg"
-
-        modSource sourceSets.main
-    }
-
-    client
+configurations {
+    runtimeClasspath.extendsFrom localRuntime
 }
 
 repositories {
@@ -43,8 +55,6 @@ repositories {
 }
 
 dependencies {
-    implementation "net.neoforged:neoforge:$neo_version"
-
     compileOnly project(':Common')
 
     compileOnly "com.github.glitchfiend:SereneSeasons-neoforge:$mc_version-$sereneseasons_version"
