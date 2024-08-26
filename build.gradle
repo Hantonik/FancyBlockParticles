@@ -21,6 +21,18 @@ gradleutils.version {
 println "$mod_name, Version: ${gradleutils.version.toString()}"
 println "Minecraft: $mc_version, Mappings: $mappings_channel-$mappings_version"
 
+allprojects {
+    repositories {
+        maven { url 'https://api.modrinth.com/maven' }
+
+        mavenCentral() {
+            content {
+                includeGroup 'org.projectlombok'
+            }
+        }
+    }
+}
+
 subprojects {
     if (name != 'Changelog') {
         apply plugin: 'java'
