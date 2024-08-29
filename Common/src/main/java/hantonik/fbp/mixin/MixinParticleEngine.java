@@ -66,13 +66,16 @@ public abstract class MixinParticleEngine {
 
         if ((FancyBlockParticles.CONFIG.rain.isEnabled() || FancyBlockParticles.CONFIG.snow.isEnabled()) && !(callback.getReturnValue() instanceof FBPRainParticle) && !(callback.getReturnValue() instanceof FBPSnowParticle)) {
             if (particleData.getType() == ParticleTypes.RAIN) {
-                var pos = BlockPos.containing(x, y, z);
-                var precipitation = Services.CLIENT.getPrecipitationAt(this.level.getBiome(pos), pos);
+                var pos = new BlockPos(x, y, z);
+                var biome = this.level.getBiome(pos);
+                var precipitation = Services.CLIENT.getPrecipitation(biome);
 
-                if (precipitation == Biome.Precipitation.SNOW)
-                    callback.setReturnValue(new FBPSnowParticle.Provider().createParticle((SimpleParticleType) particleData, this.level, x, y, z, xd, yd, zd));
-                else
-                    callback.setReturnValue(new FBPRainParticle.Provider().createParticle((SimpleParticleType) particleData, this.level, x, y, z, xd, yd, zd));
+                if (precipitation != Biome.Precipitation.NONE) {
+                    if (Services.CLIENT.warmEnoughToRain(biome, pos, this.level))
+                        callback.setReturnValue(new FBPRainParticle.Provider().createParticle((SimpleParticleType) particleData, this.level, x, y, z, xd, yd, zd));
+                    else
+                        callback.setReturnValue(new FBPSnowParticle.Provider().createParticle((SimpleParticleType) particleData, this.level, x, y, z, xd, yd, zd));
+                }
             }
         }
 
@@ -103,7 +106,7 @@ public abstract class MixinParticleEngine {
 
         callback.cancel();
 
-        if (!state.isAir() && state.shouldSpawnParticlesOnBreak()) {
+        if (!state.isAir()) {
             var shape = state.getShape(this.level, pos);
             var sprite = Minecraft.getInstance().getBlockRenderer().getBlockModelShaper().getParticleIcon(state);
 

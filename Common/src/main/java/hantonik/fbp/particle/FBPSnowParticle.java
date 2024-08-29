@@ -15,6 +15,7 @@ import net.minecraft.client.particle.ParticleRenderType;
 import net.minecraft.client.particle.WaterDropParticle;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.core.particles.SimpleParticleType;
 import net.minecraft.tags.FluidTags;
@@ -25,17 +26,16 @@ import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.CampfireBlock;
 import net.minecraft.world.level.block.LiquidBlock;
 import net.minecraft.world.phys.AABB;
+import net.minecraft.world.phys.Vec2;
 import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.Nullable;
-import org.joml.Vector2f;
-import org.joml.Vector3d;
 
 import java.util.List;
 
 public class FBPSnowParticle extends WaterDropParticle implements IKillableParticle {
-    private final Vector3d rotation;
-    private final Vector3d rotationStep;
-    private final Vector3d lastRotation;
+    private Vec3 rotation;
+    private Vec3 rotationStep;
+    private Vec3 lastRotation;
 
     private final float multiplier;
 
@@ -86,10 +86,10 @@ public class FBPSnowParticle extends WaterDropParticle implements IKillableParti
         var ry = FBPConstants.RANDOM.nextDouble();
         var rz = FBPConstants.RANDOM.nextDouble();
 
-        this.rotationStep = new Vector3d(rx > 0.5D ? 1.0D : -1.0D, ry > 0.5D ? 1.0D : -1.0D, rz > 0.5D ? 1.0D : -1.0D);
+        this.rotationStep = new Vec3(rx > 0.5D ? 1.0D : -1.0D, ry > 0.5D ? 1.0D : -1.0D, rz > 0.5D ? 1.0D : -1.0D);
 
-        this.lastRotation = new Vector3d();
-        this.rotation = new Vector3d(this.rotationStep);
+        this.lastRotation = Vec3.ZERO;
+        this.rotation = this.rotationStep;
 
         this.uo = this.random.nextFloat() * 3.0F;
         this.vo = this.random.nextFloat() * 3.0F;
@@ -135,7 +135,7 @@ public class FBPSnowParticle extends WaterDropParticle implements IKillableParti
         this.lastAlpha = this.alpha;
         this.lastSize = this.quadSize;
 
-        this.lastRotation.set(this.rotation);
+        this.lastRotation = this.rotation;
 
         if (!FancyBlockParticles.CONFIG.global.isEnabled() || !FancyBlockParticles.CONFIG.snow.isEnabled())
             this.remove();
@@ -151,12 +151,14 @@ public class FBPSnowParticle extends WaterDropParticle implements IKillableParti
                 if (!FancyBlockParticles.CONFIG.snow.isInfiniteDuration() && !FancyBlockParticles.CONFIG.global.isInfiniteDuration())
                     this.age++;
 
-                this.rotation.add(this.rotationStep.mul(FancyBlockParticles.CONFIG.snow.getRotationMultiplier() * 5.0F, new Vector3d()));
+                this.rotation = this.rotation.add(this.rotationStep.scale(FancyBlockParticles.CONFIG.snow.getRotationMultiplier() * 5.0F));
 
-                var pos = BlockPos.containing(this.x, this.y, this.z);
-                var precipitation = Services.CLIENT.getPrecipitationAt(this.level.getBiome(pos), pos);
+                var pos = new BlockPos(this.x, this.y, this.z);
+                var biome = this.level.getBiome(pos);
 
-                if (this.age >= this.lifetime || precipitation != Biome.Precipitation.SNOW) {
+                var precipitation = Services.CLIENT.getPrecipitation(biome);
+
+                if (this.age >= this.lifetime || (precipitation != Biome.Precipitation.SNOW || !Services.CLIENT.coldEnoughToSnow(biome, pos, this.level))) {
                     this.quadSize *= 0.75F * this.multiplier;
 
                     if (this.alpha > 0.01F && this.quadSize <= this.scaleAlpha)
@@ -165,7 +167,7 @@ public class FBPSnowParticle extends WaterDropParticle implements IKillableParti
                     if (this.alpha < 0.01F) {
                         this.remove();
 
-                        if (precipitation == Biome.Precipitation.RAIN)
+                        if (precipitation == Biome.Precipitation.RAIN && Services.CLIENT.warmEnoughToRain(biome, pos, this.level))
                             Minecraft.getInstance().particleEngine.add(new FBPRainParticle.Provider().createParticle(ParticleTypes.RAIN.getType(), this.level, x, y, z, 0.0D, 0.0D, 0.0D));
                     }
                 } else {
@@ -203,10 +205,8 @@ public class FBPSnowParticle extends WaterDropParticle implements IKillableParti
                 if (Math.abs(this.zd) > 0.00001D)
                     this.lastZSpeed = this.zd;
 
-                if (this.onGround && FancyBlockParticles.CONFIG.snow.isRestOnFloor()) {
-                    this.rotation.x = Math.round(this.rotation.x / 90.0D) * 90.0D;
-                    this.rotation.z = Math.round(this.rotation.z / 90.0D) * 90.0D;
-                }
+                if (this.onGround && FancyBlockParticles.CONFIG.snow.isRestOnFloor())
+                    this.rotation = this.rotation.with(Direction.Axis.X, Math.round(this.rotation.x / 90.0D) * 90.0D).with(Direction.Axis.Z, Math.round(this.rotation.z / 90.0D) * 90.0D);
 
                 this.xd *= 0.98D;
 
@@ -224,7 +224,7 @@ public class FBPSnowParticle extends WaterDropParticle implements IKillableParti
                         this.zd *= 0.665D;
                     }
 
-                    this.rotationStep.mul(0.85D);
+                    this.rotationStep = this.rotationStep.scale(0.85D);
 
                     if (!FancyBlockParticles.CONFIG.snow.isInfiniteDuration() && !FancyBlockParticles.CONFIG.global.isInfiniteDuration())
                         this.age += 2;
@@ -283,7 +283,7 @@ public class FBPSnowParticle extends WaterDropParticle implements IKillableParti
         var i = super.getLightColor(partialTick);
         var j = 0;
 
-        var pos = BlockPos.containing(this.x, this.y, this.z);
+        var pos = new BlockPos(this.x, this.y, this.z);
 
         if (this.level.isLoaded(pos))
             j = this.level.getLightEngine().getRawBrightness(pos, 0);
@@ -319,27 +319,25 @@ public class FBPSnowParticle extends WaterDropParticle implements IKillableParti
         if (FancyBlockParticles.CONFIG.snow.isRestOnFloor())
             posY += scale;
 
-        var smoothRotation = new Vector3d(0.0D, 0.0D, 0.0D);
+        var smoothRotation = Vec3.ZERO;
 
         if (FancyBlockParticles.CONFIG.snow.getRotationMultiplier() > 0.0F) {
-            smoothRotation.y = this.rotation.y;
-            smoothRotation.z = this.rotation.z;
+            smoothRotation = smoothRotation.with(Direction.Axis.Y, this.rotation.y).with(Direction.Axis.Z, this.rotation.z);
 
             if (!FancyBlockParticles.CONFIG.snow.isRandomRotation())
-                smoothRotation.x = this.rotation.x;
+                smoothRotation = smoothRotation.with(Direction.Axis.X, this.rotation.x);
 
             if (!FancyBlockParticles.CONFIG.global.isFreezeEffect()) {
-                var vec = this.rotation.lerp(this.lastRotation, partialTick, new Vector3d());
+                var vec = this.rotation.lerp(this.lastRotation, partialTick);
 
-                if (FancyBlockParticles.CONFIG.snow.isRandomRotation()) {
-                    smoothRotation.y = vec.y;
-                    smoothRotation.z = vec.z;
-                } else
-                    smoothRotation.x = vec.x;
+                if (FancyBlockParticles.CONFIG.snow.isRandomRotation())
+                    smoothRotation = smoothRotation.with(Direction.Axis.Y, vec.y).with(Direction.Axis.Z, vec.z);
+                else
+                    smoothRotation = smoothRotation.with(Direction.Axis.X, vec.x);
             }
         }
 
-        FBPRenderHelper.renderCubeShaded(buffer, new Vector2f[] { new Vector2f(u1, v1), new Vector2f(u1, v0), new Vector2f(u0, v0), new Vector2f(u0, v1) }, posX, posY, posZ, scale, smoothRotation, light, this.rCol, this.gCol, this.bCol, alpha, FancyBlockParticles.CONFIG.global.isCartoonMode());
+        FBPRenderHelper.renderCubeShaded(buffer, new Vec2[] { new Vec2(u1, v1), new Vec2(u1, v0), new Vec2(u0, v0), new Vec2(u0, v1) }, posX, posY, posZ, scale, smoothRotation, light, this.rCol, this.gCol, this.bCol, alpha, FancyBlockParticles.CONFIG.global.isCartoonMode());
     }
 
     @RequiredArgsConstructor

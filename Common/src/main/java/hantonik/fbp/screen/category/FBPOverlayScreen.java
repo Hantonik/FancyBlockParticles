@@ -2,10 +2,9 @@ package hantonik.fbp.screen.category;
 
 import hantonik.fbp.config.FBPConfig;
 import hantonik.fbp.screen.FBPAbstractOptionsScreen;
+import hantonik.fbp.screen.component.widget.FBPStringWidget;
 import hantonik.fbp.screen.component.widget.button.FBPToggleButton;
 import net.minecraft.client.gui.components.EditBox;
-import net.minecraft.client.gui.components.StringWidget;
-import net.minecraft.client.gui.components.Tooltip;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.CommonComponents;
 import net.minecraft.network.chat.Component;
@@ -38,11 +37,11 @@ public class FBPOverlayScreen extends FBPAbstractOptionsScreen {
                     this.config.overlay.setFreezeEffectOverlay(!this.config.overlay.isFreezeEffectOverlay());
 
                     this.rebuildWidgets();
-                }, Tooltip.create(Component.translatable("tooltip.fbp.overlay.freeze_effect_overlay").append(CommonComponents.NEW_LINE).append(CommonComponents.NEW_LINE).append(Component.translatable("tooltip.fbp.default")).append(Component.translatable("button.fbp.common." + FBPConfig.DEFAULT_CONFIG.overlay.isFreezeEffectOverlay()))))
+                }, Component.translatable("tooltip.fbp.overlay.freeze_effect_overlay").append(CommonComponents.NEW_LINE).append(CommonComponents.NEW_LINE).append(Component.translatable("tooltip.fbp.default")).append(Component.translatable("button.fbp.common." + FBPConfig.DEFAULT_CONFIG.overlay.isFreezeEffectOverlay())))
         );
 
         this.list.addSmall(
-                new StringWidget(150, 21, Component.translatable("widget.fbp.overlay.freeze_effect_color").append(": "), this.font).alignLeft(),
+                new FBPStringWidget(150, 21, Component.translatable("widget.fbp.overlay.freeze_effect_color").append(": "), this.font).alignLeft(),
                 colorBox
         );
     }
