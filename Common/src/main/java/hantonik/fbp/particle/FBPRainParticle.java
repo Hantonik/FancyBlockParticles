@@ -23,10 +23,9 @@ import net.minecraft.world.level.LightLayer;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.CampfireBlock;
 import net.minecraft.world.level.block.LiquidBlock;
+import net.minecraft.world.phys.Vec2;
 import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.Nullable;
-import org.joml.Vector2f;
-import org.joml.Vector3d;
 
 import java.util.List;
 
@@ -122,7 +121,7 @@ public class FBPRainParticle extends WaterDropParticle implements IKillableParti
                         this.remove();
                 }
 
-                var state = this.level.getBlockState(BlockPos.containing(this.x, this.y, this.z));
+                var state = this.level.getBlockState(new BlockPos(this.x, this.y, this.z));
 
                 if (state.getBlock() instanceof LiquidBlock) {
                     this.remove();
@@ -217,7 +216,7 @@ public class FBPRainParticle extends WaterDropParticle implements IKillableParti
         var i = super.getLightColor(partialTick);
         var j = 0;
 
-        var pos = BlockPos.containing(this.x, this.y, this.z);
+        var pos = new BlockPos(this.x, this.y, this.z);
 
         if (this.level.isLoaded(pos))
             j = this.level.getLightEngine().getLayerListener(LightLayer.BLOCK).getLightValue(pos);
@@ -252,9 +251,9 @@ public class FBPRainParticle extends WaterDropParticle implements IKillableParti
 
         var light = this.getLightColor(partialTick);
 
-        var smoothRotation = new Vector3d(0.0D, this.angleY, 0.0D);
+        var smoothRotation = new Vec3(0.0D, this.angleY, 0.0D);
 
-        FBPRenderHelper.renderCubeShaded(buffer, new Vector2f[] { new Vector2f(u1, v1), new Vector2f(u1, v0), new Vector2f(u0, v0), new Vector2f(u0, v1) }, posX, posY + height, posZ, width, height, smoothRotation, light, this.rCol, this.gCol, this.bCol, alpha, FancyBlockParticles.CONFIG.global.isCartoonMode());
+        FBPRenderHelper.renderCubeShaded(buffer, new Vec2[] { new Vec2(u1, v1), new Vec2(u1, v0), new Vec2(u0, v0), new Vec2(u0, v1) }, posX, posY + height, posZ, width, height, smoothRotation, light, this.rCol, this.gCol, this.bCol, alpha, FancyBlockParticles.CONFIG.global.isCartoonMode());
     }
 
     @RequiredArgsConstructor

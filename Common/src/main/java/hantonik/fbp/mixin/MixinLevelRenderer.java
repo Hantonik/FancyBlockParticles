@@ -1,7 +1,7 @@
 package hantonik.fbp.mixin;
 
-import com.llamalad7.mixinextras.sugar.Local;
-import com.llamalad7.mixinextras.sugar.ref.LocalRef;
+import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
+import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import hantonik.fbp.FancyBlockParticles;
 import hantonik.fbp.particle.FBPRainParticle;
 import hantonik.fbp.particle.FBPSnowParticle;
@@ -11,7 +11,6 @@ import net.minecraft.client.Camera;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.renderer.LevelRenderer;
-import net.minecraft.client.renderer.LightTexture;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleOptions;
 import net.minecraft.core.particles.ParticleTypes;
@@ -58,27 +57,30 @@ public abstract class MixinLevelRenderer implements ResourceManagerReloadListene
                     var y = this.minecraft.cameraEntity.getY();
                     var z = this.minecraft.cameraEntity.getZ() + radius * Math.sin(angle);
 
-                    var pos = BlockPos.containing(x, y, z);
+                    var pos = new BlockPos(x, y, z);
                     var surfaceHeight = this.level.getHeightmapPos(Heightmap.Types.MOTION_BLOCKING, pos).getY();
 
-                    var precipitation = Services.CLIENT.getPrecipitationAt(this.level.getBiome(pos), pos);
+                    var biome = this.level.getBiome(pos);
+                    var precipitation = Services.CLIENT.getPrecipitation(biome);
 
-                    if (this.minecraft.cameraEntity.position().distanceTo(new Vec3(x, y, z)) > (precipitation == Biome.Precipitation.RAIN ? FancyBlockParticles.CONFIG.rain.getSimulationDistance() : FancyBlockParticles.CONFIG.snow.getSimulationDistance()) * 16.0F)
-                        continue;
+                    if (precipitation != Biome.Precipitation.NONE) {
+                        if (this.minecraft.cameraEntity.position().distanceTo(new Vec3(x, y, z)) > (precipitation == Biome.Precipitation.RAIN ? FancyBlockParticles.CONFIG.rain.getSimulationDistance() : FancyBlockParticles.CONFIG.snow.getSimulationDistance()) * 16.0F)
+                            continue;
 
-                    y = (int) (y + 25.0D + FBPConstants.RANDOM.nextDouble() * 10.0D);
+                        y = (int) (y + 25.0D + FBPConstants.RANDOM.nextDouble() * 10.0D);
 
-                    if (y <= surfaceHeight + 2)
-                        y = surfaceHeight + 10;
+                        if (y <= surfaceHeight + 2)
+                            y = surfaceHeight + 10;
 
-                    if (precipitation == Biome.Precipitation.RAIN) {
-                        if (FancyBlockParticles.CONFIG.rain.isEnabled())
-                            if (i < rainDensity)
-                                this.minecraft.particleEngine.add(new FBPRainParticle.Provider().createParticle(ParticleTypes.RAIN.getType(), this.level, x, y, z, 0.0D, 0.0D, 0.0D));
-                    } else if (precipitation == Biome.Precipitation.SNOW) {
-                        if (FancyBlockParticles.CONFIG.snow.isEnabled())
-                            if (i < snowDensity)
-                                this.minecraft.particleEngine.add(new FBPSnowParticle.Provider().createParticle(ParticleTypes.RAIN.getType(), this.level, x, y, z, 0.0D, 0.0D, 0.0D));
+                        if (Services.CLIENT.warmEnoughToRain(biome, pos, this.level)) {
+                            if (FancyBlockParticles.CONFIG.rain.isEnabled())
+                                if (i < rainDensity)
+                                    this.minecraft.particleEngine.add(new FBPRainParticle.Provider().createParticle(ParticleTypes.RAIN.getType(), this.level, x, y, z, 0.0D, 0.0D, 0.0D));
+                        } else {
+                            if (FancyBlockParticles.CONFIG.snow.isEnabled())
+                                if (i < snowDensity)
+                                    this.minecraft.particleEngine.add(new FBPSnowParticle.Provider().createParticle(ParticleTypes.RAIN.getType(), this.level, x, y, z, 0.0D, 0.0D, 0.0D));
+                        }
                     }
                 }
             }
@@ -98,13 +100,17 @@ public abstract class MixinLevelRenderer implements ResourceManagerReloadListene
         instance.addParticle(particleOptions, x, y, z, xd, yd, zd);
     }
 
-    @Inject(at = @At(value = "INVOKE_ASSIGN", target = "Lnet/minecraft/world/level/biome/Biome;getPrecipitationAt(Lnet/minecraft/core/BlockPos;)Lnet/minecraft/world/level/biome/Biome$Precipitation;", shift = At.Shift.AFTER), method = "renderSnowAndRain", cancellable = true)
-    private void renderSnowAndRain(LightTexture light, float partialTick, double camX, double camY, double camZ, CallbackInfo callback, @Local LocalRef<Biome.Precipitation> precipitation) {
+    @WrapOperation(at = @At(value = "INVOKE", target = "Lnet/minecraft/world/level/biome/Biome;getPrecipitation()Lnet/minecraft/world/level/biome/Biome$Precipitation;"), method = "renderSnowAndRain")
+    private Biome.Precipitation getPrecipitation(Biome instance, Operation<Biome.Precipitation> precipitationOperation) {
+        var precipitation = precipitationOperation.call(instance);
+
         if (FancyBlockParticles.CONFIG.global.isEnabled()) {
-            if (precipitation.get() == Biome.Precipitation.RAIN && FancyBlockParticles.CONFIG.rain.isEnabled())
-                precipitation.set(Biome.Precipitation.NONE);
-            else if (precipitation.get() == Biome.Precipitation.SNOW && FancyBlockParticles.CONFIG.snow.isEnabled())
-                precipitation.set(Biome.Precipitation.NONE);
+            if (precipitation == Biome.Precipitation.RAIN && FancyBlockParticles.CONFIG.rain.isEnabled())
+                return Biome.Precipitation.NONE;
+            else if (precipitation == Biome.Precipitation.SNOW && FancyBlockParticles.CONFIG.snow.isEnabled())
+                return Biome.Precipitation.NONE;
         }
+
+        return precipitation;
     }
 }

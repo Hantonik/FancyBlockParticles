@@ -24,19 +24,18 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
+import net.minecraft.world.phys.Vec2;
 import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.Nullable;
-import org.joml.Vector2f;
-import org.joml.Vector3d;
 
 import java.util.List;
 
 public class FBPTerrainParticle extends TerrainParticle implements IKillableParticle {
     private final BlockState state;
 
-    private final Vector3d rotation;
-    private final Vector3d rotationStep;
-    private final Vector3d lastRotation;
+    private Vec3 rotation;
+    private Vec3 rotationStep;
+    private Vec3 lastRotation;
 
     private final float multiplier;
 
@@ -101,16 +100,15 @@ public class FBPTerrainParticle extends TerrainParticle implements IKillablePart
 
         this.scaleAlpha = this.quadSize * 0.82F;
 
-        this.rotation = new Vector3d();
-        this.lastRotation = new Vector3d();
-        this.rotationStep = new Vector3d(FBPConstants.RANDOM.nextDouble() > 0.5D ? 1 : -1, FBPConstants.RANDOM.nextDouble() > 0.5D ? 1 : -1, FBPConstants.RANDOM.nextDouble() > 0.5D ? 1 : -1);
+        this.rotationStep = new Vec3(FBPConstants.RANDOM.nextDouble() > 0.5D ? 1 : -1, FBPConstants.RANDOM.nextDouble() > 0.5D ? 1 : -1, FBPConstants.RANDOM.nextDouble() > 0.5D ? 1 : -1);
 
-        this.rotation.set(this.rotationStep);
+        this.lastRotation = Vec3.ZERO;
+        this.rotation = this.rotationStep;
 
         this.modeDebounce = !FancyBlockParticles.CONFIG.terrain.isRandomRotation();
 
         if (this.modeDebounce) {
-            this.rotation.zero();
+            this.rotation = Vec3.ZERO;
 
             this.calculateYAngle();
         }
@@ -125,7 +123,7 @@ public class FBPTerrainParticle extends TerrainParticle implements IKillablePart
                     this.sprite = quads.get(0).getSprite();
             }
 
-            if (this.sprite.atlasLocation() == MissingTextureAtlasSprite.getLocation())
+            if (this.sprite.atlas().location() == MissingTextureAtlasSprite.getLocation())
                 this.sprite = Minecraft.getInstance().getBlockRenderer().getBlockModelShaper().getParticleIcon(this.state);
         } else
             this.sprite = sprite;
@@ -184,7 +182,7 @@ public class FBPTerrainParticle extends TerrainParticle implements IKillablePart
         this.yo = this.y;
         this.zo = this.z;
 
-        this.lastRotation.set(this.rotation);
+        this.lastRotation = this.rotation;
 
         this.lastSize = this.quadSize;
         this.lastAlpha = this.alpha;
@@ -201,7 +199,7 @@ public class FBPTerrainParticle extends TerrainParticle implements IKillablePart
                     if (!this.modeDebounce) {
                         this.modeDebounce = true;
 
-                        this.rotation.z = 0.0D;
+                        this.rotation = this.rotation.with(Direction.Axis.Z, 0.0D);
 
                         this.calculateYAngle();
                     }
@@ -210,23 +208,23 @@ public class FBPTerrainParticle extends TerrainParticle implements IKillablePart
 
                     if (this.xd > 0.0D) {
                         if (this.zd > 0.0D)
-                            this.rotation.x -= x;
+                            this.rotation = this.rotation.subtract(x, 0.0D, 0.0D);
                         else if (this.zd < 0.0D)
-                            this.rotation.x += x;
+                            this.rotation = this.rotation.add(x, 0.0D, 0.0D);
                     } else if (this.xd < 0.0D) {
                         if (this.zd < 0.0D)
-                            this.rotation.x += x;
+                            this.rotation = this.rotation.add(x, 0.0D, 0.0D);
                         else if (this.zd > 0.0D)
-                            this.rotation.x -= x;
+                            this.rotation = this.rotation.subtract(x, 0.0D, 0.0D);
                     }
                 } else {
                     if (this.modeDebounce) {
                         this.modeDebounce = false;
 
-                        this.rotation.z = FBPConstants.RANDOM.nextDouble(30.0D, 400.0D);
+                        this.rotation = this.rotation.with(Direction.Axis.Z, FBPConstants.RANDOM.nextDouble(30.0D, 400.0D));
                     }
 
-                    this.rotation.add(this.rotationStep.mul(this.getMultiplier(), new Vector3d()));
+                    this.rotation = this.rotation.add(this.rotationStep.scale(this.getMultiplier()));
                 }
 
                 if (!FancyBlockParticles.CONFIG.terrain.isInfiniteDuration() && !FancyBlockParticles.CONFIG.global.isInfiniteDuration())
@@ -244,10 +242,8 @@ public class FBPTerrainParticle extends TerrainParticle implements IKillablePart
 
                 this.move(this.xd, this.yd, this.zd);
 
-                if (this.onGround && FancyBlockParticles.CONFIG.terrain.isRestOnFloor()) {
-                    this.rotation.x = Math.round(this.rotation.x / 10.0D) * 10.0D;
-                    this.rotation.z = Math.round(this.rotation.z / 10.0D) * 10.0D;
-                }
+                if (this.onGround && FancyBlockParticles.CONFIG.terrain.isRestOnFloor())
+                    this.rotation = this.rotation.with(Direction.Axis.X, Math.round(this.rotation.x / 10.0D) * 10.0D).with(Direction.Axis.Z, Math.round(this.rotation.z / 10.0D) * 10.0D);
 
                 if (Math.abs(this.xd) > 0.00001D)
                     this.lastXSpeed = this.xd;
@@ -353,7 +349,7 @@ public class FBPTerrainParticle extends TerrainParticle implements IKillablePart
             for (var x = minX; x < maxX; x++) {
                 for (var y = minY; y < maxY; y++) {
                     for (var z = minZ; z < maxZ; z++) {
-                        var pos = BlockPos.containing(x, y, z);
+                        var pos = new BlockPos(x, y, z);
                         var fluid = this.level.getFluidState(pos);
 
                         if (fluid.is(FluidTags.WATER))
@@ -430,7 +426,7 @@ public class FBPTerrainParticle extends TerrainParticle implements IKillablePart
     public int getLightColor(float partialTick) {
         var box = this.getBoundingBox();
 
-        return this.level.hasChunkAt(BlockPos.containing(this.x, this.y, this.z)) ? LevelRenderer.getLightColor(this.level, this.state, BlockPos.containing(this.x, this.y + ((box.maxY - box.minY) * 0.66D) + 0.01D - (FancyBlockParticles.CONFIG.terrain.isRestOnFloor() ? this.quadSize / 10.0D : 0.0D), this.z)) : 0;
+        return this.level.hasChunkAt(new BlockPos(this.x, this.y, this.z)) ? LevelRenderer.getLightColor(this.level, this.state, new BlockPos(this.x, this.y + ((box.maxY - box.minY) * 0.66D) + 0.01D - (FancyBlockParticles.CONFIG.terrain.isRestOnFloor() ? this.quadSize / 10.0D : 0.0D), this.z)) : 0;
     }
 
     @Override
@@ -458,31 +454,30 @@ public class FBPTerrainParticle extends TerrainParticle implements IKillablePart
         if (FancyBlockParticles.CONFIG.terrain.isRestOnFloor())
             posY += scale;
 
-        var smoothRotation = new Vector3d();
+        var smoothRotation = Vec3.ZERO;
 
         if (FancyBlockParticles.CONFIG.terrain.getRotationMultiplier() > 0.0F) {
-            smoothRotation.y = this.rotation.y;
-            smoothRotation.z = this.rotation.z;
+            smoothRotation = smoothRotation.with(Direction.Axis.Y, this.rotation.y).with(Direction.Axis.Z, this.rotation.z);
 
             if (!FancyBlockParticles.CONFIG.terrain.isRandomRotation())
-                smoothRotation.x = this.rotation.x;
+                smoothRotation = smoothRotation.with(Direction.Axis.X, this.rotation.x);
 
             if (!FancyBlockParticles.CONFIG.global.isFreezeEffect()) {
                 if (FancyBlockParticles.CONFIG.terrain.isRandomRotation()) {
-                    smoothRotation.y = Mth.lerp(partialTick, this.lastRotation.y, this.rotation.y);
-                    smoothRotation.z = Mth.lerp(partialTick, this.lastRotation.z, this.rotation.z);
+                    smoothRotation = smoothRotation.with(Direction.Axis.Y, Mth.lerp(partialTick, this.lastRotation.y, this.rotation.y));
+                    smoothRotation = smoothRotation.with(Direction.Axis.Z, Mth.lerp(partialTick, this.lastRotation.z, this.rotation.z));
                 } else
-                    smoothRotation.x = Mth.lerp(partialTick, this.lastRotation.x, this.rotation.x);
+                    smoothRotation = smoothRotation.with(Direction.Axis.X, Mth.lerp(partialTick, this.lastRotation.x, this.rotation.x));
             }
         }
 
-        FBPRenderHelper.renderCubeShaded(buffer, new Vector2f[] { new Vector2f(u1, v1), new Vector2f(u1, v0), new Vector2f(u0, v0), new Vector2f(u0, v1) }, (float) posX, (float) posY, (float) posZ, scale, smoothRotation, light, this.rCol, this.gCol, this.bCol, alpha, FancyBlockParticles.CONFIG.global.isCartoonMode());
+        FBPRenderHelper.renderCubeShaded(buffer, new Vec2[] { new Vec2(u1, v1), new Vec2(u1, v0), new Vec2(u0, v0), new Vec2(u0, v1) }, (float) posX, (float) posY, (float) posZ, scale, smoothRotation, light, this.rCol, this.gCol, this.bCol, alpha, FancyBlockParticles.CONFIG.global.isCartoonMode());
     }
 
     private void calculateYAngle() {
         var sin = Math.toDegrees(Math.asin(this.xd / Math.sqrt(this.xd * this.xd + this.zd * this.zd)));
 
-        this.rotation.y = this.zd > 0.0D ? -sin : sin;
+        this.rotation = this.rotation.with(Direction.Axis.Y, this.zd > 0.0D ? -sin : sin);
     }
 
     private double getMultiplier() {

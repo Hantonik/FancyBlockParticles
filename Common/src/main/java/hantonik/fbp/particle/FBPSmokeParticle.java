@@ -21,12 +21,11 @@ import net.minecraft.world.level.block.TorchBlock;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.Nullable;
-import org.joml.Vector3d;
 
 import java.util.List;
 
 public class FBPSmokeParticle extends SmokeParticle implements IKillableParticle {
-    private final Vector3d[] rotatedCube;
+    private final Vec3[] rotatedCube;
 
     private final float multiplier;
 
@@ -58,7 +57,7 @@ public class FBPSmokeParticle extends SmokeParticle implements IKillableParticle
 
         this.lifetime = (int) FBPConstants.RANDOM.nextFloat(Math.min(FancyBlockParticles.CONFIG.smoke.getMinLifetime(), FancyBlockParticles.CONFIG.smoke.getMaxLifetime()), Math.max(FancyBlockParticles.CONFIG.smoke.getMinLifetime(), FancyBlockParticles.CONFIG.smoke.getMaxLifetime()) + 0.5F);
 
-        var state = level.getBlockState(BlockPos.containing(x, y, z));
+        var state = level.getBlockState(new BlockPos(x, y, z));
 
         if (state.is(Blocks.FIRE) || state.is(Blocks.SOUL_FIRE)) {
             this.xd = FBPConstants.RANDOM.nextDouble(-0.05D, 0.05D);
@@ -93,7 +92,7 @@ public class FBPSmokeParticle extends SmokeParticle implements IKillableParticle
         this.alpha = 1.0F;
         this.sprite = FBPConstants.FBP_PARTICLE_SPRITE.get();
 
-        this.rotatedCube = new Vector3d[FBPConstants.CUBE.length];
+        this.rotatedCube = new Vec3[FBPConstants.CUBE.length];
 
         var angleY = this.random.nextFloat();
 
@@ -217,7 +216,7 @@ public class FBPSmokeParticle extends SmokeParticle implements IKillableParticle
         var i = super.getLightColor(partialTick);
         var j = 0;
 
-        var pos = BlockPos.containing(this.x, this.y, this.z);
+        var pos = new BlockPos(this.x, this.y, this.z);
 
         if (this.level.isLoaded(pos))
             j = this.level.getLightEngine().getRawBrightness(pos, 0);
@@ -239,17 +238,17 @@ public class FBPSmokeParticle extends SmokeParticle implements IKillableParticle
 
         var light = this.getLightColor(partialTick);
 
-        var cube = new Vector3d[this.rotatedCube.length];
+        var cube = new Vec3[this.rotatedCube.length];
 
         for (var i = 0; i < cube.length; i++) {
-            var corner = new Vector3d();
+            var corner = new Vec3(
+                    this.rotatedCube[i].x,
+                    this.rotatedCube[i].y,
+                    this.rotatedCube[i].z
+            );
 
-            corner.x = this.rotatedCube[i].x;
-            corner.y = this.rotatedCube[i].y;
-            corner.z = this.rotatedCube[i].z;
-
-            corner.mul(scale / 20.0F);
-            corner.add(posX, posY, posZ);
+            corner = corner.scale(scale / 20.0F);
+            corner = corner.add(posX, posY, posZ);
 
             cube[i] = corner;
         }
@@ -257,7 +256,7 @@ public class FBPSmokeParticle extends SmokeParticle implements IKillableParticle
         this.putCube(buffer, cube, u, v, light, this.rCol, this.gCol, this.bCol, alpha);
     }
 
-    private void putCube(VertexConsumer buffer, Vector3d[] cube, float u, float v, int light, float rCol, float gCol, float bCol, float alpha) {
+    private void putCube(VertexConsumer buffer, Vec3[] cube, float u, float v, int light, float rCol, float gCol, float bCol, float alpha) {
         var brightness = 1.0F;
 
         float red;
@@ -283,7 +282,7 @@ public class FBPSmokeParticle extends SmokeParticle implements IKillableParticle
         }
     }
 
-    private void addVertex(VertexConsumer buffer, Vector3d pos, float u, float v, int light, float rCol, float gCol, float bCol, float alpha) {
+    private void addVertex(VertexConsumer buffer, Vec3 pos, float u, float v, int light, float rCol, float gCol, float bCol, float alpha) {
         buffer.vertex(pos.x, pos.y, pos.z).uv(u, v).color(rCol, gCol, bCol, alpha).uv2(light).endVertex();
     }
 

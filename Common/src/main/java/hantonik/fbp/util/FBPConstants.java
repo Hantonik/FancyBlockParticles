@@ -16,8 +16,8 @@ import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.client.renderer.texture.TextureManager;
 import net.minecraft.world.inventory.InventoryMenu;
 import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.NotNull;
-import org.joml.Vector3d;
 
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -30,19 +30,19 @@ public final class FBPConstants {
 
     public static final SplittableRandom RANDOM = new SplittableRandom();
 
-    public static final Vector3d[] CUBE = new Vector3d[] {
-            new Vector3d(1.0D, 1.0D, -1.0D),   new Vector3d(1.0D, 1.0D, 1.0D),   new Vector3d(-1.0D, 1.0D, 1.0D),  new Vector3d(-1.0D, 1.0D, -1.0D),
-            new Vector3d(-1.0D, -1.0D, -1.0D), new Vector3d(-1.0D, -1.0D, 1.0D), new Vector3d(1.0D, -1.0D, 1.0D),  new Vector3d(1.0D, -1.0D, -1.0D),
-            new Vector3d(-1.0D, -1.0D, 1.0D),  new Vector3d(-1.0D, 1.0D, 1.0D),  new Vector3d(1.0D, 1.0D, 1.0D),   new Vector3d(1.0D, -1.0D, 1.0D),
-            new Vector3d(1.0D, -1.0D, -1.0D),  new Vector3d(1.0D, 1.0D, -1.0D),  new Vector3d(-1.0D, 1.0D, -1.0D), new Vector3d(-1.0D, -1.0D, -1.0D),
-            new Vector3d(-1.0D, -1.0D, -1.0D), new Vector3d(-1.0D, 1.0D, -1.0D), new Vector3d(-1.0D, 1.0D, 1.0D),  new Vector3d(-1.0D, -1.0D, 1.0D),
-            new Vector3d(1.0D, -1.0D, 1.0D),   new Vector3d(1.0D, 1.0D, 1.0D),   new Vector3d(1.0D, 1.0D, -1.0D),  new Vector3d(1.0D, -1.0D, -1.0D)
+    public static final Vec3[] CUBE = new Vec3[] {
+            new Vec3(1.0D, 1.0D, -1.0D),   new Vec3(1.0D, 1.0D, 1.0D),   new Vec3(-1.0D, 1.0D, 1.0D),  new Vec3(-1.0D, 1.0D, -1.0D),
+            new Vec3(-1.0D, -1.0D, -1.0D), new Vec3(-1.0D, -1.0D, 1.0D), new Vec3(1.0D, -1.0D, 1.0D),  new Vec3(1.0D, -1.0D, -1.0D),
+            new Vec3(-1.0D, -1.0D, 1.0D),  new Vec3(-1.0D, 1.0D, 1.0D),  new Vec3(1.0D, 1.0D, 1.0D),   new Vec3(1.0D, -1.0D, 1.0D),
+            new Vec3(1.0D, -1.0D, -1.0D),  new Vec3(1.0D, 1.0D, -1.0D),  new Vec3(-1.0D, 1.0D, -1.0D), new Vec3(-1.0D, -1.0D, -1.0D),
+            new Vec3(-1.0D, -1.0D, -1.0D), new Vec3(-1.0D, 1.0D, -1.0D), new Vec3(-1.0D, 1.0D, 1.0D),  new Vec3(-1.0D, -1.0D, 1.0D),
+            new Vec3(1.0D, -1.0D, 1.0D),   new Vec3(1.0D, 1.0D, 1.0D),   new Vec3(1.0D, 1.0D, -1.0D),  new Vec3(1.0D, -1.0D, -1.0D)
     };
 
-    public static final Vector3d[] CUBE_NORMALS = new Vector3d[] {
-            new Vector3d(0.0D, 1.0D, 0.0D), new Vector3d(0.0D, -1.0D, 0.0D),
-            new Vector3d(0.0D, 0.0D, 1.0D), new Vector3d(0.0D, 0.0D, -1.0D),
-            new Vector3d(-1.0D, 0.0D, 0.0D), new Vector3d(1.0D, 0.0D, 0.0D)
+    public static final Vec3[] CUBE_NORMALS = new Vec3[] {
+            new Vec3(0.0D, 1.0D, 0.0D), new Vec3(0.0D, -1.0D, 0.0D),
+            new Vec3(0.0D, 0.0D, 1.0D), new Vec3(0.0D, 0.0D, -1.0D),
+            new Vec3(-1.0D, 0.0D, 0.0D), new Vec3(1.0D, 0.0D, 0.0D)
     };
 
     public static final Supplier<TextureAtlasSprite> FBP_PARTICLE_SPRITE = () -> Minecraft.getInstance().getBlockRenderer().getBlockModelShaper().getParticleIcon(Blocks.WHITE_CONCRETE.defaultBlockState());

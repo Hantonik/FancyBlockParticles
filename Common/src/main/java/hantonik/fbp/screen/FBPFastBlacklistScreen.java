@@ -9,7 +9,7 @@ import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.core.Registry;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
@@ -95,7 +95,7 @@ public class FBPFastBlacklistScreen extends Screen {
         var x = this.width / 2;
         var y = this.height / 2;
 
-        mouseX = Mth.clamp(mouseX, this.animationButton.getX() + 30, this.particleButton.getX() + 30);
+        mouseX = Mth.clamp(mouseX, this.animationButton.x + 30, this.particleButton.x + 30);
         mouseY = y + 35;
 
         RenderSystem.enableBlend();
@@ -105,34 +105,38 @@ public class FBPFastBlacklistScreen extends Screen {
         RenderSystem.setShaderTexture(0, WIDGETS);
         RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
 
-        blit(stack, this.animationButton.getX() + 30, this.animationButton.getY() + 30 - 10, 0, 0, 195, 20);
-        drawCenteredString(stack, this.font, Component.literal("<").withStyle(this.animationButton.active ? ChatFormatting.GREEN : ChatFormatting.RED).append("             ").append(Component.literal(">").withStyle(this.particleButton.active ? ChatFormatting.GREEN : ChatFormatting.RED)), this.animationButton.getX() + 30 + 100, this.animationButton.getY() + 30 - 4, 0);
+        blit(stack, this.animationButton.x + 30, this.animationButton.y + 30 - 10, 0, 0, 195, 20);
+        drawCenteredString(stack, this.font, Component.literal("<").withStyle(this.animationButton.active ? ChatFormatting.GREEN : ChatFormatting.RED).append("             ").append(Component.literal(">").withStyle(this.particleButton.active ? ChatFormatting.GREEN : ChatFormatting.RED)), this.animationButton.x + 30 + 100, this.animationButton.y + 30 - 4, 0);
 
         drawCenteredString(stack, this.font, this.title.copy().withStyle(ChatFormatting.BOLD, ChatFormatting.GREEN), x, 10, 0);
 
-        var displayId = BuiltInRegistries.ITEM.getKey(this.displayStack.getItem());
+        var displayId = Registry.ITEM.getKey(this.displayStack.getItem());
         drawCenteredString(stack, this.font, Component.literal(displayId.getNamespace()).withStyle(ChatFormatting.GOLD).append(Component.literal(":").withStyle(ChatFormatting.RED)).append(Component.literal(displayId.getPath()).withStyle(ChatFormatting.GREEN)).withStyle(ChatFormatting.BOLD), x, y - 19, 0);
 
         if (this.animationButton.isHovered()) {
-            drawCenteredString(stack, this.font, Component.translatable("tooltip.fbp.animation").withStyle(ChatFormatting.BOLD, ChatFormatting.GREEN), this.animationButton.getX() + 30, this.animationButton.getY() + 30 - 42, 0);
+            drawCenteredString(stack, this.font, Component.translatable("tooltip.fbp.animation").withStyle(ChatFormatting.BOLD, ChatFormatting.GREEN), this.animationButton.x + 30, this.animationButton.y + 30 - 42, 0);
 
-            drawCenteredString(stack, this.font, this.animationButton.isBlackListed() ? Component.translatable("tooltip.fbp.remove").withStyle(ChatFormatting.BOLD, ChatFormatting.RED) : Component.translatable("tooltip.fbp.add").withStyle(ChatFormatting.BOLD, ChatFormatting.GREEN), this.animationButton.getX() + 30, this.animationButton.getY() + 30 + 35, 0);
+            drawCenteredString(stack, this.font, this.animationButton.isBlackListed() ? Component.translatable("tooltip.fbp.remove").withStyle(ChatFormatting.BOLD, ChatFormatting.RED) : Component.translatable("tooltip.fbp.add").withStyle(ChatFormatting.BOLD, ChatFormatting.GREEN), this.animationButton.x + 30, this.animationButton.y + 30 + 35, 0);
         }
 
         if (this.particleButton.isHovered()) {
-            drawCenteredString(stack, this.font, Component.translatable("tooltip.fbp.particles").withStyle(ChatFormatting.BOLD, ChatFormatting.GREEN), this.particleButton.getX() + 30, this.particleButton.getY() + 30 - 42, 0);
+            drawCenteredString(stack, this.font, Component.translatable("tooltip.fbp.particles").withStyle(ChatFormatting.BOLD, ChatFormatting.GREEN), this.particleButton.x + 30, this.particleButton.y + 30 - 42, 0);
 
-            drawCenteredString(stack, this.font, this.particleButton.isBlackListed() ? Component.translatable("tooltip.fbp.remove").withStyle(ChatFormatting.BOLD, ChatFormatting.RED) : Component.translatable("tooltip.fbp.add").withStyle(ChatFormatting.BOLD, ChatFormatting.GREEN), this.particleButton.getX() + 30, this.particleButton.getY() + 30 + 35, 0);
+            drawCenteredString(stack, this.font, this.particleButton.isBlackListed() ? Component.translatable("tooltip.fbp.remove").withStyle(ChatFormatting.BOLD, ChatFormatting.RED) : Component.translatable("tooltip.fbp.add").withStyle(ChatFormatting.BOLD, ChatFormatting.GREEN), this.particleButton.x + 30, this.particleButton.y + 30 + 35, 0);
         }
 
-        stack.pushPose();
+        var modelViewStack = RenderSystem.getModelViewStack();
+        modelViewStack.pushPose();
 
-        stack.translate(x - 32, y - 32 - 57.0, 0.0F);
-        stack.scale(4.0F, 4.0F, 1.0F);
+        modelViewStack.translate(x - 32, y - 32 - 57.0, 0.0F);
+        modelViewStack.scale(4.0F, 4.0F, 1.0F);
 
-        this.itemRenderer.renderGuiItem(stack, this.displayStack, 0, 0);
+        RenderSystem.applyModelViewMatrix();
 
-        stack.popPose();
+        this.itemRenderer.renderGuiItem(this.displayStack, 0, 0);
+
+        modelViewStack.popPose();
+        RenderSystem.applyModelViewMatrix();
 
         this.animationButton.render(stack, mouseX, mouseY, partialTick);
         this.particleButton.render(stack, mouseX, mouseY, partialTick);

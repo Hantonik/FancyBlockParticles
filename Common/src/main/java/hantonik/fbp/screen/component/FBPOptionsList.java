@@ -2,29 +2,25 @@ package hantonik.fbp.screen.component;
 
 import com.google.common.collect.ImmutableList;
 import com.mojang.blaze3d.vertex.PoseStack;
-import hantonik.fbp.screen.FBPAbstractOptionsScreen;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.components.AbstractWidget;
 import net.minecraft.client.gui.components.ContainerObjectSelectionList;
 import net.minecraft.client.gui.components.events.GuiEventListener;
 import net.minecraft.client.gui.narration.NarratableEntry;
-import net.minecraft.client.gui.screens.Screen;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
+import java.util.Optional;
 
 public class FBPOptionsList extends ContainerObjectSelectionList<FBPOptionsList.Entry> {
-    private final FBPAbstractOptionsScreen screen;
-
-    public FBPOptionsList(Minecraft minecraft, int width, int height, FBPAbstractOptionsScreen screen) {
-        super(minecraft, width, height, screen.layout.getHeaderHeight(), height - screen.layout.getFooterHeight(), 25);
+    public FBPOptionsList(Minecraft minecraft, int width, int height, int headerHeight, int footerHeight) {
+        super(minecraft, width, height, headerHeight, height - footerHeight, 25);
 
         this.centerListVertically = false;
-        this.screen = screen;
     }
 
     public void addBig(AbstractWidget widget) {
-        this.addEntry(Entry.create(widget, this.screen));
+        this.addEntry(Entry.create(widget, this.width));
     }
 
     public void addBig(AbstractWidget... widgets) {
@@ -33,7 +29,7 @@ public class FBPOptionsList extends ContainerObjectSelectionList<FBPOptionsList.
     }
 
     public void addSmall(AbstractWidget leftWidget, @Nullable AbstractWidget rightWidget) {
-        this.addEntry(Entry.create(leftWidget, rightWidget, this.screen));
+        this.addEntry(Entry.create(leftWidget, rightWidget, this.width));
     }
 
     public void addSmall(AbstractWidget... widgets) {
@@ -54,30 +50,43 @@ public class FBPOptionsList extends ContainerObjectSelectionList<FBPOptionsList.
         return super.getScrollbarPosition() + 32;
     }
 
+    public Optional<AbstractWidget> getMouseOver(double mouseX, double mouseY) {
+        for (var child : this.children()) {
+            for (var widget : child.widgets) {
+                if (widget.isMouseOver(mouseX, mouseY))
+                    return Optional.of(widget);
+            }
+        }
+
+        return Optional.empty();
+    }
+
     protected static class Entry extends ContainerObjectSelectionList.Entry<Entry> {
         private final List<AbstractWidget> widgets;
-        private final Screen screen;
+        private final int width;
 
-        private Entry(List<AbstractWidget> widgets, FBPAbstractOptionsScreen screen) {
+        private Entry(List<AbstractWidget> widgets, int width) {
             this.widgets = ImmutableList.copyOf(widgets);
-            this.screen = screen;
+            this.width = width;
         }
 
-        private static Entry create(AbstractWidget widget, FBPAbstractOptionsScreen screen) {
-            return new Entry(List.of(widget), screen);
+        private static Entry create(AbstractWidget widget, int width) {
+            return new Entry(List.of(widget), width);
         }
 
-        private static Entry create(AbstractWidget leftWidget, @Nullable AbstractWidget rightWidget, FBPAbstractOptionsScreen screen) {
-            return rightWidget == null ? new Entry(List.of(leftWidget), screen) : new Entry(List.of(leftWidget, rightWidget), screen);
+        private static Entry create(AbstractWidget leftWidget, @Nullable AbstractWidget rightWidget, int width) {
+            return rightWidget == null ? new Entry(List.of(leftWidget), width) : new Entry(List.of(leftWidget, rightWidget), width);
         }
 
         @Override
         public void render(PoseStack stack, int index, int top, int left, int width, int height, int mouseX, int mouseY, boolean hovering, float partialTick) {
             var i = 0;
-            var j = this.screen.width / 2 - 155;
+            var j = this.width / 2 - 155;
 
             for (AbstractWidget widget : this.widgets) {
-                widget.setPosition(i + j, top);
+                widget.x = i + j;
+                widget.y = top;
+
                 widget.render(stack, mouseX, mouseY, partialTick);
 
                 i += 160;
