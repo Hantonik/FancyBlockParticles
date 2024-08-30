@@ -10,7 +10,8 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Registry;
-import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.TextComponent;
+import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
 import net.minecraft.world.item.BlockItem;
@@ -28,14 +29,14 @@ public class FBPFastBlacklistScreen extends Screen {
     private FBPBlacklistButton particleButton;
 
     public FBPFastBlacklistScreen(BlockPos lookingAtPos) {
-        super(Component.translatable("screen.fbp.fast_blacklist"));
+        super(new TranslatableComponent("screen.fbp.fast_blacklist"));
 
         this.state = Minecraft.getInstance().level.getBlockState(lookingAtPos);
         this.displayStack = new ItemStack(this.state.getBlock());
     }
 
     public FBPFastBlacklistScreen(ItemStack heldItem) {
-        super(Component.translatable("screen.fbp.fast_blacklist"));
+        super(new TranslatableComponent("screen.fbp.fast_blacklist"));
 
         this.state = ((BlockItem) heldItem.getItem()).getBlock().defaultBlockState();
         this.displayStack = heldItem;
@@ -106,23 +107,23 @@ public class FBPFastBlacklistScreen extends Screen {
         RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
 
         blit(stack, this.animationButton.x + 30, this.animationButton.y + 30 - 10, 0, 0, 195, 20);
-        drawCenteredString(stack, this.font, Component.literal("<").withStyle(this.animationButton.active ? ChatFormatting.GREEN : ChatFormatting.RED).append("             ").append(Component.literal(">").withStyle(this.particleButton.active ? ChatFormatting.GREEN : ChatFormatting.RED)), this.animationButton.x + 30 + 100, this.animationButton.y + 30 - 4, 0);
+        drawCenteredString(stack, this.font, new TextComponent("<").withStyle(this.animationButton.active ? ChatFormatting.GREEN : ChatFormatting.RED).append("             ").append(new TextComponent(">").withStyle(this.particleButton.active ? ChatFormatting.GREEN : ChatFormatting.RED)), this.animationButton.x + 30 + 100, this.animationButton.y + 30 - 4, 0);
 
         drawCenteredString(stack, this.font, this.title.copy().withStyle(ChatFormatting.BOLD, ChatFormatting.GREEN), x, 10, 0);
 
         var displayId = Registry.ITEM.getKey(this.displayStack.getItem());
-        drawCenteredString(stack, this.font, Component.literal(displayId.getNamespace()).withStyle(ChatFormatting.GOLD).append(Component.literal(":").withStyle(ChatFormatting.RED)).append(Component.literal(displayId.getPath()).withStyle(ChatFormatting.GREEN)).withStyle(ChatFormatting.BOLD), x, y - 19, 0);
+        drawCenteredString(stack, this.font, new TextComponent(displayId.getNamespace()).withStyle(ChatFormatting.GOLD).append(new TextComponent(":").withStyle(ChatFormatting.RED)).append(new TextComponent(displayId.getPath()).withStyle(ChatFormatting.GREEN)).withStyle(ChatFormatting.BOLD), x, y - 19, 0);
 
         if (this.animationButton.isHovered()) {
-            drawCenteredString(stack, this.font, Component.translatable("tooltip.fbp.animation").withStyle(ChatFormatting.BOLD, ChatFormatting.GREEN), this.animationButton.x + 30, this.animationButton.y + 30 - 42, 0);
+            drawCenteredString(stack, this.font, new TranslatableComponent("tooltip.fbp.animation").withStyle(ChatFormatting.BOLD, ChatFormatting.GREEN), this.animationButton.x + 30, this.animationButton.y + 30 - 42, 0);
 
-            drawCenteredString(stack, this.font, this.animationButton.isBlackListed() ? Component.translatable("tooltip.fbp.remove").withStyle(ChatFormatting.BOLD, ChatFormatting.RED) : Component.translatable("tooltip.fbp.add").withStyle(ChatFormatting.BOLD, ChatFormatting.GREEN), this.animationButton.x + 30, this.animationButton.y + 30 + 35, 0);
+            drawCenteredString(stack, this.font, this.animationButton.isBlackListed() ? new TranslatableComponent("tooltip.fbp.remove").withStyle(ChatFormatting.BOLD, ChatFormatting.RED) : new TranslatableComponent("tooltip.fbp.add").withStyle(ChatFormatting.BOLD, ChatFormatting.GREEN), this.animationButton.x + 30, this.animationButton.y + 30 + 35, 0);
         }
 
         if (this.particleButton.isHovered()) {
-            drawCenteredString(stack, this.font, Component.translatable("tooltip.fbp.particles").withStyle(ChatFormatting.BOLD, ChatFormatting.GREEN), this.particleButton.x + 30, this.particleButton.y + 30 - 42, 0);
+            drawCenteredString(stack, this.font, new TranslatableComponent("tooltip.fbp.particles").withStyle(ChatFormatting.BOLD, ChatFormatting.GREEN), this.particleButton.x + 30, this.particleButton.y + 30 - 42, 0);
 
-            drawCenteredString(stack, this.font, this.particleButton.isBlackListed() ? Component.translatable("tooltip.fbp.remove").withStyle(ChatFormatting.BOLD, ChatFormatting.RED) : Component.translatable("tooltip.fbp.add").withStyle(ChatFormatting.BOLD, ChatFormatting.GREEN), this.particleButton.x + 30, this.particleButton.y + 30 + 35, 0);
+            drawCenteredString(stack, this.font, this.particleButton.isBlackListed() ? new TranslatableComponent("tooltip.fbp.remove").withStyle(ChatFormatting.BOLD, ChatFormatting.RED) : new TranslatableComponent("tooltip.fbp.add").withStyle(ChatFormatting.BOLD, ChatFormatting.GREEN), this.particleButton.x + 30, this.particleButton.y + 30 + 35, 0);
         }
 
         var modelViewStack = RenderSystem.getModelViewStack();

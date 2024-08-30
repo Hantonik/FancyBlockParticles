@@ -7,21 +7,21 @@ import hantonik.fbp.screen.component.widget.button.FBPToggleButton;
 import net.minecraft.client.gui.components.EditBox;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.CommonComponents;
-import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.Style;
 import net.minecraft.network.chat.TextColor;
+import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.util.FormattedCharSequence;
 
 import java.util.Locale;
 
 public class FBPOverlayScreen extends FBPAbstractOptionsScreen {
     public FBPOverlayScreen(Screen lastScreen, FBPConfig config) {
-        super(Component.translatable("screen.fbp.category.overlay"), lastScreen, config);
+        super(new TranslatableComponent("screen.fbp.category.overlay"), lastScreen, config);
     }
 
     @Override
     protected void initOptions() {
-        var colorBox = new EditBox(this.font, 0, 0, 150, 20, Component.translatable("widget.fbp.overlay.freeze_effect_color"));
+        var colorBox = new EditBox(this.font, 0, 0, 150, 20, new TranslatableComponent("widget.fbp.overlay.freeze_effect_color"));
 
         colorBox.setValue("#" + String.format("%06X", this.config.overlay.getFreezeEffectColor()));
         colorBox.setEditable(!this.config.global.isLocked() && this.config.overlay.isFreezeEffectOverlay());
@@ -33,15 +33,15 @@ public class FBPOverlayScreen extends FBPAbstractOptionsScreen {
         });
 
         this.list.addBig(
-                new FBPToggleButton(310, 20, Component.translatable("button.fbp.overlay.freeze_effect_overlay"), this.config.overlay::isFreezeEffectOverlay, button -> {
+                new FBPToggleButton(310, 20, new TranslatableComponent("button.fbp.overlay.freeze_effect_overlay"), this.config.overlay::isFreezeEffectOverlay, button -> {
                     this.config.overlay.setFreezeEffectOverlay(!this.config.overlay.isFreezeEffectOverlay());
 
                     this.rebuildWidgets();
-                }, Component.translatable("tooltip.fbp.overlay.freeze_effect_overlay").append(CommonComponents.NEW_LINE).append(CommonComponents.NEW_LINE).append(Component.translatable("tooltip.fbp.default")).append(Component.translatable("button.fbp.common." + FBPConfig.DEFAULT_CONFIG.overlay.isFreezeEffectOverlay())))
+                }, new TranslatableComponent("tooltip.fbp.overlay.freeze_effect_overlay").append(CommonComponents.NEW_LINE).append(CommonComponents.NEW_LINE).append(new TranslatableComponent("tooltip.fbp.default")).append(new TranslatableComponent("button.fbp.common." + FBPConfig.DEFAULT_CONFIG.overlay.isFreezeEffectOverlay())))
         );
 
         this.list.addSmall(
-                new FBPStringWidget(150, 21, Component.translatable("widget.fbp.overlay.freeze_effect_color").append(": "), this.font).alignLeft(),
+                new FBPStringWidget(150, 21, new TranslatableComponent("widget.fbp.overlay.freeze_effect_color").append(": "), this.font).alignLeft(),
                 colorBox
         );
     }

@@ -6,8 +6,6 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.biome.Biome;
 
 public interface IClientHelper {
-    float getShade(float normalX, float normalY, float normalZ, boolean shade);
-
     default Biome.Precipitation getPrecipitation(Holder<Biome> biome) {
         return biome.value().getPrecipitation();
     }

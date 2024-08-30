@@ -9,6 +9,7 @@ import net.minecraft.client.gui.narration.NarratedElementType;
 import net.minecraft.client.gui.narration.NarrationElementOutput;
 import net.minecraft.network.chat.CommonComponents;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.util.FormattedCharSequence;
 
 import java.util.List;
@@ -32,7 +33,7 @@ public class FBPToggleButton extends Button implements TooltipAccessor {
     }
 
     public FBPToggleButton(int x, int y, int width, int height, Component message, Supplier<Boolean> value, OnPress onPress, Component tooltip, BooleanSupplier active) {
-        super(x, y, width, height, CommonComponents.optionNameValue(message, Component.translatable("button.fbp.common." + value.get())), onPress);
+        super(x, y, width, height, CommonComponents.optionNameValue(message, new TranslatableComponent("button.fbp.common." + value.get())), onPress);
 
         this.value = value;
         this.defaultMessage = message;
@@ -45,7 +46,7 @@ public class FBPToggleButton extends Button implements TooltipAccessor {
     public void onPress() {
         super.onPress();
 
-        this.setMessage(CommonComponents.optionNameValue(this.defaultMessage, Component.translatable("button.fbp.common." + this.value.get())));
+        this.setMessage(CommonComponents.optionNameValue(this.defaultMessage, new TranslatableComponent("button.fbp.common." + this.value.get())));
     }
 
     @Override

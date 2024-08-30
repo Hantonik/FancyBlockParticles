@@ -144,7 +144,7 @@ public class FBPSnowParticle extends WaterDropParticle implements IKillableParti
                 this.remove();
 
             if (!FancyBlockParticles.CONFIG.global.isFreezeEffect()) {
-                if (this.y < Minecraft.getInstance().player.getY() - (Minecraft.getInstance().options.renderDistance().get() * 16.0D))
+                if (this.y < Minecraft.getInstance().player.getY() - (Minecraft.getInstance().options.renderDistance * 16.0D))
                     this.remove();
 
                 if (!FancyBlockParticles.CONFIG.snow.isInfiniteDuration() && !FancyBlockParticles.CONFIG.global.isInfiniteDuration())
@@ -229,10 +229,10 @@ public class FBPSnowParticle extends WaterDropParticle implements IKillableParti
             }
         }
 
-        if (Minecraft.getInstance().cameraEntity.position().distanceTo(new Vec3(this.x, Minecraft.getInstance().cameraEntity.getY(), this.z)) > Math.min(FancyBlockParticles.CONFIG.snow.getSimulationDistance(), Minecraft.getInstance().options.simulationDistance().get()) * 16)
+        if (Minecraft.getInstance().cameraEntity.position().distanceTo(new Vec3(this.x, Minecraft.getInstance().cameraEntity.getY(), this.z)) > Math.min(FancyBlockParticles.CONFIG.snow.getSimulationDistance(), Minecraft.getInstance().options.simulationDistance) * 16)
             this.remove();
 
-        this.visible = Minecraft.getInstance().cameraEntity.position().distanceTo(new Vec3(this.x, Minecraft.getInstance().cameraEntity.getY(), this.z)) <= Math.min(FancyBlockParticles.CONFIG.snow.getRenderDistance(), Minecraft.getInstance().options.renderDistance().get()) * 16;
+        this.visible = Minecraft.getInstance().cameraEntity.position().distanceTo(new Vec3(this.x, Minecraft.getInstance().cameraEntity.getY(), this.z)) <= Math.min(FancyBlockParticles.CONFIG.snow.getRenderDistance(), Minecraft.getInstance().options.renderDistance) * 16;
     }
 
     @Override

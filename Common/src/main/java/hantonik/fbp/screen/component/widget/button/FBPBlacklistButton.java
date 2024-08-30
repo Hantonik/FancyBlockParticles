@@ -5,7 +5,7 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import hantonik.fbp.FancyBlockParticles;
 import lombok.Getter;
 import net.minecraft.client.gui.components.Button;
-import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.TextComponent;
 import net.minecraft.resources.ResourceLocation;
 
 public class FBPBlacklistButton extends Button {
@@ -16,7 +16,7 @@ public class FBPBlacklistButton extends Button {
     private final boolean isBlackListed;
 
     public FBPBlacklistButton(int x, int y, boolean particle, boolean isBlacklisted, OnPress onPress) {
-        super(x, y, 60, 60, Component.empty(), onPress);
+        super(x, y, 60, 60, TextComponent.EMPTY, onPress);
 
         this.particle = particle;
         this.isBlackListed = isBlacklisted;

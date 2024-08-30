@@ -5,6 +5,7 @@ import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.screens.OptionsScreen;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.TranslatableComponent;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
@@ -24,7 +25,7 @@ public abstract class MixinOptionsScreen extends Screen {
                         this.height / 6 + 146 - 6,
                         150,
                         20,
-                        Component.translatable("key.fbp.category").append("..."),
+                        new TranslatableComponent("key.fbp.category").append("..."),
                         button -> this.minecraft.setScreen(new FBPOptionsScreen((OptionsScreen) (Object) this))
                 )
         );

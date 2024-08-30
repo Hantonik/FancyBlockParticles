@@ -1,9 +1,9 @@
 package hantonik.fbp.util;
 
 import com.mojang.blaze3d.vertex.VertexConsumer;
-import hantonik.fbp.platform.Services;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
+import net.minecraft.client.Minecraft;
 import net.minecraft.util.Mth;
 import net.minecraft.world.phys.Vec2;
 import net.minecraft.world.phys.Vec3;
@@ -23,7 +23,7 @@ public final class FBPRenderHelper {
 
             var normal = rotate(FBPConstants.CUBE_NORMALS[i / 4], radX, radY, radZ);
 
-            var shade = Services.CLIENT.getShade((float) normal.x, (float) normal.y, (float) normal.z, true);
+            var shade = (float) Math.min(normal.x * normal.x * 0.6F + normal.y * normal.y * (Minecraft.getInstance().level.effects().constantAmbientLight() ? 0.9F : (3.0F + normal.y) / 4.0F) + normal.z * normal.z * 0.8F, 1.0F);
 
             if (cartoon) {
                 addVertex(buffer, v1, uv[0].x, uv[0].y, light, red * shade, green * shade, blue * shade, alpha, normal);
@@ -52,7 +52,7 @@ public final class FBPRenderHelper {
 
             var normal = rotate(FBPConstants.CUBE_NORMALS[i / 4], radX, radY, radZ);
 
-            var shade = Services.CLIENT.getShade((float) normal.x, (float) normal.y, (float) normal.z, true);
+            var shade = (float) Math.min(normal.x * normal.x * 0.6F + normal.y * normal.y * (Minecraft.getInstance().level.effects().constantAmbientLight() ? 0.9F : (3.0F + normal.y) / 4.0F) + normal.z * normal.z * 0.8F, 1.0F);
 
             if (cartoon) {
                 addVertex(buffer, v1, uv[0].x, uv[0].y, light, red * shade, green * shade, blue * shade, alpha, normal);

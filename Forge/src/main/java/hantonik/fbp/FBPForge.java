@@ -6,10 +6,10 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screens.PauseScreen;
 import net.minecraft.server.packs.resources.ResourceManagerReloadListener;
 import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.client.ConfigScreenHandler;
+import net.minecraftforge.client.ClientRegistry;
+import net.minecraftforge.client.ConfigGuiHandler;
 import net.minecraftforge.client.event.RegisterClientReloadListenersEvent;
-import net.minecraftforge.client.event.RegisterKeyMappingsEvent;
-import net.minecraftforge.client.event.RenderGuiOverlayEvent;
+import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import net.minecraftforge.client.event.ScreenEvent;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.TickEvent;
@@ -28,27 +28,22 @@ public final class FBPForge {
         var bus = FMLJavaModLoadingContext.get().getModEventBus();
         bus.register(this);
 
-        DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> () -> {
-            bus.addListener(this::onRegisterKeyMappings);
-            bus.addListener(this::onRegisterClientReloadListeners);
-        });
+        DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> () -> bus.addListener(this::onRegisterClientReloadListeners));
 
-        ModList.get().getModContainerById(FancyBlockParticles.MOD_ID).ifPresent(mc -> mc.registerExtensionPoint(ConfigScreenHandler.ConfigScreenFactory.class, () -> new ConfigScreenHandler.ConfigScreenFactory(FBPOptionsScreen::new)));
+        ModList.get().getModContainerById(FancyBlockParticles.MOD_ID).ifPresent(mc -> mc.registerExtensionPoint(ConfigGuiHandler.ConfigGuiFactory.class, () -> new ConfigGuiHandler.ConfigGuiFactory(FBPOptionsScreen::new)));
     }
 
     @SubscribeEvent
     public void clientSetup(final FMLClientSetupEvent event) {
         FancyBlockParticles.LOGGER.info(FancyBlockParticles.SETUP_MARKER, "Starting client setup...");
 
+        FBPKeyMappings.MAPPINGS.forEach(ClientRegistry::registerKeyBinding);
+
         MinecraftForge.EVENT_BUS.addListener(this::onClientTick);
         MinecraftForge.EVENT_BUS.addListener(this::postScreenInit);
         MinecraftForge.EVENT_BUS.addListener(this::postRenderGuiOverlay);
 
         FancyBlockParticles.LOGGER.info(FancyBlockParticles.SETUP_MARKER, "Finished client setup!");
-    }
-
-    private void onRegisterKeyMappings(final RegisterKeyMappingsEvent event) {
-        FBPKeyMappings.MAPPINGS.forEach(event::register);
     }
 
     private void onRegisterClientReloadListeners(final RegisterClientReloadListenersEvent event) {
@@ -60,12 +55,12 @@ public final class FBPForge {
             FancyBlockParticles.postClientTick(Minecraft.getInstance());
     }
 
-    private void postScreenInit(final ScreenEvent.Init.Post event) {
+    private void postScreenInit(final ScreenEvent.InitScreenEvent.Post event) {
         if (event.getScreen() instanceof PauseScreen screen)
             FancyBlockParticles.onClientPause(screen);
     }
 
-    private void postRenderGuiOverlay(final RenderGuiOverlayEvent.Post event) {
-        FancyBlockParticles.onRenderHud(event.getPoseStack(), event.getWindow().getGuiScaledWidth());
+    private void postRenderGuiOverlay(final RenderGameOverlayEvent.Post event) {
+        FancyBlockParticles.onRenderHud(event.getMatrixStack(), event.getWindow().getGuiScaledWidth());
     }
 }
