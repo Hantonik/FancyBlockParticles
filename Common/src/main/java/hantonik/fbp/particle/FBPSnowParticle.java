@@ -21,7 +21,6 @@ import net.minecraft.core.particles.SimpleParticleType;
 import net.minecraft.tags.FluidTags;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.Entity;
-import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.CampfireBlock;
 import net.minecraft.world.level.block.LiquidBlock;
@@ -156,9 +155,7 @@ public class FBPSnowParticle extends WaterDropParticle implements IKillableParti
                 var pos = new BlockPos(this.x, this.y, this.z);
                 var biome = this.level.getBiome(pos);
 
-                var precipitation = Services.CLIENT.getPrecipitation(biome);
-
-                if (this.age >= this.lifetime || (precipitation != Biome.Precipitation.SNOW || !Services.CLIENT.coldEnoughToSnow(biome, pos, this.level))) {
+                if (this.age >= this.lifetime || !Services.CLIENT.coldEnoughToSnow(biome, pos, this.level)) {
                     this.quadSize *= 0.75F * this.multiplier;
 
                     if (this.alpha > 0.01F && this.quadSize <= this.scaleAlpha)
@@ -167,7 +164,7 @@ public class FBPSnowParticle extends WaterDropParticle implements IKillableParti
                     if (this.alpha < 0.01F) {
                         this.remove();
 
-                        if (precipitation == Biome.Precipitation.RAIN && Services.CLIENT.warmEnoughToRain(biome, pos, this.level))
+                        if (Services.CLIENT.warmEnoughToRain(biome, pos, this.level))
                             Minecraft.getInstance().particleEngine.add(new FBPRainParticle.Provider().createParticle(ParticleTypes.RAIN.getType(), this.level, x, y, z, 0.0D, 0.0D, 0.0D));
                     }
                 } else {
