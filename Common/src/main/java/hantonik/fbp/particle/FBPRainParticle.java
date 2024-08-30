@@ -95,7 +95,7 @@ public class FBPRainParticle extends WaterDropParticle implements IKillableParti
             if (!FancyBlockParticles.CONFIG.global.isFreezeEffect()) {
                 this.age++;
 
-                if (this.y < Minecraft.getInstance().player.getY() - (Minecraft.getInstance().options.renderDistance().get() * 9.0D))
+                if (this.y < Minecraft.getInstance().player.getY() - (Minecraft.getInstance().options.renderDistance * 9.0D))
                     this.remove();
 
                 if (!this.onGround) {
@@ -167,10 +167,10 @@ public class FBPRainParticle extends WaterDropParticle implements IKillableParti
         this.gCol = (float) Mth.clamp(color.y + 0.1D, 0.1D, 1.0D);
         this.bCol = (float) Mth.clamp(color.y + 0.5D, 0.5D, 1.0D);
 
-        if (Minecraft.getInstance().cameraEntity.position().distanceTo(new Vec3(this.x, Minecraft.getInstance().cameraEntity.getY(), this.z)) > Math.min(FancyBlockParticles.CONFIG.rain.getSimulationDistance(), Minecraft.getInstance().options.simulationDistance().get()) * 16)
+        if (Minecraft.getInstance().cameraEntity.position().distanceTo(new Vec3(this.x, Minecraft.getInstance().cameraEntity.getY(), this.z)) > Math.min(FancyBlockParticles.CONFIG.rain.getSimulationDistance(), Minecraft.getInstance().options.simulationDistance) * 16)
             this.remove();
 
-        this.visible = Minecraft.getInstance().cameraEntity.position().distanceTo(new Vec3(this.x, Minecraft.getInstance().cameraEntity.getY(), this.z)) <= Math.min(FancyBlockParticles.CONFIG.rain.getRenderDistance(), Minecraft.getInstance().options.renderDistance().get()) * 16;
+        this.visible = Minecraft.getInstance().cameraEntity.position().distanceTo(new Vec3(this.x, Minecraft.getInstance().cameraEntity.getY(), this.z)) <= Math.min(FancyBlockParticles.CONFIG.rain.getRenderDistance(), Minecraft.getInstance().options.renderDistance) * 16;
     }
 
     @Override

@@ -13,7 +13,6 @@ import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.SimpleParticleType;
 import net.minecraft.util.Mth;
-import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.CandleBlock;
@@ -23,6 +22,7 @@ import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
+import java.util.Random;
 
 public class FBPSmokeParticle extends SmokeParticle implements IKillableParticle {
     private final Vec3[] rotatedCube;
@@ -43,7 +43,7 @@ public class FBPSmokeParticle extends SmokeParticle implements IKillableParticle
             }
 
             @Override
-            public TextureAtlasSprite get(RandomSource random) {
+            public TextureAtlasSprite get(Random random) {
                 return FBPConstants.FBP_PARTICLE_SPRITE.get();
             }
         });

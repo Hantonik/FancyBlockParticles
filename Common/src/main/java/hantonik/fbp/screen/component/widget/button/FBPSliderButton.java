@@ -8,6 +8,7 @@ import net.minecraft.client.gui.components.TooltipAccessor;
 import net.minecraft.client.gui.narration.NarratedElementType;
 import net.minecraft.client.gui.narration.NarrationElementOutput;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.TextComponent;
 import net.minecraft.util.FormattedCharSequence;
 import net.minecraft.util.Mth;
 import org.lwjgl.glfw.GLFW;
@@ -39,7 +40,7 @@ public class FBPSliderButton extends AbstractSliderButton implements TooltipAcce
     }
 
     public FBPSliderButton(int x, int y, int width, int height, Component prefix, Component suffix, double value, double defaultValue, double minValue, double maxValue, double step, Consumer<FBPSliderButton> action, BooleanSupplier active, Component tooltip) {
-        super(x, y, width, height, Component.empty(), 0D);
+        super(x, y, width, height, TextComponent.EMPTY, 0D);
 
         this.prefix = prefix;
         this.suffix = suffix;
@@ -146,7 +147,7 @@ public class FBPSliderButton extends AbstractSliderButton implements TooltipAcce
 
     @Override
     public void updateMessage() {
-        this.setMessage(this.prefix.copy().append(Component.literal(this.getValueString()).append(this.suffix).withStyle(Math.abs(this.getValue() - this.defaultValue) < this.stepSize ? ChatFormatting.DARK_AQUA : ChatFormatting.AQUA)));
+        this.setMessage(this.prefix.copy().append(new TextComponent(this.getValueString()).append(this.suffix).withStyle(Math.abs(this.getValue() - this.defaultValue) < this.stepSize ? ChatFormatting.DARK_AQUA : ChatFormatting.AQUA)));
     }
 
     @Override

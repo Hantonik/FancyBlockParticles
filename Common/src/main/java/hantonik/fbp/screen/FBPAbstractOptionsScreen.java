@@ -21,6 +21,7 @@ import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.ClickEvent;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.Style;
+import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.util.FormattedCharSequence;
 import org.lwjgl.glfw.GLFW;
 
@@ -35,7 +36,7 @@ public abstract class FBPAbstractOptionsScreen extends Screen {
     protected FBPOptionsList list;
 
     public FBPAbstractOptionsScreen(Component title, Screen lastScreen, FBPConfig config) {
-        super(Component.translatable("key.fbp.category").append(" - ").append(title));
+        super(new TranslatableComponent("key.fbp.category").append(" - ").append(title));
 
         this.activeConfig = config;
         this.config = config.copy();
@@ -49,23 +50,23 @@ public abstract class FBPAbstractOptionsScreen extends Screen {
         this.initOptions();
         this.addRenderableWidget(this.list);
 
-        this.addRenderableWidget(new FBPImageButton(10, 10, 25, 25, FBPOptionsScreen.LOGO_TEXTURE, button -> this.handleComponentClicked(Style.EMPTY.withClickEvent(new ClickEvent(ClickEvent.Action.OPEN_URL, "https://www.curseforge.com/minecraft/mc-mods/fbp-renewed"))), Component.translatable("tooltip.fbp.common.homepage")));
-        this.addRenderableWidget(new FBPImageButton(this.width - 10 - 25, 10, 25, 25, FBPOptionsScreen.REPORT_TEXTURE, button -> this.handleComponentClicked(Style.EMPTY.withClickEvent(new ClickEvent(ClickEvent.Action.OPEN_URL, "https://github.com/Hantonik/FancyBlockParticles/issues"))), Component.translatable("tooltip.fbp.common.report")));
+        this.addRenderableWidget(new FBPImageButton(10, 10, 25, 25, FBPOptionsScreen.LOGO_TEXTURE, button -> this.handleComponentClicked(Style.EMPTY.withClickEvent(new ClickEvent(ClickEvent.Action.OPEN_URL, "https://www.curseforge.com/minecraft/mc-mods/fbp-renewed"))), new TranslatableComponent("tooltip.fbp.common.homepage")));
+        this.addRenderableWidget(new FBPImageButton(this.width - 10 - 25, 10, 25, 25, FBPOptionsScreen.REPORT_TEXTURE, button -> this.handleComponentClicked(Style.EMPTY.withClickEvent(new ClickEvent(ClickEvent.Action.OPEN_URL, "https://github.com/Hantonik/FancyBlockParticles/issues"))), new TranslatableComponent("tooltip.fbp.common.report")));
 
         var titleWidth = this.font.width(this.title.getVisualOrderText());
         this.addRenderableWidget(new FBPStringWidget(this.width / 2 - titleWidth / 2, 62 / 2, titleWidth, 9, this.title, this.font));
 
-        this.addRenderableWidget(new Button(this.width / 2 - 310 / 2, this.height - 74 / 2 - 20 - 4 / 2, 310, 20, Component.translatable("button.fbp.common.reload"), button -> {
+        this.addRenderableWidget(new Button(this.width / 2 - 310 / 2, this.height - 74 / 2 - 20 - 4 / 2, 310, 20, new TranslatableComponent("button.fbp.common.reload"), button -> {
             FancyBlockParticles.CONFIG.load();
             this.config.setConfig(FancyBlockParticles.CONFIG.copy());
             this.activeConfig.setConfig(FancyBlockParticles.CONFIG.copy());
 
-            this.minecraft.setScreen(new AlertScreen(() -> this.minecraft.setScreen(this), Component.translatable("button.fbp.common.reload"), Component.translatable("screen.fbp.reload_alert")));
+            this.minecraft.setScreen(new AlertScreen(() -> this.minecraft.setScreen(this), new TranslatableComponent("button.fbp.common.reload"), new TranslatableComponent("screen.fbp.reload_alert")));
 
             this.rebuildWidgets();
         }));
 
-        this.addRenderableWidget(new Button(this.width / 2 - 150 - 5, this.height - 74 / 2 + 4 / 2, 150, 20, Component.translatable("button.fbp.common.reset"), button -> this.minecraft.setScreen(new ConfirmScreen(confirm -> {
+        this.addRenderableWidget(new Button(this.width / 2 - 150 - 5, this.height - 74 / 2 + 4 / 2, 150, 20, new TranslatableComponent("button.fbp.common.reset"), button -> this.minecraft.setScreen(new ConfirmScreen(confirm -> {
             if (confirm) {
                 this.resetConfig();
 
@@ -73,11 +74,11 @@ public abstract class FBPAbstractOptionsScreen extends Screen {
             }
 
             this.minecraft.setScreen(this);
-        }, Component.translatable("button.fbp.common.reset"), Component.translatable("screen.fbp.reset_confirm")))));
+        }, new TranslatableComponent("button.fbp.common.reset"), new TranslatableComponent("screen.fbp.reset_confirm")))));
 
-        this.addRenderableWidget(new Button(this.width / 2 + 5, this.height - 74 / 2 + 4 / 2, 150, 20, Component.translatable("button.fbp.common.done"), button -> this.onDone()));
+        this.addRenderableWidget(new Button(this.width / 2 + 5, this.height - 74 / 2 + 4 / 2, 150, 20, new TranslatableComponent("button.fbp.common.done"), button -> this.onDone()));
 
-        var version = Component.translatable("text.fbp.version", SharedConstants.getCurrentVersion().getName() + "-" + FancyBlockParticles.MOD_VERSION);
+        var version = new TranslatableComponent("text.fbp.version", SharedConstants.getCurrentVersion().getName() + "-" + FancyBlockParticles.MOD_VERSION);
         this.addRenderableWidget(new FBPStringWidget(5, this.height - 3 - this.font.lineHeight, this.font.width(version), 9, version, this.font).alignLeft());
 
         this.children().forEach(widget -> {
@@ -119,7 +120,7 @@ public abstract class FBPAbstractOptionsScreen extends Screen {
     public void render(PoseStack stack, int mouseX, int mouseY, float partialTick) {
         this.renderBackground(stack);
 
-        this.font.draw(stack, Component.translatable("text.fbp.version", SharedConstants.getCurrentVersion().getName() + "-" + FancyBlockParticles.MOD_VERSION), 5.0F, (float) this.height - 3.0F, 4210752);
+        this.font.draw(stack, new TranslatableComponent("text.fbp.version", SharedConstants.getCurrentVersion().getName() + "-" + FancyBlockParticles.MOD_VERSION), 5.0F, (float) this.height - 3.0F, 4210752);
 
         super.render(stack, mouseX, mouseY, partialTick);
 
@@ -129,6 +130,12 @@ public abstract class FBPAbstractOptionsScreen extends Screen {
     @Override
     public void renderBackground(PoseStack stack) {
         this.renderDirtBackground(0);
+    }
+
+    protected void rebuildWidgets() {
+        this.clearWidgets();
+        this.setFocused(null);
+        this.init();
     }
 
     protected void onDone() {

@@ -12,7 +12,7 @@ import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiComponent;
 import net.minecraft.client.gui.screens.Screen;
-import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.HitResult;
@@ -72,7 +72,7 @@ public final class FancyBlockParticles {
 
     public static void onRenderHud(PoseStack stack, int width) {
         if (FancyBlockParticles.CONFIG.global.isEnabled() && FancyBlockParticles.CONFIG.overlay.isFreezeEffectOverlay() && FancyBlockParticles.CONFIG.global.isFreezeEffect() && !Minecraft.getInstance().options.hideGui)
-            GuiComponent.drawCenteredString(stack, Minecraft.getInstance().font, Component.translatable("gui.fbp.freeze_effect").withStyle(ChatFormatting.BOLD), width / 2, 5, FancyBlockParticles.CONFIG.overlay.getFreezeEffectColor());
+            GuiComponent.drawCenteredString(stack, Minecraft.getInstance().font, new TranslatableComponent("gui.fbp.freeze_effect").withStyle(ChatFormatting.BOLD), width / 2, 5, FancyBlockParticles.CONFIG.overlay.getFreezeEffectColor());
     }
 
     public static void onClientPause(Screen screen) {
