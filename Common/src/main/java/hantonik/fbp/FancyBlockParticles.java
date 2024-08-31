@@ -1,7 +1,6 @@
 package hantonik.fbp;
 
 import com.mojang.blaze3d.vertex.PoseStack;
-import com.mojang.logging.LogUtils;
 import hantonik.fbp.config.FBPConfig;
 import hantonik.fbp.init.FBPKeyMappings;
 import hantonik.fbp.platform.Services;
@@ -16,17 +15,18 @@ import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.HitResult;
-import org.slf4j.Logger;
-import org.slf4j.Marker;
-import org.slf4j.MarkerFactory;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.Marker;
+import org.apache.logging.log4j.MarkerManager;
 
 public final class FancyBlockParticles {
     public static final String MOD_ID = "fbp";
     public static final String MOD_NAME = "FancyBlockParticles";
     public static final String MOD_VERSION = Services.PLATFORM.getModVersion(MOD_ID);
 
-    public static final Logger LOGGER = LogUtils.getLogger();
-    public static final Marker SETUP_MARKER = MarkerFactory.getMarker("SETUP");
+    public static final Logger LOGGER = LogManager.getLogger();
+    public static final Marker SETUP_MARKER = MarkerManager.getMarker("SETUP");
 
     public static final FBPConfig CONFIG = FBPConfig.create();
 

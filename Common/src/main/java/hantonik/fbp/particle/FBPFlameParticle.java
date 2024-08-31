@@ -15,14 +15,16 @@ import net.minecraft.client.particle.ParticleRenderType;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.SimpleParticleType;
 import net.minecraft.util.Mth;
+import net.minecraft.util.RewindableStream;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.level.block.CandleBlock;
 import net.minecraft.world.level.block.TorchBlock;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
-import org.jetbrains.annotations.Nullable;
+import net.minecraft.world.phys.shapes.CollisionContext;
 
-import java.util.List;
+import javax.annotation.Nullable;
+import java.util.stream.Stream;
 
 public class FBPFlameParticle extends FlameParticle implements IKillableParticle {
     private final Vec3 startPos;
@@ -61,8 +63,8 @@ public class FBPFlameParticle extends FlameParticle implements IKillableParticle
         this.alpha = 1.0F;
 
         this.sprite = FBPConstants.FBP_PARTICLE_SPRITE.get();
-        this.quadSize = FancyBlockParticles.CONFIG.flame.getSizeMultiplier() * (FancyBlockParticles.CONFIG.flame.isRandomSize() ? FBPConstants.RANDOM.nextFloat(0.6F, 1.0F) : 1.0F) * 2.5F;
-        this.lifetime = (int) FBPConstants.RANDOM.nextFloat(Math.min(FancyBlockParticles.CONFIG.flame.getMinLifetime(), FancyBlockParticles.CONFIG.flame.getMaxLifetime()), Math.max(FancyBlockParticles.CONFIG.flame.getMinLifetime(), FancyBlockParticles.CONFIG.flame.getMaxLifetime()) + 0.5F);
+        this.quadSize = FancyBlockParticles.CONFIG.flame.getSizeMultiplier() * (FancyBlockParticles.CONFIG.flame.isRandomSize() ? (float) FBPConstants.RANDOM.nextDouble(0.6D, 1.0D) : 1.0F) * 2.5F;
+        this.lifetime = (int) FBPConstants.RANDOM.nextDouble(Math.min(FancyBlockParticles.CONFIG.flame.getMinLifetime(), FancyBlockParticles.CONFIG.flame.getMaxLifetime()), Math.max(FancyBlockParticles.CONFIG.flame.getMinLifetime(), FancyBlockParticles.CONFIG.flame.getMaxLifetime()) + 0.5D);
 
         this.startPos = new Vec3(x, y, z);
         this.rotatedCube = new Vec3[FBPConstants.CUBE.length];
@@ -74,7 +76,7 @@ public class FBPFlameParticle extends FlameParticle implements IKillableParticle
 
         this.hasChild = hasChild;
 
-        this.multiplier = FancyBlockParticles.CONFIG.flame.isRandomFadingSpeed() ? FBPConstants.RANDOM.nextFloat(0.9875F, 1.0F) : 1.0F;
+        this.multiplier = FancyBlockParticles.CONFIG.flame.isRandomFadingSpeed() ? (float) FBPConstants.RANDOM.nextDouble(0.9875D, 1.0D) : 1.0F;
 
         this.scale(1.0F);
     }
@@ -162,7 +164,7 @@ public class FBPFlameParticle extends FlameParticle implements IKillableParticle
         var zo = z;
 
         if ((x != 0.0D || y != 0.0D || z != 0.0D) && x * x + y * y + z * z < Mth.square(100.0D)) {
-            var vec = Entity.collideBoundingBox(null, new Vec3(x, y, z), this.getBoundingBox(), this.level, List.of());
+            var vec = Entity.collideBoundingBoxHeuristically(null, new Vec3(x, y, z), this.getBoundingBox(), this.level, CollisionContext.empty(), new RewindableStream<>(Stream.empty()));
 
             x = vec.x;
             y = vec.y;

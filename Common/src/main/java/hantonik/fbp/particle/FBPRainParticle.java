@@ -18,6 +18,7 @@ import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.core.particles.SimpleParticleType;
 import net.minecraft.tags.FluidTags;
 import net.minecraft.util.Mth;
+import net.minecraft.util.RewindableStream;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.level.LightLayer;
 import net.minecraft.world.level.block.Blocks;
@@ -25,9 +26,10 @@ import net.minecraft.world.level.block.CampfireBlock;
 import net.minecraft.world.level.block.LiquidBlock;
 import net.minecraft.world.phys.Vec2;
 import net.minecraft.world.phys.Vec3;
-import org.jetbrains.annotations.Nullable;
+import net.minecraft.world.phys.shapes.CollisionContext;
 
-import java.util.List;
+import javax.annotation.Nullable;
+import java.util.stream.Stream;
 
 public class FBPRainParticle extends WaterDropParticle implements IKillableParticle {
     private final double angleY;
@@ -59,7 +61,7 @@ public class FBPRainParticle extends WaterDropParticle implements IKillableParti
 
         this.lifetime = FBPConstants.RANDOM.nextInt(50, 70);
 
-        this.targetSize = Math.max(FBPConstants.RANDOM.nextFloat(FancyBlockParticles.CONFIG.rain.getSizeMultiplier() - 0.1F, FancyBlockParticles.CONFIG.rain.getSizeMultiplier() + 0.1F) * 4.0F, 0.1F) * (FancyBlockParticles.CONFIG.rain.isRandomSize() ? FBPConstants.RANDOM.nextFloat(0.7F, 1.0F) : 1.0F);
+        this.targetSize = Math.max((float) FBPConstants.RANDOM.nextDouble(FancyBlockParticles.CONFIG.rain.getSizeMultiplier() - 0.1D, FancyBlockParticles.CONFIG.rain.getSizeMultiplier() + 0.1D) * 4.0F, 0.1F) * (FancyBlockParticles.CONFIG.rain.isRandomSize() ? (float) FBPConstants.RANDOM.nextDouble(0.7D, 1.0D) : 1.0F);
         this.quadSize = 0.0F;
         this.gravity = 0.025F * FancyBlockParticles.CONFIG.rain.getGravityMultiplier();
 
@@ -72,7 +74,7 @@ public class FBPRainParticle extends WaterDropParticle implements IKillableParti
         this.uo = this.random.nextFloat() * 3.0F;
         this.vo = this.random.nextFloat() * 3.0F;
 
-        this.multiplier = FancyBlockParticles.CONFIG.rain.isRandomFadingSpeed() ? FBPConstants.RANDOM.nextFloat(0.85F, 1.0F) : 1.0F;
+        this.multiplier = FancyBlockParticles.CONFIG.rain.isRandomFadingSpeed() ? (float) FBPConstants.RANDOM.nextDouble(0.85D, 1.0D) : 1.0F;
     }
 
     @Override
@@ -167,7 +169,7 @@ public class FBPRainParticle extends WaterDropParticle implements IKillableParti
         this.gCol = (float) Mth.clamp(color.y + 0.1D, 0.1D, 1.0D);
         this.bCol = (float) Mth.clamp(color.y + 0.5D, 0.5D, 1.0D);
 
-        if (Minecraft.getInstance().cameraEntity.position().distanceTo(new Vec3(this.x, Minecraft.getInstance().cameraEntity.getY(), this.z)) > Math.min(FancyBlockParticles.CONFIG.rain.getSimulationDistance(), Minecraft.getInstance().options.simulationDistance) * 16)
+        if (Minecraft.getInstance().cameraEntity.position().distanceTo(new Vec3(this.x, Minecraft.getInstance().cameraEntity.getY(), this.z)) > FancyBlockParticles.CONFIG.rain.getSimulationDistance() * 16)
             this.remove();
 
         this.visible = Minecraft.getInstance().cameraEntity.position().distanceTo(new Vec3(this.x, Minecraft.getInstance().cameraEntity.getY(), this.z)) <= Math.min(FancyBlockParticles.CONFIG.rain.getRenderDistance(), Minecraft.getInstance().options.renderDistance) * 16;
@@ -185,7 +187,7 @@ public class FBPRainParticle extends WaterDropParticle implements IKillableParti
         var zo = z;
 
         if ((x != 0.0D || y != 0.0D || z != 0.0D) && x * x + y * y + z * z < Mth.square(100.0D)) {
-            var vec = Entity.collideBoundingBox(null, new Vec3(x, y, z), this.getBoundingBox(), this.level, List.of());
+            var vec = Entity.collideBoundingBoxHeuristically(null, new Vec3(x, y, z), this.getBoundingBox(), this.level, CollisionContext.empty(), new RewindableStream<>(Stream.empty()));
 
             x = vec.x;
             y = vec.y;

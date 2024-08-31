@@ -61,6 +61,8 @@ sourceSets.each {
 }
 
 repositories {
+    maven { url = "https://api.modrinth.com/maven" }
+
     mavenCentral() {
         content {
             includeGroup 'org.projectlombok'
@@ -73,14 +75,6 @@ dependencies {
 
     compileOnly project(':Common')
 
-    implementation fg.deobf("com.github.glitchfiend:SereneSeasons:$mc_version-$sereneseasons_version")
-
-    implementation(jarJar("io.github.llamalad7:mixinextras-forge:$mixin_extras_version")) {
-        jarJar.ranged(it, "[$mixin_extras_version,)")
-    }
-
-    implementation annotationProcessor("io.github.llamalad7:mixinextras-common:$mixin_extras_version")
-
     annotationProcessor "org.spongepowered:mixin:$mixin_processor_version:processor"
 
     compileOnly "org.projectlombok:lombok:$lombok_version"
@@ -90,12 +84,9 @@ dependencies {
 // Workaround for SpongePowered/MixinGradle#38
 afterEvaluate {
     tasks.configureReobfTaskForReobfJar.mustRunAfter(tasks.compileJava)
-    tasks.configureReobfTaskForReobfJarJar.mustRunAfter(tasks.compileJava)
 }
 
 jar {
-    archiveClassifier = 'slim'
-
     manifest {
         attributes([
                 'MixinConfigs': "${mod_id}.mixins.json,${mod_id}.forge.mixins.json"
@@ -103,12 +94,6 @@ jar {
     }
 
     finalizedBy('reobfJar')
-}
-
-tasks.jarJar {
-    archiveClassifier = ''
-
-    finalizedBy('reobfJarJar')
 }
 
 sourcesJar {
@@ -123,12 +108,12 @@ artifacts {
 project.evaluationDependsOn(':Changelog')
 
 tasks.register('publishCurseForge', TaskPublishCurseForge) {
-    dependsOn(tasks.jarJar)
+    dependsOn(tasks.jar)
     dependsOn(':Changelog:makeHtmlChangelog')
 
     apiToken = System.getenv('CURSEFORGE_TOKEN')
 
-    var modFile = upload('937011', tasks.jarJar.archiveFile)
+    var modFile = upload('937011', tasks.jar.archiveFile)
     modFile.displayName = "${base.archivesName.get()}-$version"
     modFile.releaseType = CFConstants.RELEASE_TYPE_BETA
     modFile.addGameVersion(mc_version, 'client')
@@ -153,11 +138,11 @@ modrinth {
 
     changelog = provider { file("${project(':Changelog').projectDir}/changelog.md").getText().replace([ '${version}': "$mc_version-$version" ]) }
 
-    uploadFile = tasks.jarJar
+    uploadFile = tasks.jar
     additionalFiles = [ tasks.sourcesJar ]
 }
 
-tasks.modrinth.dependsOn(tasks.jarJar)
+tasks.modrinth.dependsOn(tasks.jar)
 tasks.modrinth.dependsOn(tasks.sourcesJar)
 
 tasks.modrinth.dependsOn(':Changelog:makeMarkdownChangelog')
@@ -165,9 +150,8 @@ tasks.modrinth.dependsOn(':Changelog:makeMarkdownChangelog')
 publishing {
     publications {
         register('mavenJava', MavenPublication) {
+            artifact jar
             artifact sourcesJar
-
-            jarJar.component(it)
 
             artifactId archivesBaseName
         }

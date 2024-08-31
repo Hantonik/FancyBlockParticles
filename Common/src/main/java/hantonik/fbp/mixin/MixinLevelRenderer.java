@@ -1,11 +1,8 @@
 package hantonik.fbp.mixin;
 
-import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
-import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import hantonik.fbp.FancyBlockParticles;
 import hantonik.fbp.particle.FBPRainParticle;
 import hantonik.fbp.particle.FBPSnowParticle;
-import hantonik.fbp.platform.Services;
 import hantonik.fbp.util.FBPConstants;
 import net.minecraft.client.Camera;
 import net.minecraft.client.Minecraft;
@@ -19,7 +16,6 @@ import net.minecraft.util.Mth;
 import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.levelgen.Heightmap;
 import net.minecraft.world.phys.Vec3;
-import org.jetbrains.annotations.Nullable;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -27,6 +23,8 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.Redirect;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+
+import javax.annotation.Nullable;
 
 @Mixin(LevelRenderer.class)
 public abstract class MixinLevelRenderer implements ResourceManagerReloadListener, AutoCloseable {
@@ -51,7 +49,7 @@ public abstract class MixinLevelRenderer implements ResourceManagerReloadListene
 
                 for (var i = 0; i < density; i++) {
                     var angle = FBPConstants.RANDOM.nextDouble() * Math.PI * 2.0D;
-                    var radius = Mth.sqrt(FBPConstants.RANDOM.nextFloat()) * Math.max(FancyBlockParticles.CONFIG.rain.getSimulationDistance(), FancyBlockParticles.CONFIG.snow.getSimulationDistance()) / 2 * 16.0F;
+                    var radius = Mth.sqrt((float) FBPConstants.RANDOM.nextDouble()) * Math.max(FancyBlockParticles.CONFIG.rain.getSimulationDistance(), FancyBlockParticles.CONFIG.snow.getSimulationDistance()) / 2 * 16.0F;
 
                     var x = this.minecraft.cameraEntity.getX() + radius * Math.cos(angle);
                     var y = this.minecraft.cameraEntity.getY();
@@ -61,7 +59,7 @@ public abstract class MixinLevelRenderer implements ResourceManagerReloadListene
                     var surfaceHeight = this.level.getHeightmapPos(Heightmap.Types.MOTION_BLOCKING, pos).getY();
 
                     var biome = this.level.getBiome(pos);
-                    var precipitation = Services.CLIENT.getPrecipitation(biome);
+                    var precipitation = biome.getPrecipitation();
 
                     if (precipitation != Biome.Precipitation.NONE) {
                         if (this.minecraft.cameraEntity.position().distanceTo(new Vec3(x, y, z)) > (precipitation == Biome.Precipitation.RAIN ? FancyBlockParticles.CONFIG.rain.getSimulationDistance() : FancyBlockParticles.CONFIG.snow.getSimulationDistance()) * 16.0F)
@@ -72,7 +70,7 @@ public abstract class MixinLevelRenderer implements ResourceManagerReloadListene
                         if (y <= surfaceHeight + 2)
                             y = surfaceHeight + 10;
 
-                        if (Services.CLIENT.warmEnoughToRain(biome, pos, this.level)) {
+                        if (biome.getTemperature(pos) >= 0.15F) {
                             if (FancyBlockParticles.CONFIG.rain.isEnabled())
                                 if (i < rainDensity)
                                     this.minecraft.particleEngine.add(new FBPRainParticle.Provider().createParticle(ParticleTypes.RAIN.getType(), this.level, x, y, z, 0.0D, 0.0D, 0.0D));
@@ -100,9 +98,9 @@ public abstract class MixinLevelRenderer implements ResourceManagerReloadListene
         instance.addParticle(particleOptions, x, y, z, xd, yd, zd);
     }
 
-    @WrapOperation(at = @At(value = "INVOKE", target = "Lnet/minecraft/world/level/biome/Biome;getPrecipitation()Lnet/minecraft/world/level/biome/Biome$Precipitation;"), method = "renderSnowAndRain")
-    private Biome.Precipitation getPrecipitation(Biome instance, Operation<Biome.Precipitation> precipitationOperation) {
-        var precipitation = precipitationOperation.call(instance);
+    @Redirect(at = @At(value = "INVOKE", target = "Lnet/minecraft/world/level/biome/Biome;getPrecipitation()Lnet/minecraft/world/level/biome/Biome$Precipitation;"), method = "renderSnowAndRain")
+    private Biome.Precipitation getPrecipitation(Biome instance) {
+        var precipitation = instance.getPrecipitation();
 
         if (FancyBlockParticles.CONFIG.global.isEnabled()) {
             if (precipitation == Biome.Precipitation.RAIN && FancyBlockParticles.CONFIG.rain.isEnabled())

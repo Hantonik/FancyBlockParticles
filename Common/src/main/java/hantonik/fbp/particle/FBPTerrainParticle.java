@@ -20,15 +20,17 @@ import net.minecraft.core.Direction;
 import net.minecraft.core.particles.BlockParticleOption;
 import net.minecraft.tags.FluidTags;
 import net.minecraft.util.Mth;
+import net.minecraft.util.RewindableStream;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec2;
 import net.minecraft.world.phys.Vec3;
-import org.jetbrains.annotations.Nullable;
+import net.minecraft.world.phys.shapes.CollisionContext;
 
-import java.util.List;
+import javax.annotation.Nullable;
+import java.util.stream.Stream;
 
 public class FBPTerrainParticle extends TerrainParticle implements IKillableParticle {
     private final BlockState state;
@@ -94,7 +96,7 @@ public class FBPTerrainParticle extends TerrainParticle implements IKillablePart
         var size = scale > -1.0D ? scale : this.quadSize;
         this.quadSize = FancyBlockParticles.CONFIG.terrain.getSizeMultiplier() * (FancyBlockParticles.CONFIG.terrain.isRandomSize() ? size : 1.0F) / 10.0F;
         this.gravity *= FancyBlockParticles.CONFIG.terrain.getGravityMultiplier();
-        this.lifetime = (int) FBPConstants.RANDOM.nextFloat(Math.min(FancyBlockParticles.CONFIG.terrain.getMinLifetime(), FancyBlockParticles.CONFIG.terrain.getMaxLifetime()), Math.max(FancyBlockParticles.CONFIG.terrain.getMinLifetime(), FancyBlockParticles.CONFIG.terrain.getMaxLifetime()) + 0.5F);
+        this.lifetime = (int) FBPConstants.RANDOM.nextDouble(Math.min(FancyBlockParticles.CONFIG.terrain.getMinLifetime(), FancyBlockParticles.CONFIG.terrain.getMaxLifetime()), Math.max(FancyBlockParticles.CONFIG.terrain.getMinLifetime(), FancyBlockParticles.CONFIG.terrain.getMaxLifetime()) + 0.5D);
 
         this.startY = this.y;
 
@@ -128,7 +130,7 @@ public class FBPTerrainParticle extends TerrainParticle implements IKillablePart
         } else
             this.sprite = sprite;
 
-        this.multiplier = FancyBlockParticles.CONFIG.terrain.isRandomFadingSpeed() ? Mth.clamp(FBPConstants.RANDOM.nextFloat(0.5F, 0.9F), 0.55F, 0.8F) : 0.75F;
+        this.multiplier = FancyBlockParticles.CONFIG.terrain.isRandomFadingSpeed() ? Mth.clamp((float) FBPConstants.RANDOM.nextDouble(0.5D, 0.9D), 0.55F, 0.8F) : 0.75F;
 
         this.scale(1.0F);
     }
@@ -199,7 +201,7 @@ public class FBPTerrainParticle extends TerrainParticle implements IKillablePart
                     if (!this.modeDebounce) {
                         this.modeDebounce = true;
 
-                        this.rotation = this.rotation.with(Direction.Axis.Z, 0.0D);
+                        this.rotation = new Vec3(this.rotation.x, this.rotation.y, 0.0D);
 
                         this.calculateYAngle();
                     }
@@ -221,7 +223,7 @@ public class FBPTerrainParticle extends TerrainParticle implements IKillablePart
                     if (this.modeDebounce) {
                         this.modeDebounce = false;
 
-                        this.rotation = this.rotation.with(Direction.Axis.Z, FBPConstants.RANDOM.nextDouble(30.0D, 400.0D));
+                        this.rotation = new Vec3(this.rotation.x, this.rotation.y, FBPConstants.RANDOM.nextDouble(30.0D, 400.0D));
                     }
 
                     this.rotation = this.rotation.add(this.rotationStep.scale(this.getMultiplier()));
@@ -243,7 +245,7 @@ public class FBPTerrainParticle extends TerrainParticle implements IKillablePart
                 this.move(this.xd, this.yd, this.zd);
 
                 if (this.onGround && FancyBlockParticles.CONFIG.terrain.isRestOnFloor())
-                    this.rotation = this.rotation.with(Direction.Axis.X, Math.round(this.rotation.x / 10.0D) * 10.0D).with(Direction.Axis.Z, Math.round(this.rotation.z / 10.0D) * 10.0D);
+                    this.rotation = new Vec3(Math.round(this.rotation.x / 10.0D) * 10.0D, this.rotation.y, Math.round(this.rotation.z / 10.0D) * 10.0D);
 
                 if (Math.abs(this.xd) > 0.00001D)
                     this.lastXSpeed = this.xd;
@@ -386,7 +388,7 @@ public class FBPTerrainParticle extends TerrainParticle implements IKillablePart
         var zo = z;
 
         if ((x != 0.0D || y != 0.0D || z != 0.0D) && x * x + y * y + z * z < Mth.square(100.0D)) {
-            var vec = Entity.collideBoundingBox(null, new Vec3(x, y, z), this.getBoundingBox(), this.level, List.of());
+            var vec = Entity.collideBoundingBoxHeuristically(null, new Vec3(x, y, z), this.getBoundingBox(), this.level, CollisionContext.empty(), new RewindableStream<>(Stream.empty()));
 
             x = vec.x;
             y = vec.y;
@@ -457,17 +459,16 @@ public class FBPTerrainParticle extends TerrainParticle implements IKillablePart
         var smoothRotation = Vec3.ZERO;
 
         if (FancyBlockParticles.CONFIG.terrain.getRotationMultiplier() > 0.0F) {
-            smoothRotation = smoothRotation.with(Direction.Axis.Y, this.rotation.y).with(Direction.Axis.Z, this.rotation.z);
+            smoothRotation = new Vec3(smoothRotation.x, this.rotation.y, this.rotation.z);
 
             if (!FancyBlockParticles.CONFIG.terrain.isRandomRotation())
-                smoothRotation = smoothRotation.with(Direction.Axis.X, this.rotation.x);
+                smoothRotation = new Vec3(this.rotation.x, smoothRotation.y, smoothRotation.z);
 
             if (!FancyBlockParticles.CONFIG.global.isFreezeEffect()) {
-                if (FancyBlockParticles.CONFIG.terrain.isRandomRotation()) {
-                    smoothRotation = smoothRotation.with(Direction.Axis.Y, Mth.lerp(partialTick, this.lastRotation.y, this.rotation.y));
-                    smoothRotation = smoothRotation.with(Direction.Axis.Z, Mth.lerp(partialTick, this.lastRotation.z, this.rotation.z));
-                } else
-                    smoothRotation = smoothRotation.with(Direction.Axis.X, Mth.lerp(partialTick, this.lastRotation.x, this.rotation.x));
+                if (FancyBlockParticles.CONFIG.terrain.isRandomRotation())
+                    smoothRotation = new Vec3(smoothRotation.x, Mth.lerp(partialTick, this.lastRotation.y, this.rotation.y), Mth.lerp(partialTick, this.lastRotation.z, this.rotation.z));
+                else
+                    smoothRotation = new Vec3(Mth.lerp(partialTick, this.lastRotation.x, this.rotation.x), smoothRotation.y, smoothRotation.z);
             }
         }
 
@@ -477,7 +478,7 @@ public class FBPTerrainParticle extends TerrainParticle implements IKillablePart
     private void calculateYAngle() {
         var sin = Math.toDegrees(Math.asin(this.xd / Math.sqrt(this.xd * this.xd + this.zd * this.zd)));
 
-        this.rotation = this.rotation.with(Direction.Axis.Y, this.zd > 0.0D ? -sin : sin);
+        this.rotation = new Vec3(this.rotation.x, this.zd > 0.0D ? -sin : sin, this.rotation.z);
     }
 
     private double getMultiplier() {

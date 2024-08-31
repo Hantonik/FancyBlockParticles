@@ -13,13 +13,15 @@ import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.SimpleParticleType;
 import net.minecraft.util.Mth;
+import net.minecraft.util.RewindableStream;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
-import org.jetbrains.annotations.Nullable;
+import net.minecraft.world.phys.shapes.CollisionContext;
 
-import java.util.List;
+import javax.annotation.Nullable;
 import java.util.Random;
+import java.util.stream.Stream;
 
 public class FBPWhiteSmokeParticle extends SmokeParticle implements IKillableParticle {
     private final Vec3[] rotatedCube;
@@ -55,9 +57,9 @@ public class FBPWhiteSmokeParticle extends SmokeParticle implements IKillablePar
         this.quadSize = FancyBlockParticles.CONFIG.smoke.getSizeMultiplier() * (FancyBlockParticles.CONFIG.smoke.isRandomSize() ? scale * 10.0F : 1.0F);
         this.scaleAlpha = this.quadSize * 0.85F;
 
-        this.lifetime = (int) FBPConstants.RANDOM.nextFloat(Math.min(FancyBlockParticles.CONFIG.smoke.getMinLifetime(), FancyBlockParticles.CONFIG.smoke.getMaxLifetime()), Math.max(FancyBlockParticles.CONFIG.smoke.getMinLifetime(), FancyBlockParticles.CONFIG.smoke.getMaxLifetime()) + 0.5F);
+        this.lifetime = (int) FBPConstants.RANDOM.nextDouble(Math.min(FancyBlockParticles.CONFIG.smoke.getMinLifetime(), FancyBlockParticles.CONFIG.smoke.getMaxLifetime()), Math.max(FancyBlockParticles.CONFIG.smoke.getMinLifetime(), FancyBlockParticles.CONFIG.smoke.getMaxLifetime()) + 0.5D);
 
-        this.alpha = FBPConstants.RANDOM.nextFloat(0.6F, 0.9F);
+        this.alpha = (float) FBPConstants.RANDOM.nextDouble(0.6D, 0.9D);
         this.sprite = FBPConstants.FBP_PARTICLE_SPRITE.get();
 
         this.rotatedCube = new Vec3[FBPConstants.CUBE.length];
@@ -67,11 +69,11 @@ public class FBPWhiteSmokeParticle extends SmokeParticle implements IKillablePar
         for (var i = 0; i < FBPConstants.CUBE.length; i++)
             this.rotatedCube[i] = FBPRenderHelper.rotate(FBPConstants.CUBE[i], 0, angleY, 0);
 
-        this.multiplier = FancyBlockParticles.CONFIG.smoke.isRandomFadingSpeed() ? Mth.clamp(FBPConstants.RANDOM.nextFloat(0.425F, 1.15F), 0.5432F, 1.0F) : 0.75F;
+        this.multiplier = FancyBlockParticles.CONFIG.smoke.isRandomFadingSpeed() ? Mth.clamp((float) FBPConstants.RANDOM.nextDouble(0.425D, 1.15D), 0.5432F, 1.0F) : 0.75F;
 
-        this.rCol = FBPConstants.RANDOM.nextFloat(Math.max(1.0F, this.rCol * 1.1F) - 0.1F, 1.0F);
-        this.gCol = FBPConstants.RANDOM.nextFloat(Math.max(1.0F, this.gCol * 1.1F) - 0.1F, 1.0F);
-        this.bCol = FBPConstants.RANDOM.nextFloat(Math.max(1.0F, this.bCol * 1.1F) - 0.1F, 1.0F);
+        this.rCol = (float) FBPConstants.RANDOM.nextDouble((double) Math.max(1.0F, this.rCol * 1.1F) - 0.1D, 1.0D);
+        this.gCol = (float) FBPConstants.RANDOM.nextDouble((double) Math.max(1.0F, this.gCol * 1.1F) - 0.1D, 1.0D);
+        this.bCol = (float) FBPConstants.RANDOM.nextDouble((double) Math.max(1.0F, this.bCol * 1.1F) - 0.1D, 1.0D);
 
         this.scale(1.0F);
     }
@@ -149,7 +151,7 @@ public class FBPWhiteSmokeParticle extends SmokeParticle implements IKillablePar
         var zo = z;
 
         if ((x != 0.0D || y != 0.0D || z != 0.0D) && x * x + y * y + z * z < Mth.square(100.0D)) {
-            var vec = Entity.collideBoundingBox(null, new Vec3(x, y, z), this.getBoundingBox(), this.level, List.of());
+            var vec = Entity.collideBoundingBoxHeuristically(null, new Vec3(x, y, z), this.getBoundingBox(), this.level, CollisionContext.empty(), new RewindableStream<>(Stream.empty()));
 
             x = vec.x;
             y = vec.y;

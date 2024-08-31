@@ -1,11 +1,11 @@
 package hantonik.fbp.util;
 
 import lombok.Setter;
-import org.jetbrains.annotations.NotNull;
 
+import javax.annotation.Nonnull;
 import java.util.function.Supplier;
 
-@Setter(onParam_ = { @NotNull })
+@Setter(onParam_ = { @Nonnull })
 public class DelayedSupplier<T> implements Supplier<T> {
     private Supplier<T> supplier;
 

@@ -2,7 +2,6 @@ package hantonik.fbp.particle;
 
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import hantonik.fbp.FancyBlockParticles;
-import hantonik.fbp.platform.Services;
 import hantonik.fbp.util.FBPConstants;
 import hantonik.fbp.util.FBPRenderHelper;
 import lombok.RequiredArgsConstructor;
@@ -15,11 +14,11 @@ import net.minecraft.client.particle.ParticleRenderType;
 import net.minecraft.client.particle.WaterDropParticle;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.Direction;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.core.particles.SimpleParticleType;
 import net.minecraft.tags.FluidTags;
 import net.minecraft.util.Mth;
+import net.minecraft.util.RewindableStream;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.CampfireBlock;
@@ -27,9 +26,10 @@ import net.minecraft.world.level.block.LiquidBlock;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec2;
 import net.minecraft.world.phys.Vec3;
-import org.jetbrains.annotations.Nullable;
+import net.minecraft.world.phys.shapes.CollisionContext;
 
-import java.util.List;
+import javax.annotation.Nullable;
+import java.util.stream.Stream;
 
 public class FBPSnowParticle extends WaterDropParticle implements IKillableParticle {
     private Vec3 rotation;
@@ -64,9 +64,9 @@ public class FBPSnowParticle extends WaterDropParticle implements IKillableParti
 
         this.sprite = sprite;
 
-        this.lifetime = (int) FBPConstants.RANDOM.nextFloat(Math.min(FancyBlockParticles.CONFIG.snow.getMinLifetime(), FancyBlockParticles.CONFIG.snow.getMaxLifetime()), Math.max(FancyBlockParticles.CONFIG.snow.getMinLifetime(), FancyBlockParticles.CONFIG.snow.getMaxLifetime()) + 0.5F);
+        this.lifetime = (int) FBPConstants.RANDOM.nextDouble(Math.min(FancyBlockParticles.CONFIG.snow.getMinLifetime(), FancyBlockParticles.CONFIG.snow.getMaxLifetime()), Math.max(FancyBlockParticles.CONFIG.snow.getMinLifetime(), FancyBlockParticles.CONFIG.snow.getMaxLifetime()) + 0.5D);
 
-        this.quadSize = Math.max(FBPConstants.RANDOM.nextFloat(FancyBlockParticles.CONFIG.snow.getSizeMultiplier() - 0.1F, FancyBlockParticles.CONFIG.snow.getSizeMultiplier() + 0.1F), 0.1F) * (FancyBlockParticles.CONFIG.snow.isRandomSize() ? FBPConstants.RANDOM.nextFloat(0.7F, 1.0F) : 1.0F);
+        this.quadSize = Math.max((float) FBPConstants.RANDOM.nextDouble(FancyBlockParticles.CONFIG.snow.getSizeMultiplier() - 0.1D, FancyBlockParticles.CONFIG.snow.getSizeMultiplier() + 0.1D), 0.1F) * (FancyBlockParticles.CONFIG.snow.isRandomSize() ? (float) FBPConstants.RANDOM.nextDouble(0.7D, 1.0D) : 1.0F);
         this.targetSize = this.quadSize;
 
         this.scale(1.0F);
@@ -96,7 +96,7 @@ public class FBPSnowParticle extends WaterDropParticle implements IKillableParti
         this.scaleAlpha = this.quadSize * 0.75F;
         this.quadSize = 0.0F;
 
-        this.multiplier = FancyBlockParticles.CONFIG.snow.isRandomFadingSpeed() ? FBPConstants.RANDOM.nextFloat(0.7F, 1.0F) : 1.0F;
+        this.multiplier = FancyBlockParticles.CONFIG.snow.isRandomFadingSpeed() ? (float) FBPConstants.RANDOM.nextDouble(0.7D, 1.0D) : 1.0F;
     }
 
     @Override
@@ -155,7 +155,7 @@ public class FBPSnowParticle extends WaterDropParticle implements IKillableParti
                 var pos = new BlockPos(this.x, this.y, this.z);
                 var biome = this.level.getBiome(pos);
 
-                if (this.age >= this.lifetime || !Services.CLIENT.coldEnoughToSnow(biome, pos, this.level)) {
+                if (this.age >= this.lifetime || biome.getTemperature(pos) >= 0.15F) {
                     this.quadSize *= 0.75F * this.multiplier;
 
                     if (this.alpha > 0.01F && this.quadSize <= this.scaleAlpha)
@@ -164,7 +164,7 @@ public class FBPSnowParticle extends WaterDropParticle implements IKillableParti
                     if (this.alpha < 0.01F) {
                         this.remove();
 
-                        if (Services.CLIENT.warmEnoughToRain(biome, pos, this.level))
+                        if (biome.getTemperature(pos) >= 0.15F)
                             Minecraft.getInstance().particleEngine.add(new FBPRainParticle.Provider().createParticle(ParticleTypes.RAIN.getType(), this.level, x, y, z, 0.0D, 0.0D, 0.0D));
                     }
                 } else {
@@ -203,7 +203,7 @@ public class FBPSnowParticle extends WaterDropParticle implements IKillableParti
                     this.lastZSpeed = this.zd;
 
                 if (this.onGround && FancyBlockParticles.CONFIG.snow.isRestOnFloor())
-                    this.rotation = this.rotation.with(Direction.Axis.X, Math.round(this.rotation.x / 90.0D) * 90.0D).with(Direction.Axis.Z, Math.round(this.rotation.z / 90.0D) * 90.0D);
+                    this.rotation = new Vec3(Math.round(this.rotation.x / 90.0D) * 90.0D, this.rotation.y, Math.round(this.rotation.z / 90.0D) * 90.0D);
 
                 this.xd *= 0.98D;
 
@@ -229,7 +229,7 @@ public class FBPSnowParticle extends WaterDropParticle implements IKillableParti
             }
         }
 
-        if (Minecraft.getInstance().cameraEntity.position().distanceTo(new Vec3(this.x, Minecraft.getInstance().cameraEntity.getY(), this.z)) > Math.min(FancyBlockParticles.CONFIG.snow.getSimulationDistance(), Minecraft.getInstance().options.simulationDistance) * 16)
+        if (Minecraft.getInstance().cameraEntity.position().distanceTo(new Vec3(this.x, Minecraft.getInstance().cameraEntity.getY(), this.z)) > FancyBlockParticles.CONFIG.snow.getSimulationDistance() * 16)
             this.remove();
 
         this.visible = Minecraft.getInstance().cameraEntity.position().distanceTo(new Vec3(this.x, Minecraft.getInstance().cameraEntity.getY(), this.z)) <= Math.min(FancyBlockParticles.CONFIG.snow.getRenderDistance(), Minecraft.getInstance().options.renderDistance) * 16;
@@ -247,7 +247,7 @@ public class FBPSnowParticle extends WaterDropParticle implements IKillableParti
         var zo = z;
 
         if ((x != 0.0D || y != 0.0D || z != 0.0D) && x * x + y * y + z * z < Mth.square(100.0D)) {
-            var vec = Entity.collideBoundingBox(null, new Vec3(x, y, z), this.getBoundingBox(), this.level, List.of());
+            var vec = Entity.collideBoundingBoxHeuristically(null, new Vec3(x, y, z), this.getBoundingBox(), this.level, CollisionContext.empty(), new RewindableStream<>(Stream.empty()));
 
             x = vec.x;
             y = vec.y;
@@ -319,18 +319,18 @@ public class FBPSnowParticle extends WaterDropParticle implements IKillableParti
         var smoothRotation = Vec3.ZERO;
 
         if (FancyBlockParticles.CONFIG.snow.getRotationMultiplier() > 0.0F) {
-            smoothRotation = smoothRotation.with(Direction.Axis.Y, this.rotation.y).with(Direction.Axis.Z, this.rotation.z);
+            smoothRotation = new Vec3(smoothRotation.x, this.rotation.y, this.rotation.z);
 
             if (!FancyBlockParticles.CONFIG.snow.isRandomRotation())
-                smoothRotation = smoothRotation.with(Direction.Axis.X, this.rotation.x);
+                smoothRotation = new Vec3(this.rotation.x, smoothRotation.y, smoothRotation.z);
 
             if (!FancyBlockParticles.CONFIG.global.isFreezeEffect()) {
                 var vec = this.rotation.lerp(this.lastRotation, partialTick);
 
                 if (FancyBlockParticles.CONFIG.snow.isRandomRotation())
-                    smoothRotation = smoothRotation.with(Direction.Axis.Y, vec.y).with(Direction.Axis.Z, vec.z);
+                    smoothRotation = new Vec3(smoothRotation.x, vec.y, vec.z);
                 else
-                    smoothRotation = smoothRotation.with(Direction.Axis.X, vec.x);
+                    smoothRotation = new Vec3(vec.x, smoothRotation.y, smoothRotation.z);
             }
         }
 
