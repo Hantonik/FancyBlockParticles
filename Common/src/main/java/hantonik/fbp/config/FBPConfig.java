@@ -1,5 +1,6 @@
 package hantonik.fbp.config;
 
+import com.google.common.collect.Lists;
 import com.google.gson.*;
 import hantonik.fbp.FancyBlockParticles;
 import hantonik.fbp.platform.Services;
@@ -12,7 +13,6 @@ import net.minecraft.Util;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.GsonHelper;
 import net.minecraft.world.level.block.Block;
-import org.apache.commons.compress.utils.Lists;
 
 import java.io.*;
 import java.nio.file.FileAlreadyExistsException;
@@ -108,7 +108,7 @@ public final class FBPConfig implements IFBPConfig<FBPConfig> {
                 this.save();
             }
 
-            var json = JsonParser.parseReader(new InputStreamReader(new FileInputStream(file))).getAsJsonObject();
+            var json = new JsonParser().parse(new InputStreamReader(new FileInputStream(file))).getAsJsonObject();
 
             this.global.load(GsonHelper.getAsJsonObject(json, "global", new JsonObject()));
             this.terrain.load(GsonHelper.getAsJsonObject(json, "terrain", new JsonObject()));

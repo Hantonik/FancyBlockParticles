@@ -3,7 +3,6 @@ package hantonik.fbp.mixin;
 import hantonik.fbp.FancyBlockParticles;
 import hantonik.fbp.init.FBPKeyMappings;
 import hantonik.fbp.particle.*;
-import hantonik.fbp.platform.Services;
 import hantonik.fbp.util.FBPConstants;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ClientLevel;
@@ -69,10 +68,9 @@ public abstract class MixinParticleEngine {
             if (particleData.getType() == ParticleTypes.RAIN) {
                 var pos = new BlockPos(x, y, z);
                 var biome = this.level.getBiome(pos);
-                var precipitation = Services.CLIENT.getPrecipitation(biome);
 
-                if (precipitation != Biome.Precipitation.NONE) {
-                    if (Services.CLIENT.warmEnoughToRain(biome, pos, this.level))
+                if (biome.getPrecipitation() != Biome.Precipitation.NONE) {
+                    if (biome.getTemperature(pos) >= 0.15F)
                         callback.setReturnValue(new FBPRainParticle.Provider().createParticle((SimpleParticleType) particleData, this.level, x, y, z, xd, yd, zd));
                     else
                         callback.setReturnValue(new FBPSnowParticle.Provider().createParticle((SimpleParticleType) particleData, this.level, x, y, z, xd, yd, zd));
@@ -130,7 +128,7 @@ public abstract class MixinParticleEngine {
                                 var y = ((j + 0.5D) / particlesPerY) * dy + minY;
                                 var z = ((k + 0.5D) / particlesPerZ) * dz + minZ;
 
-                                this.add(new FBPTerrainParticle(this.level, pos.getX() + x, pos.getY() + y, pos.getZ() + z, x - 0.5D, -0.001D, z - 0.5D, FBPConstants.RANDOM.nextFloat(0.75F, 1.0F), 1.0F, 1.0F, 1.0F, pos, state, null, sprite));
+                                this.add(new FBPTerrainParticle(this.level, pos.getX() + x, pos.getY() + y, pos.getZ() + z, x - 0.5D, -0.001D, z - 0.5D, (float) FBPConstants.RANDOM.nextDouble(0.75D, 1.0D), 1.0F, 1.0F, 1.0F, pos, state, null, sprite));
                             }
                         }
                     }

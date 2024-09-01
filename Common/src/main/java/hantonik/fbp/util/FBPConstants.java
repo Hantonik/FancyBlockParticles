@@ -17,8 +17,8 @@ import net.minecraft.client.renderer.texture.TextureManager;
 import net.minecraft.world.inventory.InventoryMenu;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.phys.Vec3;
-import org.jetbrains.annotations.NotNull;
 
+import javax.annotation.Nonnull;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.SplittableRandom;
@@ -49,7 +49,7 @@ public final class FBPConstants {
 
     public static final ParticleRenderType FBP_PARTICLE_RENDER = new ParticleRenderType() {
         @Override
-        public void begin(BufferBuilder buffer, @NotNull TextureManager manager) {
+        public void begin(BufferBuilder buffer, @Nonnull TextureManager manager) {
             RenderSystem.enableBlend();
             RenderSystem.defaultBlendFunc();
             RenderSystem.depthMask(true);

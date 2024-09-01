@@ -6,11 +6,9 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screens.PauseScreen;
 import net.minecraft.server.packs.resources.ResourceManagerReloadListener;
 import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.client.ClientRegistry;
-import net.minecraftforge.client.ConfigGuiHandler;
+import net.minecraftforge.client.event.GuiScreenEvent;
 import net.minecraftforge.client.event.RegisterClientReloadListenersEvent;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
-import net.minecraftforge.client.event.ScreenEvent;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -19,6 +17,8 @@ import net.minecraftforge.fml.ModList;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
+import net.minecraftforge.fmlclient.ConfigGuiHandler;
+import net.minecraftforge.fmlclient.registry.ClientRegistry;
 
 @Mod(FancyBlockParticles.MOD_ID)
 public final class FBPForge {
@@ -30,7 +30,7 @@ public final class FBPForge {
 
         DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> () -> bus.addListener(this::onRegisterClientReloadListeners));
 
-        ModList.get().getModContainerById(FancyBlockParticles.MOD_ID).ifPresent(mc -> mc.registerExtensionPoint(ConfigGuiHandler.ConfigGuiFactory.class, () -> new ConfigGuiHandler.ConfigGuiFactory(FBPOptionsScreen::new)));
+        ModList.get().getModContainerById(FancyBlockParticles.MOD_ID).ifPresent(mc -> mc.registerExtensionPoint(ConfigGuiHandler.ConfigGuiFactory.class, () -> new ConfigGuiHandler.ConfigGuiFactory((minecraft, screen) -> new FBPOptionsScreen(screen))));
     }
 
     @SubscribeEvent
@@ -55,8 +55,8 @@ public final class FBPForge {
             FancyBlockParticles.postClientTick(Minecraft.getInstance());
     }
 
-    private void postScreenInit(final ScreenEvent.InitScreenEvent.Post event) {
-        if (event.getScreen() instanceof PauseScreen screen)
+    private void postScreenInit(final GuiScreenEvent.InitGuiEvent.Post event) {
+        if (event.getGui() instanceof PauseScreen screen)
             FancyBlockParticles.onClientPause(screen);
     }
 

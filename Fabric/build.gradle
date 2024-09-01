@@ -4,7 +4,7 @@ import net.darkhax.curseforgegradle.Constants as CFConstants
 import net.darkhax.curseforgegradle.TaskPublishCurseForge
 
 plugins {
-	id 'fabric-loom' version '1.7.+'
+	id 'fabric-loom' version '0.10-SNAPSHOT'
 }
 
 base {
@@ -50,10 +50,13 @@ dependencies {
 	compileOnly project(':Common')
 
 	modImplementation "net.fabricmc:fabric-loader:$loader_version"
-	modImplementation "net.fabricmc.fabric-api:fabric-api:$fabric_version+$mc_version"
+	modImplementation "net.fabricmc.fabric-api:fabric-api:$fabric_version"
 
 	compileOnly "org.projectlombok:lombok:$lombok_version"
 	annotationProcessor "org.projectlombok:lombok:$lombok_version"
+
+	implementation 'com.google.code.findbugs:jsr305:3.+'
+	implementation 'org.jetbrains:annotations:24.+'
 }
 
 sourcesJar {
