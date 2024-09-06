@@ -22,7 +22,7 @@ subsystems {
 
 runs {
     configureEach {
-        workingDirectory project(':Common').file('run')
+        workingDirectory rootProject.file('run')
 
         systemProperty 'forge.logging.markers', 'REGISTRIES'
         systemProperty 'forge.logging.console.level', 'debug'
