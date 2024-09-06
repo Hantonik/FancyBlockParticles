@@ -4,7 +4,7 @@ plugins {
     id 'se.bjurr.gitchangelog.git-changelog-gradle-plugin' version '1.+'
 }
 
-var tags = 'git tag'.execute().text.split('\n').reverse()
+var tags = 'git for-each-ref --sort=-creatordate --format="%(refname:short)" refs/tags'.execute().text.split('\n')
 
 tasks.register('makeHtmlChangelog', GitChangelogTask) {
     fromRepo = projectDir.absolutePath.toString()
