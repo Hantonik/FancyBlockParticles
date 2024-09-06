@@ -49,3 +49,4 @@ replay_*.log
 /Fabric/run/
 /Changelog/changelog.html
 /Changelog/changelog.md
+/run/

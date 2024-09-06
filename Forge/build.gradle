@@ -29,7 +29,7 @@ minecraft {
 
     runs {
         configureEach {
-            workingDirectory project(':Common').file('run')
+            workingDirectory rootProject.file('run')
 
             property 'forge.logging.markers', 'REGISTRIES'
             property 'forge.logging.console.level', 'debug'
