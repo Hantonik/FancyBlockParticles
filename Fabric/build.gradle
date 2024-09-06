@@ -17,7 +17,7 @@ loom {
 	runs {
 		configureEach {
 			ideConfigGenerated(true)
-			runDir("../Common/run")
+			runDir('../run')
 		}
 
 		client {
