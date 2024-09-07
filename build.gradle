@@ -1,13 +1,21 @@
+import net.darkhax.curseforgegradle.Constants
+import net.darkhax.curseforgegradle.TaskPublishCurseForge
+
 plugins {
-    id 'org.spongepowered.gradle.vanilla' version '0.2.+' apply false
+    id 'net.minecraftforge.gradle' version '6.+'
+    id 'org.parchmentmc.librarian.forgegradle' version '1.+'
+    id 'org.spongepowered.mixin' version '0.7-SNAPSHOT'
 
-    id 'net.darkhax.curseforgegradle' version '1.+' apply false
-    id 'com.modrinth.minotaur' version '2.+' apply false
+    id 'net.darkhax.curseforgegradle' version '1.+'
+    id 'com.modrinth.minotaur' version '2.+'
 
-    id 'io.freefair.lombok' version '8.+' apply false
+    id 'io.freefair.lombok' version '8.+'
 
     id 'net.neoforged.gradleutils' version '3.+'
 }
+
+apply plugin: 'idea'
+apply plugin: 'maven-publish'
 
 gradleutils.version {
     tags {
@@ -18,85 +26,188 @@ gradleutils.version {
     }
 }
 
+base {
+    archivesName = "$mod_name-$mc_version-forge"
+}
+
+version = gradleutils.version.toString()
+group = "hantonik.$mod_id"
+
+mixin {
+    add sourceSets.main, "${mod_id}.refmap.json"
+
+    config "${mod_id}.mixins.json"
+}
+
 println "$mod_name, Version: ${gradleutils.version.toString()}"
-println "Minecraft: $mc_version, Mappings: $mappings_channel-$mappings_version"
+println "Minecraft: $mc_version, Forge: $forge_version, Mappings: $mappings_channel-$mappings_version"
 
-subprojects {
-    if (name != 'Changelog') {
-        apply plugin: 'java'
+java {
+    toolchain.languageVersion = JavaLanguageVersion.of(8)
 
-        if (name != 'Common') {
-            apply plugin: 'net.darkhax.curseforgegradle'
-            apply plugin: 'com.modrinth.minotaur'
+    sourceCompatibility = JavaVersion.VERSION_1_8
+    targetCompatibility = JavaVersion.VERSION_1_8
 
-            evaluationDependsOn(':Common')
-        }
+    withSourcesJar()
+}
 
-        apply plugin: 'io.freefair.lombok'
+minecraft {
+    mappings channel: mappings_channel, version: "$mappings_version-$mc_version"
 
-        apply plugin: 'idea'
-        apply plugin: 'maven-publish'
+    copyIdeResources = true
 
-        java {
-            toolchain.languageVersion = JavaLanguageVersion.of(java_version)
+    accessTransformer = file('src/main/resources/META-INF/accesstransformer.cfg')
 
-            withSourcesJar()
+    runs {
+        configureEach {
+            workingDirectory file('run')
 
-            sourceCompatibility = JavaVersion."VERSION_$java_version"
-            targetCompatibility = JavaVersion."VERSION_$java_version"
-        }
+            property 'forge.logging.markers', 'REGISTRIES'
+            property 'forge.logging.console.level', 'debug'
 
-        idea {
-            module {
-                downloadSources = true
-                downloadJavadoc = true
+            property 'forge.enabledGameTestNamespaces', mod_id
+
+            property 'mixin.env.remapRefMap', 'true'
+            property 'mixin.env.refMapRemappingFile', "$buildDir/createSrgToMcp/output.srg"
+
+            ideaModule "${project.name}.main"
+
+            mods {
+                "${mod_id}" {
+                    source sourceSets.main
+                }
             }
         }
-    }
 
-    version = gradleutils.version.toString()
-    group = "hantonik.$mod_id"
-
-    tasks.withType(JavaCompile).configureEach {
-        source project(':Common').sourceSets.main.allSource
-
-        options.encoding = 'UTF-8'
-    }
-
-    tasks.withType(ProcessResources).configureEach {
-        from project(':Common').sourceSets.main.resources
-
-        var replaceProperties = [
-                'mod_id': mod_id,
-                'mod_name': mod_name,
-                'mod_version': version,
-
-                'mc_version': mc_version,
-                'java_version': java_version
-        ]
-
-        inputs.properties replaceProperties
-
-        filesMatching([ 'META-INF/*mods.toml', 'fabric.mod.json', 'pack.mcmeta' ]) {
-            expand replaceProperties
-        }
-    }
-
-    tasks.withType(Jar).configureEach {
-        manifest {
-            attributes([
-                    'Specification-Title': mod_id,
-                    'Specification-Vendor': 'Hantonik',
-                    'Specification-Version': '1',
-                    'Implementation-Title': rootProject.name,
-                    'Implementation-Version': jar.archiveVersion,
-                    'Implementation-Vendor': 'Hantonik'
-            ])
-        }
+        client
     }
 }
 
+repositories {
+    maven { url = "https://api.modrinth.com/maven" }
+}
+
+dependencies {
+    minecraft "net.minecraftforge:forge:$mc_version-$forge_version"
+
+    annotationProcessor "org.spongepowered:mixin:$mixin_processor_version:processor"
+
+    compileOnly "org.projectlombok:lombok:$lombok_version"
+    annotationProcessor "org.projectlombok:lombok:$lombok_version"
+}
+
+// Workaround for SpongePowered/MixinGradle#38
+afterEvaluate {
+    tasks.configureReobfTaskForReobfJar.mustRunAfter(tasks.compileJava)
+}
+
+tasks.withType(ProcessResources).configureEach {
+    var replaceProperties = [
+            'mod_id': mod_id,
+            'mod_name': mod_name,
+            'mod_version': version,
+
+            'mc_version': mc_version
+    ]
+
+    inputs.properties replaceProperties
+
+    filesMatching([ 'META-INF/mods.toml', 'pack.mcmeta' ]) {
+        expand replaceProperties
+    }
+}
+
+jar {
+    manifest {
+        attributes([
+                'Specification-Title': mod_id,
+                'Specification-Vendor': 'Hantonik',
+                'Specification-Version': '1',
+                'Implementation-Title': rootProject.name,
+                'Implementation-Version': jar.archiveVersion,
+                'Implementation-Vendor': 'Hantonik',
+
+                'MixinConfigs': "${mod_id}.mixins.json"
+        ])
+    }
+
+    finalizedBy('reobfJar')
+}
+
+artifacts {
+    archives jar
+    archives sourcesJar
+}
+
+project.evaluationDependsOn(':Changelog')
+
+tasks.register('publishCurseForge', TaskPublishCurseForge) {
+    dependsOn(tasks.jar)
+    dependsOn(':Changelog:makeHtmlChangelog')
+
+    apiToken = System.getenv('CURSEFORGE_TOKEN')
+
+    var modFile = upload('937011', tasks.jar.archiveFile)
+    modFile.displayName = "${base.archivesName.get()}-$version"
+    modFile.releaseType = Constants.RELEASE_TYPE_BETA
+    modFile.addGameVersion(mc_version, 'client')
+    modFile.addModLoader('Forge')
+    modFile.addJavaVersion "Java 8"
+
+    modFile.changelogType = Constants.CHANGELOG_HTML
+    modFile.changelog = file("${project(':Changelog').projectDir}/changelog.html").getText().replace([ '${version}': "$mc_version-$version" ])
+}
+
+modrinth {
+    token = System.getenv('MODRINTH_TOKEN')
+
+    projectId = 'fbp-renewed'
+
+    versionName = "${base.archivesName.get()}-$version"
+    versionNumber = "$version+forge"
+    versionType = 'beta'
+
+    gameVersions = [ mc_version ]
+    loaders = [ 'forge' ]
+
+    changelog = provider { file("${project(':Changelog').projectDir}/changelog.md").getText().replace([ '${version}': "$mc_version-$version" ]) }
+
+    uploadFile = tasks.jar
+    additionalFiles = [ tasks.sourcesJar ]
+}
+
+tasks.modrinth.dependsOn(tasks.jar)
+tasks.modrinth.dependsOn(tasks.sourcesJar)
+
+tasks.modrinth.dependsOn(':Changelog:makeMarkdownChangelog')
+
 tasks.register('publishMod') {
-    dependsOn(':Forge:publishCurseForge').finalizedBy(':Fabric:publishCurseForge')
-    dependsOn(':Forge:modrinth').finalizedBy(':Fabric:modrinth')
+    dependsOn('publishCurseForge')
+    dependsOn('modrinth')
+}
+
+publishing {
+    publications {
+        register('mavenJava', MavenPublication) {
+            artifact jar
+            artifact sourcesJar
+
+            artifactId archivesBaseName
+        }
+    }
+
+    repositories {
+        mavenLocal()
+    }
+}
+
+tasks.withType(JavaCompile).configureEach {
+    options.encoding = 'UTF-8'
+}
+
+idea {
+    module {
+        downloadSources = true
+        downloadJavadoc = true
+    }
 }

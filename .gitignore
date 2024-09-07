@@ -50,3 +50,5 @@ replay_*.log
 /Changelog/changelog.html
 /Changelog/changelog.md
 /run/
+/src/test/
+/run/

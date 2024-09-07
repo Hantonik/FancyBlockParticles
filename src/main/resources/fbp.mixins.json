@@ -1,0 +1,12 @@
+{
+  "required": true,
+  "package": "hantonik.fbp.mixin",
+  "compatibilityLevel": "JAVA_8",
+  "refmap": "fbp.refmap.json",
+  "client": [
+    "MixinWorldRenderer",
+    "MixinOptionsScreen",
+    "MixinParticleManager"
+  ],
+  "minVersion": "0.8"
+}
