@@ -13,7 +13,6 @@ base {
 
 mixin {
     config "${mod_id}.mixins.json"
-    config "${mod_id}.forge.mixins.json"
 }
 
 println "Forge: $forge_version"
@@ -94,7 +93,7 @@ if (minecraft.reobf) {
 jar {
     manifest {
         attributes([
-                'MixinConfigs': "${mod_id}.mixins.json,${mod_id}.forge.mixins.json"
+                'MixinConfigs': "${mod_id}.mixins.json"
         ])
     }
 

@@ -20,10 +20,10 @@ import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 
 @Mod(FancyBlockParticles.MOD_ID)
 public final class FBPForge {
-    public FBPForge() {
+    public FBPForge(FMLJavaModLoadingContext context) {
         FancyBlockParticles.LOGGER.info(FancyBlockParticles.SETUP_MARKER, "Initializing...");
 
-        var bus = FMLJavaModLoadingContext.get().getModEventBus();
+        var bus = context.getModEventBus();
         bus.register(this);
 
         DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> () -> {

@@ -16,8 +16,6 @@ issueTrackerURL="https://github.com/Hantonik/FancyBlockParticles/issues"
     description='''3D Digging particles! YAY!'''
 
 [[mixins]]
-    config="${mod_id}.neoforge.mixins.json"
-[[mixins]]
     config="${mod_id}.mixins.json"
 
 [[dependencies.fbp]]
