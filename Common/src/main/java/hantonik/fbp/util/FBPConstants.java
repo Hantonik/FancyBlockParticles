@@ -50,12 +50,14 @@ public final class FBPConstants {
     public static final ParticleRenderType FBP_PARTICLE_RENDER = new ParticleRenderType() {
         @Override
         public void begin(BufferBuilder buffer, @Nonnull TextureManager manager) {
+            Minecraft.getInstance().gameRenderer.lightTexture().turnOnLightLayer();
+
             RenderSystem.enableBlend();
             RenderSystem.defaultBlendFunc();
             RenderSystem.depthMask(true);
+            RenderSystem.enableDepthTest();
             RenderSystem.setShaderTexture(0, InventoryMenu.BLOCK_ATLAS);
             RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
-            RenderSystem.setShader(GameRenderer::getParticleShader);
 
             RenderSystem.enableCull();
 
@@ -77,10 +79,13 @@ public final class FBPConstants {
 
     public static final ParticleRenderType FBP_TERRAIN_RENDER = new ParticleRenderType() {
         @Override
-        public void begin(BufferBuilder buffer, TextureManager manager) {
+        public void begin(BufferBuilder buffer, @Nonnull TextureManager manager) {
+            Minecraft.getInstance().gameRenderer.lightTexture().turnOnLightLayer();
+
             RenderSystem.enableBlend();
             RenderSystem.defaultBlendFunc();
             RenderSystem.depthMask(true);
+            RenderSystem.enableDepthTest();
             RenderSystem.setShaderTexture(0, InventoryMenu.BLOCK_ATLAS);
             RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
             RenderSystem.setShader(GameRenderer::getRendertypeTranslucentShader);
