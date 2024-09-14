@@ -51,12 +51,14 @@ public final class FBPConstants {
         @Nullable
         @Override
         public BufferBuilder begin(Tesselator tesselator, TextureManager manager) {
+            Minecraft.getInstance().gameRenderer.lightTexture().turnOnLightLayer();
+
             RenderSystem.enableBlend();
             RenderSystem.defaultBlendFunc();
             RenderSystem.depthMask(true);
+            RenderSystem.enableDepthTest();
             RenderSystem.setShaderTexture(0, InventoryMenu.BLOCK_ATLAS);
             RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
-            RenderSystem.setShader(GameRenderer::getParticleShader);
 
             RenderSystem.enableCull();
 
@@ -73,9 +75,12 @@ public final class FBPConstants {
         @Nullable
         @Override
         public BufferBuilder begin(Tesselator tesselator, TextureManager manager) {
+            Minecraft.getInstance().gameRenderer.lightTexture().turnOnLightLayer();
+
             RenderSystem.enableBlend();
             RenderSystem.defaultBlendFunc();
             RenderSystem.depthMask(true);
+            RenderSystem.enableDepthTest();
             RenderSystem.setShaderTexture(0, InventoryMenu.BLOCK_ATLAS);
             RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
             RenderSystem.setShader(GameRenderer::getRendertypeTranslucentShader);

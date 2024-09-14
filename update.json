@@ -2,10 +2,11 @@
   "homepage": "https://www.curseforge.com/minecraft/mc-mods/fbp-renewed",
 
   "promos": {
-    "1.21-latest": "21.0.0.3-beta"
+    "1.21-latest": "21.0.0.4-beta"
   },
 
   "1.21": {
+    "21.0.0.4-beta": "Fix particles becoming dark",
     "21.0.0.3-beta": "Fix publication on Modrinth",
     "21.0.0.2-beta": "Fix crash when config file is corrupt",
     "21.0.0.1-beta": "Fix a crash when Breeze shoots projectile. Fix a crash on Freeze effect",
