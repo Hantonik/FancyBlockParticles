@@ -50,9 +50,12 @@ public final class FBPConstants {
     public static final IParticleRenderType FBP_PARTICLE_RENDER = new IParticleRenderType() {
         @Override
         public void begin(BufferBuilder buffer, @Nonnull TextureManager manager) {
+            Minecraft.getInstance().gameRenderer.lightTexture().turnOnLightLayer();
+
             RenderSystem.enableBlend();
             RenderSystem.defaultBlendFunc();
             RenderSystem.depthMask(true);
+            RenderSystem.enableDepthTest();
             RenderSystem.color4f(1.0F, 1.0F, 1.0F, 1.0F);
 
             manager.bind(PlayerContainer.BLOCK_ATLAS);
@@ -76,9 +79,12 @@ public final class FBPConstants {
     public static final IParticleRenderType FBP_TERRAIN_RENDER = new IParticleRenderType() {
         @Override
         public void begin(BufferBuilder buffer, TextureManager manager) {
+            Minecraft.getInstance().gameRenderer.lightTexture().turnOnLightLayer();
+
             RenderSystem.enableBlend();
             RenderSystem.defaultBlendFunc();
             RenderSystem.depthMask(true);
+            RenderSystem.enableDepthTest();
             RenderSystem.color4f(1.0F, 1.0F, 1.0F, 1.0F);
 
             manager.bind(PlayerContainer.BLOCK_ATLAS);
