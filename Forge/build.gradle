@@ -15,7 +15,6 @@ mixin {
     add sourceSets.main, "${mod_id}.refmap.json"
 
     config "${mod_id}.mixins.json"
-    config "${mod_id}.forge.mixins.json"
 }
 
 println "Forge: $forge_version"
@@ -90,7 +89,7 @@ jar {
 
     manifest {
         attributes([
-                'MixinConfigs': "${mod_id}.mixins.json,${mod_id}.forge.mixins.json"
+                'MixinConfigs': "${mod_id}.mixins.json"
         ])
     }
 
