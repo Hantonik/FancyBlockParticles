@@ -4,6 +4,7 @@ import com.mojang.blaze3d.vertex.VertexConsumer;
 import hantonik.fbp.platform.Services;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
+import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.util.Mth;
 import org.joml.Vector2f;
 import org.joml.Vector3d;
@@ -69,7 +70,7 @@ public final class FBPRenderHelper {
     }
 
     public static void addVertex(VertexConsumer buffer, Vector3d pos, float u, float v, int light, float red, float green, float blue, float alpha, Vector3d normal) {
-        buffer.vertex(pos.x, pos.y, pos.z).color(red, green, blue, alpha).uv(u, v).uv2(light).normal((float) normal.x, (float) normal.y, (float) normal.z).endVertex();
+        buffer.vertex(pos.x, pos.y, pos.z).color(red, green, blue, alpha).uv(u, v).overlayCoords(OverlayTexture.NO_OVERLAY).uv2(light).normal((float) normal.x, (float) normal.y, (float) normal.z).endVertex();
     }
 
     public static Vector3d rotate(Vector3d vector, float angleX, float angleY, float angleZ) {
