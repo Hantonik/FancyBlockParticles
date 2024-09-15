@@ -5,6 +5,7 @@ import hantonik.fbp.init.FBPKeyMappings;
 import hantonik.fbp.screen.FBPFastBlacklistScreen;
 import hantonik.fbp.screen.FBPOptionsScreen;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.screen.IngameMenuScreen;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.item.BlockItem;
@@ -12,6 +13,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.resources.IResourceManagerReloadListener;
 import net.minecraft.util.math.BlockRayTraceResult;
 import net.minecraft.util.math.RayTraceResult;
+import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraftforge.client.event.GuiScreenEvent;
@@ -115,7 +117,11 @@ public final class FancyBlockParticles {
 
     @SubscribeEvent
     public void postRenderGuiOverlay(final RenderGameOverlayEvent.Post event) {
-        if (FancyBlockParticles.CONFIG.global.isEnabled() && FancyBlockParticles.CONFIG.overlay.isFreezeEffectOverlay() && FancyBlockParticles.CONFIG.global.isFreezeEffect() && !Minecraft.getInstance().options.hideGui)
-            Minecraft.getInstance().font.drawShadow(event.getMatrixStack(), new TranslationTextComponent("gui.fbp.freeze_effect").withStyle(TextFormatting.BOLD), event.getWindow().getGuiScaledWidth() / 2.0F, 5.0F, FancyBlockParticles.CONFIG.overlay.getFreezeEffectColor());
+        if (FancyBlockParticles.CONFIG.global.isEnabled() && FancyBlockParticles.CONFIG.overlay.isFreezeEffectOverlay() && FancyBlockParticles.CONFIG.global.isFreezeEffect() && !Minecraft.getInstance().options.hideGui) {
+            FontRenderer font = Minecraft.getInstance().font;
+            ITextComponent text = new TranslationTextComponent("gui.fbp.freeze_effect").withStyle(TextFormatting.BOLD);
+
+            font.drawShadow(event.getMatrixStack(), text, event.getWindow().getGuiScaledWidth() / 2.0F - font.width(text) / 2.0F, 5.0F, FancyBlockParticles.CONFIG.overlay.getFreezeEffectColor());
+        }
     }
 }
