@@ -31,8 +31,6 @@ import org.joml.Vector3d;
 import java.util.List;
 
 public class FBPTerrainParticle extends TerrainParticle implements IKillableParticle {
-    private final BlockState state;
-
     private final Vector3d rotation;
     private final Vector3d rotationStep;
     private final Vector3d lastRotation;
@@ -61,10 +59,9 @@ public class FBPTerrainParticle extends TerrainParticle implements IKillablePart
         super(level, x, y, z, xd, yd, zd, state, pos);
 
         this.pos = pos;
-        this.state = state;
 
-        if (!this.state.is(Blocks.GRASS_BLOCK) || side == Direction.UP) {
-            var i = Minecraft.getInstance().getBlockColors().getColor(this.state, this.level, pos, 0);
+        if (!state.is(Blocks.GRASS_BLOCK) || side == Direction.UP) {
+            var i = Minecraft.getInstance().getBlockColors().getColor(state, this.level, pos, 0);
 
             this.rCol = (i >> 16 & 255) / 255.0F;
             this.gCol = (i >> 8 & 255) / 255.0F;
@@ -118,14 +115,14 @@ public class FBPTerrainParticle extends TerrainParticle implements IKillablePart
 
         if (sprite == null) {
             if (!this.destroyed) {
-                var quads = Minecraft.getInstance().getBlockRenderer().getBlockModelShaper().getBlockModel(this.state).getQuads(this.state, side, this.random);
+                var quads = Minecraft.getInstance().getBlockRenderer().getBlockModelShaper().getBlockModel(state).getQuads(state, side, this.random);
 
                 if (!quads.isEmpty())
                     this.sprite = quads.getFirst().getSprite();
             }
 
             if (this.sprite.atlasLocation() == MissingTextureAtlasSprite.getLocation())
-                this.sprite = Minecraft.getInstance().getBlockRenderer().getBlockModelShaper().getParticleIcon(this.state);
+                this.sprite = Minecraft.getInstance().getBlockRenderer().getBlockModelShaper().getParticleIcon(state);
         } else
             this.sprite = sprite;
 
@@ -468,9 +465,16 @@ public class FBPTerrainParticle extends TerrainParticle implements IKillablePart
 
     @Override
     public int getLightColor(float partialTick) {
-        var box = this.getBoundingBox();
+        var i = super.getLightColor(partialTick);
+        var j = 0;
 
-        return this.level.hasChunkAt(BlockPos.containing(this.x, this.y, this.z)) ? LevelRenderer.getLightColor(this.level, this.state, BlockPos.containing(this.x, this.y + ((box.maxY - box.minY) * 0.66D) + 0.01D - (FancyBlockParticles.CONFIG.terrain.isRestOnFloor() ? this.quadSize / 10.0D : 0.0D), this.z)) : 0;
+        var box = this.getBoundingBox();
+        var pos = BlockPos.containing(this.x, this.y + ((box.maxY - box.minY) * 0.66D) + 0.01D - (FancyBlockParticles.CONFIG.terrain.isRestOnFloor() ? this.quadSize / 10.0D : 0.0D), this.z);
+
+        if (this.level.isLoaded(pos))
+            j = this.level.getLightEngine().getRawBrightness(pos, 0);
+
+        return i == 0 ? j : i;
     }
 
     @Override
