@@ -39,8 +39,8 @@ public class FBPDiggingParticle extends DiggingParticle implements IKillablePart
     private final BlockState state;
 
     private Vector3d rotation;
-    private Vector3d rotationStep;
     private Vector3d lastRotation;
+    private final Vector3d rotationStep;
 
     private final float multiplier;
 
@@ -260,6 +260,9 @@ public class FBPDiggingParticle extends DiggingParticle implements IKillablePart
 
                 this.yd *= 0.98D;
 
+                if (!this.level.noCollision(this.getBoundingBox().deflate(1.0E-7)))
+                    this.moveTowardsClosestSpace(this.x, (this.getBoundingBox().minY + this.getBoundingBox().maxY) / 2.0D, this.z);
+
                 if (FancyBlockParticles.CONFIG.terrain.isEntityCollision()) {
                     List<Entity> entities = this.level.getEntities(null, this.getBoundingBox());
 
@@ -295,9 +298,6 @@ public class FBPDiggingParticle extends DiggingParticle implements IKillablePart
                 }
 
                 if (FancyBlockParticles.CONFIG.terrain.isWaterPhysics() && this.isInWater(this.getBoundingBox())) {
-//                TODO: Water movement
-//                this.handleWaterMovement();
-
                     this.xd *= 0.95D;
                     this.zd *= 0.95D;
 
@@ -338,6 +338,53 @@ public class FBPDiggingParticle extends DiggingParticle implements IKillablePart
                 }
             }
         }
+    }
+
+    private void moveTowardsClosestSpace(double x, double y, double z) {
+        BlockPos pos = new BlockPos(x, y, z);
+        Vector3d vec = new Vector3d(x - (double) pos.getX(), y - (double) pos.getY(), z - (double) pos.getZ());
+
+        BlockPos.Mutable relativePos = new BlockPos.Mutable();
+
+        double minDistance = Double.MAX_VALUE;
+        Direction distanceDirection = Direction.UP;
+
+        for (Direction direction : Direction.values()) {
+            relativePos.setWithOffset(pos, direction);
+
+            if (!this.level.getBlockState(relativePos).isCollisionShapeFullBlock(this.level, relativePos)) {
+                double axisDistance = vec.get(direction.getAxis());
+                double distance = direction.getAxisDirection() == Direction.AxisDirection.POSITIVE ? 1.0D - axisDistance : axisDistance;
+
+                if (distance < minDistance) {
+                    minDistance = distance;
+                    distanceDirection = direction;
+                }
+            }
+        }
+
+        int step = distanceDirection.getAxisDirection().getStep();
+        float rand = this.random.nextFloat() * 0.1F + 0.1F;
+
+        Vector3d movement = new Vector3d(this.xd, this.yd, this.zd).scale(0.75D);
+
+        this.xd = movement.x;
+        this.yd = movement.y;
+        this.zd = movement.z;
+
+        switch (distanceDirection.getAxis()) {
+            case X:
+                this.xd = step * rand;
+                break;
+            case Y:
+                this.yd = step * rand;
+                break;
+            case Z:
+                this.zd = step * rand;
+                break;
+        }
+
+        this.onGround = false;
     }
 
     private boolean isInWater(AxisAlignedBB box) {
