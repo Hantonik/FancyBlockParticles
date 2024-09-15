@@ -13,7 +13,6 @@ import net.minecraft.client.particle.IParticleFactory;
 import net.minecraft.client.particle.IParticleRenderType;
 import net.minecraft.client.particle.Particle;
 import net.minecraft.client.renderer.ActiveRenderInfo;
-import net.minecraft.client.renderer.WorldRenderer;
 import net.minecraft.client.renderer.model.BakedQuad;
 import net.minecraft.client.renderer.texture.MissingTextureSprite;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
@@ -36,8 +35,6 @@ import java.util.List;
 import java.util.stream.Stream;
 
 public class FBPDiggingParticle extends DiggingParticle implements IKillableParticle {
-    private final BlockState state;
-
     private Vector3d rotation;
     private Vector3d lastRotation;
     private final Vector3d rotationStep;
@@ -66,10 +63,9 @@ public class FBPDiggingParticle extends DiggingParticle implements IKillablePart
         super(level, x, y, z, xd, yd, zd, state);
 
         this.pos = pos;
-        this.state = state;
 
-        if (!this.state.is(Blocks.GRASS_BLOCK) || side == Direction.UP) {
-            int i = Minecraft.getInstance().getBlockColors().getColor(this.state, this.level, pos, 0);
+        if (!state.is(Blocks.GRASS_BLOCK) || side == Direction.UP) {
+            int i = Minecraft.getInstance().getBlockColors().getColor(state, this.level, pos, 0);
 
             this.rCol = (i >> 16 & 255) / 255.0F;
             this.gCol = (i >> 8 & 255) / 255.0F;
@@ -122,14 +118,14 @@ public class FBPDiggingParticle extends DiggingParticle implements IKillablePart
 
         if (sprite == null) {
             if (!this.destroyed) {
-                List<BakedQuad> quads = Minecraft.getInstance().getBlockRenderer().getBlockModelShaper().getBlockModel(this.state).getQuads(this.state, side, this.random);
+                List<BakedQuad> quads = Minecraft.getInstance().getBlockRenderer().getBlockModelShaper().getBlockModel(state).getQuads(state, side, this.random);
 
                 if (!quads.isEmpty())
                     this.sprite = quads.get(0).getSprite();
             }
 
             if (this.sprite.atlas().location() == MissingTextureSprite.getLocation())
-                this.sprite = Minecraft.getInstance().getBlockRenderer().getBlockModelShaper().getParticleIcon(this.state);
+                this.sprite = Minecraft.getInstance().getBlockRenderer().getBlockModelShaper().getParticleIcon(state);
         } else
             this.sprite = sprite;
 
@@ -476,9 +472,16 @@ public class FBPDiggingParticle extends DiggingParticle implements IKillablePart
 
     @Override
     public int getLightColor(float partialTick) {
-        AxisAlignedBB box = this.getBoundingBox();
+        int i = super.getLightColor(partialTick);
+        int j = 0;
 
-        return this.level.hasChunkAt(new BlockPos(this.x, this.y, this.z)) ? WorldRenderer.getLightColor(this.level, this.state, new BlockPos(this.x, this.y + ((box.maxY - box.minY) * 0.66D) + 0.01D - (FancyBlockParticles.CONFIG.terrain.isRestOnFloor() ? this.quadSize / 10.0D : 0.0D), this.z)) : 0;
+        AxisAlignedBB box = this.getBoundingBox();
+        BlockPos pos = new BlockPos(this.x, this.y + ((box.maxY - box.minY) * 0.66D) + 0.01D - (FancyBlockParticles.CONFIG.terrain.isRestOnFloor() ? this.quadSize / 10.0D : 0.0D), this.z);
+
+        if (this.level.isLoaded(pos))
+            j = this.level.getLightEngine().getRawBrightness(pos, 0);
+
+        return i == 0 ? j : i;
     }
 
     @Override
