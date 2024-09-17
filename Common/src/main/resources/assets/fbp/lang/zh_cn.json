@@ -2,6 +2,7 @@
   "key.fbp.category": "Fancy Block Particles",
 
   "key.fbp.toggle_mod": "启用/禁用模组",
+  "key.fbp.toggle_animations": "启用/禁用动画放置",
   "key.fbp.open_settings": "打开设置",
   "key.fbp.freeze_particles": "切换冻结效果",
   "key.fbp.kill_particles": "消除粒子",
@@ -33,7 +34,7 @@
   "screen.fbp.reload_alert": "配置已成功重新加载！",
 
   "button.fbp.animations.fancy_placing_animation": "高级放置动画",
-  "button.fbp.animations.smooth_animation_lighting": "平滑动画照明",
+  "button.fbp.animations.render_outline": "渲染方块轮廓",
 
   "button.fbp.common.particles_decay": "粒子衰减",
 
@@ -100,7 +101,12 @@
   "widget.fbp.overlay.freeze_effect_color": "冻结效果颜色",
 
   "tooltip.fbp.animations.fancy_placing_animation": "启用/禁用高级放置动画。",
-  "tooltip.fbp.animations.smooth_animation_lighting": "启用/禁用平滑动画照明。",
+  "tooltip.fbp.animations.render_outline": "是否在动画期间渲染方块轮廓？",
+
+  "tooltip.fbp.animations.min_lifetime": "动画最短寿命。",
+  "tooltip.fbp.animations.max_lifetime": "动画最长寿命。",
+
+  "tooltip.fbp.animations.size_multiplier": "动画尺寸倍数。",
 
   "tooltip.fbp.common.homepage": "FBP主页在这里！",
   "tooltip.fbp.common.report": "发现了一个错误？\n在这里报告！",
@@ -129,6 +135,7 @@
   "tooltip.fbp.common.bounce_off_walls": "粒子是否应碰撞墙壁反弹？",
 
   "tooltip.fbp.common.option_unsupported": "敬请期待！",
+  "tooltip.fbp.common.mod_incompatibility": "此功能与 %s 模组不兼容。",
 
   "tooltip.fbp.flame.fancy_flame_particles": "启用/禁用高级火焰粒子。\n禁用时，将恢复默认粒子。",
 
