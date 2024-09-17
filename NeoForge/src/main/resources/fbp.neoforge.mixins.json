@@ -1,0 +1,11 @@
+{
+  "required": true,
+  "package": "hantonik.fbp.mixin",
+  "compatibilityLevel": "JAVA_21",
+  "client": [
+    "embeddium.MixinBlockOcclusionCache",
+    "embeddium.MixinBlockRenderer",
+    "neoforge.MixinSectionCompiler"
+  ],
+  "minVersion": "0.8"
+}

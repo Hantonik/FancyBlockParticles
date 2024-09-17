@@ -2,6 +2,7 @@ package hantonik.fbp.config;
 
 import com.google.gson.*;
 import hantonik.fbp.FancyBlockParticles;
+import hantonik.fbp.animation.FBPPlacingAnimationManager;
 import hantonik.fbp.platform.Services;
 import hantonik.fbp.util.FBPConstants;
 import lombok.AccessLevel;
@@ -878,34 +879,64 @@ public final class FBPConfig implements IFBPConfig<FBPConfig> {
     @Setter
     @AllArgsConstructor(access = AccessLevel.PRIVATE)
     public static class Animations implements IFBPConfig<Animations> {
-        private static final boolean DEFAULT_FANCY_PLACING_ANIMATION = false;
-        private static final boolean DEFAULT_SMOOTH_ANIMATION_LIGHTING = false;
+        private static final boolean DEFAULT_ENABLED = true;
+        private static final boolean DEFAULT_RENDER_OUTLINE = false;
+
+        private static final int DEFAULT_MIN_LIFETIME = 3;
+        private static final int DEFAULT_MAX_LIFETIME = 3;
+
+        private static final float DEFAULT_SCALE = 1.0F;
 
         public static final Animations DEFAULT_CONFIG = new Animations(
-                DEFAULT_FANCY_PLACING_ANIMATION, DEFAULT_SMOOTH_ANIMATION_LIGHTING
+                DEFAULT_ENABLED, DEFAULT_RENDER_OUTLINE,
+                DEFAULT_MIN_LIFETIME, DEFAULT_MAX_LIFETIME,
+                DEFAULT_SCALE
         );
 
-        private boolean fancyPlacingAnimation;
-        private boolean smoothAnimationLighting;
+        private boolean enabled;
+        private boolean renderOutline;
+
+        private int minLifetime;
+        private int maxLifetime;
+
+        private float sizeMultiplier;
 
         @Override
         public void setConfig(Animations config) {
-            this.fancyPlacingAnimation = config.fancyPlacingAnimation;
-            this.smoothAnimationLighting = config.smoothAnimationLighting;
+            if (this.enabled != config.enabled)
+                FBPPlacingAnimationManager.clear();
+
+            this.enabled = config.enabled;
+            this.renderOutline = config.renderOutline;
+
+            this.minLifetime = config.minLifetime;
+            this.maxLifetime = config.maxLifetime;
+
+            this.sizeMultiplier = config.sizeMultiplier;
         }
 
         @Override
         public void load(JsonObject json) {
-            this.fancyPlacingAnimation = GsonHelper.getAsBoolean(json, "fancyPlacingAnimation", DEFAULT_FANCY_PLACING_ANIMATION);
-            this.smoothAnimationLighting = GsonHelper.getAsBoolean(json, "smoothAnimationLighting", DEFAULT_SMOOTH_ANIMATION_LIGHTING);
+            this.enabled = !Services.PLATFORM.isModLoaded("optifine") && GsonHelper.getAsBoolean(json, "enabled", DEFAULT_ENABLED);
+            this.renderOutline = GsonHelper.getAsBoolean(json, "renderOutline", DEFAULT_RENDER_OUTLINE);
+
+            this.minLifetime = GsonHelper.getAsInt(json, "minLifetime", DEFAULT_MIN_LIFETIME);
+            this.maxLifetime = GsonHelper.getAsInt(json, "maxLifetime", DEFAULT_MAX_LIFETIME);
+
+            this.sizeMultiplier = GsonHelper.getAsFloat(json, "sizeMultiplier", DEFAULT_SCALE);
         }
 
         @Override
         public JsonObject save() {
             var json = new JsonObject();
 
-            json.addProperty("fancyPlacingAnimation", this.fancyPlacingAnimation);
-            json.addProperty("smoothAnimationLighting", this.smoothAnimationLighting);
+            json.addProperty("enabled", this.enabled);
+            json.addProperty("renderOutline", this.renderOutline);
+
+            json.addProperty("minLifetime", this.minLifetime);
+            json.addProperty("maxLifetime", this.maxLifetime);
+
+            json.addProperty("sizeMultiplier", this.sizeMultiplier);
 
             return json;
         }
@@ -918,7 +949,9 @@ public final class FBPConfig implements IFBPConfig<FBPConfig> {
         @Override
         public Animations copy() {
             return new Animations(
-                    this.fancyPlacingAnimation, this.smoothAnimationLighting
+                    this.enabled, this.renderOutline,
+                    this.minLifetime, this.maxLifetime,
+                    this.sizeMultiplier
             );
         }
     }
