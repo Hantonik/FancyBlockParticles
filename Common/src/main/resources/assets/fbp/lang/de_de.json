@@ -2,6 +2,7 @@
   "key.fbp.category": "Fancy Block Particles",
 
   "key.fbp.toggle_mod": "Mod aktivieren/deaktivieren",
+  "key.fbp.toggle_animations": "Animationen platzieren aktivieren/deaktivieren",
   "key.fbp.open_settings": "Einstellungen öffnen",
   "key.fbp.freeze_particles": "Freeze-Effekt umschalten",
   "key.fbp.kill_particles": "Partikel löschen",
@@ -33,7 +34,7 @@
   "screen.fbp.reload_alert": "Konfiguration wurde erfolgreich neu geladen!",
 
   "button.fbp.animations.fancy_placing_animation": "Fancy Platzierungsanimation",
-  "button.fbp.animations.smooth_animation_lighting": "Sanfte Animationsbeleuchtung",
+  "button.fbp.animations.render_outline": "Blockumriss rendern",
 
   "button.fbp.common.particles_decay": "Partikel zerfallen",
 
@@ -100,7 +101,12 @@
   "widget.fbp.overlay.freeze_effect_color": "Farbe des Freeze-Effekts",
 
   "tooltip.fbp.animations.fancy_placing_animation": "Fancy Platzierungsanimation aktivieren/deaktivieren.",
-  "tooltip.fbp.animations.smooth_animation_lighting": "Sanfte Animationsbeleuchtung aktivieren/deaktivieren.",
+  "tooltip.fbp.animations.render_outline": "Soll der Blockumriss während der Animation gerendert werden?",
+
+  "tooltip.fbp.animations.min_lifetime": "Minimale Animations-Lebensdauer.",
+  "tooltip.fbp.animations.max_lifetime": "Maximale Animations-Lebensdauer.",
+
+  "tooltip.fbp.animations.size_multiplier": "Animationsgrößen-Multiplikator.",
 
   "tooltip.fbp.common.homepage": "FBP-Homepage hier!",
   "tooltip.fbp.common.report": "Einen Fehler gefunden?\nMelden Sie ihn hier!",
@@ -129,6 +135,7 @@
   "tooltip.fbp.common.bounce_off_walls": "Sollen Partikel von Wänden abprallen?",
 
   "tooltip.fbp.common.option_unsupported": "Kommt bald!",
+  "tooltip.fbp.common.mod_incompatibility": "Diese Funktion ist mit dem %s-Mod nicht kompatibel.",
 
   "tooltip.fbp.flame.fancy_flame_particles": "Fancy Flammenpartikel aktivieren/deaktivieren.\nWenn deaktiviert, werden die Standardpartikel wiederhergestellt.",
 

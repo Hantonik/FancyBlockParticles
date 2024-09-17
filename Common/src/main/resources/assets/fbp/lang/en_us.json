@@ -2,6 +2,7 @@
   "key.fbp.category": "Fancy Block Particles",
 
   "key.fbp.toggle_mod": "Enable/disable mod",
+  "key.fbp.toggle_animations": "Enable/disable placing animations",
   "key.fbp.open_settings": "Open settings",
   "key.fbp.freeze_particles": "Toggle freeze effect",
   "key.fbp.kill_particles": "Kill particles",
@@ -33,7 +34,7 @@
   "screen.fbp.reload_alert": "Config has been successfully reloaded!",
 
   "button.fbp.animations.fancy_placing_animation": "Fancy placing animation",
-  "button.fbp.animations.smooth_animation_lighting": "Smooth animation lighting",
+  "button.fbp.animations.render_outline": "Render block outline",
 
   "button.fbp.common.particles_decay": "Particles decay",
 
@@ -100,7 +101,12 @@
   "widget.fbp.overlay.freeze_effect_color": "Freeze effect color",
 
   "tooltip.fbp.animations.fancy_placing_animation": "Enable/disable fancy placing animation.",
-  "tooltip.fbp.animations.smooth_animation_lighting": "Enable/disable smooth animation lighting.",
+  "tooltip.fbp.animations.render_outline": "Should the block outline be rendered during animation?",
+
+  "tooltip.fbp.animations.min_lifetime": "Minimum animation lifetime.",
+  "tooltip.fbp.animations.max_lifetime": "Maximum animation lifetime.",
+
+  "tooltip.fbp.animations.size_multiplier": "Animation size multiplier.",
 
   "tooltip.fbp.common.homepage": "FBP homepage here!",
   "tooltip.fbp.common.report": "Found a bug?\nReport it here!",
@@ -129,6 +135,7 @@
   "tooltip.fbp.common.bounce_off_walls": "Should particles bounce off walls?",
 
   "tooltip.fbp.common.option_unsupported": "Coming soon!",
+  "tooltip.fbp.common.mod_incompatibility": "This feature is incompatible with %s mod.",
 
   "tooltip.fbp.flame.fancy_flame_particles": "Enable/disable fancy flame particles.\nWhen disabled, the default particles are restored.",
 

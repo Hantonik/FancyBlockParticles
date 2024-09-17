@@ -1,6 +1,7 @@
 package hantonik.fbp;
 
 import com.mojang.logging.LogUtils;
+import hantonik.fbp.animation.FBPPlacingAnimationManager;
 import hantonik.fbp.config.FBPConfig;
 import hantonik.fbp.init.FBPKeyMappings;
 import hantonik.fbp.platform.Services;
@@ -34,6 +35,14 @@ public final class FancyBlockParticles {
             FancyBlockParticles.CONFIG.global.setEnabled(!FancyBlockParticles.CONFIG.global.isEnabled());
 
             FancyBlockParticles.CONFIG.save();
+        }
+
+        if (FBPKeyMappings.TOGGLE_ANIMATIONS.consumeClick()) {
+            if (!Services.PLATFORM.isModLoaded("a_good_place")) {
+                FancyBlockParticles.CONFIG.animations.setEnabled(!FancyBlockParticles.CONFIG.animations.isEnabled());
+
+                FancyBlockParticles.CONFIG.save();
+            }
         }
 
         if (FBPKeyMappings.OPEN_SETTINGS.consumeClick())
@@ -77,5 +86,9 @@ public final class FancyBlockParticles {
     public static void onClientPause(Screen screen) {
         if (!(screen instanceof FBPAbstractOptionsScreen))
             FancyBlockParticles.CONFIG.save();
+    }
+
+    public static void onLevelLoad() {
+        FBPPlacingAnimationManager.clear();
     }
 }

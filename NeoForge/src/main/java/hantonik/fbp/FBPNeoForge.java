@@ -12,10 +12,7 @@ import net.neoforged.fml.common.Mod;
 import net.neoforged.fml.event.lifecycle.FMLClientSetupEvent;
 import net.neoforged.fml.loading.FMLLoader;
 import net.neoforged.neoforge.client.ConfigScreenHandler;
-import net.neoforged.neoforge.client.event.ClientPauseUpdatedEvent;
-import net.neoforged.neoforge.client.event.RegisterClientReloadListenersEvent;
-import net.neoforged.neoforge.client.event.RegisterKeyMappingsEvent;
-import net.neoforged.neoforge.client.event.RenderGuiOverlayEvent;
+import net.neoforged.neoforge.client.event.*;
 import net.neoforged.neoforge.common.NeoForge;
 import net.neoforged.neoforge.event.TickEvent;
 
@@ -41,6 +38,7 @@ public final class FBPNeoForge {
         NeoForge.EVENT_BUS.addListener(this::onClientTick);
         NeoForge.EVENT_BUS.addListener(this::postRenderGuiOverlay);
         NeoForge.EVENT_BUS.addListener(this::onClientPauseUpdated);
+        NeoForge.EVENT_BUS.addListener(this::onClientLoggingIn);
 
         FancyBlockParticles.LOGGER.info(FancyBlockParticles.SETUP_MARKER, "Finished client setup!");
     }
@@ -65,5 +63,9 @@ public final class FBPNeoForge {
     private void onClientPauseUpdated(final ClientPauseUpdatedEvent event) {
         if (event.isPaused())
             FancyBlockParticles.onClientPause(Minecraft.getInstance().screen);
+    }
+
+    private void onClientLoggingIn(final ClientPlayerNetworkEvent.LoggingIn event) {
+        FancyBlockParticles.onLevelLoad();
     }
 }
