@@ -2,6 +2,7 @@
   "key.fbp.category": "Fancy Block Particles",
 
   "key.fbp.toggle_mod": "Activer/désactiver le mod",
+  "key.fbp.toggle_animations": "Activer/désactiver le placement des animations",
   "key.fbp.open_settings": "Ouvrir les paramètres",
   "key.fbp.freeze_particles": "Activer/désactiver l'effet de gel",
   "key.fbp.kill_particles": "Détruire les particules",
@@ -33,7 +34,7 @@
   "screen.fbp.reload_alert": "La configuration a été rechargée avec succès!",
 
   "button.fbp.animations.fancy_placing_animation": "Animation de placement sophistiquée",
-  "button.fbp.animations.smooth_animation_lighting": "Éclairage d'animation fluide",
+  "button.fbp.animations.render_outline": "Rendu du contour du bloc",
 
   "button.fbp.common.particles_decay": "Désintégration des particules",
 
@@ -100,7 +101,12 @@
   "widget.fbp.overlay.freeze_effect_color": "Couleur de l'effet de gel",
 
   "tooltip.fbp.animations.fancy_placing_animation": "Activer/désactiver l'animation de placement sophistiquée.",
-  "tooltip.fbp.animations.smooth_animation_lighting": "Activer/désactiver l'éclairage d'animation fluide.",
+  "tooltip.fbp.animations.render_outline": "Le contour du bloc doit-il être rendu pendant l'animation?",
+
+  "tooltip.fbp.animations.min_lifetime": "Durée de vie minimale de l'animation.",
+  "tooltip.fbp.animations.max_lifetime": "Durée de vie maximale de l'animation.",
+
+  "tooltip.fbp.animations.size_multiplier": "Multiplicateur de taille des animations.",
 
   "tooltip.fbp.common.homepage": "Page d'accueil de FBP ici!",
   "tooltip.fbp.common.report": "Vous avez trouvé un bug?\nSignalez-le ici!",
@@ -129,6 +135,7 @@
   "tooltip.fbp.common.bounce_off_walls": "Les particules doivent-elles rebondir sur les murs?",
 
   "tooltip.fbp.common.option_unsupported": "Bientôt disponible!",
+  "tooltip.fbp.common.mod_incompatibility": "Cette fonctionnalité est incompatible avec le mod %s.",
 
   "tooltip.fbp.flame.fancy_flame_particles": "Activer/désactiver les particules de flamme sophistiquées.\nLorsqu'elles sont désactivées, les particules par défaut sont restaurées.",
 

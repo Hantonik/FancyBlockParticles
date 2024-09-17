@@ -2,6 +2,7 @@
   "key.fbp.category": "Fancy Block Particles",
 
   "key.fbp.toggle_mod": "Włącz/wyłącz moda",
+  "key.fbp.toggle_animations": "Włącz/wyłącz animacje kładzenia",
   "key.fbp.open_settings": "Otwórz ustawienia",
   "key.fbp.freeze_particles": "Przełącz efekt zamrożenia",
   "key.fbp.kill_particles": "Usuń cząsteczki",
@@ -33,7 +34,7 @@
   "screen.fbp.reload_alert": "Konfiguracja została przeładowana pomyślnie!",
 
   "button.fbp.animations.fancy_placing_animation": "Fantazyjna animacja kładzenia",
-  "button.fbp.animations.smooth_animation_lighting": "Gładkie oświetlenie animacji",
+  "button.fbp.animations.render_outline": "Renderowanie konturów bloku",
 
   "button.fbp.common.particles_decay": "Cząsteczki znikają",
 
@@ -100,7 +101,12 @@
   "widget.fbp.overlay.freeze_effect_color": "Kolor efektu zamrożenia",
 
   "tooltip.fbp.animations.fancy_placing_animation": "Włącz/wyłącz fantazyjną animację kładzenia.",
-  "tooltip.fbp.animations.smooth_animation_lighting": "Czy animacja powinna być gładko oświetlona.",
+  "tooltip.fbp.animations.render_outline": "Czy kontury bloku powinny być renderowane podczas animacji?",
+
+  "tooltip.fbp.animations.min_lifetime": "Minimalna długość istnienia animacji.",
+  "tooltip.fbp.animations.max_lifetime": "Maksymalna długość istnienia animacji.",
+
+  "tooltip.fbp.animations.size_multiplier": "Mnożnik rozmiaru animacji.",
 
   "tooltip.fbp.common.homepage": "Strona główna FBP tutaj!",
   "tooltip.fbp.common.report": "Znalazłeś błąd?\nZgłoś go tutaj!",
@@ -129,6 +135,7 @@
   "tooltip.fbp.common.bounce_off_walls": "Czy cząsteczki powinny odbijać się od ścian?",
 
   "tooltip.fbp.common.option_unsupported": "Dostępne wkrótce!",
+  "tooltip.fbp.common.mod_incompatibility": "Ta funkcja jest niekompatybilna z modem %s.",
 
   "tooltip.fbp.flame.fancy_flame_particles": "Włącz/wyłącz fantazyjne cząsteczki płomienia.\nGdy wyłączone przywrócone zostają domyślne cząsteczki.",
 

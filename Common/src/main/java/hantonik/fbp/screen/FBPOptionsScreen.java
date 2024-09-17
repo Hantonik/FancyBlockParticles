@@ -2,11 +2,15 @@ package hantonik.fbp.screen;
 
 import hantonik.fbp.FancyBlockParticles;
 import hantonik.fbp.config.FBPConfig;
+import hantonik.fbp.platform.Services;
 import hantonik.fbp.screen.category.*;
 import hantonik.fbp.screen.component.widget.FBPStringWidget;
 import hantonik.fbp.screen.component.widget.button.FBPToggleButton;
+import net.minecraft.ChatFormatting;
+import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.CommonComponents;
+import net.minecraft.network.chat.TextComponent;
 import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.resources.ResourceLocation;
 
@@ -32,15 +36,22 @@ public class FBPOptionsScreen extends FBPAbstractOptionsScreen {
                 new FBPStringWidget(310, 20, new TranslatableComponent("widget.fbp.global.categories"), this.font)
         );
 
-        var animationsButton = this.openScreenButton(new TranslatableComponent("screen.fbp.category.animations").append("..."), () -> new FBPAnimationsScreen(this, this.config), new TranslatableComponent("tooltip.fbp.common.option_unsupported"));
-        animationsButton.active = false;
+        Button animationsScreenButton;
+
+        if (Services.PLATFORM.isModLoaded("a_good_place")) {
+            animationsScreenButton = this.openScreenButton(new TranslatableComponent("screen.fbp.category.animations").append("..."), () -> new FBPAnimationsScreen(this, this.config), new TranslatableComponent("tooltip.fbp.common.mod_incompatibility", new TextComponent("A Good Place").withStyle(ChatFormatting.AQUA)).withStyle(ChatFormatting.YELLOW));
+            animationsScreenButton.active = false;
+        } else if (Services.PLATFORM.isModLoaded("optifine"))
+            animationsScreenButton = this.openScreenButton(new TranslatableComponent("screen.fbp.category.animations").append("..."), () -> new FBPAnimationsScreen(this, this.config), new TranslatableComponent("tooltip.fbp.common.mod_incompatibility", new TextComponent("OptiFine").withStyle(ChatFormatting.AQUA)));
+        else
+            animationsScreenButton = this.openScreenButton(new TranslatableComponent("screen.fbp.category.animations").append("..."), () -> new FBPAnimationsScreen(this, this.config));
 
         this.list.addSmall(
                 this.openScreenButton(new TranslatableComponent("screen.fbp.category.terrain").append("..."), () -> new FBPTerrainScreen(this, this.config)),
                 this.openScreenButton(new TranslatableComponent("screen.fbp.category.weather").append("..."), () -> new FBPWeatherScreen(this, this.config)),
                 this.openScreenButton(new TranslatableComponent("screen.fbp.category.flame").append("..."), () -> new FBPFlameScreen(this, this.config)),
                 this.openScreenButton(new TranslatableComponent("screen.fbp.category.smoke").append("..."), () -> new FBPSmokeScreen(this, this.config)),
-                animationsButton,
+                animationsScreenButton,
                 this.openScreenButton(new TranslatableComponent("screen.fbp.category.overlay").append("..."), () -> new FBPOverlayScreen(this, this.config))
         );
     }
