@@ -1,6 +1,9 @@
 package hantonik.fbp.mixin;
 
+import com.mojang.blaze3d.vertex.PoseStack;
+import com.mojang.blaze3d.vertex.VertexConsumer;
 import hantonik.fbp.FancyBlockParticles;
+import hantonik.fbp.animation.FBPPlacingAnimationManager;
 import hantonik.fbp.particle.FBPRainParticle;
 import hantonik.fbp.particle.FBPSnowParticle;
 import hantonik.fbp.util.FBPConstants;
@@ -13,7 +16,9 @@ import net.minecraft.core.particles.ParticleOptions;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.server.packs.resources.ResourceManagerReloadListener;
 import net.minecraft.util.Mth;
+import net.minecraft.world.entity.Entity;
 import net.minecraft.world.level.biome.Biome;
+import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.levelgen.Heightmap;
 import net.minecraft.world.phys.Vec3;
 import org.spongepowered.asm.mixin.Final;
@@ -110,5 +115,11 @@ public abstract class MixinLevelRenderer implements ResourceManagerReloadListene
         }
 
         return precipitation;
+    }
+
+    @Inject(at = @At("HEAD"), method = "renderHitOutline", cancellable = true)
+    private void renderHitOutline(PoseStack stack, VertexConsumer consumer, Entity entity, double camX, double camY, double camZ, BlockPos pos, BlockState state, CallbackInfo callback) {
+        if (!FancyBlockParticles.CONFIG.animations.isRenderOutline() && FBPPlacingAnimationManager.isHidden(pos))
+            callback.cancel();
     }
 }

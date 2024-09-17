@@ -6,6 +6,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screens.PauseScreen;
 import net.minecraft.server.packs.resources.ResourceManagerReloadListener;
 import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.client.event.ClientPlayerNetworkEvent;
 import net.minecraftforge.client.event.GuiScreenEvent;
 import net.minecraftforge.client.event.RegisterClientReloadListenersEvent;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
@@ -42,6 +43,7 @@ public final class FBPForge {
         MinecraftForge.EVENT_BUS.addListener(this::onClientTick);
         MinecraftForge.EVENT_BUS.addListener(this::postScreenInit);
         MinecraftForge.EVENT_BUS.addListener(this::postRenderGuiOverlay);
+        MinecraftForge.EVENT_BUS.addListener(this::onClientLoggingIn);
 
         FancyBlockParticles.LOGGER.info(FancyBlockParticles.SETUP_MARKER, "Finished client setup!");
     }
@@ -62,5 +64,9 @@ public final class FBPForge {
 
     private void postRenderGuiOverlay(final RenderGameOverlayEvent.Post event) {
         FancyBlockParticles.onRenderHud(event.getMatrixStack(), event.getWindow().getGuiScaledWidth());
+    }
+
+    private void onClientLoggingIn(final ClientPlayerNetworkEvent.LoggedInEvent event) {
+        FancyBlockParticles.onLevelLoad();
     }
 }

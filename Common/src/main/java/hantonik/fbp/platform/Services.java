@@ -1,5 +1,6 @@
 package hantonik.fbp.platform;
 
+import hantonik.fbp.platform.services.IClientHelper;
 import hantonik.fbp.platform.services.IEnvironmentHelper;
 import hantonik.fbp.platform.services.IPlatformHelper;
 import hantonik.fbp.platform.services.IRegistryHelper;
@@ -16,6 +17,7 @@ public final class Services {
     private static final Logger LOGGER = LogManager.getLogger();
 
     public static final IEnvironmentHelper ENVIRONMENT = load(IEnvironmentHelper.class);
+    public static final IClientHelper CLIENT = load(IClientHelper.class);
     public static final IPlatformHelper PLATFORM = load(IPlatformHelper.class);
     public static final IRegistryHelper REGISTRY = load(IRegistryHelper.class);
 

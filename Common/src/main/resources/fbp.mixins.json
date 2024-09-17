@@ -4,9 +4,13 @@
   "compatibilityLevel": "JAVA_16",
   "refmap": "fbp.refmap.json",
   "client": [
+    "MixinBlock",
+    "MixinBlockItem",
+    "MixinBlockStateBase",
     "MixinLevelRenderer",
     "MixinOptionsScreen",
-    "MixinParticleEngine"
+    "MixinParticleEngine",
+    "MixinRebuildTask"
   ],
   "minVersion": "0.8"
 }

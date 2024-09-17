@@ -2,6 +2,7 @@ package hantonik.fbp.screen.component.widget.button;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import lombok.Getter;
+import lombok.Setter;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.components.TooltipAccessor;
@@ -20,9 +21,11 @@ public class FBPToggleButton extends Button implements TooltipAccessor {
     @Getter
     private final Supplier<Boolean> value;
     private final Component defaultMessage;
-    private final Component tooltip;
 
     private final BooleanSupplier active;
+
+    @Setter
+    private Component tooltip;
 
     public FBPToggleButton(int width, int height, Component message, Supplier<Boolean> value, OnPress onPress, Component tooltip) {
         this(width, height, message, value, onPress, tooltip, () -> true);

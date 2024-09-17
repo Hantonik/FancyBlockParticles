@@ -15,6 +15,7 @@ mixin {
     add sourceSets.main, "${mod_id}.refmap.json"
 
     config "${mod_id}.mixins.json"
+    config "${mod_id}.forge.mixins.json"
 }
 
 println "Forge: $forge_version"
@@ -59,25 +60,20 @@ sourceSets.each {
     it.java.destinationDirectory = dir
 }
 
-repositories {
-    maven { url = "https://api.modrinth.com/maven" }
-
-    mavenCentral() {
-        content {
-            includeGroup 'org.projectlombok'
-        }
-    }
-}
-
 dependencies {
     minecraft "net.minecraftforge:forge:$mc_version-$forge_version"
 
     compileOnly project(':Common')
 
-    annotationProcessor "org.spongepowered:mixin:$mixin_processor_version:processor"
+    implementation fg.deobf("maven.modrinth:serene-seasons:$sereneseasons_version")
+
+    compileOnly fg.deobf("maven.modrinth:rubidium:$rubidium_version")
+    compileOnly fg.deobf("maven.modrinth:oculus:$oculus_version")
 
     compileOnly "org.projectlombok:lombok:$lombok_version"
+
     annotationProcessor "org.projectlombok:lombok:$lombok_version"
+    annotationProcessor "org.spongepowered:mixin:$mixin_processor_version:processor"
 }
 
 // Workaround for SpongePowered/MixinGradle#38
@@ -88,7 +84,7 @@ afterEvaluate {
 jar {
     manifest {
         attributes([
-                'MixinConfigs': "${mod_id}.mixins.json"
+                'MixinConfigs': "${mod_id}.mixins.json,${mod_id}.forge.mixins.json"
         ])
     }
 

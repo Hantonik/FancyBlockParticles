@@ -12,6 +12,11 @@ public final class ForgePlatformHelper implements IPlatformHelper {
     }
 
     @Override
+    public boolean isModLoaded(String modId) {
+        return ModList.get().isLoaded(modId);
+    }
+
+    @Override
     public Path getConfigDir() {
         return FMLPaths.CONFIGDIR.get();
     }

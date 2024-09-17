@@ -1,5 +1,7 @@
 accessWidener v1 named
 
+accessible class net/minecraft/client/renderer/chunk/ChunkRenderDispatcher$RenderChunk$RebuildTask
+
 accessible field net/minecraft/client/particle/Particle rCol F
 accessible field net/minecraft/client/particle/Particle gCol F
 accessible field net/minecraft/client/particle/Particle bCol F

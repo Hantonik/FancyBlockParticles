@@ -30,7 +30,8 @@
 	},
 
 	"mixins": [
-      	"fbp.mixins.json"
+		"fbp.mixins.json",
+		"fbp.fabric.mixins.json"
 	],
 	"accessWidener": "fbp.accesswidener"
 }
