@@ -7,6 +7,7 @@ import net.minecraft.server.packs.resources.ResourceManagerReloadListener;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.ConfigScreenHandler;
 import net.minecraftforge.client.event.ClientPauseChangeEvent;
+import net.minecraftforge.client.event.ClientPlayerNetworkEvent;
 import net.minecraftforge.client.event.RegisterClientReloadListenersEvent;
 import net.minecraftforge.client.event.RegisterKeyMappingsEvent;
 import net.minecraftforge.common.MinecraftForge;
@@ -40,6 +41,7 @@ public final class FBPForge {
 
         MinecraftForge.EVENT_BUS.addListener(this::onClientTick);
         MinecraftForge.EVENT_BUS.addListener(this::postClientPauseChange);
+        MinecraftForge.EVENT_BUS.addListener(this::onClientLoggingIn);
 
         Minecraft.getInstance().gui.layers.add(((graphics, partialTick) -> FancyBlockParticles.onRenderHud(graphics)));
 
@@ -62,5 +64,9 @@ public final class FBPForge {
     private void postClientPauseChange(final ClientPauseChangeEvent.Post event) {
         if (event.isPaused())
             FancyBlockParticles.onClientPause(Minecraft.getInstance().screen);
+    }
+
+    private void onClientLoggingIn(final ClientPlayerNetworkEvent.LoggingIn event) {
+        FancyBlockParticles.onLevelLoad();
     }
 }
