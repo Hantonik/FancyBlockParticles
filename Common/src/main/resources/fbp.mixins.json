@@ -3,9 +3,13 @@
   "package": "hantonik.fbp.mixin",
   "compatibilityLevel": "JAVA_18",
   "client": [
+    "MixinBlock",
+    "MixinBlockItem",
+    "MixinBlockStateBase",
     "MixinLevelRenderer",
     "MixinOptionsScreen",
-    "MixinParticleEngine"
+    "MixinParticleEngine",
+    "MixinRebuildTask"
   ],
   "minVersion": "0.8"
 }

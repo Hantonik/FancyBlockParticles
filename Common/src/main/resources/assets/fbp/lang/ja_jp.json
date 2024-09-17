@@ -2,6 +2,7 @@
   "key.fbp.category": "Fancy Block Particles",
 
   "key.fbp.toggle_mod": "MODを有効/無効にする",
+  "key.fbp.toggle_animations": "アニメーションの配置を有効/無効にする",
   "key.fbp.open_settings": "設定を開く",
   "key.fbp.freeze_particles": "フリーズエフェクトを切り替える",
   "key.fbp.kill_particles": "パーティクルを削除",
@@ -33,7 +34,7 @@
   "screen.fbp.reload_alert": "設定が正常にリロードされました！",
 
   "button.fbp.animations.fancy_placing_animation": "ファンシー配置アニメーション",
-  "button.fbp.animations.smooth_animation_lighting": "スムーズなアニメーションライティング",
+  "button.fbp.animations.render_outline": "ブロックの輪郭をレンダリング",
 
   "button.fbp.common.particles_decay": "パーティクルの減衰",
 
@@ -100,7 +101,12 @@
   "widget.fbp.overlay.freeze_effect_color": "フリーズエフェクトの色",
 
   "tooltip.fbp.animations.fancy_placing_animation": "ファンシーな配置アニメーションを有効/無効にします。",
-  "tooltip.fbp.animations.smooth_animation_lighting": "スムーズなアニメーションライティングを有効/無効にします。",
+  "tooltip.fbp.animations.render_outline": "アニメーション中にブロックの輪郭をレンダリングしますか？",
+
+  "tooltip.fbp.animations.min_lifetime": "アニメーションの最小寿命。",
+  "tooltip.fbp.animations.max_lifetime": "アニメーションの最大寿命。",
+
+  "tooltip.fbp.animations.size_multiplier": "アニメーションのサイズ倍率。",
 
   "tooltip.fbp.common.homepage": "FBPのホームページはこちら！",
   "tooltip.fbp.common.report": "バグを見つけましたか？\nこちらで報告してください！",
@@ -129,6 +135,7 @@
   "tooltip.fbp.common.bounce_off_walls": "パーティクルを壁からバウンドさせますか？",
 
   "tooltip.fbp.common.option_unsupported": "近日公開！",
+  "tooltip.fbp.common.mod_incompatibility": "この機能は %s モッドと互換性がありません。",
 
   "tooltip.fbp.flame.fancy_flame_particles": "ファンシーな炎パーティクルを有効/無効にします。\n無効にすると、デフォルトのパーティクルが復元されます。",
 

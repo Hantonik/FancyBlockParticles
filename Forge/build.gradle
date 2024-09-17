@@ -13,6 +13,7 @@ base {
 
 mixin {
     config "${mod_id}.mixins.json"
+    config "${mod_id}.forge.mixins.json"
 }
 
 println "Forge: $forge_version"
@@ -74,6 +75,15 @@ dependencies {
     compileOnly "com.github.glitchfiend:SereneSeasons-forge:$mc_version-$sereneseasons_version"
     compileOnly "com.github.glitchfiend:GlitchCore-forge:$mc_version-$glitchcore_version"
 
+    compileOnly "org.embeddedt:embeddium-$mc_version:$embeddium_version+mc$mc_version"
+    compileOnly "maven.modrinth:oculus:$oculus_version"
+
+    testCompileOnly compileOnly(annotationProcessor("io.github.llamalad7:mixinextras-common:$mixin_extras_version"))
+
+    implementation(jarJar("io.github.llamalad7:mixinextras-forge:$mixin_extras_version")) {
+        jarJar.ranged(it, "[$mixin_extras_version,)")
+    }
+
     compileOnly "org.projectlombok:lombok:$lombok_version"
 
     annotationProcessor "org.projectlombok:lombok:$lombok_version"
@@ -91,14 +101,25 @@ if (minecraft.reobf) {
 }
 
 jar {
+    archiveClassifier = 'slim'
+
     manifest {
         attributes([
-                'MixinConfigs': "${mod_id}.mixins.json"
+                'MixinConfigs': "${mod_id}.mixins.json,${mod_id}.forge.mixins.json"
         ])
     }
 
     if (minecraft.reobf)
         finalizedBy('reobfJar')
+    else
+        finalizedBy('jarJar')
+}
+
+tasks.jarJar {
+    archiveClassifier = ''
+
+    if (minecraft.reobf)
+        finalizedBy('reobfJarJar')
 }
 
 sourcesJar {
@@ -113,12 +134,12 @@ artifacts {
 project.evaluationDependsOn(':Changelog')
 
 tasks.register('publishCurseForge', TaskPublishCurseForge) {
-    dependsOn(tasks.jar)
+    dependsOn(tasks.jarJar)
     dependsOn(':Changelog:makeHtmlChangelog')
 
     apiToken = System.getenv('CURSEFORGE_TOKEN')
 
-    var modFile = upload('937011', tasks.jar.archiveFile)
+    var modFile = upload('937011', tasks.jarJar.archiveFile)
     modFile.displayName = "${base.archivesName.get()}-$version"
     modFile.releaseType = CFConstants.RELEASE_TYPE_BETA
     modFile.addGameVersion(mc_version, 'client')
@@ -143,11 +164,11 @@ modrinth {
 
     changelog = provider { file("${project(':Changelog').projectDir}/changelog.md").getText().replace([ '${version}': "$mc_version-$version" ]) }
 
-    uploadFile = tasks.jar
+    uploadFile = tasks.jarJar
     additionalFiles = [ tasks.sourcesJar ]
 }
 
-tasks.modrinth.dependsOn(tasks.jar)
+tasks.modrinth.dependsOn(tasks.jarJar)
 tasks.modrinth.dependsOn(tasks.sourcesJar)
 
 tasks.modrinth.dependsOn(':Changelog:makeMarkdownChangelog')
@@ -157,6 +178,8 @@ publishing {
         register('mavenJava', MavenPublication) {
             artifact jar
             artifact sourcesJar
+
+            jarJar.component(it)
 
             artifactId archivesBaseName
         }
