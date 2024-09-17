@@ -15,6 +15,7 @@ mixin {
     add sourceSets.main, "${mod_id}.refmap.json"
 
     config "${mod_id}.mixins.json"
+    config "${mod_id}.forge.mixins.json"
 }
 
 println "Forge: $forge_version"
@@ -59,6 +60,10 @@ sourceSets.each {
     it.java.destinationDirectory = dir
 }
 
+repositories {
+    maven { url 'https://maven.blamejared.com' }
+}
+
 dependencies {
     minecraft "net.minecraftforge:forge:$mc_version-$forge_version"
 
@@ -66,16 +71,19 @@ dependencies {
 
     implementation fg.deobf("com.github.glitchfiend:SereneSeasons:$mc_version-$sereneseasons_version")
 
+    compileOnly fg.deobf("org.embeddedt:embeddium-$mc_version:$embeddium_version+mc$mc_version")
+    compileOnly fg.deobf("maven.modrinth:oculus:$mc_version-$oculus_version")
+
+    testCompileOnly compileOnly(annotationProcessor("io.github.llamalad7:mixinextras-common:$mixin_extras_version"))
+
     implementation(jarJar("io.github.llamalad7:mixinextras-forge:$mixin_extras_version")) {
         jarJar.ranged(it, "[$mixin_extras_version,)")
     }
 
-    implementation annotationProcessor("io.github.llamalad7:mixinextras-common:$mixin_extras_version")
-
-    annotationProcessor "org.spongepowered:mixin:$mixin_processor_version:processor"
-
     compileOnly "org.projectlombok:lombok:$lombok_version"
+
     annotationProcessor "org.projectlombok:lombok:$lombok_version"
+    annotationProcessor "org.spongepowered:mixin:$mixin_processor_version:processor"
 }
 
 // Workaround for SpongePowered/MixinGradle#38
@@ -89,7 +97,7 @@ jar {
 
     manifest {
         attributes([
-                'MixinConfigs': "${mod_id}.mixins.json"
+                'MixinConfigs': "${mod_id}.mixins.json,${mod_id}.forge.mixins.json"
         ])
     }
 

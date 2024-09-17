@@ -1,8 +1,11 @@
 package hantonik.fbp.mixin;
 
-import com.llamalad7.mixinextras.sugar.Local;
-import com.llamalad7.mixinextras.sugar.ref.LocalRef;
+import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
+import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
+import com.mojang.blaze3d.vertex.PoseStack;
+import com.mojang.blaze3d.vertex.VertexConsumer;
 import hantonik.fbp.FancyBlockParticles;
+import hantonik.fbp.animation.FBPPlacingAnimationManager;
 import hantonik.fbp.particle.FBPRainParticle;
 import hantonik.fbp.particle.FBPSnowParticle;
 import hantonik.fbp.platform.Services;
@@ -11,13 +14,14 @@ import net.minecraft.client.Camera;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.renderer.LevelRenderer;
-import net.minecraft.client.renderer.LightTexture;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleOptions;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.server.packs.resources.ResourceManagerReloadListener;
 import net.minecraft.util.Mth;
+import net.minecraft.world.entity.Entity;
 import net.minecraft.world.level.biome.Biome;
+import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.levelgen.Heightmap;
 import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.Nullable;
@@ -98,13 +102,22 @@ public abstract class MixinLevelRenderer implements ResourceManagerReloadListene
         instance.addParticle(particleOptions, x, y, z, xd, yd, zd);
     }
 
-    @Inject(at = @At(value = "INVOKE_ASSIGN", target = "Lnet/minecraft/world/level/biome/Biome;getPrecipitationAt(Lnet/minecraft/core/BlockPos;)Lnet/minecraft/world/level/biome/Biome$Precipitation;", shift = At.Shift.AFTER), method = "renderSnowAndRain", cancellable = true)
-    private void renderSnowAndRain(LightTexture light, float partialTick, double camX, double camY, double camZ, CallbackInfo callback, @Local LocalRef<Biome.Precipitation> precipitation) {
+    @WrapOperation(at = @At(value = "INVOKE", target = "Lnet/minecraft/world/level/biome/Biome;getPrecipitationAt(Lnet/minecraft/core/BlockPos;)Lnet/minecraft/world/level/biome/Biome$Precipitation;"), method = "renderSnowAndRain")
+    private Biome.Precipitation getPrecipitationAt(Biome instance, BlockPos pos, Operation<Biome.Precipitation> original) {
         if (FancyBlockParticles.CONFIG.global.isEnabled()) {
-            if (precipitation.get() == Biome.Precipitation.RAIN && FancyBlockParticles.CONFIG.rain.isEnabled())
-                precipitation.set(Biome.Precipitation.NONE);
-            else if (precipitation.get() == Biome.Precipitation.SNOW && FancyBlockParticles.CONFIG.snow.isEnabled())
-                precipitation.set(Biome.Precipitation.NONE);
+            if (original.call(instance, pos) == Biome.Precipitation.RAIN && FancyBlockParticles.CONFIG.rain.isEnabled())
+                return Biome.Precipitation.NONE;
+
+            if (original.call(instance, pos) == Biome.Precipitation.SNOW && FancyBlockParticles.CONFIG.snow.isEnabled())
+                return Biome.Precipitation.NONE;
         }
+
+        return original.call(instance, pos);
+    }
+
+    @Inject(at = @At("HEAD"), method = "renderHitOutline", cancellable = true)
+    private void renderHitOutline(PoseStack stack, VertexConsumer consumer, Entity entity, double camX, double camY, double camZ, BlockPos pos, BlockState state, CallbackInfo callback) {
+        if (!FancyBlockParticles.CONFIG.animations.isRenderOutline() && FBPPlacingAnimationManager.isHidden(pos))
+            callback.cancel();
     }
 }
