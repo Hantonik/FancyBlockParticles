@@ -2,10 +2,11 @@
   "homepage": "https://www.curseforge.com/minecraft/mc-mods/fbp-renewed",
 
   "promos": {
-    "1.19.4-latest": "19.4.0.4-beta"
+    "1.19.4-latest": "19.4.0.5-beta"
   },
 
   "1.19.4": {
+    "19.4.0.5-beta": "Fix error while adding FBPTerrainParticle",
     "19.4.0.4-beta": "Fix particles becoming dark",
     "19.4.0.3-beta": "Fix a crash on Freeze effect",
     "19.4.0.2-beta": "Fix publication on Modrinth",
