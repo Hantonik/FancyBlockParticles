@@ -80,13 +80,15 @@ public abstract class MixinParticleManager {
 
         if (FancyBlockParticles.CONFIG.terrain.isFancyBreakingParticles() && !(callback.getReturnValue() instanceof FBPDiggingParticle)) {
             if (particleData.getType() == ParticleTypes.BLOCK) {
-                DiggingParticle original = (DiggingParticle) callback.getReturnValue();
+                if (callback.getReturnValue() instanceof DiggingParticle) {
+                    DiggingParticle original = (DiggingParticle) callback.getReturnValue();
 
-                callback.setReturnValue(null);
+                    callback.setReturnValue(null);
 
-                if (this.level.getFluidState(original.pos).isEmpty())
-                    if (FancyBlockParticles.CONFIG.isBlockParticlesEnabled(((BlockParticleData) particleData).getState().getBlock()) && !(FancyBlockParticles.CONFIG.global.isFreezeEffect() && !FancyBlockParticles.CONFIG.terrain.isSpawnWhileFrozen()))
-                        callback.setReturnValue(new FBPDiggingParticle.Provider(original.pos, original.getQuadSize(1) * 5.0F, null, original.sprite, original.rCol, original.gCol, original.bCol).createParticle((BlockParticleData) particleData, this.level, x, y, z, 0, 0, 0));
+                    if (this.level.getFluidState(original.pos).isEmpty())
+                        if (FancyBlockParticles.CONFIG.isBlockParticlesEnabled(((BlockParticleData) particleData).getState().getBlock()) && !(FancyBlockParticles.CONFIG.global.isFreezeEffect() && !FancyBlockParticles.CONFIG.terrain.isSpawnWhileFrozen()))
+                            callback.setReturnValue(new FBPDiggingParticle.Provider(original.pos, original.getQuadSize(1) * 5.0F, null, original.sprite, original.rCol, original.gCol, original.bCol).createParticle((BlockParticleData) particleData, this.level, x, y, z, 0, 0, 0));
+                }
             }
         }
     }
