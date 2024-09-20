@@ -2,10 +2,11 @@
   "homepage": "https://www.curseforge.com/minecraft/mc-mods/fbp-renewed",
 
   "promos": {
-    "1.19.2-latest": "19.2.0.2-beta"
+    "1.19.2-latest": "19.2.0.3-beta"
   },
 
   "1.19.2": {
+    "19.2.0.3-beta": "Fix error while adding FBPTerrainParticle",
     "19.2.0.2-beta": "Fix particles becoming dark",
     "19.2.0.1-beta": "Fix snow particles not melting properly",
     "19.2.0.0-beta": "Backport to Minecraft 1.19.2"
