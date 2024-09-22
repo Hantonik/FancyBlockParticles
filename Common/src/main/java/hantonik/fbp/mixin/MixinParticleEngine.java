@@ -6,21 +6,22 @@ import hantonik.fbp.particle.*;
 import hantonik.fbp.util.FBPConstants;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ClientLevel;
-import net.minecraft.client.particle.Particle;
-import net.minecraft.client.particle.ParticleEngine;
-import net.minecraft.client.particle.SingleQuadParticle;
-import net.minecraft.client.particle.TerrainParticle;
+import net.minecraft.client.particle.*;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.particles.BlockParticleOption;
 import net.minecraft.core.particles.ParticleOptions;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.core.particles.SimpleParticleType;
+import net.minecraft.sounds.SoundEvent;
+import net.minecraft.sounds.SoundEvents;
 import net.minecraft.util.Mth;
 import net.minecraft.world.level.biome.Biome;
+import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.LiquidBlock;
 import net.minecraft.world.level.block.RenderShape;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.material.Fluids;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.Vec3;
 import org.spongepowered.asm.mixin.Final;
@@ -74,6 +75,48 @@ public abstract class MixinParticleEngine {
                         callback.setReturnValue(new FBPRainParticle.Provider().createParticle((SimpleParticleType) particleData, this.level, x, y, z, xd, yd, zd));
                     else
                         callback.setReturnValue(new FBPSnowParticle.Provider().createParticle((SimpleParticleType) particleData, this.level, x, y, z, xd, yd, zd));
+                }
+            }
+        }
+
+        if (FancyBlockParticles.CONFIG.drip.isEnabled() && !(callback.getReturnValue() instanceof FBPDripParticle)) {
+            if (callback.getReturnValue() instanceof DripParticle original) {
+                if (FancyBlockParticles.CONFIG.global.isFreezeEffect() && !FancyBlockParticles.CONFIG.drip.isSpawnWhileFrozen())
+                    callback.setReturnValue(null);
+                else {
+                    var state = original.type == Fluids.EMPTY ? Blocks.SNOW_BLOCK.defaultBlockState() : original.type.defaultFluidState().createLegacyBlock();
+                    SoundEvent sound = null;
+                    var rCol = original.rCol;
+                    var gCol = original.gCol;
+                    var bCol = original.bCol;
+                    var alpha = 1.0F;
+                    var lightLevel = -1;
+
+                    if (particleData == ParticleTypes.DRIPPING_WATER || particleData == ParticleTypes.DRIPPING_DRIPSTONE_WATER) {
+                        alpha = FancyBlockParticles.CONFIG.rain.getTransparency(); // Small exception:)
+
+                        var color = this.level.getSkyColor(Minecraft.getInstance().gameRenderer.getMainCamera().getPosition(), 0.0F);
+
+                        rCol = (float) color.x;
+                        gCol = (float) Mth.clamp(color.y + 0.1D, 0.1D, 1.0D);
+                        bCol = (float) Mth.clamp(color.y + 0.5D, 0.5D, 1.0D);
+                    }
+
+                    if (particleData == ParticleTypes.DRIPPING_DRIPSTONE_WATER)
+                        sound = SoundEvents.POINTED_DRIPSTONE_DRIP_WATER;
+
+                    if (particleData == ParticleTypes.DRIPPING_DRIPSTONE_LAVA)
+                        sound = SoundEvents.POINTED_DRIPSTONE_DRIP_LAVA;
+
+                    if (particleData == ParticleTypes.DRIPPING_HONEY) {
+                        state = Blocks.HONEY_BLOCK.defaultBlockState();
+                        sound = SoundEvents.BEEHIVE_DRIP;
+                    }
+
+                    if (particleData == ParticleTypes.DRIPPING_OBSIDIAN_TEAR)
+                        lightLevel = 10;
+
+                    callback.setReturnValue(new FBPDripParticle.Provider(state, sound, rCol, gCol, bCol, alpha, lightLevel).createParticle((SimpleParticleType) particleData, this.level, x, y, z, xd, yd, zd));
                 }
             }
         }

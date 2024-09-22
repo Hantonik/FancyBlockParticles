@@ -19,13 +19,13 @@
   "screen.fbp.settings": "Configuración",
 
   "screen.fbp.category.animations": "Animaciones",
+  "screen.fbp.category.drip": "Goteo",
   "screen.fbp.category.flame": "Llama",
   "screen.fbp.category.overlay": "Superposición",
   "screen.fbp.category.rain": "Lluvia",
   "screen.fbp.category.smoke": "Humo",
   "screen.fbp.category.snow": "Nieve",
   "screen.fbp.category.terrain": "Terreno",
-  "screen.fbp.category.weather": "Clima",
 
   "screen.fbp.terrain.animation_blacklist": "Lista negra de animación",
   "screen.fbp.terrain.particle_blacklist": "Lista negra de partículas",
@@ -46,6 +46,8 @@
 
   "button.fbp.common.min_lifetime": "Tiempo de vida mínimo",
   "button.fbp.common.max_lifetime": "Tiempo de vida máximo",
+
+  "button.fbp.common.transparency": "Transparencia",
 
   "button.fbp.common.size_multiplier": "Multiplicador de tamaño",
   "button.fbp.common.rotation_multiplier": "Multiplicador de rotación",
@@ -68,6 +70,8 @@
 
   "button.fbp.common.ticks": " tics",
 
+  "button.fbp.drip.fancy_dripping_particles": "Partículas de goteo elegantes",
+
   "button.fbp.flame.fancy_flame_particles": "Partículas de llama elegantes",
 
   "button.fbp.global.enabled": "Habilitado",
@@ -78,9 +82,13 @@
 
   "button.fbp.overlay.freeze_effect_overlay": "Superposición de efecto de congelación",
 
+  "button.fbp.rain.fancy_rain_particles": "Partículas de lluvia elegantes",
+
   "button.fbp.rain.particle_density": "Densidad de partículas de lluvia",
 
   "button.fbp.smoke.fancy_smoke_particles": "Partículas de humo elegantes",
+
+  "button.fbp.snow.fancy_snow_particles": "Partículas de nieve elegantes",
 
   "button.fbp.snow.particle_density": "Densidad de partículas de nieve",
 
@@ -92,9 +100,6 @@
   "button.fbp.terrain.entity_collision": "Colisión de entidad",
 
   "button.fbp.terrain.particles_per_axis": "Partículas por eje",
-
-  "button.fbp.weather.fancy_rain_particles": "Partículas de lluvia elegantes",
-  "button.fbp.weather.fancy_snow_particles": "Partículas de nieve elegantes",
 
   "widget.fbp.global.categories": "Categorías",
 
@@ -122,6 +127,8 @@
   "tooltip.fbp.common.min_lifetime": "Tiempo de vida mínimo de la partícula.",
   "tooltip.fbp.common.max_lifetime": "Tiempo de vida máximo de la partícula.",
 
+  "tooltip.fbp.common.transparency": "Transparencia de partículas.",
+
   "tooltip.fbp.common.size_multiplier": "Multiplicador de tamaño de la partícula.",
   "tooltip.fbp.common.rotation_multiplier": "Multiplicador de rotación de la partícula.",
   "tooltip.fbp.common.gravity_multiplier": "Multiplicador de gravedad de la partícula.",
@@ -137,6 +144,8 @@
   "tooltip.fbp.common.option_unsupported": "¡Próximamente!",
   "tooltip.fbp.common.mod_incompatibility": "Esta función es incompatible con el mod %s.",
 
+  "tooltip.fbp.drip.fancy_dripping_particles": "Habilitar/deshabilitar partículas de goteo elegantes.\nCuando está deshabilitado, se restauran las partículas predeterminadas.",
+
   "tooltip.fbp.flame.fancy_flame_particles": "Habilitar/deshabilitar partículas de llama elegantes.\nCuando está deshabilitado, se restauran las partículas predeterminadas.",
 
   "tooltip.fbp.global.enabled": "Habilitar/deshabilitar el mod FBP.\nCuando está deshabilitado, se restauran las partículas predeterminadas.",
@@ -147,9 +156,13 @@
 
   "tooltip.fbp.overlay.freeze_effect_overlay": "Habilitar/deshabilitar superposición de efecto de congelación.\nCuando está habilitado, aparecerá un mensaje en la parte superior de la pantalla durante el efecto de congelación.",
 
+  "tooltip.fbp.rain.fancy_rain_particles": "Habilitar/deshabilitar partículas de lluvia elegantes.\nCuando está deshabilitado, se restauran las partículas predeterminadas.",
+
   "tooltip.fbp.rain.particle_density": "Densidad de partículas de lluvia.",
 
   "tooltip.fbp.smoke.fancy_smoke_particles": "Habilitar/deshabilitar partículas de humo elegantes.\nCuando está deshabilitado, se restauran las partículas predeterminadas.",
+
+  "tooltip.fbp.snow.fancy_snow_particles": "Habilitar/deshabilitar partículas de nieve elegantes.\nCuando está deshabilitado, se restauran las partículas predeterminadas.",
 
   "tooltip.fbp.snow.particle_density": "Densidad de partículas de nieve.",
 
@@ -161,9 +174,6 @@
   "tooltip.fbp.terrain.entity_collision": "Habilitar/deshabilitar colisión de entidad.",
 
   "tooltip.fbp.terrain.particles_per_axis": "Número de partículas por eje.",
-
-  "tooltip.fbp.weather.fancy_rain_particles": "Habilitar/deshabilitar partículas de lluvia elegantes.\nCuando está deshabilitado, se restauran las partículas predeterminadas.",
-  "tooltip.fbp.weather.fancy_snow_particles": "Habilitar/deshabilitar partículas de nieve elegantes.\nCuando está deshabilitado, se restauran las partículas predeterminadas.",
 
   "tooltip.fbp.chunks": " chunks",
   "tooltip.fbp.default": "Predeterminado: ",
