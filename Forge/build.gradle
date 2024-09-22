@@ -60,21 +60,13 @@ sourceSets.each {
     it.java.destinationDirectory = dir
 }
 
-repositories {
-    mavenCentral() {
-        content {
-            includeGroup 'org.projectlombok'
-        }
-    }
-}
-
 dependencies {
     minecraft "net.minecraftforge:forge:$mc_version-$forge_version"
 
     compileOnly project(':Common')
 
-    implementation fg.deobf("com.github.glitchfiend:SereneSeasons-forge:$mc_version-$sereneseasons_version")
-    implementation fg.deobf("com.github.glitchfiend:GlitchCore-forge:$mc_version-$glitchcore_version")
+    compileOnly fg.deobf("com.github.glitchfiend:SereneSeasons-forge:$mc_version-$sereneseasons_version")
+    compileOnly fg.deobf("com.github.glitchfiend:GlitchCore-forge:$mc_version-$glitchcore_version")
 
     compileOnly fg.deobf("org.embeddedt:embeddium-$mc_version:$embeddium_version+mc$mc_version")
     compileOnly fg.deobf("maven.modrinth:oculus:$oculus_version")

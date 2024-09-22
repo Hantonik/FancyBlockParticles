@@ -43,7 +43,7 @@ public class FBPOverlayScreen extends FBPAbstractOptionsScreen {
         );
 
         this.list.addSmall(
-                new StringWidget(150, 21, Component.translatable("widget.fbp.overlay.freeze_effect_color").append(": "), this.font).alignLeft(),
+                new StringWidget(150, 21, Component.literal(" ").append(Component.translatable("widget.fbp.overlay.freeze_effect_color")).append(":"), this.font).alignLeft(),
                 colorBox
         );
     }

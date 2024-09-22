@@ -12,6 +12,8 @@ import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.CommonComponents;
 import net.minecraft.network.chat.Component;
 
+import java.text.DecimalFormat;
+
 public class FBPFlameScreen extends FBPAbstractOptionsScreen {
     public FBPFlameScreen(Screen lastScreen, FBPConfig config) {
         super(Component.translatable("screen.fbp.category.flame"), lastScreen, config);
@@ -30,7 +32,7 @@ public class FBPFlameScreen extends FBPAbstractOptionsScreen {
 
                 maxLifetimeSlider.get().setValue(button.getValue());
             }
-        }, () -> (!this.config.flame.isInfiniteDuration() && !this.config.global.isInfiniteDuration()) && !FancyBlockParticles.CONFIG.global.isLocked(), Tooltip.create(Component.translatable("tooltip.fbp.common.min_lifetime").append(CommonComponents.NEW_LINE).append(CommonComponents.NEW_LINE).append(Component.translatable("tooltip.fbp.default")).append(Component.literal(String.valueOf(FBPConfig.DEFAULT_CONFIG.flame.getMinLifetime())).withStyle(ChatFormatting.YELLOW)))));
+        }, () -> (!this.config.flame.isInfiniteDuration() && !this.config.global.isInfiniteDuration()) && !FancyBlockParticles.CONFIG.global.isLocked(), Tooltip.create(Component.translatable("tooltip.fbp.common.min_lifetime").append(CommonComponents.NEW_LINE).append(CommonComponents.NEW_LINE).append(Component.translatable("tooltip.fbp.default")).append(Component.literal(String.valueOf(FBPConfig.DEFAULT_CONFIG.flame.getMinLifetime())).append(Component.translatable("button.fbp.common.ticks")).withStyle(ChatFormatting.YELLOW)))));
 
         maxLifetimeSlider.setSupplier(() -> new FBPSliderButton(150, 20, Component.translatable("button.fbp.common.max_lifetime").append(": "), Component.translatable("button.fbp.common.ticks"), this.config.flame.getMaxLifetime(), FancyBlockParticles.CONFIG.flame.getMaxLifetime(), 0, 50, 1, button -> {
             this.config.flame.setMaxLifetime(button.getValueInt());
@@ -40,7 +42,7 @@ public class FBPFlameScreen extends FBPAbstractOptionsScreen {
 
                 minLifetimeSlider.get().setValue(button.getValue());
             }
-        }, () -> (!this.config.flame.isInfiniteDuration() && !this.config.global.isInfiniteDuration()) && !FancyBlockParticles.CONFIG.global.isLocked(), Tooltip.create(Component.translatable("tooltip.fbp.common.max_lifetime").append(CommonComponents.NEW_LINE).append(CommonComponents.NEW_LINE).append(Component.translatable("tooltip.fbp.default")).append(Component.literal(String.valueOf(FBPConfig.DEFAULT_CONFIG.flame.getMaxLifetime())).withStyle(ChatFormatting.YELLOW)))));
+        }, () -> (!this.config.flame.isInfiniteDuration() && !this.config.global.isInfiniteDuration()) && !FancyBlockParticles.CONFIG.global.isLocked(), Tooltip.create(Component.translatable("tooltip.fbp.common.max_lifetime").append(CommonComponents.NEW_LINE).append(CommonComponents.NEW_LINE).append(Component.translatable("tooltip.fbp.default")).append(Component.literal(String.valueOf(FBPConfig.DEFAULT_CONFIG.flame.getMaxLifetime())).append(Component.translatable("button.fbp.common.ticks")).withStyle(ChatFormatting.YELLOW)))));
 
         this.list.addSmall(
                 new FBPToggleButton(150, 20, Component.translatable("button.fbp.flame.fancy_flame_particles"), this.config.flame::isEnabled, button -> this.config.flame.setEnabled(!this.config.flame.isEnabled()), Tooltip.create(Component.translatable("tooltip.fbp.flame.fancy_flame_particles").append(CommonComponents.NEW_LINE).append(CommonComponents.NEW_LINE).append(Component.translatable("tooltip.fbp.default")).append(Component.translatable("button.fbp.common." + FBPConfig.DEFAULT_CONFIG.flame.isEnabled())))),
@@ -50,7 +52,7 @@ public class FBPFlameScreen extends FBPAbstractOptionsScreen {
                 new FBPToggleButton(150, 20, Component.translatable("button.fbp.common.random_size"), this.config.flame::isRandomSize, button -> this.config.flame.setRandomSize(!this.config.flame.isRandomSize()), Tooltip.create(Component.translatable("tooltip.fbp.common.random_size").append(CommonComponents.NEW_LINE).append(CommonComponents.NEW_LINE).append(Component.translatable("tooltip.fbp.default")).append(Component.translatable("button.fbp.common." + FBPConfig.DEFAULT_CONFIG.flame.isRandomSize())))),
                 new FBPToggleButton(150, 20, Component.translatable("button.fbp.common.random_fading_speed"), this.config.flame::isRandomFadingSpeed, button -> this.config.flame.setRandomFadingSpeed(!this.config.flame.isRandomFadingSpeed()), Tooltip.create(Component.translatable("tooltip.fbp.common.random_fading_speed").append(CommonComponents.NEW_LINE).append(CommonComponents.NEW_LINE).append(Component.translatable("tooltip.fbp.default")).append(Component.translatable("button.fbp.common." + FBPConfig.DEFAULT_CONFIG.flame.isRandomFadingSpeed()))), () -> (!this.config.flame.isInfiniteDuration() && !this.config.global.isInfiniteDuration()) && !FancyBlockParticles.CONFIG.global.isLocked()),
 
-                new FBPSliderButton(150, 20, Component.translatable("button.fbp.common.size_multiplier").append(": "), Component.literal("x"), this.config.flame.getSizeMultiplier(), FancyBlockParticles.CONFIG.flame.getSizeMultiplier(), 0.01D, 2.0D, 0.05D, button -> this.config.flame.setSizeMultiplier(button.getValueFloat()), () -> !FancyBlockParticles.CONFIG.global.isLocked(), Tooltip.create(Component.translatable("tooltip.fbp.common.size_multiplier").append(CommonComponents.NEW_LINE).append(CommonComponents.NEW_LINE).append(Component.translatable("tooltip.fbp.default")).append(Component.literal(String.valueOf(FBPConfig.DEFAULT_CONFIG.flame.getSizeMultiplier())).withStyle(ChatFormatting.YELLOW)))),
+                new FBPSliderButton(150, 20, Component.translatable("button.fbp.common.size_multiplier").append(": "), Component.literal("x"), this.config.flame.getSizeMultiplier(), FancyBlockParticles.CONFIG.flame.getSizeMultiplier(), 0.01D, 2.0D, 0.05D, button -> this.config.flame.setSizeMultiplier(button.getValueFloat()), () -> !FancyBlockParticles.CONFIG.global.isLocked(), Tooltip.create(Component.translatable("tooltip.fbp.common.size_multiplier").append(CommonComponents.NEW_LINE).append(CommonComponents.NEW_LINE).append(Component.translatable("tooltip.fbp.default")).append(Component.literal(new DecimalFormat("0.00").format(FBPConfig.DEFAULT_CONFIG.flame.getSizeMultiplier())).append(Component.literal("x")).withStyle(ChatFormatting.YELLOW)))),
 
                 minLifetimeSlider.get(),
                 maxLifetimeSlider.get()
