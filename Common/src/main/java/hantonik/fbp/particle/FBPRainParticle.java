@@ -21,7 +21,6 @@ import net.minecraft.tags.FluidTags;
 import net.minecraft.util.Mth;
 import net.minecraft.util.RewindableStream;
 import net.minecraft.world.entity.Entity;
-import net.minecraft.world.level.LightLayer;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.CampfireBlock;
 import net.minecraft.world.phys.AABB;
@@ -148,7 +147,7 @@ public class FBPRainParticle extends WaterDropParticle implements IKillableParti
                     if (this.quadSize >= this.targetSize / 2.0F) {
                         this.alpha *= 0.75F * this.multiplier;
 
-                        if (this.alpha < 0.001F)
+                        if (this.alpha < 0.01F)
                             this.remove();
                     }
                 }
@@ -158,7 +157,7 @@ public class FBPRainParticle extends WaterDropParticle implements IKillableParti
                 if (this.isInLava(this.getBoundingBox()) || ((state.is(Blocks.MAGMA_BLOCK) || CampfireBlock.isLitCampfire(state)) && this.onGround)) {
                     this.remove();
 
-                    Minecraft.getInstance().particleEngine.add(new FBPSmokeParticle.Provider(this.quadSize / 5.0F).createParticle(ParticleTypes.WHITE_SMOKE, this.level, this.x, this.y, this.z, 0.0D, 0.05D, 0.0D));
+                    Minecraft.getInstance().particleEngine.add(new FBPSmokeParticle.Provider(this.quadSize / 5.0F).createParticle(ParticleTypes.SMOKE, this.level, this.x, this.y, this.z, 0.0D, 0.05D, 0.0D));
                 }
             }
         }
@@ -260,7 +259,7 @@ public class FBPRainParticle extends WaterDropParticle implements IKillableParti
         var pos = new BlockPos(this.x, this.y, this.z);
 
         if (this.level.isLoaded(pos))
-            j = this.level.getLightEngine().getLayerListener(LightLayer.BLOCK).getLightValue(pos);
+            j = this.level.getLightEngine().getRawBrightness(pos, 0);
 
         return i == 0 ? j : i;
     }
@@ -305,7 +304,7 @@ public class FBPRainParticle extends WaterDropParticle implements IKillableParti
             if (FancyBlockParticles.CONFIG.global.isFreezeEffect())
                 return null;
 
-            return new FBPRainParticle(level, x, y, z, 0.1D, -FBPConstants.RANDOM.nextDouble(0.75D, 0.99D), 0.1D, Minecraft.getInstance().getBlockRenderer().getBlockModelShaper().getParticleIcon(Blocks.WATER.defaultBlockState()));
+            return new FBPRainParticle(level, x, y, z, 0.1D, -FBPConstants.RANDOM.nextDouble(0.65D, 0.85D), 0.1D, Minecraft.getInstance().getBlockRenderer().getBlockModelShaper().getParticleIcon(Blocks.WATER.defaultBlockState()));
         }
     }
 }

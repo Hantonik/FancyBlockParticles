@@ -16,8 +16,8 @@ public interface IClientHelper {
         return biome.getPrecipitation();
     }
 
-    default boolean isColdEnoughToSnow(Biome biome, BlockPos pos, Level level) {
-        return biome.isColdEnoughToSnow(pos);
+    default float getBiomeTemperature(Biome biome, BlockPos pos, Level level) {
+        return biome.getTemperature(pos);
     }
 
     void renderBlock(ClientLevel level, BakedModel model, BlockState state, BlockPos pos, PoseStack stack, MultiBufferSource.BufferSource bufferSource);

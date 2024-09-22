@@ -68,7 +68,7 @@ public final class ForgeClientHelper implements IClientHelper {
     }
 
     @Override
-    public boolean isColdEnoughToSnow(Biome biome, BlockPos pos, Level level) {
-        return ModList.get().isLoaded("sereneseasons") ? SeasonHooks.isColdEnoughToSnowHook(biome, pos, level) : IClientHelper.super.isColdEnoughToSnow(biome, pos, level);
+    public float getBiomeTemperature(Biome biome, BlockPos pos, Level level) {
+        return ModList.get().isLoaded("sereneseasons") ? SeasonHooks.getBiomeTemperatureHook(biome, pos, level) : IClientHelper.super.getBiomeTemperature(biome, pos, level);
     }
 }

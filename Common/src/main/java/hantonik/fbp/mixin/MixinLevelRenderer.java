@@ -6,6 +6,7 @@ import hantonik.fbp.FancyBlockParticles;
 import hantonik.fbp.animation.FBPPlacingAnimationManager;
 import hantonik.fbp.particle.FBPRainParticle;
 import hantonik.fbp.particle.FBPSnowParticle;
+import hantonik.fbp.platform.Services;
 import hantonik.fbp.util.FBPConstants;
 import net.minecraft.client.Camera;
 import net.minecraft.client.Minecraft;
@@ -14,9 +15,11 @@ import net.minecraft.client.renderer.LevelRenderer;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleOptions;
 import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.data.worldgen.biome.Biomes;
 import net.minecraft.server.packs.resources.ResourceManagerReloadListener;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.level.Level;
 import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.levelgen.Heightmap;
@@ -64,7 +67,7 @@ public abstract class MixinLevelRenderer implements ResourceManagerReloadListene
                     var surfaceHeight = this.level.getHeightmapPos(Heightmap.Types.MOTION_BLOCKING, pos).getY();
 
                     var biome = this.level.getBiome(pos);
-                    var precipitation = biome.getPrecipitation();
+                    var precipitation = Services.CLIENT.getPrecipitation(biome);
 
                     if (precipitation != Biome.Precipitation.NONE) {
                         if (this.minecraft.cameraEntity.position().distanceTo(new Vec3(x, y, z)) > (precipitation == Biome.Precipitation.RAIN ? FancyBlockParticles.CONFIG.rain.getSimulationDistance() : FancyBlockParticles.CONFIG.snow.getSimulationDistance()) * 16.0F)
@@ -75,7 +78,7 @@ public abstract class MixinLevelRenderer implements ResourceManagerReloadListene
                         if (y <= surfaceHeight + 2)
                             y = surfaceHeight + 10;
 
-                        if (biome.getTemperature(pos) >= 0.15F) {
+                        if (Services.CLIENT.getBiomeTemperature(biome, pos, this.level) >= 0.15F) {
                             if (FancyBlockParticles.CONFIG.rain.isEnabled())
                                 if (i < rainDensity)
                                     this.minecraft.particleEngine.add(new FBPRainParticle.Provider().createParticle(ParticleTypes.RAIN.getType(), this.level, x, y, z, 0.0D, 0.0D, 0.0D));
@@ -96,25 +99,26 @@ public abstract class MixinLevelRenderer implements ResourceManagerReloadListene
             if (particleOptions.getType() == ParticleTypes.SMOKE && FancyBlockParticles.CONFIG.smoke.isEnabled())
                 return;
 
-            if (particleOptions.getType() == ParticleTypes.RAIN && (FancyBlockParticles.CONFIG.rain.isEnabled() || FancyBlockParticles.CONFIG.snow.isEnabled()))
+            if (particleOptions.getType() == ParticleTypes.RAIN && FancyBlockParticles.CONFIG.rain.isEnabled())
                 return;
         }
 
         instance.addParticle(particleOptions, x, y, z, xd, yd, zd);
     }
 
-    @Redirect(at = @At(value = "INVOKE", target = "Lnet/minecraft/world/level/biome/Biome;getPrecipitation()Lnet/minecraft/world/level/biome/Biome$Precipitation;"), method = "renderSnowAndRain")
-    private Biome.Precipitation getPrecipitation(Biome instance) {
-        var precipitation = instance.getPrecipitation();
+    @Redirect(at = @At(value = "INVOKE", target = "Lnet/minecraft/world/level/Level;getBiome(Lnet/minecraft/core/BlockPos;)Lnet/minecraft/world/level/biome/Biome;"), method = "renderSnowAndRain")
+    private Biome getBiome(Level instance, BlockPos pos) {
+        var biome = instance.getBiome(pos);
+        var precipitation = biome.getPrecipitation();
 
         if (FancyBlockParticles.CONFIG.global.isEnabled()) {
             if (precipitation == Biome.Precipitation.RAIN && FancyBlockParticles.CONFIG.rain.isEnabled())
-                return Biome.Precipitation.NONE;
+                return Biomes.THE_VOID;
             else if (precipitation == Biome.Precipitation.SNOW && FancyBlockParticles.CONFIG.snow.isEnabled())
-                return Biome.Precipitation.NONE;
+                return Biomes.THE_VOID;
         }
 
-        return precipitation;
+        return biome;
     }
 
     @Inject(at = @At("HEAD"), method = "renderHitOutline", cancellable = true)

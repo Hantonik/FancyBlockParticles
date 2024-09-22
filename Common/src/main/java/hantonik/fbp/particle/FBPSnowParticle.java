@@ -2,6 +2,7 @@ package hantonik.fbp.particle;
 
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import hantonik.fbp.FancyBlockParticles;
+import hantonik.fbp.platform.Services;
 import hantonik.fbp.util.FBPConstants;
 import hantonik.fbp.util.FBPRenderHelper;
 import lombok.RequiredArgsConstructor;
@@ -96,7 +97,7 @@ public class FBPSnowParticle extends WaterDropParticle implements IKillableParti
         this.scaleAlpha = this.quadSize * 0.75F;
         this.quadSize = 0.0F;
 
-        this.multiplier = FancyBlockParticles.CONFIG.snow.isRandomFadingSpeed() ? (float) FBPConstants.RANDOM.nextDouble(0.7D, 1.0D) : 1.0F;
+        this.multiplier = FancyBlockParticles.CONFIG.snow.isRandomFadingSpeed() ? (float) FBPConstants.RANDOM.nextDouble(0.8D, 1.0D) : 1.0F;
     }
 
     @Override
@@ -155,7 +156,7 @@ public class FBPSnowParticle extends WaterDropParticle implements IKillableParti
                 var pos = new BlockPos(this.x, this.y, this.z);
                 var biome = this.level.getBiome(pos);
 
-                if (this.age >= this.lifetime || biome.getTemperature(pos) >= 0.15F) {
+                if (this.age >= this.lifetime || Services.CLIENT.getBiomeTemperature(biome, pos, this.level) >= 0.15F) {
                     this.quadSize *= 0.75F * this.multiplier;
 
                     if (this.alpha >= 0.01F && this.quadSize <= this.scaleAlpha)
@@ -164,7 +165,7 @@ public class FBPSnowParticle extends WaterDropParticle implements IKillableParti
                     if (this.alpha < 0.01F) {
                         this.remove();
 
-                        if (biome.getTemperature(pos) >= 0.15F)
+                        if (Services.CLIENT.getBiomeTemperature(biome, pos, this.level) >= 0.15F)
                             Minecraft.getInstance().particleEngine.add(new FBPRainParticle.Provider().createParticle(ParticleTypes.RAIN.getType(), this.level, x, y, z, 0.0D, 0.0D, 0.0D));
                     }
                 } else {
