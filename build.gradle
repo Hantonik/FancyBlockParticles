@@ -23,6 +23,7 @@ println "Minecraft: $mc_version, Mappings: $mappings_channel-$mappings_version"
 
 allprojects {
     repositories {
+        maven { url 'https://maven.minecraftforge.net/' }
         maven { url 'https://api.modrinth.com/maven' }
 
         mavenCentral() {
@@ -34,10 +35,10 @@ allprojects {
 }
 
 subprojects {
-    if (name != 'Changelog') {
+    if (project.name != 'Changelog') {
         apply plugin: 'java'
 
-        if (name != 'Common') {
+        if (project.name != 'Common') {
             apply plugin: 'net.darkhax.curseforgegradle'
             apply plugin: 'com.modrinth.minotaur'
 
@@ -79,17 +80,17 @@ subprojects {
         from project(':Common').sourceSets.main.resources
 
         var replaceProperties = [
-                'mod_id': mod_id,
-                'mod_name': mod_name,
-                'mod_version': version,
+                'mod_id'      : mod_id,
+                'mod_name'    : mod_name,
+                'mod_version' : version,
 
-                'mc_version': mc_version,
+                'mc_version'  : mc_version,
                 'java_version': java_version
         ]
 
         inputs.properties replaceProperties
 
-        filesMatching([ 'META-INF/*mods.toml', 'fabric.mod.json', 'pack.mcmeta' ]) {
+        filesMatching(['META-INF/*mods.toml', 'fabric.mod.json', 'pack.mcmeta']) {
             expand replaceProperties
         }
     }
