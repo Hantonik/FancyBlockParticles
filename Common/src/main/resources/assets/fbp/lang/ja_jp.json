@@ -19,13 +19,13 @@
   "screen.fbp.settings": "設定",
 
   "screen.fbp.category.animations": "アニメーション",
+  "screen.fbp.category.drip": "滴",
   "screen.fbp.category.flame": "炎",
   "screen.fbp.category.overlay": "オーバーレイ",
   "screen.fbp.category.rain": "雨",
   "screen.fbp.category.smoke": "煙",
   "screen.fbp.category.snow": "雪",
   "screen.fbp.category.terrain": "地形",
-  "screen.fbp.category.weather": "天候",
 
   "screen.fbp.terrain.animation_blacklist": "アニメーションブラックリスト",
   "screen.fbp.terrain.particle_blacklist": "パーティクルブラックリスト",
@@ -46,6 +46,8 @@
 
   "button.fbp.common.min_lifetime": "最小寿命",
   "button.fbp.common.max_lifetime": "最大寿命",
+
+  "button.fbp.common.transparency": "透明性",
 
   "button.fbp.common.size_multiplier": "サイズ倍率",
   "button.fbp.common.rotation_multiplier": "回転倍率",
@@ -68,6 +70,8 @@
 
   "button.fbp.common.ticks": " ティック",
 
+  "button.fbp.drip.fancy_dripping_particles": "豪華な滴の粒子",
+
   "button.fbp.flame.fancy_flame_particles": "ファンシーな炎パーティクル",
 
   "button.fbp.global.enabled": "有効",
@@ -78,9 +82,13 @@
 
   "button.fbp.overlay.freeze_effect_overlay": "フリーズエフェクトオーバーレイ",
 
+  "button.fbp.rain.fancy_rain_particles": "ファンシーな雨パーティクル",
+
   "button.fbp.rain.particle_density": "雨のパーティクル密度",
 
   "button.fbp.smoke.fancy_smoke_particles": "ファンシーな煙パーティクル",
+
+  "button.fbp.snow.fancy_snow_particles": "ファンシーな雪パーティクル",
 
   "button.fbp.snow.particle_density": "雪のパーティクル密度",
 
@@ -92,9 +100,6 @@
   "button.fbp.terrain.entity_collision": "エンティティの衝突",
 
   "button.fbp.terrain.particles_per_axis": "軸ごとのパーティクル数",
-
-  "button.fbp.weather.fancy_rain_particles": "ファンシーな雨パーティクル",
-  "button.fbp.weather.fancy_snow_particles": "ファンシーな雪パーティクル",
 
   "widget.fbp.global.categories": "カテゴリ",
 
@@ -122,6 +127,8 @@
   "tooltip.fbp.common.min_lifetime": "パーティクルの最小寿命。",
   "tooltip.fbp.common.max_lifetime": "パーティクルの最大寿命。",
 
+  "tooltip.fbp.common.transparency": "粒子の透明度。",
+
   "tooltip.fbp.common.size_multiplier": "パーティクルのサイズ倍率。",
   "tooltip.fbp.common.rotation_multiplier": "パーティクルの回転倍率。",
   "tooltip.fbp.common.gravity_multiplier": "パーティクルの重力倍率。",
@@ -137,6 +144,8 @@
   "tooltip.fbp.common.option_unsupported": "近日公開！",
   "tooltip.fbp.common.mod_incompatibility": "この機能は %s モッドと互換性がありません。",
 
+  "tooltip.fbp.drip.fancy_dripping_particles": "豪華な滴の粒子を有効/無効にします。\n無効にすると、デフォルトのパーティクルが復元されます。",
+
   "tooltip.fbp.flame.fancy_flame_particles": "ファンシーな炎パーティクルを有効/無効にします。\n無効にすると、デフォルトのパーティクルが復元されます。",
 
   "tooltip.fbp.global.enabled": "FBP MODを有効/無効にします。\n無効にすると、デフォルトのパーティクルが復元されます。",
@@ -147,9 +156,13 @@
 
   "tooltip.fbp.overlay.freeze_effect_overlay": "フリーズエフェクトオーバーレイを有効/無効にします。\n有効にすると、フリーズエフェクト中に画面上部にメッセージが表示されます。",
 
+  "tooltip.fbp.rain.fancy_rain_particles": "ファンシーな雨パーティクルを有効/無効にします。\n無効にすると、デフォルトのパーティクルが復元されます。",
+
   "tooltip.fbp.rain.particle_density": "雨のパーティクル密度。",
 
   "tooltip.fbp.smoke.fancy_smoke_particles": "ファンシーな煙パーティクルを有効/無効にします。\n無効にすると、デフォルトのパーティクルが復元されます。",
+
+  "tooltip.fbp.snow.fancy_snow_particles": "ファンシーな雪パーティクルを有効/無効にします。\n無効にすると、デフォルトのパーティクルが復元されます。",
 
   "tooltip.fbp.snow.particle_density": "雪のパーティクル密度。",
 
@@ -161,9 +174,6 @@
   "tooltip.fbp.terrain.entity_collision": "エンティティの衝突を有効/無効にします。",
 
   "tooltip.fbp.terrain.particles_per_axis": "軸ごとのパーティクル数。",
-
-  "tooltip.fbp.weather.fancy_rain_particles": "ファンシーな雨パーティクルを有効/無効にします。\n無効にすると、デフォルトのパーティクルが復元されます。",
-  "tooltip.fbp.weather.fancy_snow_particles": "ファンシーな雪パーティクルを有効/無効にします。\n無効にすると、デフォルトのパーティクルが復元されます。",
 
   "tooltip.fbp.chunks": " チャンク",
   "tooltip.fbp.default": "デフォルト: ",
