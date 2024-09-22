@@ -96,7 +96,7 @@ public class FBPSnowParticle extends WaterDropParticle implements IKillableParti
         this.scaleAlpha = this.quadSize * 0.75F;
         this.quadSize = 0.0F;
 
-        this.multiplier = FancyBlockParticles.CONFIG.snow.isRandomFadingSpeed() ? FBPConstants.RANDOM.nextFloat(0.7F, 1.0F) : 1.0F;
+        this.multiplier = FancyBlockParticles.CONFIG.snow.isRandomFadingSpeed() ? FBPConstants.RANDOM.nextFloat(0.8F, 1.0F) : 1.0F;
     }
 
     @Override
