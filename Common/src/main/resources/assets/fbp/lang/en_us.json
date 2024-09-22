@@ -19,13 +19,13 @@
   "screen.fbp.settings": "Settings",
 
   "screen.fbp.category.animations": "Animations",
+  "screen.fbp.category.drip": "Drip",
   "screen.fbp.category.flame": "Flame",
   "screen.fbp.category.overlay": "Overlay",
   "screen.fbp.category.rain": "Rain",
   "screen.fbp.category.smoke": "Smoke",
   "screen.fbp.category.snow": "Snow",
   "screen.fbp.category.terrain": "Terrain",
-  "screen.fbp.category.weather": "Weather",
 
   "screen.fbp.terrain.animation_blacklist": "Animation blacklist",
   "screen.fbp.terrain.particle_blacklist": "Particle blacklist",
@@ -46,6 +46,8 @@
 
   "button.fbp.common.min_lifetime": "Minimum lifetime",
   "button.fbp.common.max_lifetime": "Maximum lifetime",
+
+  "button.fbp.common.transparency": "Transparency",
 
   "button.fbp.common.size_multiplier": "Size multiplier",
   "button.fbp.common.rotation_multiplier": "Rotation multiplier",
@@ -68,6 +70,8 @@
 
   "button.fbp.common.ticks": " ticks",
 
+  "button.fbp.drip.fancy_dripping_particles": "Fancy dripping particles",
+
   "button.fbp.flame.fancy_flame_particles": "Fancy flame particles",
 
   "button.fbp.global.enabled": "Enabled",
@@ -78,9 +82,13 @@
 
   "button.fbp.overlay.freeze_effect_overlay": "Freeze effect overlay",
 
+  "button.fbp.rain.fancy_rain_particles": "Fancy rain particles",
+
   "button.fbp.rain.particle_density": "Rain particle density",
 
   "button.fbp.smoke.fancy_smoke_particles": "Fancy smoke particles",
+
+  "button.fbp.snow.fancy_snow_particles": "Fancy snow particles",
 
   "button.fbp.snow.particle_density": "Snow particle density",
 
@@ -92,9 +100,6 @@
   "button.fbp.terrain.entity_collision": "Entity collision",
 
   "button.fbp.terrain.particles_per_axis": "Particles per axis",
-
-  "button.fbp.weather.fancy_rain_particles": "Fancy rain particles",
-  "button.fbp.weather.fancy_snow_particles": "Fancy snow particles",
 
   "widget.fbp.global.categories": "Categories",
 
@@ -122,6 +127,8 @@
   "tooltip.fbp.common.min_lifetime": "Minimum particle lifetime.",
   "tooltip.fbp.common.max_lifetime": "Maximum particle lifetime.",
 
+  "tooltip.fbp.common.transparency": "Transparency of particles.",
+
   "tooltip.fbp.common.size_multiplier": "Particle size multiplier.",
   "tooltip.fbp.common.rotation_multiplier": "Particle rotation multiplier.",
   "tooltip.fbp.common.gravity_multiplier": "Particle gravity multiplier.",
@@ -137,6 +144,8 @@
   "tooltip.fbp.common.option_unsupported": "Coming soon!",
   "tooltip.fbp.common.mod_incompatibility": "This feature is incompatible with %s mod.",
 
+  "tooltip.fbp.drip.fancy_dripping_particles": "Enable/disable fancy dripping particles.\nWhen disabled, the default particles are restored.",
+
   "tooltip.fbp.flame.fancy_flame_particles": "Enable/disable fancy flame particles.\nWhen disabled, the default particles are restored.",
 
   "tooltip.fbp.global.enabled": "Enable/disable FBP mod.\nWhen disabled, the default particles are restored.",
@@ -147,9 +156,13 @@
 
   "tooltip.fbp.overlay.freeze_effect_overlay": "Enable/disable freeze effect overlay.\nWhen enabled, a message will appear at the top of the screen during the freeze effect.",
 
+  "tooltip.fbp.rain.fancy_rain_particles": "Enable/disable fancy rain particles.\nWhen disabled, the default particles are restored.",
+
   "tooltip.fbp.rain.particle_density": "Density of rain particles.",
 
   "tooltip.fbp.smoke.fancy_smoke_particles": "Enable/disable fancy smoke particles.\nWhen disabled, the default particles are restored.",
+
+  "tooltip.fbp.snow.fancy_snow_particles": "Enable/disable fancy snow particles.\nWhen disabled, the default particles are restored.",
 
   "tooltip.fbp.snow.particle_density": "Density of snow particles.",
 
@@ -161,9 +174,6 @@
   "tooltip.fbp.terrain.entity_collision": "Enable/disable entity collision.",
 
   "tooltip.fbp.terrain.particles_per_axis": "Number of particles per axis.",
-
-  "tooltip.fbp.weather.fancy_rain_particles": "Enable/disable fancy rain particles.\nWhen disabled, the default particles are restored.",
-  "tooltip.fbp.weather.fancy_snow_particles": "Enable/disable fancy snow particles.\nWhen disabled, the default particles are restored.",
 
   "tooltip.fbp.chunks": " chunks",
   "tooltip.fbp.default": "Default: ",

@@ -6,8 +6,11 @@ accessible field net/minecraft/client/particle/Particle rCol F
 accessible field net/minecraft/client/particle/Particle gCol F
 accessible field net/minecraft/client/particle/Particle bCol F
 
+extendable method net/minecraft/client/particle/DripParticle <init> (Lnet/minecraft/client/multiplayer/ClientLevel;DDDLnet/minecraft/world/level/material/Fluid;)V
 extendable method net/minecraft/client/particle/FlameParticle <init> (Lnet/minecraft/client/multiplayer/ClientLevel;DDDDDD)V
 extendable method net/minecraft/client/particle/LavaParticle <init> (Lnet/minecraft/client/multiplayer/ClientLevel;DDD)V
+
+accessible field net/minecraft/client/particle/DripParticle type Lnet/minecraft/world/level/material/Fluid;
 
 accessible field net/minecraft/client/particle/TerrainParticle uo F
 accessible field net/minecraft/client/particle/TerrainParticle vo F

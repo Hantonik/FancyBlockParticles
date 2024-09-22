@@ -19,13 +19,13 @@
   "screen.fbp.settings": "Einstellungen",
 
   "screen.fbp.category.animations": "Animationen",
+  "screen.fbp.category.drip": "Tropfen",
   "screen.fbp.category.flame": "Flamme",
   "screen.fbp.category.overlay": "Overlay",
   "screen.fbp.category.rain": "Regen",
   "screen.fbp.category.smoke": "Rauch",
   "screen.fbp.category.snow": "Schnee",
   "screen.fbp.category.terrain": "Terrain",
-  "screen.fbp.category.weather": "Wetter",
 
   "screen.fbp.terrain.animation_blacklist": "Animations-Blacklist",
   "screen.fbp.terrain.particle_blacklist": "Partikel-Blacklist",
@@ -46,6 +46,8 @@
 
   "button.fbp.common.min_lifetime": "Minimale Lebensdauer",
   "button.fbp.common.max_lifetime": "Maximale Lebensdauer",
+
+  "button.fbp.common.transparency": "Partikel-Transparenz",
 
   "button.fbp.common.size_multiplier": "Größenmultiplikator",
   "button.fbp.common.rotation_multiplier": "Rotationsmultiplikator",
@@ -68,6 +70,8 @@
 
   "button.fbp.common.ticks": " Ticks",
 
+  "button.fbp.drip.fancy_dripping_particles": "Fancy Tropfpartikel",
+
   "button.fbp.flame.fancy_flame_particles": "Fancy Flammenpartikel",
 
   "button.fbp.global.enabled": "Aktiviert",
@@ -78,9 +82,13 @@
 
   "button.fbp.overlay.freeze_effect_overlay": "Freeze-Effekt-Overlay",
 
+  "button.fbp.rain.fancy_rain_particles": "Fancy Regenpartikel",
+
   "button.fbp.rain.particle_density": "Regenpartikel-Dichte",
 
   "button.fbp.smoke.fancy_smoke_particles": "Fancy Rauchpartikel",
+
+  "button.fbp.snow.fancy_snow_particles": "Fancy Schneepartikel",
 
   "button.fbp.snow.particle_density": "Schneepartikel-Dichte",
 
@@ -92,9 +100,6 @@
   "button.fbp.terrain.entity_collision": "Kollision mit Entitäten",
 
   "button.fbp.terrain.particles_per_axis": "Partikel pro Achse",
-
-  "button.fbp.weather.fancy_rain_particles": "Fancy Regenpartikel",
-  "button.fbp.weather.fancy_snow_particles": "Fancy Schneepartikel",
 
   "widget.fbp.global.categories": "Kategorien",
 
@@ -122,6 +127,8 @@
   "tooltip.fbp.common.min_lifetime": "Minimale Partikel-Lebensdauer.",
   "tooltip.fbp.common.max_lifetime": "Maximale Partikel-Lebensdauer.",
 
+  "tooltip.fbp.common.transparency": "Transparenz der Partikel.",
+
   "tooltip.fbp.common.size_multiplier": "Partikelgrößen-Multiplikator.",
   "tooltip.fbp.common.rotation_multiplier": "Partikelrotations-Multiplikator.",
   "tooltip.fbp.common.gravity_multiplier": "Partikelschwerkraft-Multiplikator.",
@@ -137,6 +144,8 @@
   "tooltip.fbp.common.option_unsupported": "Kommt bald!",
   "tooltip.fbp.common.mod_incompatibility": "Diese Funktion ist mit dem %s-Mod nicht kompatibel.",
 
+  "tooltip.fbp.drip.fancy_dripping_particles": "Fancy Tropfpartikel aktivieren/deaktivieren.\nWenn deaktiviert, werden die Standardpartikel wiederhergestellt.",
+
   "tooltip.fbp.flame.fancy_flame_particles": "Fancy Flammenpartikel aktivieren/deaktivieren.\nWenn deaktiviert, werden die Standardpartikel wiederhergestellt.",
 
   "tooltip.fbp.global.enabled": "FBP-Mod aktivieren/deaktivieren.\nWenn deaktiviert, werden die Standardpartikel wiederhergestellt.",
@@ -147,9 +156,13 @@
 
   "tooltip.fbp.overlay.freeze_effect_overlay": "Freeze-Effekt-Overlay aktivieren/deaktivieren.\nWenn aktiviert, wird während des Freeze-Effekts eine Nachricht oben auf dem Bildschirm angezeigt.",
 
+  "tooltip.fbp.rain.fancy_rain_particles": "Fancy Regenpartikel aktivieren/deaktivieren.\nWenn deaktiviert, werden die Standardpartikel wiederhergestellt.",
+
   "tooltip.fbp.rain.particle_density": "Dichte der Regenpartikel.",
 
   "tooltip.fbp.smoke.fancy_smoke_particles": "Fancy Rauchpartikel aktivieren/deaktivieren.\nWenn deaktiviert, werden die Standardpartikel wiederhergestellt.",
+
+  "tooltip.fbp.snow.fancy_snow_particles": "Fancy Schneepartikel aktivieren/deaktivieren.\nWenn deaktiviert, werden die Standardpartikel wiederhergestellt.",
 
   "tooltip.fbp.snow.particle_density": "Dichte der Schneepartikel.",
 
@@ -161,9 +174,6 @@
   "tooltip.fbp.terrain.entity_collision": "Kollision mit Entitäten aktivieren/deaktivieren.",
 
   "tooltip.fbp.terrain.particles_per_axis": "Anzahl der Partikel pro Achse.",
-
-  "tooltip.fbp.weather.fancy_rain_particles": "Fancy Regenpartikel aktivieren/deaktivieren.\nWenn deaktiviert, werden die Standardpartikel wiederhergestellt.",
-  "tooltip.fbp.weather.fancy_snow_particles": "Fancy Schneepartikel aktivieren/deaktivieren.\nWenn deaktiviert, werden die Standardpartikel wiederhergestellt.",
 
   "tooltip.fbp.chunks": " Chunks",
   "tooltip.fbp.default": "Standard: ",
