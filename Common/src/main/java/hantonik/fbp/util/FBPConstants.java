@@ -11,7 +11,6 @@ import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.particle.ParticleRenderType;
-import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.client.renderer.texture.TextureManager;
 import net.minecraft.world.inventory.InventoryMenu;
@@ -64,6 +63,7 @@ public final class FBPConstants {
             RenderSystem.enableDepthTest();
             RenderSystem.setShaderTexture(0, InventoryMenu.BLOCK_ATLAS);
             RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
+            RenderSystem.setShader(Services.CLIENT::getParticleTranslucentShader);
 
             RenderSystem.enableCull();
 
@@ -88,7 +88,7 @@ public final class FBPConstants {
             RenderSystem.enableDepthTest();
             RenderSystem.setShaderTexture(0, InventoryMenu.BLOCK_ATLAS);
             RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
-            RenderSystem.setShader(GameRenderer::getRendertypeTranslucentShader);
+            RenderSystem.setShader(Services.CLIENT::getBlockTranslucentShader);
 
             if (FancyBlockParticles.CONFIG.global.isCullParticles())
                 RenderSystem.enableCull();

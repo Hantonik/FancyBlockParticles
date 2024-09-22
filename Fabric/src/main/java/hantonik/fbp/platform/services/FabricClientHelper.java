@@ -2,10 +2,16 @@ package hantonik.fbp.platform.services;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import hantonik.fbp.FancyBlockParticles;
+import net.fabricmc.loader.api.FabricLoader;
+import net.irisshaders.iris.Iris;
+import net.irisshaders.iris.pipeline.ShaderRenderingPipeline;
+import net.irisshaders.iris.pipeline.programs.ShaderAccess;
+import net.irisshaders.iris.pipeline.programs.ShaderKey;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.renderer.ItemBlockRenderTypes;
 import net.minecraft.client.renderer.MultiBufferSource;
+import net.minecraft.client.renderer.ShaderInstance;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.client.resources.model.BakedModel;
 import net.minecraft.core.BlockPos;
@@ -29,5 +35,26 @@ public final class FabricClientHelper implements IClientHelper {
         var renderer = Minecraft.getInstance().getBlockRenderer();
 
         renderer.getModelRenderer().tesselateBlock(level, renderer.getBlockModel(state), state, pos, stack, bufferSource.getBuffer(ItemBlockRenderTypes.getRenderType(state, FancyBlockParticles.CONFIG.global.isCullParticles())), false, RandomSource.create(), state.getSeed(pos), OverlayTexture.NO_OVERLAY);
+    }
+
+    @Override
+    public ShaderInstance getParticleTranslucentShader() {
+        return FabricLoader.getInstance().isModLoaded("iris") ? ShaderAccess.getParticleTranslucentShader() : IClientHelper.super.getParticleTranslucentShader();
+    }
+
+    @Override
+    public ShaderInstance getBlockTranslucentShader() {
+        if (FabricLoader.getInstance().isModLoaded("iris")) {
+            var pipeline = Iris.getPipelineManager().getPipelineNullable();
+
+            if (pipeline instanceof ShaderRenderingPipeline shaderPipeline) {
+                var shader = shaderPipeline.getShaderMap().getShader(ShaderKey.MOVING_BLOCK);
+
+                if (shader != null)
+                    return shader;
+            }
+        }
+
+        return IClientHelper.super.getBlockTranslucentShader();
     }
 }
