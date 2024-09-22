@@ -100,7 +100,7 @@ public class FBPSmokeParticle extends SmokeParticle implements IKillableParticle
         for (var i = 0; i < FBPConstants.CUBE.length; i++)
             this.rotatedCube[i] = FBPRenderHelper.rotate(FBPConstants.CUBE[i], 0, angleY, 0);
 
-        this.multiplier = FancyBlockParticles.CONFIG.smoke.isRandomFadingSpeed() ? Mth.clamp(FBPConstants.RANDOM.nextFloat(0.425F, 1.15F), 0.5432F, 1.0F) : 0.75F;
+        this.multiplier = FancyBlockParticles.CONFIG.smoke.isRandomFadingSpeed() ? Mth.clamp(FBPConstants.RANDOM.nextFloat(0.55F, 1.15F), 0.7F, 1.0F) : 0.75F;
 
         this.scale(1.0F);
     }
