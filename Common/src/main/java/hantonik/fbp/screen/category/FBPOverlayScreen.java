@@ -6,10 +6,7 @@ import hantonik.fbp.screen.component.widget.FBPStringWidget;
 import hantonik.fbp.screen.component.widget.button.FBPToggleButton;
 import net.minecraft.client.gui.components.EditBox;
 import net.minecraft.client.gui.screens.Screen;
-import net.minecraft.network.chat.CommonComponents;
-import net.minecraft.network.chat.Style;
-import net.minecraft.network.chat.TextColor;
-import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.network.chat.*;
 import net.minecraft.util.FormattedCharSequence;
 
 import java.util.Locale;
@@ -41,7 +38,7 @@ public class FBPOverlayScreen extends FBPAbstractOptionsScreen {
         );
 
         this.list.addSmall(
-                new FBPStringWidget(150, 21, new TranslatableComponent("widget.fbp.overlay.freeze_effect_color").append(": "), this.font).alignLeft(),
+                new FBPStringWidget(150, 21, new TextComponent(" ").append(new TranslatableComponent("widget.fbp.overlay.freeze_effect_color")).append(":"), this.font).alignLeft(),
                 colorBox
         );
     }

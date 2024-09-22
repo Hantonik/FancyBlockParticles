@@ -13,6 +13,8 @@ import net.minecraft.network.chat.CommonComponents;
 import net.minecraft.network.chat.TextComponent;
 import net.minecraft.network.chat.TranslatableComponent;
 
+import java.text.DecimalFormat;
+
 public class FBPAnimationsScreen extends FBPAbstractOptionsScreen {
     public FBPAnimationsScreen(Screen lastScreen, FBPConfig config) {
         super(new TranslatableComponent("screen.fbp.category.animations"), lastScreen, config);

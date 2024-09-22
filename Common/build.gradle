@@ -7,14 +7,6 @@ minecraft {
     accessWideners file("src/main/resources/${mod_id}.accesswidener")
 }
 
-repositories {
-    mavenCentral() {
-        content {
-            includeGroup 'org.projectlombok'
-        }
-    }
-}
-
 dependencies {
     compileOnly "org.spongepowered:mixin:0.8.+"
 

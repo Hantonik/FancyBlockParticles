@@ -124,12 +124,12 @@ public class FBPFlameParticle extends FlameParticle implements IKillableParticle
                 if (this.age >= this.lifetime) {
                     this.quadSize *= this.multiplier * 0.95F;
 
-                    if (this.alpha > 0.01D && this.quadSize <= this.scaleAlpha)
+                    if (this.alpha >= 0.01D && this.quadSize <= this.scaleAlpha)
                         this.alpha *= this.multiplier * 0.95F;
 
                     var state = this.level.getBlockState(new BlockPos(this.x, this.y, this.z));
 
-                    if (this.alpha <= 0.01D)
+                    if (this.alpha < 0.01D)
                         this.remove();
                     else if (this.alpha <= 0.325D && this.hasChild && (state.getBlock() instanceof TorchBlock || state.getBlock() instanceof CandleBlock)) {
                         this.hasChild = false;
