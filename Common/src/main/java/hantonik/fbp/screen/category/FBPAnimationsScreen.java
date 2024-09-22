@@ -13,6 +13,8 @@ import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.CommonComponents;
 import net.minecraft.network.chat.Component;
 
+import java.text.DecimalFormat;
+
 public class FBPAnimationsScreen extends FBPAbstractOptionsScreen {
     public FBPAnimationsScreen(Screen lastScreen, FBPConfig config) {
         super(Component.translatable("screen.fbp.category.animations"), lastScreen, config);
@@ -36,7 +38,7 @@ public class FBPAnimationsScreen extends FBPAbstractOptionsScreen {
 
                 maxLifetimeSlider.get().setValue(button.getValue());
             }
-        }, () -> !FancyBlockParticles.CONFIG.global.isLocked(), Tooltip.create(Component.translatable("tooltip.fbp.animations.min_lifetime").append(CommonComponents.NEW_LINE).append(CommonComponents.NEW_LINE).append(Component.translatable("tooltip.fbp.default")).append(Component.literal(String.valueOf(FBPConfig.DEFAULT_CONFIG.animations.getMinLifetime())).withStyle(ChatFormatting.YELLOW)))));
+        }, () -> !FancyBlockParticles.CONFIG.global.isLocked(), Tooltip.create(Component.translatable("tooltip.fbp.animations.min_lifetime").append(CommonComponents.NEW_LINE).append(CommonComponents.NEW_LINE).append(Component.translatable("tooltip.fbp.default")).append(Component.literal(String.valueOf(FBPConfig.DEFAULT_CONFIG.animations.getMinLifetime())).append(Component.translatable("button.fbp.common.ticks")).withStyle(ChatFormatting.YELLOW)))));
 
         maxLifetimeSlider.setSupplier(() -> new FBPSliderButton(150, 20, Component.translatable("button.fbp.common.max_lifetime").append(": "), Component.translatable("button.fbp.common.ticks"), this.config.animations.getMaxLifetime(), FancyBlockParticles.CONFIG.animations.getMaxLifetime(), 0, 10, 1, button -> {
             this.config.animations.setMaxLifetime(button.getValueInt());
@@ -46,7 +48,7 @@ public class FBPAnimationsScreen extends FBPAbstractOptionsScreen {
 
                 minLifetimeSlider.get().setValue(button.getValue());
             }
-        }, () -> !FancyBlockParticles.CONFIG.global.isLocked(), Tooltip.create(Component.translatable("tooltip.fbp.animations.max_lifetime").append(CommonComponents.NEW_LINE).append(CommonComponents.NEW_LINE).append(Component.translatable("tooltip.fbp.default")).append(Component.literal(String.valueOf(FBPConfig.DEFAULT_CONFIG.animations.getMaxLifetime())).withStyle(ChatFormatting.YELLOW)))));
+        }, () -> !FancyBlockParticles.CONFIG.global.isLocked(), Tooltip.create(Component.translatable("tooltip.fbp.animations.max_lifetime").append(CommonComponents.NEW_LINE).append(CommonComponents.NEW_LINE).append(Component.translatable("tooltip.fbp.default")).append(Component.literal(String.valueOf(FBPConfig.DEFAULT_CONFIG.animations.getMaxLifetime())).append(Component.translatable("button.fbp.common.ticks")).withStyle(ChatFormatting.YELLOW)))));
 
         this.list.addBig(
                 fancyPlacingAnimationButton
@@ -54,7 +56,7 @@ public class FBPAnimationsScreen extends FBPAbstractOptionsScreen {
 
         this.list.addSmall(
                 new FBPToggleButton(150, 20, Component.translatable("button.fbp.animations.render_outline"), this.config.animations::isRenderOutline, button -> this.config.animations.setRenderOutline(!this.config.animations.isRenderOutline()), Tooltip.create(Component.translatable("tooltip.fbp.animations.render_outline").append(CommonComponents.NEW_LINE).append(CommonComponents.NEW_LINE).append(Component.translatable("tooltip.fbp.default")).append(Component.translatable("button.fbp.common." + FBPConfig.DEFAULT_CONFIG.animations.isRenderOutline())))),
-                new FBPSliderButton(150, 20, Component.translatable("button.fbp.common.size_multiplier").append(": "), Component.literal("x"), this.config.animations.getSizeMultiplier(), FancyBlockParticles.CONFIG.animations.getSizeMultiplier(), 0.01D, 2.0D, 0.05D, button -> this.config.animations.setSizeMultiplier(button.getValueFloat()), () -> !FancyBlockParticles.CONFIG.global.isLocked(), Tooltip.create(Component.translatable("tooltip.fbp.animations.size_multiplier").append(CommonComponents.NEW_LINE).append(CommonComponents.NEW_LINE).append(Component.translatable("tooltip.fbp.default")).append(Component.literal(String.valueOf(FBPConfig.DEFAULT_CONFIG.animations.getSizeMultiplier())).withStyle(ChatFormatting.YELLOW)))),
+                new FBPSliderButton(150, 20, Component.translatable("button.fbp.common.size_multiplier").append(": "), Component.literal("x"), this.config.animations.getSizeMultiplier(), FancyBlockParticles.CONFIG.animations.getSizeMultiplier(), 0.01D, 2.0D, 0.05D, button -> this.config.animations.setSizeMultiplier(button.getValueFloat()), () -> !FancyBlockParticles.CONFIG.global.isLocked(), Tooltip.create(Component.translatable("tooltip.fbp.animations.size_multiplier").append(CommonComponents.NEW_LINE).append(CommonComponents.NEW_LINE).append(Component.translatable("tooltip.fbp.default")).append(Component.literal(new DecimalFormat("0.00").format(FBPConfig.DEFAULT_CONFIG.animations.getSizeMultiplier())).append(Component.literal("x")).withStyle(ChatFormatting.YELLOW)))),
 
                 minLifetimeSlider.get(),
                 maxLifetimeSlider.get()

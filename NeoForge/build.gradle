@@ -50,12 +50,6 @@ configurations {
     runtimeClasspath.extendsFrom localRuntime
 }
 
-repositories {
-    maven { url 'https://maven.minecraftforge.net/' }
-    maven { url 'https://api.modrinth.com/maven' }
-    maven { url 'https://maven.blamejared.com' }
-}
-
 dependencies {
     compileOnly project(':Common')
 

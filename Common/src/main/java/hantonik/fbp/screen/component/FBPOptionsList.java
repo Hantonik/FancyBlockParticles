@@ -8,7 +8,6 @@ import net.minecraft.client.gui.components.AbstractWidget;
 import net.minecraft.client.gui.components.ContainerObjectSelectionList;
 import net.minecraft.client.gui.components.events.GuiEventListener;
 import net.minecraft.client.gui.narration.NarratableEntry;
-import net.minecraft.client.gui.screens.Screen;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
@@ -51,7 +50,7 @@ public class FBPOptionsList extends ContainerObjectSelectionList<FBPOptionsList.
 
     protected static class Entry extends ContainerObjectSelectionList.Entry<Entry> {
         private final List<AbstractWidget> widgets;
-        private final Screen screen;
+        private final FBPAbstractOptionsScreen screen;
 
         private Entry(List<AbstractWidget> widgets, FBPAbstractOptionsScreen screen) {
             this.widgets = ImmutableList.copyOf(widgets);
