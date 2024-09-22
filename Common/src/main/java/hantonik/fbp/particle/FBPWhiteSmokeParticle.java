@@ -110,10 +110,10 @@ public class FBPWhiteSmokeParticle extends WhiteSmokeParticle implements IKillab
                 if (this.age >= this.lifetime) {
                     this.quadSize *= 0.9F * this.multiplier;
 
-                    if (this.alpha > 0.01D && this.quadSize <= this.scaleAlpha)
+                    if (this.alpha >= 0.01D && this.quadSize <= this.scaleAlpha)
                         this.alpha *= 0.76F * this.multiplier;
 
-                    if (this.alpha <= 0.01D)
+                    if (this.alpha < 0.01D)
                         this.remove();
                 }
 
@@ -233,7 +233,7 @@ public class FBPWhiteSmokeParticle extends WhiteSmokeParticle implements IKillab
         var brightness = 1.0F;
 
         float red;
-        float greed;
+        float green;
         float blue;
 
         for (var i = 0; i < cube.length; i += 4) {
@@ -243,15 +243,15 @@ public class FBPWhiteSmokeParticle extends WhiteSmokeParticle implements IKillab
             var vec3 = cube[i + 3];
 
             red = rCol * brightness;
-            greed = gCol * brightness;
+            green = gCol * brightness;
             blue = bCol * brightness;
 
             brightness *= 0.875F;
 
-            this.addVertex(buffer, vec0, u, v, light, red, greed, blue, alpha);
-            this.addVertex(buffer, vec1, u, v, light, red, greed, blue, alpha);
-            this.addVertex(buffer, vec2, u, v, light, red, greed, blue, alpha);
-            this.addVertex(buffer, vec3, u, v, light, red, greed, blue, alpha);
+            this.addVertex(buffer, vec0, u, v, light, red, green, blue, alpha);
+            this.addVertex(buffer, vec1, u, v, light, red, green, blue, alpha);
+            this.addVertex(buffer, vec2, u, v, light, red, green, blue, alpha);
+            this.addVertex(buffer, vec3, u, v, light, red, green, blue, alpha);
         }
     }
 
