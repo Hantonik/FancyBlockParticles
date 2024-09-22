@@ -19,13 +19,13 @@
   "screen.fbp.settings": "Ustawienia",
 
   "screen.fbp.category.animations": "Animacje",
+  "screen.fbp.category.drip": "Krople",
   "screen.fbp.category.flame": "Płomień",
   "screen.fbp.category.overlay": "Nakładka",
   "screen.fbp.category.rain": "Deszcz",
   "screen.fbp.category.smoke": "Dym",
   "screen.fbp.category.snow": "Śnieg",
   "screen.fbp.category.terrain": "Teren",
-  "screen.fbp.category.weather": "Pogoda",
 
   "screen.fbp.terrain.animation_blacklist": "Czarna lista animacji",
   "screen.fbp.terrain.particle_blacklist": "Czarna lista cząsteczek",
@@ -46,6 +46,8 @@
 
   "button.fbp.common.min_lifetime": "Minimalny czas istnienia",
   "button.fbp.common.max_lifetime": "Maksymalny czas istnienia",
+
+  "button.fbp.common.transparency": "Przezroczystość",
 
   "button.fbp.common.size_multiplier": "Mnożnik rozmiaru",
   "button.fbp.common.rotation_multiplier": "Mnożnik rotacji",
@@ -68,6 +70,8 @@
 
   "button.fbp.common.ticks": " tiki",
 
+  "button.fbp.drip.fancy_dripping_particles": "Fantazyjne cząsteczki kropel",
+
   "button.fbp.flame.fancy_flame_particles": "Fantazyjne cząsteczki płomieni",
 
   "button.fbp.global.enabled": "Włączone",
@@ -78,9 +82,13 @@
 
   "button.fbp.overlay.freeze_effect_overlay": "Nakładka efektu zamrożenia",
 
+  "button.fbp.rain.fancy_rain_particles": "Fantazyjne cząsteczki deszczu",
+
   "button.fbp.rain.particle_density": "Gęstość cząsteczek deszczu",
 
   "button.fbp.smoke.fancy_smoke_particles": "Fantazyjne cząsteczki dymu",
+
+  "button.fbp.snow.fancy_snow_particles": "Fantazyjne cząsteczki śniegu",
 
   "button.fbp.snow.particle_density": "Gęstość cząsteczek śniegu",
 
@@ -92,9 +100,6 @@
   "button.fbp.terrain.entity_collision": "Kolizja z bytami",
 
   "button.fbp.terrain.particles_per_axis": "Ilość cząsteczek na oś",
-
-  "button.fbp.weather.fancy_rain_particles": "Fantazyjne cząsteczki deszczu",
-  "button.fbp.weather.fancy_snow_particles": "Fantazyjne cząsteczki śniegu",
 
   "widget.fbp.global.categories": "Kategorie",
 
@@ -122,6 +127,8 @@
   "tooltip.fbp.common.min_lifetime": "Minimalna długość istnienia cząsteczek.",
   "tooltip.fbp.common.max_lifetime": "Maksymalna długość istnienia cząsteczek.",
 
+  "tooltip.fbp.common.transparency": "Przezroczystość cząsteczek.",
+
   "tooltip.fbp.common.size_multiplier": "Mnożnik rozmiaru cząsteczek.",
   "tooltip.fbp.common.rotation_multiplier": "Mnożnik rotacji cząsteczek.",
   "tooltip.fbp.common.gravity_multiplier": "Mnożnik grawitacji cząsteczek.",
@@ -137,6 +144,8 @@
   "tooltip.fbp.common.option_unsupported": "Dostępne wkrótce!",
   "tooltip.fbp.common.mod_incompatibility": "Ta funkcja jest niekompatybilna z modem %s.",
 
+  "tooltip.fbp.drip.fancy_dripping_particles": "Włącz/wyłącz fantazyjne cząsteczki kropel.\nGdy wyłączone przywrócone zostają domyślne cząsteczki.",
+
   "tooltip.fbp.flame.fancy_flame_particles": "Włącz/wyłącz fantazyjne cząsteczki płomienia.\nGdy wyłączone przywrócone zostają domyślne cząsteczki.",
 
   "tooltip.fbp.global.enabled": "Włącz/wyłącz moda FBP.\nGdy wyłączone przywrócone zostają domyślne cząsteczki.",
@@ -147,9 +156,13 @@
 
   "tooltip.fbp.overlay.freeze_effect_overlay": "Włącz/wyłącz nakładkę efektu zamrożenia.\nPo włączeniu, podczas efektu zamrożenia na górze ekranu pojawi się informujący o tym tekst.",
 
+  "tooltip.fbp.rain.fancy_rain_particles": "Włącz/wyłącz fantazyjne cząsteczki deszczu.\nGdy wyłączone przywrócone zostają domyślne cząsteczki.",
+
   "tooltip.fbp.rain.particle_density": "Gęstość cząsteczek deszczu.",
 
   "tooltip.fbp.smoke.fancy_smoke_particles": "Włącz/wyłącz fantazyjne cząsteczki dymku.\nGdy wyłączone przywrócone zostają domyślne cząsteczki.",
+
+  "tooltip.fbp.snow.fancy_snow_particles": "Włącz/wyłącz fantazyjne cząsteczki śniegu.\nGdy wyłączone przywrócone zostają domyślne cząsteczki.",
 
   "tooltip.fbp.snow.particle_density": "Gęstość cząsteczek śniegu.",
 
@@ -161,9 +174,6 @@
   "tooltip.fbp.terrain.entity_collision": "Włącz/wyłącz kolizję z bytami.",
 
   "tooltip.fbp.terrain.particles_per_axis": "Ilość cząsteczek na oś.",
-
-  "tooltip.fbp.weather.fancy_rain_particles": "Włącz/wyłącz fantazyjne cząsteczki deszczu.\nGdy wyłączone przywrócone zostają domyślne cząsteczki.",
-  "tooltip.fbp.weather.fancy_snow_particles": "Włącz/wyłącz fantazyjne cząsteczki śniegu.\nGdy wyłączone przywrócone zostają domyślne cząsteczki.",
 
   "tooltip.fbp.chunks": " chunków",
   "tooltip.fbp.default": "Domyślnie: ",
