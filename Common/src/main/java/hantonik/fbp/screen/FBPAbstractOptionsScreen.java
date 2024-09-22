@@ -122,8 +122,12 @@ public abstract class FBPAbstractOptionsScreen extends Screen {
 
     @Override
     public void onClose() {
-        if (this.lastScreen instanceof FBPAbstractOptionsScreen screen)
+        if (this.lastScreen instanceof FBPAbstractOptionsScreen screen) {
+            var scrollAmount = screen.list.getScrollAmount();
+
             screen.rebuildWidgets();
+            screen.list.setScrollAmount(scrollAmount);
+        }
 
         this.minecraft.setScreen(this.lastScreen);
     }

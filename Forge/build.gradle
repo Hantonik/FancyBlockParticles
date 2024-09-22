@@ -59,14 +59,6 @@ sourceSets.each {
     it.java.destinationDirectory = dir
 }
 
-repositories {
-    mavenCentral() {
-        content {
-            includeGroup 'org.projectlombok'
-        }
-    }
-}
-
 dependencies {
     minecraft "net.minecraftforge:forge:$mc_version-$forge_version"
 

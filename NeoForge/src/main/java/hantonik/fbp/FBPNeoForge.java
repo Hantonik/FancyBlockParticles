@@ -27,7 +27,7 @@ public final class FBPNeoForge {
             bus.addListener(this::onRegisterClientReloadListeners);
         }
 
-        ModList.get().getModContainerById(FancyBlockParticles.MOD_ID).ifPresent(mc -> mc.registerExtensionPoint(IConfigScreenFactory.class, (minecraft, modsScreen) -> new FBPOptionsScreen(modsScreen)));
+        ModList.get().getModContainerById(FancyBlockParticles.MOD_ID).ifPresent(mc -> mc.registerExtensionPoint(IConfigScreenFactory.class, (container, modsScreen) -> new FBPOptionsScreen(modsScreen)));
     }
 
     @SubscribeEvent
