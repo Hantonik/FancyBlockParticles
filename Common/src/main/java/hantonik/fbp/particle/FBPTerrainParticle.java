@@ -126,7 +126,7 @@ public class FBPTerrainParticle extends TerrainParticle implements IKillablePart
         } else
             this.sprite = sprite;
 
-        this.multiplier = FancyBlockParticles.CONFIG.terrain.isRandomFadingSpeed() ? Mth.clamp(FBPConstants.RANDOM.nextFloat(0.5F, 0.9F), 0.55F, 0.8F) : 0.75F;
+        this.multiplier = FancyBlockParticles.CONFIG.terrain.isRandomFadingSpeed() ? Mth.clamp(FBPConstants.RANDOM.nextFloat(0.5F, 0.9F), 0.6F, 0.8F) : 0.75F;
 
         this.scale(1.0F);
     }
