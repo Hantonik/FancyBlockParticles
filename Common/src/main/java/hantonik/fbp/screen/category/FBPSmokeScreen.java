@@ -11,6 +11,8 @@ import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.CommonComponents;
 import net.minecraft.network.chat.Component;
 
+import java.text.DecimalFormat;
+
 public class FBPSmokeScreen extends FBPAbstractOptionsScreen {
     public FBPSmokeScreen(Screen lastScreen, FBPConfig config) {
         super(Component.translatable("screen.fbp.category.smoke"), lastScreen, config);
@@ -29,7 +31,7 @@ public class FBPSmokeScreen extends FBPAbstractOptionsScreen {
 
                 maxLifetimeSlider.get().setValue(button.getValue());
             }
-        }, () -> (!this.config.smoke.isInfiniteDuration() && !this.config.global.isInfiniteDuration()) && !FancyBlockParticles.CONFIG.global.isLocked(), Component.translatable("tooltip.fbp.common.min_lifetime").append(CommonComponents.NEW_LINE).append(CommonComponents.NEW_LINE).append(Component.translatable("tooltip.fbp.default")).append(Component.literal(String.valueOf(FBPConfig.DEFAULT_CONFIG.smoke.getMinLifetime())).withStyle(ChatFormatting.YELLOW))));
+        }, () -> (!this.config.smoke.isInfiniteDuration() && !this.config.global.isInfiniteDuration()) && !FancyBlockParticles.CONFIG.global.isLocked(), Component.translatable("tooltip.fbp.common.min_lifetime").append(CommonComponents.NEW_LINE).append(CommonComponents.NEW_LINE).append(Component.translatable("tooltip.fbp.default")).append(Component.literal(String.valueOf(FBPConfig.DEFAULT_CONFIG.smoke.getMinLifetime())).append(Component.translatable("button.fbp.common.ticks")).withStyle(ChatFormatting.YELLOW))));
 
         maxLifetimeSlider.setSupplier(() -> new FBPSliderButton(150, 20, Component.translatable("button.fbp.common.max_lifetime").append(": "), Component.translatable("button.fbp.common.ticks"), this.config.smoke.getMaxLifetime(), FancyBlockParticles.CONFIG.smoke.getMaxLifetime(), 0, 50, 1, button -> {
             this.config.smoke.setMaxLifetime(button.getValueInt());
@@ -39,7 +41,7 @@ public class FBPSmokeScreen extends FBPAbstractOptionsScreen {
 
                 minLifetimeSlider.get().setValue(button.getValue());
             }
-        }, () -> (!this.config.smoke.isInfiniteDuration() && !this.config.global.isInfiniteDuration()) && !FancyBlockParticles.CONFIG.global.isLocked(), Component.translatable("tooltip.fbp.common.max_lifetime").append(CommonComponents.NEW_LINE).append(CommonComponents.NEW_LINE).append(Component.translatable("tooltip.fbp.default")).append(Component.literal(String.valueOf(FBPConfig.DEFAULT_CONFIG.smoke.getMaxLifetime())).withStyle(ChatFormatting.YELLOW))));
+        }, () -> (!this.config.smoke.isInfiniteDuration() && !this.config.global.isInfiniteDuration()) && !FancyBlockParticles.CONFIG.global.isLocked(), Component.translatable("tooltip.fbp.common.max_lifetime").append(CommonComponents.NEW_LINE).append(CommonComponents.NEW_LINE).append(Component.translatable("tooltip.fbp.default")).append(Component.literal(String.valueOf(FBPConfig.DEFAULT_CONFIG.smoke.getMaxLifetime())).append(Component.translatable("button.fbp.common.ticks")).withStyle(ChatFormatting.YELLOW))));
 
         this.list.addSmall(
                 new FBPToggleButton(150, 20, Component.translatable("button.fbp.smoke.fancy_smoke_particles"), this.config.smoke::isEnabled, button -> this.config.smoke.setEnabled(!this.config.smoke.isEnabled()), Component.translatable("tooltip.fbp.smoke.fancy_smoke_particles").append(CommonComponents.NEW_LINE).append(CommonComponents.NEW_LINE).append(Component.translatable("tooltip.fbp.default")).append(Component.translatable("button.fbp.common." + FBPConfig.DEFAULT_CONFIG.smoke.isEnabled()))),
@@ -49,7 +51,7 @@ public class FBPSmokeScreen extends FBPAbstractOptionsScreen {
                 new FBPToggleButton(150, 20, Component.translatable("button.fbp.common.random_size"), this.config.smoke::isRandomSize, button -> this.config.smoke.setRandomSize(!this.config.smoke.isRandomSize()), Component.translatable("tooltip.fbp.common.random_size").append(CommonComponents.NEW_LINE).append(CommonComponents.NEW_LINE).append(Component.translatable("tooltip.fbp.default")).append(Component.translatable("button.fbp.common." + FBPConfig.DEFAULT_CONFIG.smoke.isRandomSize()))),
                 new FBPToggleButton(150, 20, Component.translatable("button.fbp.common.random_fading_speed"), this.config.smoke::isRandomFadingSpeed, button -> this.config.smoke.setRandomFadingSpeed(!this.config.smoke.isRandomFadingSpeed()), Component.translatable("tooltip.fbp.common.random_fading_speed").append(CommonComponents.NEW_LINE).append(CommonComponents.NEW_LINE).append(Component.translatable("tooltip.fbp.default")).append(Component.translatable("button.fbp.common." + FBPConfig.DEFAULT_CONFIG.smoke.isRandomFadingSpeed())), () -> (!this.config.smoke.isInfiniteDuration() && !this.config.global.isInfiniteDuration()) && !FancyBlockParticles.CONFIG.global.isLocked()),
 
-                new FBPSliderButton(150, 20, Component.translatable("button.fbp.common.size_multiplier").append(": "), Component.literal("x"), this.config.smoke.getSizeMultiplier(), FancyBlockParticles.CONFIG.smoke.getSizeMultiplier(), 0.01D, 2.0D, 0.05D, button -> this.config.smoke.setSizeMultiplier(button.getValueFloat()), () -> !FancyBlockParticles.CONFIG.global.isLocked(), Component.translatable("tooltip.fbp.common.size_multiplier").append(CommonComponents.NEW_LINE).append(CommonComponents.NEW_LINE).append(Component.translatable("tooltip.fbp.default")).append(Component.literal(String.valueOf(FBPConfig.DEFAULT_CONFIG.smoke.getSizeMultiplier())).withStyle(ChatFormatting.YELLOW))),
+                new FBPSliderButton(150, 20, Component.translatable("button.fbp.common.size_multiplier").append(": "), Component.literal("x"), this.config.smoke.getSizeMultiplier(), FancyBlockParticles.CONFIG.smoke.getSizeMultiplier(), 0.01D, 2.0D, 0.05D, button -> this.config.smoke.setSizeMultiplier(button.getValueFloat()), () -> !FancyBlockParticles.CONFIG.global.isLocked(), Component.translatable("tooltip.fbp.common.size_multiplier").append(CommonComponents.NEW_LINE).append(CommonComponents.NEW_LINE).append(Component.translatable("tooltip.fbp.default")).append(Component.literal(new DecimalFormat("0.00").format(FBPConfig.DEFAULT_CONFIG.smoke.getSizeMultiplier())).append(Component.literal("x")).withStyle(ChatFormatting.YELLOW))),
 
                 minLifetimeSlider.get(),
                 maxLifetimeSlider.get()

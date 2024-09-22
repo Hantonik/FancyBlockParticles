@@ -12,6 +12,8 @@ import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.CommonComponents;
 import net.minecraft.network.chat.Component;
 
+import java.text.DecimalFormat;
+
 public class FBPAnimationsScreen extends FBPAbstractOptionsScreen {
     public FBPAnimationsScreen(Screen lastScreen, FBPConfig config) {
         super(Component.translatable("screen.fbp.category.animations"), lastScreen, config);

@@ -65,7 +65,7 @@ dependencies {
 
     compileOnly project(':Common')
 
-    implementation fg.deobf("com.github.glitchfiend:SereneSeasons:$mc_version-$sereneseasons_version")
+    compileOnly fg.deobf("com.github.glitchfiend:SereneSeasons:$mc_version-$sereneseasons_version")
 
     compileOnly fg.deobf("maven.modrinth:rubidium:$rubidium_version")
     compileOnly fg.deobf("maven.modrinth:oculus:$mc_version-$oculus_version")

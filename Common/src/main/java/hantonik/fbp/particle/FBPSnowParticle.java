@@ -158,7 +158,7 @@ public class FBPSnowParticle extends WaterDropParticle implements IKillableParti
                 if (this.age >= this.lifetime || !Services.CLIENT.coldEnoughToSnow(biome, pos, this.level)) {
                     this.quadSize *= 0.75F * this.multiplier;
 
-                    if (this.alpha > 0.01F && this.quadSize <= this.scaleAlpha)
+                    if (this.alpha >= 0.01F && this.quadSize <= this.scaleAlpha)
                         this.alpha *= 0.65F * this.multiplier;
 
                     if (this.alpha < 0.01F) {

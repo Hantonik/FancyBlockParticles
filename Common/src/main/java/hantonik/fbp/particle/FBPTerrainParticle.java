@@ -229,10 +229,10 @@ public class FBPTerrainParticle extends TerrainParticle implements IKillablePart
                 if (this.age >= this.lifetime) {
                     this.quadSize *= 0.9F * this.multiplier;
 
-                    if (this.alpha > 0.01D && this.quadSize <= this.scaleAlpha)
+                    if (this.alpha >= 0.01D && this.quadSize <= this.scaleAlpha)
                         this.alpha *= 0.7F * this.multiplier;
 
-                    if (this.alpha <= 0.01D)
+                    if (this.alpha < 0.01D)
                         this.remove();
                 }
 
@@ -534,6 +534,7 @@ public class FBPTerrainParticle extends TerrainParticle implements IKillablePart
         private final float scale;
         @Nullable
         private final Direction side;
+        @Nullable
         private final TextureAtlasSprite sprite;
         private final float rCol;
         private final float gCol;
