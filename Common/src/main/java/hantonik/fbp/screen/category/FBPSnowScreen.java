@@ -42,8 +42,9 @@ public class FBPSnowScreen extends FBPAbstractOptionsScreen {
             }
         }, () -> (!this.config.snow.isInfiniteDuration() && !this.config.global.isInfiniteDuration()) && !FancyBlockParticles.CONFIG.global.isLocked(), Tooltip.create(Component.translatable("tooltip.fbp.common.max_lifetime").append(CommonComponents.NEW_LINE).append(CommonComponents.NEW_LINE).append(Component.translatable("tooltip.fbp.default")).append(Component.literal(String.valueOf(FBPConfig.DEFAULT_CONFIG.snow.getMaxLifetime())).withStyle(ChatFormatting.YELLOW)))));
 
-        var waterPhysicsButton = new FBPToggleButton(150, 20, Component.translatable("button.fbp.common.water_physics"), this.config.snow::isWaterPhysics, button -> this.config.snow.setWaterPhysics(!this.config.snow.isWaterPhysics()), Tooltip.create(Component.translatable("tooltip.fbp.common.water_physics").append(CommonComponents.NEW_LINE).append(CommonComponents.NEW_LINE).append(Component.translatable("tooltip.fbp.default")).append(Component.translatable("button.fbp.common." + FBPConfig.DEFAULT_CONFIG.snow.isWaterPhysics()))), () -> false); // TODO
-        waterPhysicsButton.setTooltip(Tooltip.create(Component.translatable("tooltip.fbp.common.option_unsupported")));
+        this.list.addBig(
+                new FBPToggleButton(310, 20, Component.translatable("button.fbp.snow.fancy_snow_particles"), this.config.snow::isEnabled, button -> this.config.snow.setEnabled(!this.config.snow.isEnabled()), Tooltip.create(Component.translatable("tooltip.fbp.snow.fancy_snow_particles").append(CommonComponents.NEW_LINE).append(CommonComponents.NEW_LINE).append(Component.translatable("tooltip.fbp.default")).append(Component.translatable("button.fbp.common." + FBPConfig.DEFAULT_CONFIG.snow.isEnabled()))))
+        );
 
         this.list.addSmall(
                 new FBPToggleButton(150, 20, Component.translatable("button.fbp.common.low_traction"), this.config.snow::isLowTraction, button -> this.config.snow.setLowTraction(!this.config.snow.isLowTraction()), Tooltip.create(Component.translatable("tooltip.fbp.common.low_traction").append(CommonComponents.NEW_LINE).append(CommonComponents.NEW_LINE).append(Component.translatable("tooltip.fbp.default")).append(Component.translatable("button.fbp.common." + FBPConfig.DEFAULT_CONFIG.snow.isLowTraction())))),
