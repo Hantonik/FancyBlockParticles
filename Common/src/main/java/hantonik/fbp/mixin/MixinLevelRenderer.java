@@ -94,7 +94,7 @@ public abstract class MixinLevelRenderer implements ResourceManagerReloadListene
             if (particleOptions.getType() == ParticleTypes.SMOKE && FancyBlockParticles.CONFIG.smoke.isEnabled())
                 return;
 
-            if (particleOptions.getType() == ParticleTypes.RAIN && (FancyBlockParticles.CONFIG.rain.isEnabled() || FancyBlockParticles.CONFIG.snow.isEnabled()))
+            if (particleOptions.getType() == ParticleTypes.RAIN && FancyBlockParticles.CONFIG.rain.isEnabled())
                 return;
         }
 

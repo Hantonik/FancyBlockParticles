@@ -9,7 +9,10 @@ import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.particle.*;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
-import net.minecraft.core.particles.*;
+import net.minecraft.core.particles.BlockParticleOption;
+import net.minecraft.core.particles.ParticleOptions;
+import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.core.particles.SimpleParticleType;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.util.Mth;
@@ -122,11 +125,12 @@ public abstract class MixinParticleEngine {
         if (FancyBlockParticles.CONFIG.terrain.isFancyBreakingParticles() && !(callback.getReturnValue() instanceof FBPTerrainParticle)) {
             if (particleData.getType() == ParticleTypes.BLOCK) {
                 if (callback.getReturnValue() instanceof TerrainParticle original) {
-                    callback.setReturnValue(null);
+                    if (FancyBlockParticles.CONFIG.isBlockParticlesEnabled(((BlockParticleOption) particleData).getState().getBlock())) {
+                        callback.setReturnValue(null);
 
-                    if (this.level.getFluidState(original.pos).isEmpty())
-                        if (FancyBlockParticles.CONFIG.isBlockParticlesEnabled(((BlockParticleOption) particleData).getState().getBlock()) && !(FancyBlockParticles.CONFIG.global.isFreezeEffect() && !FancyBlockParticles.CONFIG.terrain.isSpawnWhileFrozen()))
-                            callback.setReturnValue(new FBPTerrainParticle.Provider(original.pos, original.getQuadSize(1) * 5.0F, null, original.sprite, original.rCol, original.gCol, original.bCol).createParticle((BlockParticleOption) particleData, this.level, x, y, z, 0, 0, 0));
+                        if (this.level.getFluidState(original.pos).isEmpty())
+                            callback.setReturnValue(new FBPTerrainParticle.Provider(original.pos, original.getQuadSize(1) * 5.0F, null, original.sprite, original.rCol, original.gCol, original.bCol).createParticle((BlockParticleOption) particleData, this.level, x, y, z, 0.0D, 0.0D, 0.0D));
+                    }
                 }
             }
         }
