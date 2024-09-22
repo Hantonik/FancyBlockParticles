@@ -14,6 +14,7 @@ import net.minecraft.client.particle.ParticleRenderType;
 import net.minecraft.client.particle.WaterDropParticle;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.core.particles.SimpleParticleType;
 import net.minecraft.tags.FluidTags;
@@ -22,7 +23,7 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.level.LightLayer;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.CampfireBlock;
-import net.minecraft.world.level.block.LiquidBlock;
+import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.Nullable;
 import org.joml.Vector2f;
@@ -122,15 +123,6 @@ public class FBPRainParticle extends WaterDropParticle implements IKillableParti
                         this.remove();
                 }
 
-                var state = this.level.getBlockState(BlockPos.containing(this.x, this.y, this.z));
-
-                if (state.getBlock() instanceof LiquidBlock) {
-                    this.remove();
-
-                    if (state.getFluidState().is(FluidTags.LAVA) || state.is(Blocks.MAGMA_BLOCK) || CampfireBlock.isLitCampfire(state))
-                        Minecraft.getInstance().particleEngine.add(new FBPSmokeParticle.Provider(this.quadSize / 2.0F).createParticle(ParticleTypes.SMOKE, this.level, this.x, this.y, this.z, 0.0D, 0.05D, 0.0D));
-                }
-
                 this.yd -= 0.04D * this.gravity;
 
                 this.move(this.xd, this.yd, this.zd);
@@ -155,9 +147,17 @@ public class FBPRainParticle extends WaterDropParticle implements IKillableParti
                     if (this.quadSize >= this.targetSize / 2.0F) {
                         this.alpha *= 0.75F * this.multiplier;
 
-                        if (this.alpha <= 0.001F)
+                        if (this.alpha < 0.001F)
                             this.remove();
                     }
+                }
+
+                var state = this.level.getBlockState(BlockPos.containing(this.x, this.y, this.z).relative(Direction.DOWN));
+
+                if (this.isInLava(this.getBoundingBox()) || ((state.is(Blocks.MAGMA_BLOCK) || CampfireBlock.isLitCampfire(state)) && this.onGround)) {
+                    this.remove();
+
+                    Minecraft.getInstance().particleEngine.add(new FBPSmokeParticle.Provider(this.quadSize / 5.0F).createParticle(ParticleTypes.WHITE_SMOKE, this.level, this.x, this.y, this.z, 0.0D, 0.05D, 0.0D));
                 }
             }
         }
@@ -172,6 +172,45 @@ public class FBPRainParticle extends WaterDropParticle implements IKillableParti
             this.remove();
 
         this.visible = Minecraft.getInstance().cameraEntity.position().distanceTo(new Vec3(this.x, Minecraft.getInstance().cameraEntity.getY(), this.z)) <= Math.min(FancyBlockParticles.CONFIG.rain.getRenderDistance(), Minecraft.getInstance().options.renderDistance().get()) * 16;
+    }
+
+    private boolean isInLava(AABB box) {
+        if (!this.touchingUnloadedChunk()) {
+            box = box.deflate(0.001D);
+
+            var minX = Mth.floor(box.minX);
+            var maxX = Mth.ceil(box.maxX);
+            var minY = Mth.floor(box.minY);
+            var maxY = Mth.ceil(box.maxY);
+            var minZ = Mth.floor(box.minZ);
+            var maxZ = Mth.ceil(box.maxZ);
+
+            for (var x = minX; x < maxX; x++) {
+                for (var y = minY; y < maxY; y++) {
+                    for (var z = minZ; z < maxZ; z++) {
+                        var pos = BlockPos.containing(x, y, z);
+                        var fluidState = this.level.getFluidState(pos);
+
+                        if (fluidState.is(FluidTags.LAVA))
+                            if (fluidState.getHeight(this.level, pos) + y >= box.minY)
+                                return true;
+                    }
+                }
+            }
+        }
+
+        return false;
+    }
+
+    private boolean touchingUnloadedChunk() {
+        var box = this.getBoundingBox().inflate(1.0D);
+
+        var minX = Mth.floor(box.minX);
+        var maxX = Mth.ceil(box.maxX);
+        var minZ = Mth.floor(box.minZ);
+        var maxZ = Mth.ceil(box.maxZ);
+
+        return !this.level.hasChunksAt(minX, maxX, minZ, maxZ);
     }
 
     @Override

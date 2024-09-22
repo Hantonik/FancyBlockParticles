@@ -4,8 +4,6 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.block.Block;
 import net.minecraftforge.registries.ForgeRegistries;
 
-import java.util.List;
-
 public final class ForgeRegistryHelper implements IRegistryHelper {
     @Override
     public ResourceLocation getBlockKey(Block block) {
@@ -15,10 +13,5 @@ public final class ForgeRegistryHelper implements IRegistryHelper {
     @Override
     public Block getBlock(ResourceLocation id) {
         return ForgeRegistries.BLOCKS.getValue(id);
-    }
-
-    @Override
-    public List<Block> getBlocks() {
-        return ForgeRegistries.BLOCKS.getValues().stream().toList();
     }
 }
