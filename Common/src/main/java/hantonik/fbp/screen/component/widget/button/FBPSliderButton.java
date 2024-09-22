@@ -1,12 +1,17 @@
 package hantonik.fbp.screen.component.widget.button;
 
+import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
+import hantonik.fbp.util.FBPRenderHelper;
 import net.minecraft.ChatFormatting;
+import net.minecraft.Util;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.components.AbstractSliderButton;
 import net.minecraft.client.gui.components.TooltipAccessor;
 import net.minecraft.client.gui.narration.NarratedElementType;
 import net.minecraft.client.gui.narration.NarrationElementOutput;
+import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.TextComponent;
 import net.minecraft.util.FormattedCharSequence;
@@ -156,7 +161,45 @@ public class FBPSliderButton extends AbstractSliderButton implements TooltipAcce
 
         this.applyValue();
 
-        super.renderButton(stack, mouseX, mouseY, partialTick);
+        RenderSystem.setShader(GameRenderer::getPositionTexShader);
+        RenderSystem.setShaderTexture(0, WIDGETS_LOCATION);
+        RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, this.alpha);
+
+        RenderSystem.enableBlend();
+        RenderSystem.defaultBlendFunc();
+        RenderSystem.enableDepthTest();
+
+        var i = this.getYImage(this.isHoveredOrFocused());
+        this.blit(stack, this.x, this.y, 0, 46 + i * 20, this.width / 2, this.height);
+        this.blit(stack, this.x + this.width / 2, this.y, 200 - this.width / 2, 46 + i * 20, this.width / 2, this.height);
+
+        this.renderBg(stack, Minecraft.getInstance(), mouseX, mouseY);
+
+        var minX = this.x + 2;
+        var maxX = this.x + this.getWidth() - 2;
+
+        renderScrollingString(stack, Minecraft.getInstance().font, this.getMessage(), minX, this.y, maxX, this.y + this.getHeight(), (super.active ? 16777215 : 10526880) | Mth.ceil(this.alpha * 255.0F) << 24);
+    }
+
+    private static void renderScrollingString(PoseStack stack, Font font, Component text, int minX, int minY, int maxX, int maxY, int color) {
+        var width = font.width(text);
+
+        var j = (minY + maxY - 9) / 2 + 1;
+        var k = maxX - minX;
+
+        if (width > k) {
+            var l = width - k;
+
+            var d = Util.getMillis() / 1000.0D;
+            var e = Math.max(l * 0.5D, 3.0D);
+            var f = Math.sin(1.5707963267948966D * Math.cos(6.283185307179586D * d / e)) / 2.0D + 0.5D;
+            var g = Mth.lerp(f, 0.0D, l);
+
+            FBPRenderHelper.enableScissor(minX, minY, maxX, maxY);
+            drawString(stack, font, text, minX - (int) g, j, color);
+            FBPRenderHelper.disableScissor();
+        } else
+            drawCenteredString(stack, font, text, (minX + maxX) / 2, j, color);
     }
 
     @Override

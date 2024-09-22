@@ -1,5 +1,6 @@
 package hantonik.fbp.util;
 
+import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
@@ -82,5 +83,16 @@ public final class FBPRenderHelper {
         vector = new Vec3(vector.x * cos.y + vector.z * sin.y, vector.y, vector.x * sin.y - vector.z * cos.y);
 
         return vector;
+    }
+
+    public static void enableScissor(int minX, int minY, int maxX, int maxY) {
+        var window = Minecraft.getInstance().getWindow();
+        var scale = window.getGuiScale();
+
+        RenderSystem.enableScissor((int) ((double) minX * scale), (int) ((double) window.getHeight() - (double) maxY * scale), Math.max(0, (int) ((double) (maxX - minX) * scale)), Math.max(0, (int) ((double) (maxY - minY) * scale)));
+    }
+
+    public static void disableScissor() {
+        RenderSystem.disableScissor();
     }
 }
