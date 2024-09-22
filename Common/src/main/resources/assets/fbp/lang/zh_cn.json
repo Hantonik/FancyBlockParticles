@@ -19,13 +19,13 @@
   "screen.fbp.settings": "设置",
 
   "screen.fbp.category.animations": "动画",
+  "screen.fbp.category.drip": "滴落",
   "screen.fbp.category.flame": "火焰",
   "screen.fbp.category.overlay": "覆盖",
   "screen.fbp.category.rain": "雨",
   "screen.fbp.category.smoke": "烟雾",
   "screen.fbp.category.snow": "雪",
   "screen.fbp.category.terrain": "地形",
-  "screen.fbp.category.weather": "天气",
 
   "screen.fbp.terrain.animation_blacklist": "动画黑名单",
   "screen.fbp.terrain.particle_blacklist": "粒子黑名单",
@@ -46,6 +46,8 @@
 
   "button.fbp.common.min_lifetime": "最短寿命",
   "button.fbp.common.max_lifetime": "最长寿命",
+
+  "button.fbp.common.transparency": "透明度",
 
   "button.fbp.common.size_multiplier": "大小倍增器",
   "button.fbp.common.rotation_multiplier": "旋转倍增器",
@@ -68,6 +70,8 @@
 
   "button.fbp.common.ticks": " 刻",
 
+  "button.fbp.drip.fancy_dripping_particles": "精致的滴落粒子",
+
   "button.fbp.flame.fancy_flame_particles": "高级火焰粒子",
 
   "button.fbp.global.enabled": "启用",
@@ -78,9 +82,13 @@
 
   "button.fbp.overlay.freeze_effect_overlay": "冻结效果覆盖层",
 
+  "button.fbp.rain.fancy_rain_particles": "高级雨粒子",
+
   "button.fbp.rain.particle_density": "雨粒子密度",
 
   "button.fbp.smoke.fancy_smoke_particles": "高级烟雾粒子",
+
+  "button.fbp.snow.fancy_snow_particles": "高级雪粒子",
 
   "button.fbp.snow.particle_density": "雪粒子密度",
 
@@ -92,9 +100,6 @@
   "button.fbp.terrain.entity_collision": "实体碰撞",
 
   "button.fbp.terrain.particles_per_axis": "每轴粒子数",
-
-  "button.fbp.weather.fancy_rain_particles": "高级雨粒子",
-  "button.fbp.weather.fancy_snow_particles": "高级雪粒子",
 
   "widget.fbp.global.categories": "类别",
 
@@ -122,6 +127,8 @@
   "tooltip.fbp.common.min_lifetime": "粒子最短寿命。",
   "tooltip.fbp.common.max_lifetime": "粒子最长寿命。",
 
+  "tooltip.fbp.common.transparency": "颗粒透明度。",
+
   "tooltip.fbp.common.size_multiplier": "粒子大小倍增器。",
   "tooltip.fbp.common.rotation_multiplier": "粒子旋转倍增器。",
   "tooltip.fbp.common.gravity_multiplier": "粒子重力倍增器。",
@@ -137,6 +144,8 @@
   "tooltip.fbp.common.option_unsupported": "敬请期待！",
   "tooltip.fbp.common.mod_incompatibility": "此功能与 %s 模组不兼容。",
 
+  "tooltip.fbp.drip.fancy_dripping_particles": "启用/禁用精致的滴落粒子。\n禁用时，将恢复默认粒子。",
+
   "tooltip.fbp.flame.fancy_flame_particles": "启用/禁用高级火焰粒子。\n禁用时，将恢复默认粒子。",
 
   "tooltip.fbp.global.enabled": "启用/禁用FBP模组。\n禁用时，将恢复默认粒子。",
@@ -147,9 +156,13 @@
 
   "tooltip.fbp.overlay.freeze_effect_overlay": "启用/禁用冻结效果覆盖层。\n启用时，在冻结效果期间，屏幕顶部会显示消息。",
 
+  "tooltip.fbp.rain.fancy_rain_particles": "启用/禁用高级雨粒子。\n禁用时，将恢复默认粒子。",
+
   "tooltip.fbp.rain.particle_density": "雨粒子密度。",
 
   "tooltip.fbp.smoke.fancy_smoke_particles": "启用/禁用高级烟雾粒子。\n禁用时，将恢复默认粒子。",
+
+  "tooltip.fbp.snow.fancy_snow_particles": "启用/禁用高级雪粒子。\n禁用时，将恢复默认粒子。",
 
   "tooltip.fbp.snow.particle_density": "雪粒子密度。",
 
@@ -161,9 +174,6 @@
   "tooltip.fbp.terrain.entity_collision": "启用/禁用实体碰撞。",
 
   "tooltip.fbp.terrain.particles_per_axis": "每轴粒子数。",
-
-  "tooltip.fbp.weather.fancy_rain_particles": "启用/禁用高级雨粒子。\n禁用时，将恢复默认粒子。",
-  "tooltip.fbp.weather.fancy_snow_particles": "启用/禁用高级雪粒子。\n禁用时，将恢复默认粒子。",
 
   "tooltip.fbp.chunks": " 区块",
   "tooltip.fbp.default": "默认: ",
