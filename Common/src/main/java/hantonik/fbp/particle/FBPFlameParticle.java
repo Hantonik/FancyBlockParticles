@@ -287,7 +287,7 @@ public class FBPFlameParticle extends FlameParticle implements IKillableParticle
 
     @Nullable
     private static FBPFlameParticle create(ClientLevel level, double x, double y, double z, double xd, double zd, float scale, boolean isSoulFire) {
-        if (FancyBlockParticles.CONFIG.global.isFreezeEffect())
+        if (FancyBlockParticles.CONFIG.global.isFreezeEffect() && !FancyBlockParticles.CONFIG.flame.isSpawnWhileFrozen())
             return null;
 
         var state = level.getBlockState(new BlockPos(x, y, z));
