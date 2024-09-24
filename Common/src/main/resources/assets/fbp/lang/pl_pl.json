@@ -19,6 +19,7 @@
   "screen.fbp.settings": "Ustawienia",
 
   "screen.fbp.category.animations": "Animacje",
+  "screen.fbp.category.campfire_smoke": "Dym ogniskowy",
   "screen.fbp.category.drip": "Krople",
   "screen.fbp.category.flame": "Płomień",
   "screen.fbp.category.overlay": "Nakładka",
@@ -35,6 +36,8 @@
 
   "button.fbp.animations.fancy_placing_animation": "Fantazyjna animacja kładzenia",
   "button.fbp.animations.render_outline": "Renderowanie konturów bloku",
+
+  "button.fbp.campfire_smoke.fancy_campfire_smoke_particles": "Fantazyjne cząsteczki dymu ogniskowego",
 
   "button.fbp.common.particles_decay": "Cząsteczki znikają",
 
@@ -112,6 +115,8 @@
   "tooltip.fbp.animations.max_lifetime": "Maksymalna długość istnienia animacji.",
 
   "tooltip.fbp.animations.size_multiplier": "Mnożnik rozmiaru animacji.",
+
+  "tooltip.fbp.campfire_smoke.fancy_campfire_smoke_particles": "Włącz/wyłącz fantazyjne cząsteczki dymu ogniskowego.\nGdy wyłączone przywrócone zostają domyślne cząsteczki.",
 
   "tooltip.fbp.common.homepage": "Strona główna FBP tutaj!",
   "tooltip.fbp.common.report": "Znalazłeś błąd?\nZgłoś go tutaj!",
