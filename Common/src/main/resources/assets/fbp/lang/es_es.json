@@ -19,6 +19,7 @@
   "screen.fbp.settings": "Configuración",
 
   "screen.fbp.category.animations": "Animaciones",
+  "screen.fbp.category.campfire_smoke": "Humo de hoguera",
   "screen.fbp.category.drip": "Goteo",
   "screen.fbp.category.flame": "Llama",
   "screen.fbp.category.overlay": "Superposición",
@@ -35,6 +36,8 @@
 
   "button.fbp.animations.fancy_placing_animation": "Animación de colocación elegante",
   "button.fbp.animations.render_outline": "Renderizar contorno del bloque",
+
+  "button.fbp.campfire_smoke.fancy_campfire_smoke_particles": "Partículas de humo de hoguera elegantes",
 
   "button.fbp.common.particles_decay": "Decaimiento de partículas",
 
@@ -112,6 +115,8 @@
   "tooltip.fbp.animations.max_lifetime": "Tiempo de vida máximo de la animación.",
 
   "tooltip.fbp.animations.size_multiplier": "Multiplicador de tamaño de la animación",
+
+  "tooltip.fbp.campfire_smoke.fancy_campfire_smoke_particles": "Habilitar/deshabilitar partículas de humo de hoguera.\nCuando está deshabilitado, se restauran las partículas predeterminadas.",
 
   "tooltip.fbp.common.homepage": "¡Página principal de FBP aquí!",
   "tooltip.fbp.common.report": "¿Encontraste un error?\n¡Repórtalo aquí!",

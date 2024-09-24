@@ -9,10 +9,7 @@ import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.particle.*;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
-import net.minecraft.core.particles.BlockParticleOption;
-import net.minecraft.core.particles.ParticleOptions;
-import net.minecraft.core.particles.ParticleTypes;
-import net.minecraft.core.particles.SimpleParticleType;
+import net.minecraft.core.particles.*;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.util.Mth;
@@ -68,6 +65,14 @@ public abstract class MixinParticleEngine {
                 if (particleData.getType() == ParticleTypes.WHITE_SMOKE)
                     callback.setReturnValue(new FBPWhiteSmokeParticle.Provider(original.getQuadSize(1)).createParticle((SimpleParticleType) particleData, this.level, x, y, z, xd, yd, zd));
             }
+        }
+
+        if (FancyBlockParticles.CONFIG.campfireSmoke.isEnabled() && !(callback.getReturnValue() instanceof FBPCampfireSmokeParticle)) {
+            if (particleData.getType() == ParticleTypes.CAMPFIRE_COSY_SMOKE)
+                callback.setReturnValue(new FBPCampfireSmokeParticle.Provider(false).createParticle((SimpleParticleType) particleData, this.level, x, y, z, xd, yd, zd));
+
+            if (particleData.getType() == ParticleTypes.CAMPFIRE_SIGNAL_SMOKE)
+                callback.setReturnValue(new FBPCampfireSmokeParticle.Provider(true).createParticle((SimpleParticleType) particleData, this.level, x, y, z, xd, yd, zd));
         }
 
         if ((FancyBlockParticles.CONFIG.rain.isEnabled() || FancyBlockParticles.CONFIG.snow.isEnabled()) && !(callback.getReturnValue() instanceof FBPRainParticle) && !(callback.getReturnValue() instanceof FBPSnowParticle)) {
