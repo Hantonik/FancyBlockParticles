@@ -28,13 +28,23 @@ public final class FBPConfig implements IFBPConfig<FBPConfig> {
     private static final Gson GSON = new GsonBuilder().disableHtmlEscaping().setPrettyPrinting().create();
 
     public static final FBPConfig DEFAULT_CONFIG = new FBPConfig(
-            Global.DEFAULT_CONFIG, Terrain.DEFAULT_CONFIG, FlameSmoke.DEFAULT_CONFIG, FlameSmoke.DEFAULT_CONFIG, Rain.DEFAULT_CONFIG, Snow.DEFAULT_CONFIG, Drip.DEFAULT_CONFIG, Animations.DEFAULT_CONFIG, Overlay.DEFAULT_CONFIG
+            Global.DEFAULT_CONFIG,
+            Terrain.DEFAULT_CONFIG,
+            Flame.DEFAULT_CONFIG,
+            Smoke.DEFAULT_CONFIG,
+            CampfireSmoke.DEFAULT_CONFIG,
+            Rain.DEFAULT_CONFIG,
+            Snow.DEFAULT_CONFIG,
+            Drip.DEFAULT_CONFIG,
+            Animations.DEFAULT_CONFIG,
+            Overlay.DEFAULT_CONFIG
     );
 
     public final Global global;
     public final Terrain terrain;
-    public final FlameSmoke flame;
-    public final FlameSmoke smoke;
+    public final Flame flame;
+    public final Smoke smoke;
+    public final CampfireSmoke campfireSmoke;
     public final Rain rain;
     public final Snow snow;
     public final Drip drip;
@@ -73,6 +83,7 @@ public final class FBPConfig implements IFBPConfig<FBPConfig> {
         this.terrain.setConfig(config.terrain);
         this.flame.setConfig(config.flame);
         this.smoke.setConfig(config.smoke);
+        this.campfireSmoke.setConfig(config.campfireSmoke);
         this.rain.setConfig(config.rain);
         this.snow.setConfig(config.snow);
         this.drip.setConfig(config.drip);
@@ -86,6 +97,7 @@ public final class FBPConfig implements IFBPConfig<FBPConfig> {
         this.terrain.applyConfig(config.terrain);
         this.flame.applyConfig(config.flame);
         this.smoke.applyConfig(config.smoke);
+        this.campfireSmoke.applyConfig(config.campfireSmoke);
         this.rain.applyConfig(config.rain);
         this.snow.applyConfig(config.snow);
         this.drip.applyConfig(config.drip);
@@ -118,6 +130,7 @@ public final class FBPConfig implements IFBPConfig<FBPConfig> {
             this.terrain.load(GsonHelper.getAsJsonObject(json, "terrain", new JsonObject()));
             this.flame.load(GsonHelper.getAsJsonObject(json, "flame", new JsonObject()));
             this.smoke.load(GsonHelper.getAsJsonObject(json, "smoke", new JsonObject()));
+            this.campfireSmoke.load(GsonHelper.getAsJsonObject(json, "campfireSmoke", new JsonObject()));
             this.rain.load(GsonHelper.getAsJsonObject(json, "rain", new JsonObject()));
             this.snow.load(GsonHelper.getAsJsonObject(json, "snow", new JsonObject()));
             this.drip.load(GsonHelper.getAsJsonObject(json, "drip", new JsonObject()));
@@ -141,6 +154,7 @@ public final class FBPConfig implements IFBPConfig<FBPConfig> {
             json.add("terrain", this.terrain.save());
             json.add("flame", this.flame.save());
             json.add("smoke", this.smoke.save());
+            json.add("campfireSmoke", this.campfireSmoke.save());
             json.add("rain", this.rain.save());
             json.add("snow", this.snow.save());
             json.add("drip", this.drip.save());
@@ -163,7 +177,16 @@ public final class FBPConfig implements IFBPConfig<FBPConfig> {
     @Override
     public FBPConfig copy() {
         return new FBPConfig(
-                this.global.copy(), this.terrain.copy(), this.flame.copy(), this.smoke.copy(), this.rain.copy(), this.snow.copy(), this.drip.copy(), this.animations.copy(), this.overlay.copy()
+                this.global.copy(),
+                this.terrain.copy(),
+                this.flame.copy(),
+                this.smoke.copy(),
+                this.campfireSmoke.copy(),
+                this.rain.copy(),
+                this.snow.copy(),
+                this.drip.copy(),
+                this.animations.copy(),
+                this.overlay.copy()
         );
     }
 
@@ -484,7 +507,7 @@ public final class FBPConfig implements IFBPConfig<FBPConfig> {
     @Getter
     @Setter
     @AllArgsConstructor(access = AccessLevel.PRIVATE)
-    public static class FlameSmoke implements IFBPConfig<FlameSmoke> {
+    public static class Flame implements IFBPConfig<Flame> {
         private static final boolean DEFAULT_ENABLED = true;
 
         private static final boolean DEFAULT_SPAWN_WHILE_FROZEN = false;
@@ -498,7 +521,7 @@ public final class FBPConfig implements IFBPConfig<FBPConfig> {
 
         private static final float DEFAULT_SIZE_MULTIPLIER = 0.75F;
 
-        public static final FlameSmoke DEFAULT_CONFIG = new FlameSmoke(
+        public static final Flame DEFAULT_CONFIG = new Flame(
                 DEFAULT_ENABLED,
                 DEFAULT_SPAWN_WHILE_FROZEN, DEFAULT_INFINITE_DURATION,
                 DEFAULT_RANDOM_SIZE, DEFAULT_RANDOM_FADING_SPEED,
@@ -520,7 +543,7 @@ public final class FBPConfig implements IFBPConfig<FBPConfig> {
         private float sizeMultiplier;
 
         @Override
-        public void setConfig(FlameSmoke config) {
+        public void setConfig(Flame config) {
             this.enabled = config.enabled;
 
             this.spawnWhileFrozen = config.spawnWhileFrozen;
@@ -577,12 +600,216 @@ public final class FBPConfig implements IFBPConfig<FBPConfig> {
         }
 
         @Override
-        public FlameSmoke copy() {
-            return new FlameSmoke(
+        public Flame copy() {
+            return new Flame(
                     this.enabled,
                     this.spawnWhileFrozen, this.infiniteDuration,
                     this.randomSize, this.randomFadingSpeed,
                     this.minLifetime, this.maxLifetime,
+                    this.sizeMultiplier
+            );
+        }
+    }
+
+    @Getter
+    @Setter
+    @AllArgsConstructor(access = AccessLevel.PRIVATE)
+    public static class Smoke implements IFBPConfig<Smoke> {
+        private static final boolean DEFAULT_ENABLED = true;
+
+        private static final boolean DEFAULT_SPAWN_WHILE_FROZEN = false;
+        private static final boolean DEFAULT_INFINITE_DURATION = false;
+
+        private static final boolean DEFAULT_RANDOM_SIZE = true;
+        private static final boolean DEFAULT_RANDOM_FADING_SPEED = true;
+
+        private static final int DEFAULT_MIN_LIFETIME = 10;
+        private static final int DEFAULT_MAX_LIFETIME = 15;
+
+        private static final float DEFAULT_SIZE_MULTIPLIER = 0.75F;
+
+        public static final Smoke DEFAULT_CONFIG = new Smoke(
+                DEFAULT_ENABLED,
+                DEFAULT_SPAWN_WHILE_FROZEN, DEFAULT_INFINITE_DURATION,
+                DEFAULT_RANDOM_SIZE, DEFAULT_RANDOM_FADING_SPEED,
+                DEFAULT_MIN_LIFETIME, DEFAULT_MAX_LIFETIME,
+                DEFAULT_SIZE_MULTIPLIER
+        );
+
+        private boolean enabled;
+
+        private boolean spawnWhileFrozen;
+        private boolean infiniteDuration;
+
+        private boolean randomSize;
+        private boolean randomFadingSpeed;
+
+        private int minLifetime;
+        private int maxLifetime;
+
+        private float sizeMultiplier;
+
+        @Override
+        public void setConfig(Smoke config) {
+            this.enabled = config.enabled;
+
+            this.spawnWhileFrozen = config.spawnWhileFrozen;
+            this.infiniteDuration = config.infiniteDuration;
+
+            this.randomSize = config.randomSize;
+            this.randomFadingSpeed = config.randomFadingSpeed;
+
+            this.minLifetime = config.minLifetime;
+            this.maxLifetime = config.maxLifetime;
+
+            this.sizeMultiplier = config.sizeMultiplier;
+        }
+
+        @Override
+        public void load(JsonObject json) {
+            this.enabled = GsonHelper.getAsBoolean(json, "enabled", DEFAULT_ENABLED);
+
+            this.spawnWhileFrozen = GsonHelper.getAsBoolean(json, "spawnWhileFrozen", DEFAULT_SPAWN_WHILE_FROZEN);
+            this.infiniteDuration = GsonHelper.getAsBoolean(json, "infiniteDuration", DEFAULT_INFINITE_DURATION);
+
+            this.randomSize = GsonHelper.getAsBoolean(json, "randomSize", DEFAULT_RANDOM_SIZE);
+            this.randomFadingSpeed = GsonHelper.getAsBoolean(json, "randomFadingSpeed", DEFAULT_RANDOM_FADING_SPEED);
+
+            this.minLifetime = GsonHelper.getAsInt(json, "minLifetime", DEFAULT_MIN_LIFETIME);
+            this.maxLifetime = GsonHelper.getAsInt(json, "maxLifetime", DEFAULT_MAX_LIFETIME);
+
+            this.sizeMultiplier = GsonHelper.getAsFloat(json, "sizeMultiplier", DEFAULT_SIZE_MULTIPLIER);
+        }
+
+        @Override
+        public JsonObject save() {
+            var json = new JsonObject();
+
+            json.addProperty("enabled", this.enabled);
+
+            json.addProperty("spawnWhileFrozen", this.spawnWhileFrozen);
+            json.addProperty("infiniteDuration", this.infiniteDuration);
+
+            json.addProperty("randomSize", this.randomSize);
+            json.addProperty("randomFadingSpeed", this.randomFadingSpeed);
+
+            json.addProperty("minLifetime", this.minLifetime);
+            json.addProperty("maxLifetime", this.maxLifetime);
+
+            json.addProperty("sizeMultiplier", this.sizeMultiplier);
+
+            return json;
+        }
+
+        @Override
+        public void reset() {
+            this.setConfig(DEFAULT_CONFIG.copy());
+        }
+
+        @Override
+        public Smoke copy() {
+            return new Smoke(
+                    this.enabled,
+                    this.spawnWhileFrozen, this.infiniteDuration,
+                    this.randomSize, this.randomFadingSpeed,
+                    this.minLifetime, this.maxLifetime,
+                    this.sizeMultiplier
+            );
+        }
+    }
+
+    @Getter
+    @Setter
+    @AllArgsConstructor(access = AccessLevel.PRIVATE)
+    public static class CampfireSmoke implements IFBPConfig<CampfireSmoke> {
+        private static final boolean DEFAULT_ENABLED = true;
+
+        private static final boolean DEFAULT_SPAWN_WHILE_FROZEN = false;
+
+        private static final boolean DEFAULT_RANDOM_SIZE = true;
+        private static final boolean DEFAULT_RANDOM_FADING_SPEED = true;
+
+        private static final float DEFAULT_TRANSPARENCY = 0.8F;
+
+        private static final float DEFAULT_SIZE_MULTIPLIER = 1.0F;
+
+        public static final CampfireSmoke DEFAULT_CONFIG = new CampfireSmoke(
+                DEFAULT_ENABLED,
+                DEFAULT_SPAWN_WHILE_FROZEN,
+                DEFAULT_RANDOM_SIZE, DEFAULT_RANDOM_FADING_SPEED,
+                DEFAULT_TRANSPARENCY,
+                DEFAULT_SIZE_MULTIPLIER
+        );
+
+        private boolean enabled;
+
+        private boolean spawnWhileFrozen;
+
+        private boolean randomSize;
+        private boolean randomFadingSpeed;
+
+        private float transparency;
+
+        private float sizeMultiplier;
+
+        @Override
+        public void setConfig(CampfireSmoke config) {
+            this.enabled = config.enabled;
+
+            this.spawnWhileFrozen = config.spawnWhileFrozen;
+
+            this.randomSize = config.randomSize;
+            this.randomFadingSpeed = config.randomFadingSpeed;
+
+            this.transparency = config.transparency;
+
+            this.sizeMultiplier = config.sizeMultiplier;
+        }
+
+        @Override
+        public void load(JsonObject json) {
+            this.enabled = GsonHelper.getAsBoolean(json, "enabled", DEFAULT_ENABLED);
+
+            this.spawnWhileFrozen = GsonHelper.getAsBoolean(json, "spawnWhileFrozen", DEFAULT_SPAWN_WHILE_FROZEN);
+
+            this.randomSize = GsonHelper.getAsBoolean(json, "randomSize", DEFAULT_RANDOM_SIZE);
+            this.randomFadingSpeed = GsonHelper.getAsBoolean(json, "randomFadingSpeed", DEFAULT_RANDOM_FADING_SPEED);
+
+            this.transparency = GsonHelper.getAsFloat(json, "transparency", DEFAULT_TRANSPARENCY);
+
+            this.sizeMultiplier = GsonHelper.getAsFloat(json, "sizeMultiplier", DEFAULT_SIZE_MULTIPLIER);
+        }
+
+        @Override
+        public JsonObject save() {
+            var json = new JsonObject();
+
+            json.addProperty("enabled", this.enabled);
+
+            json.addProperty("spawnWhileFrozen", this.spawnWhileFrozen);
+
+            json.addProperty("randomSize", this.randomSize);
+            json.addProperty("randomFadingSpeed", this.randomFadingSpeed);
+
+            json.addProperty("transparency", this.transparency);
+
+            json.addProperty("sizeMultiplier", this.sizeMultiplier);
+
+            return json;
+        }
+
+        @Override
+        public void reset() {
+            this.setConfig(DEFAULT_CONFIG.copy());
+        }
+
+        @Override
+        public CampfireSmoke copy() {
+            return new CampfireSmoke(
+                    this.enabled,
+                    this.spawnWhileFrozen,
+                    this.randomSize, this.randomFadingSpeed,
+                    this.transparency,
                     this.sizeMultiplier
             );
         }

@@ -19,6 +19,7 @@
   "screen.fbp.settings": "设置",
 
   "screen.fbp.category.animations": "动画",
+  "screen.fbp.category.campfire_smoke": "篝火烟雾",
   "screen.fbp.category.drip": "滴落",
   "screen.fbp.category.flame": "火焰",
   "screen.fbp.category.overlay": "覆盖",
@@ -35,6 +36,8 @@
 
   "button.fbp.animations.fancy_placing_animation": "高级放置动画",
   "button.fbp.animations.render_outline": "渲染方块轮廓",
+
+  "button.fbp.campfire_smoke.fancy_campfire_smoke_particles": "精致的篝火烟雾粒子",
 
   "button.fbp.common.particles_decay": "粒子衰减",
 
@@ -112,6 +115,8 @@
   "tooltip.fbp.animations.max_lifetime": "动画最长寿命。",
 
   "tooltip.fbp.animations.size_multiplier": "动画尺寸倍数。",
+
+  "tooltip.fbp.campfire_smoke.fancy_campfire_smoke_particles": "启用/禁用篝火烟雾粒子。\n禁用时，将恢复默认粒子。",
 
   "tooltip.fbp.common.homepage": "FBP主页在这里！",
   "tooltip.fbp.common.report": "发现了一个错误？\n在这里报告！",
