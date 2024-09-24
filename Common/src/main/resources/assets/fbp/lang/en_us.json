@@ -19,6 +19,7 @@
   "screen.fbp.settings": "Settings",
 
   "screen.fbp.category.animations": "Animations",
+  "screen.fbp.category.campfire_smoke": "Campfire smoke",
   "screen.fbp.category.drip": "Drip",
   "screen.fbp.category.flame": "Flame",
   "screen.fbp.category.overlay": "Overlay",
@@ -35,6 +36,8 @@
 
   "button.fbp.animations.fancy_placing_animation": "Fancy placing animation",
   "button.fbp.animations.render_outline": "Render block outline",
+
+  "button.fbp.campfire_smoke.fancy_campfire_smoke_particles": "Fancy campfire smoke particles",
 
   "button.fbp.common.particles_decay": "Particles decay",
 
@@ -107,6 +110,8 @@
 
   "tooltip.fbp.animations.fancy_placing_animation": "Enable/disable fancy placing animation.",
   "tooltip.fbp.animations.render_outline": "Should the block outline be rendered during animation?",
+
+  "tooltip.fbp.campfire_smoke.fancy_campfire_smoke_particles": "Enable/disable campfire smoke particles.\nWhen disabled, the default particles are restored.",
 
   "tooltip.fbp.animations.min_lifetime": "Minimum animation lifetime.",
   "tooltip.fbp.animations.max_lifetime": "Maximum animation lifetime.",

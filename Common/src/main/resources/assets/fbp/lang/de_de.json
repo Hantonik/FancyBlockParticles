@@ -19,6 +19,7 @@
   "screen.fbp.settings": "Einstellungen",
 
   "screen.fbp.category.animations": "Animationen",
+  "screen.fbp.category.campfire_smoke": "Lagerfeuerrauch",
   "screen.fbp.category.drip": "Tropfen",
   "screen.fbp.category.flame": "Flamme",
   "screen.fbp.category.overlay": "Overlay",
@@ -35,6 +36,8 @@
 
   "button.fbp.animations.fancy_placing_animation": "Fancy Platzierungsanimation",
   "button.fbp.animations.render_outline": "Blockumriss rendern",
+
+  "button.fbp.campfire_smoke.fancy_campfire_smoke_particles": "Fancy Lagerfeuerrauchpartikel",
 
   "button.fbp.common.particles_decay": "Partikel zerfallen",
 
@@ -112,6 +115,8 @@
   "tooltip.fbp.animations.max_lifetime": "Maximale Animations-Lebensdauer.",
 
   "tooltip.fbp.animations.size_multiplier": "Animationsgrößen-Multiplikator.",
+
+  "tooltip.fbp.campfire_smoke.fancy_campfire_smoke_particles": "Fancy Lagerfeuerrauchpartikel aktivieren/deaktivieren.\nWenn deaktiviert, werden die Standardpartikel wiederhergestellt.",
 
   "tooltip.fbp.common.homepage": "FBP-Homepage hier!",
   "tooltip.fbp.common.report": "Einen Fehler gefunden?\nMelden Sie ihn hier!",
