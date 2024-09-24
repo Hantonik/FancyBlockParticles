@@ -19,6 +19,7 @@
   "screen.fbp.settings": "Paramètres",
 
   "screen.fbp.category.animations": "Animations",
+  "screen.fbp.category.campfire_smoke": "Fumée du feu de camp",
   "screen.fbp.category.drip": "Goutte",
   "screen.fbp.category.flame": "Flamme",
   "screen.fbp.category.overlay": "Superposition",
@@ -35,6 +36,8 @@
 
   "button.fbp.animations.fancy_placing_animation": "Animation de placement sophistiquée",
   "button.fbp.animations.render_outline": "Rendu du contour du bloc",
+
+  "button.fbp.campfire_smoke.fancy_campfire_smoke_particles": "Particules de fumée de feu de camp sophistiquées",
 
   "button.fbp.common.particles_decay": "Désintégration des particules",
 
@@ -112,6 +115,8 @@
   "tooltip.fbp.animations.max_lifetime": "Durée de vie maximale de l'animation.",
 
   "tooltip.fbp.animations.size_multiplier": "Multiplicateur de taille des animations.",
+
+  "tooltip.fbp.campfire_smoke.fancy_campfire_smoke_particles": "Activer/désactiver les particules de fumée du feu de camp.\nLorsqu'elles sont désactivées, les particules par défaut sont restaurées.",
 
   "tooltip.fbp.common.homepage": "Page d'accueil de FBP ici!",
   "tooltip.fbp.common.report": "Vous avez trouvé un bug?\nSignalez-le ici!",

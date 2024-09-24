@@ -19,6 +19,7 @@
   "screen.fbp.settings": "設定",
 
   "screen.fbp.category.animations": "アニメーション",
+  "screen.fbp.category.campfire_smoke": "焚き火の煙",
   "screen.fbp.category.drip": "滴",
   "screen.fbp.category.flame": "炎",
   "screen.fbp.category.overlay": "オーバーレイ",
@@ -35,6 +36,8 @@
 
   "button.fbp.animations.fancy_placing_animation": "ファンシー配置アニメーション",
   "button.fbp.animations.render_outline": "ブロックの輪郭をレンダリング",
+
+  "button.fbp.campfire_smoke.fancy_campfire_smoke_particles": "豪華な焚き火の煙の粒子",
 
   "button.fbp.common.particles_decay": "パーティクルの減衰",
 
@@ -112,6 +115,8 @@
   "tooltip.fbp.animations.max_lifetime": "アニメーションの最大寿命。",
 
   "tooltip.fbp.animations.size_multiplier": "アニメーションのサイズ倍率。",
+
+  "tooltip.fbp.campfire_smoke.fancy_campfire_smoke_particles": "焚き火の煙の粒子を有効/無効にします。\n無効にすると、デフォルトのパーティクルが復元されます。",
 
   "tooltip.fbp.common.homepage": "FBPのホームページはこちら！",
   "tooltip.fbp.common.report": "バグを見つけましたか？\nこちらで報告してください！",
