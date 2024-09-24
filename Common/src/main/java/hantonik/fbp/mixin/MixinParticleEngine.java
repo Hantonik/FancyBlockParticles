@@ -62,6 +62,14 @@ public abstract class MixinParticleEngine {
             if (particleData.getType() == ParticleTypes.SMOKE || particleData.getType() == ParticleTypes.LARGE_SMOKE)
                 callback.setReturnValue(new FBPSmokeParticle.Provider(((SingleQuadParticle) callback.getReturnValue()).getQuadSize(1)).createParticle((SimpleParticleType) particleData, this.level, x, y, z, xd, yd, zd));
 
+        if (FancyBlockParticles.CONFIG.campfireSmoke.isEnabled() && !(callback.getReturnValue() instanceof FBPCampfireSmokeParticle)) {
+            if (particleData.getType() == ParticleTypes.CAMPFIRE_COSY_SMOKE)
+                callback.setReturnValue(new FBPCampfireSmokeParticle.Provider(false).createParticle((SimpleParticleType) particleData, this.level, x, y, z, xd, yd, zd));
+
+            if (particleData.getType() == ParticleTypes.CAMPFIRE_SIGNAL_SMOKE)
+                callback.setReturnValue(new FBPCampfireSmokeParticle.Provider(true).createParticle((SimpleParticleType) particleData, this.level, x, y, z, xd, yd, zd));
+        }
+
         if ((FancyBlockParticles.CONFIG.rain.isEnabled() || FancyBlockParticles.CONFIG.snow.isEnabled()) && !(callback.getReturnValue() instanceof FBPRainParticle) && !(callback.getReturnValue() instanceof FBPSnowParticle)) {
             if (particleData.getType() == ParticleTypes.RAIN) {
                 var pos = BlockPos.containing(x, y, z);
