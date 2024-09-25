@@ -301,20 +301,14 @@ public class FBPTerrainParticle extends TerrainParticle implements IKillablePart
 
                     if (this.yd < 0.0D)
                         this.yd *= 0.79D * FBPConstants.RANDOM.nextDouble(0.8D, 1.2D);
-                    else {
-                        this.yd *= 1.1D * FBPConstants.RANDOM.nextDouble(0.8D, 0.9D);
-
-                        if (!this.isInWater(this.getBoundingBox().move(this.xd, 0.3D, this.zd)))
-                            this.yd *= 0.9D;
-                    }
+                    else
+                        this.yd *= 1.1D * FBPConstants.RANDOM.nextDouble(0.75D, 0.9D);
 
                     if (!FancyBlockParticles.CONFIG.terrain.isRandomRotation())
                         this.calculateYAngle();
 
                     this.onGround = false;
                     this.wasInWater = true;
-
-                    return;
                 } else {
                     if (!this.onGround)
                         this.yd -= (this.wasInWater ? 0.02D : 0.04D) * this.gravity;
@@ -405,14 +399,9 @@ public class FBPTerrainParticle extends TerrainParticle implements IKillablePart
     }
 
     private boolean touchingUnloadedChunk() {
-        var box = this.getBoundingBox().inflate(1.0D);
+        var center = this.getBoundingBox().inflate(1.0D).getCenter();
 
-        var minX = Mth.floor(box.minX);
-        var maxX = Mth.ceil(box.maxX);
-        var minZ = Mth.floor(box.minZ);
-        var maxZ = Mth.ceil(box.maxZ);
-
-        return !this.level.hasChunksAt(minX, maxX, minZ, maxZ);
+        return !this.level.isLoaded(BlockPos.containing(center.x, center.y, center.z));
     }
 
     @Override

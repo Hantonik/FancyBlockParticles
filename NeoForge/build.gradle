@@ -62,6 +62,8 @@ dependencies {
     compileOnly "org.embeddedt:embeddium-$mc_version:$embeddium_version+mc$mc_version"
     compileOnly "maven.modrinth:oculus:$oculus_version"
 
+    runtimeOnly "maven.modrinth:spark:$spark_version-neoforge"
+
     compileOnly "org.projectlombok:lombok:$lombok_version"
     annotationProcessor "org.projectlombok:lombok:$lombok_version"
 }
