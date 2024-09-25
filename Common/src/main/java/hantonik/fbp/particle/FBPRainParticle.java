@@ -64,7 +64,7 @@ public class FBPRainParticle extends WaterDropParticle implements IKillableParti
         this.quadSize = 0.0F;
         this.gravity = 0.025F * FancyBlockParticles.CONFIG.rain.getGravityMultiplier();
 
-        this.alpha = 0.0F;
+        this.alpha = FancyBlockParticles.CONFIG.rain.getTransparency();
 
         this.hasPhysics = true;
 
@@ -111,13 +111,6 @@ public class FBPRainParticle extends WaterDropParticle implements IKillableParti
 
                             this.height = this.quadSize;
                         }
-
-                        if (this.alpha < 0.6F) {
-                            this.alpha += 0.085F * this.multiplier;
-
-                            if (this.alpha > 0.6F)
-                                this.alpha = 0.6F;
-                        }
                     } else
                         this.remove();
                 }
@@ -148,8 +141,10 @@ public class FBPRainParticle extends WaterDropParticle implements IKillableParti
 
                         if (this.alpha < 0.01F)
                             this.remove();
-                    }
-                }
+                    } else
+                        this.alpha = FancyBlockParticles.CONFIG.rain.getTransparency();
+                } else
+                    this.alpha = FancyBlockParticles.CONFIG.rain.getTransparency();
 
                 var state = this.level.getBlockState(BlockPos.containing(this.x, this.y, this.z).relative(Direction.DOWN));
 
