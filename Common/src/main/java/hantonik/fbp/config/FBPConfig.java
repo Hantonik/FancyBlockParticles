@@ -825,7 +825,7 @@ public final class FBPConfig implements IFBPConfig<FBPConfig> {
         private static final boolean DEFAULT_RANDOM_FADING_SPEED = true;
 
         private static final int DEFAULT_RENDER_DISTANCE = 4;
-        private static final int DEFAULT_SIMULATION_DISTANCE = 12;
+        private static final int DEFAULT_SIMULATION_DISTANCE = 8;
 
         private static final float DEFAULT_TRANSPARENCY = 0.6F;
         private static final float DEFAULT_PARTICLE_DENSITY = 1.0F;
@@ -948,7 +948,7 @@ public final class FBPConfig implements IFBPConfig<FBPConfig> {
         private static final int DEFAULT_MAX_LIFETIME = 300;
 
         private static final int DEFAULT_RENDER_DISTANCE = 4;
-        private static final int DEFAULT_SIMULATION_DISTANCE = 12;
+        private static final int DEFAULT_SIMULATION_DISTANCE = 8;
 
         private static final float DEFAULT_PARTICLE_DENSITY = 1.0F;
 

@@ -290,14 +290,9 @@ public class FBPSnowParticle extends WaterDropParticle implements IKillableParti
     }
 
     private boolean touchingUnloadedChunk() {
-        var box = this.getBoundingBox().inflate(1.0D);
+        var center = this.getBoundingBox().inflate(1.0D).getCenter();
 
-        var minX = Mth.floor(box.minX);
-        var maxX = Mth.ceil(box.maxX);
-        var minZ = Mth.floor(box.minZ);
-        var maxZ = Mth.ceil(box.maxZ);
-
-        return !this.level.hasChunksAt(minX, maxX, minZ, maxZ);
+        return !this.level.isLoaded(new BlockPos(center.x, center.y, center.z));
     }
 
     @Override
