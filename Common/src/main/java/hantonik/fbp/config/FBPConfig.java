@@ -827,6 +827,7 @@ public final class FBPConfig implements IFBPConfig<FBPConfig> {
         private static final int DEFAULT_RENDER_DISTANCE = 4;
         private static final int DEFAULT_SIMULATION_DISTANCE = 12;
 
+        private static final float DEFAULT_TRANSPARENCY = 0.6F;
         private static final float DEFAULT_PARTICLE_DENSITY = 1.0F;
 
         private static final float DEFAULT_SIZE_MULTIPLIER = 1.0F;
@@ -836,7 +837,7 @@ public final class FBPConfig implements IFBPConfig<FBPConfig> {
                 DEFAULT_ENABLED,
                 DEFAULT_RANDOM_SIZE, DEFAULT_RANDOM_FADING_SPEED,
                 DEFAULT_RENDER_DISTANCE, DEFAULT_SIMULATION_DISTANCE,
-                DEFAULT_PARTICLE_DENSITY,
+                DEFAULT_TRANSPARENCY, DEFAULT_PARTICLE_DENSITY,
                 DEFAULT_SIZE_MULTIPLIER, DEFAULT_GRAVITY_MULTIPLIER
         );
 
@@ -848,6 +849,7 @@ public final class FBPConfig implements IFBPConfig<FBPConfig> {
         private int renderDistance;
         private int simulationDistance;
 
+        private float transparency;
         private float particleDensity;
 
         private float sizeMultiplier;
@@ -863,6 +865,7 @@ public final class FBPConfig implements IFBPConfig<FBPConfig> {
             this.renderDistance = config.renderDistance;
             this.simulationDistance = config.simulationDistance;
 
+            this.transparency = config.transparency;
             this.particleDensity = config.particleDensity;
 
             this.sizeMultiplier = config.sizeMultiplier;
@@ -879,6 +882,7 @@ public final class FBPConfig implements IFBPConfig<FBPConfig> {
             this.renderDistance = GsonHelper.getAsInt(json, "renderDistance", DEFAULT_RENDER_DISTANCE);
             this.simulationDistance = GsonHelper.getAsInt(json, "simulationDistance", DEFAULT_SIMULATION_DISTANCE);
 
+            this.transparency = GsonHelper.getAsFloat(json, "transparency", DEFAULT_TRANSPARENCY);
             this.particleDensity = GsonHelper.getAsFloat(json, "particleDensity", DEFAULT_PARTICLE_DENSITY);
 
             this.sizeMultiplier = GsonHelper.getAsFloat(json, "sizeMultiplier", DEFAULT_SIZE_MULTIPLIER);
@@ -897,6 +901,7 @@ public final class FBPConfig implements IFBPConfig<FBPConfig> {
             json.addProperty("renderDistance", this.renderDistance);
             json.addProperty("simulationDistance", this.simulationDistance);
 
+            json.addProperty("transparency", this.transparency);
             json.addProperty("rainParticleDensity", this.particleDensity);
 
             json.addProperty("sizeMultiplier", this.sizeMultiplier);
@@ -916,7 +921,7 @@ public final class FBPConfig implements IFBPConfig<FBPConfig> {
                     this.enabled,
                     this.randomSize, this.randomFadingSpeed,
                     this.renderDistance, this.simulationDistance,
-                    this.particleDensity,
+                    this.transparency, this.particleDensity,
                     this.sizeMultiplier, this.gravityMultiplier
             );
         }
