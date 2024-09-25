@@ -64,6 +64,12 @@ public class FBPRainParticle extends WaterDropParticle implements IKillableParti
         this.quadSize = 0.0F;
         this.gravity = 0.025F * FancyBlockParticles.CONFIG.rain.getGravityMultiplier();
 
+        var color = this.level.getSkyColor(Minecraft.getInstance().gameRenderer.getMainCamera().getPosition(), 0.0F);
+
+        this.rCol = (float) color.x;
+        this.gCol = (float) Mth.clamp(color.y + 0.1D, 0.1D, 1.0D);
+        this.bCol = (float) Mth.clamp(color.y + 0.5D, 0.5D, 1.0D);
+
         this.alpha = FancyBlockParticles.CONFIG.rain.getTransparency();
 
         this.hasPhysics = true;
@@ -156,12 +162,6 @@ public class FBPRainParticle extends WaterDropParticle implements IKillableParti
             }
         }
 
-        var color = this.level.getSkyColor(Minecraft.getInstance().gameRenderer.getMainCamera().getPosition(), 0.0F);
-
-        this.rCol = (float) color.x;
-        this.gCol = (float) Mth.clamp(color.y + 0.1D, 0.1D, 1.0D);
-        this.bCol = (float) Mth.clamp(color.y + 0.5D, 0.5D, 1.0D);
-
         if (Minecraft.getInstance().cameraEntity.position().distanceTo(new Vec3(this.x, Minecraft.getInstance().cameraEntity.getY(), this.z)) > Math.min(FancyBlockParticles.CONFIG.rain.getSimulationDistance(), Minecraft.getInstance().options.simulationDistance().get()) * 16)
             this.remove();
 
@@ -197,14 +197,9 @@ public class FBPRainParticle extends WaterDropParticle implements IKillableParti
     }
 
     private boolean touchingUnloadedChunk() {
-        var box = this.getBoundingBox().inflate(1.0D);
+        var center = this.getBoundingBox().inflate(1.0D).getCenter();
 
-        var minX = Mth.floor(box.minX);
-        var maxX = Mth.ceil(box.maxX);
-        var minZ = Mth.floor(box.minZ);
-        var maxZ = Mth.ceil(box.maxZ);
-
-        return !this.level.hasChunksAt(minX, maxX, minZ, maxZ);
+        return !this.level.isLoaded(BlockPos.containing(center.x, center.y, center.z));
     }
 
     @Override

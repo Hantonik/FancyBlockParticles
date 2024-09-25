@@ -62,6 +62,9 @@ dependencies {
 	modLocalRuntime 'io.github.douira:glsl-transformer:2.0.1'
 	modLocalRuntime 'org.anarres:jcpp:1.4.14'
 
+	modRuntimeOnly 'me.lucko:fabric-permissions-api:0.3.1'
+	modRuntimeOnly "maven.modrinth:spark:$spark_version-fabric"
+
 	compileOnly "org.projectlombok:lombok:$lombok_version"
 	annotationProcessor "org.projectlombok:lombok:$lombok_version"
 }
