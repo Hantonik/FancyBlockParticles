@@ -12,33 +12,35 @@ This mod introduces 3D particles into the game, offering the flexibility to cust
 Yes, you can use this mod in your modpack!
 
 ### Particles
- - Block breaking, placing and cracking particles
- - Flame, lava and smoke particles
+ - Block breaking and cracking particles
+ - Flame, lava, smoke and campfire smoke particles
+ - Drip particles
  - Rain and snow particles
 
 ### Animations
- - Block placing animation (coming soon!)
+ - Block placing animation
 
 ### Settings
 FBP gives you the ability to customize the most essential breaking particle settings according to your preferences. To access the FBP panel, press **I** key (default) on your keyboard.
-![image](https://i.imgur.com/WAVm2gQ.png)
+![image](https://i.imgur.com/RPdhY21.png)
 You also have the option to adjust settings through the config file located at `config/fbp/config.json` if you need.
 
 ### Keybindings
-| Name                             |      Key      |
-|----------------------------------|:-------------:|
-| Enable/disable mod               |  **Unbound**  |
-| Open settings                    |     **I**     |
-| Toggle freeze effect             |     **R**     |
-| Kill particles                   |  **Unbound**  |
-| Fast add block to blacklist      |     **X**     |
-| Fast add held block to blacklist | **Shift + X** |
-| Reload config                    |  **Unbound**  |
+| Name                              |      Key      |
+|-----------------------------------|:-------------:|
+| Enable/disable mod                |  **Unbound**  |
+| Enable/disable placing animations |  **Unbound**  |
+| Open settings                     |     **I**     |
+| Toggle freeze effect              |     **R**     |
+| Kill particles                    |  **Unbound**  |
+| Fast add block to blacklist       |     **X**     |
+| Fast add held block to blacklist  | **Shift + X** |
+| Reload config                     |  **Unbound**  |
 
-### OptiFine compatibility
-FBP **should be** compatible with OptiFine.
+### OptiFine/Iris compatibility
+FBP **should be** compatible with OptiFine and Iris.
 \
-If you notice any bugs that occur exclusively when using FBP with OptiFine (or another shader mod), please report them [here](https://github.com/Hantonik/FancyBlockParticles/issues/new?labels=bug&amp;template=bug_report.yml "Enter all the necessary information!"). **However**, keep in mind that not all such issues can be resolved!
+If you notice any bugs that occur exclusively when using FBP with OptiFine, Iris or another shader mod, please report them [here](https://github.com/Hantonik/FancyBlockParticles/issues/new?labels=bug&amp;template=bug_report.yml "Enter all the necessary information!"). **However**, keep in mind that not all such issues can be resolved!
 
 ## Downloads
 
