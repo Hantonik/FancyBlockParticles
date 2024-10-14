@@ -7,8 +7,6 @@ import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.ShaderInstance;
 import net.minecraft.client.resources.model.BakedModel;
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.Holder;
-import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.block.state.BlockState;
 
 public interface IClientHelper {
@@ -22,9 +20,5 @@ public interface IClientHelper {
 
     default ShaderInstance getBlockTranslucentShader() {
         return GameRenderer.getRendertypeTranslucentMovingBlockShader();
-    }
-
-    default Biome.Precipitation getPrecipitationAt(Holder<Biome> biome, BlockPos pos) {
-        return biome.value().getPrecipitationAt(pos);
     }
 }

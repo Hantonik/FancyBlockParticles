@@ -12,14 +12,11 @@ import net.minecraft.client.renderer.ShaderInstance;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.client.resources.model.BakedModel;
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.Holder;
 import net.minecraft.util.RandomSource;
-import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.client.RenderTypeHelper;
 import net.minecraftforge.client.model.data.ModelData;
 import net.minecraftforge.fml.ModList;
-import sereneseasons.season.SeasonHooks;
 
 public final class ForgeClientHelper implements IClientHelper {
     @Override
@@ -55,10 +52,5 @@ public final class ForgeClientHelper implements IClientHelper {
         }
 
         return IClientHelper.super.getBlockTranslucentShader();
-    }
-
-    @Override
-    public Biome.Precipitation getPrecipitationAt(Holder<Biome> biome, BlockPos pos) {
-        return ModList.get().isLoaded("sereneseasons") ? SeasonHooks.getPrecipitationAtLevelRendererHook(biome, pos) : IClientHelper.super.getPrecipitationAt(biome, pos);
     }
 }

@@ -2,7 +2,6 @@ package hantonik.fbp.particle;
 
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import hantonik.fbp.FancyBlockParticles;
-import hantonik.fbp.platform.Services;
 import hantonik.fbp.util.FBPConstants;
 import hantonik.fbp.util.FBPRenderHelper;
 import lombok.RequiredArgsConstructor;
@@ -158,7 +157,7 @@ public class FBPSnowParticle extends WaterDropParticle implements IKillableParti
                 this.rotation.add(this.rotationStep.mul(FancyBlockParticles.CONFIG.snow.getRotationMultiplier() * 5.0F, new Vector3d()));
 
                 var pos = BlockPos.containing(this.x, this.y, this.z);
-                var precipitation = Services.CLIENT.getPrecipitationAt(this.level.getBiome(pos), pos);
+                var precipitation = this.level.getBiome(pos).value().getPrecipitationAt(pos);
 
                 if (this.age >= this.lifetime || precipitation != Biome.Precipitation.SNOW) {
                     this.quadSize *= 0.75F * this.multiplier;

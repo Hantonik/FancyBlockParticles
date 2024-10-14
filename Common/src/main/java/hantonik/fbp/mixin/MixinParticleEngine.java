@@ -3,7 +3,6 @@ package hantonik.fbp.mixin;
 import hantonik.fbp.FancyBlockParticles;
 import hantonik.fbp.init.FBPKeyMappings;
 import hantonik.fbp.particle.*;
-import hantonik.fbp.platform.Services;
 import hantonik.fbp.util.FBPConstants;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ClientLevel;
@@ -74,7 +73,7 @@ public abstract class MixinParticleEngine {
         if ((FancyBlockParticles.CONFIG.rain.isEnabled() || FancyBlockParticles.CONFIG.snow.isEnabled()) && !(callback.getReturnValue() instanceof FBPRainParticle) && !(callback.getReturnValue() instanceof FBPSnowParticle)) {
             if (particleData.getType() == ParticleTypes.RAIN) {
                 var pos = BlockPos.containing(x, y, z);
-                var precipitation = Services.CLIENT.getPrecipitationAt(this.level.getBiome(pos), pos);
+                var precipitation = this.level.getBiome(pos).value().getPrecipitationAt(pos);
 
                 if (precipitation == Biome.Precipitation.SNOW)
                     callback.setReturnValue(new FBPSnowParticle.Provider().createParticle((SimpleParticleType) particleData, this.level, x, y, z, xd, yd, zd));

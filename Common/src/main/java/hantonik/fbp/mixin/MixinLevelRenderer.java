@@ -8,7 +8,6 @@ import hantonik.fbp.FancyBlockParticles;
 import hantonik.fbp.animation.FBPPlacingAnimationManager;
 import hantonik.fbp.particle.FBPRainParticle;
 import hantonik.fbp.particle.FBPSnowParticle;
-import hantonik.fbp.platform.Services;
 import hantonik.fbp.util.FBPConstants;
 import net.minecraft.client.Camera;
 import net.minecraft.client.Minecraft;
@@ -65,7 +64,7 @@ public abstract class MixinLevelRenderer implements ResourceManagerReloadListene
                     var pos = BlockPos.containing(x, y, z);
                     var surfaceHeight = this.level.getHeightmapPos(Heightmap.Types.MOTION_BLOCKING, pos).getY();
 
-                    var precipitation = Services.CLIENT.getPrecipitationAt(this.level.getBiome(pos), pos);
+                    var precipitation = this.level.getBiome(pos).value().getPrecipitationAt(pos);
 
                     if (this.minecraft.cameraEntity.position().distanceTo(new Vec3(x, y, z)) > (precipitation == Biome.Precipitation.RAIN ? FancyBlockParticles.CONFIG.rain.getSimulationDistance() : FancyBlockParticles.CONFIG.snow.getSimulationDistance()) * 16.0F)
                         continue;
