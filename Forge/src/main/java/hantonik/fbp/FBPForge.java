@@ -37,8 +37,9 @@ public final class FBPForge {
         FancyBlockParticles.LOGGER.info(FancyBlockParticles.SETUP_MARKER, "Starting client setup...");
 
         MinecraftForge.EVENT_BUS.addListener(this::onClientTick);
-        MinecraftForge.EVENT_BUS.addListener(this::postClientPauseChange);
         MinecraftForge.EVENT_BUS.addListener(this::postRenderGuiOverlay);
+        MinecraftForge.EVENT_BUS.addListener(this::postClientPauseChange);
+        MinecraftForge.EVENT_BUS.addListener(this::postScreenInit);
         MinecraftForge.EVENT_BUS.addListener(this::onClientLoggingIn);
 
         FancyBlockParticles.LOGGER.info(FancyBlockParticles.SETUP_MARKER, "Finished client setup!");
@@ -57,13 +58,17 @@ public final class FBPForge {
             FancyBlockParticles.postClientTick(Minecraft.getInstance());
     }
 
+    private void postRenderGuiOverlay(final RenderGuiOverlayEvent.Post event) {
+        FancyBlockParticles.onRenderHud(event.getGuiGraphics());
+    }
+
     private void postClientPauseChange(final ClientPauseChangeEvent.Post event) {
         if (event.isPaused())
             FancyBlockParticles.onClientPause(Minecraft.getInstance().screen);
     }
 
-    private void postRenderGuiOverlay(final RenderGuiOverlayEvent.Post event) {
-        FancyBlockParticles.onRenderHud(event.getGuiGraphics());
+    private void postScreenInit(final ScreenEvent.Init.Post event) {
+        FancyBlockParticles.postScreenInit(event.getScreen());
     }
 
     private void onClientLoggingIn(final ClientPlayerNetworkEvent.LoggingIn event) {

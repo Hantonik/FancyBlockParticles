@@ -7,11 +7,13 @@ import hantonik.fbp.init.FBPKeyMappings;
 import hantonik.fbp.platform.Services;
 import hantonik.fbp.screen.FBPAbstractOptionsScreen;
 import hantonik.fbp.screen.FBPFastBlacklistScreen;
+import hantonik.fbp.screen.FBPOculusWarningScreen;
 import hantonik.fbp.screen.FBPOptionsScreen;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.Screen;
+import net.minecraft.client.gui.screens.TitleScreen;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.phys.BlockHitResult;
@@ -29,6 +31,8 @@ public final class FancyBlockParticles {
     public static final Marker SETUP_MARKER = MarkerFactory.getMarker("SETUP");
 
     public static final FBPConfig CONFIG = FBPConfig.create();
+
+    private static boolean OCULUS_WARNING_SCREEN_SHOWN = false;
 
     public static void postClientTick(Minecraft client) {
         if (FBPKeyMappings.TOGGLE_MOD.consumeClick()) {
@@ -86,6 +90,20 @@ public final class FancyBlockParticles {
     public static void onClientPause(Screen screen) {
         if (!(screen instanceof FBPAbstractOptionsScreen))
             FancyBlockParticles.CONFIG.save();
+    }
+
+    public static void postScreenInit(Screen screen) {
+        if (!OCULUS_WARNING_SCREEN_SHOWN) {
+            if (!FancyBlockParticles.CONFIG.global.isDisableOculusWarning()) {
+                if (screen instanceof TitleScreen) {
+                    if (Services.PLATFORM.isModLoaded("oculus")) {
+                        Minecraft.getInstance().setScreen(new FBPOculusWarningScreen(screen));
+
+                        OCULUS_WARNING_SCREEN_SHOWN = true;
+                    }
+                }
+            }
+        }
     }
 
     public static void onLevelLoad() {

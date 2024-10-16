@@ -38,6 +38,7 @@ public final class FBPNeoForge {
         NeoForge.EVENT_BUS.addListener(this::onClientTick);
         NeoForge.EVENT_BUS.addListener(this::postRenderGuiOverlay);
         NeoForge.EVENT_BUS.addListener(this::onClientPauseUpdated);
+        NeoForge.EVENT_BUS.addListener(this::postScreenInit);
         NeoForge.EVENT_BUS.addListener(this::onClientLoggingIn);
 
         FancyBlockParticles.LOGGER.info(FancyBlockParticles.SETUP_MARKER, "Finished client setup!");
@@ -63,6 +64,10 @@ public final class FBPNeoForge {
     private void onClientPauseUpdated(final ClientPauseUpdatedEvent event) {
         if (event.isPaused())
             FancyBlockParticles.onClientPause(Minecraft.getInstance().screen);
+    }
+
+    private void postScreenInit(final ScreenEvent.Init.Post event) {
+        FancyBlockParticles.postScreenInit(event.getScreen());
     }
 
     private void onClientLoggingIn(final ClientPlayerNetworkEvent.LoggingIn event) {
