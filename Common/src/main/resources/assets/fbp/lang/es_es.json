@@ -9,10 +9,15 @@
   "key.fbp.add_to_blacklist": "Añadir bloque rápidamente a la lista negra",
   "key.fbp.reload_config": "Recargar configuración",
 
+  "gui.fbp.shaders_warning.message": "Parece que tienes instalado el mod %s, lo que puede causar fallos visuales u otros problemas.",
+  "gui.fbp.shaders_warning.report": "Antes de reportar un error, por favor desinstala el mod %s y verifica si el problema aún persiste.",
+
   "gui.fbp.freeze_effect": "¡Efecto de congelación!",
 
   "gui.fbp.blacklist.blacklist": "Lista negra",
   "gui.fbp.blacklist.whitelist": "Lista blanca",
+
+  "screen.fbp.shaders_warning": "¡Advertencia: %s instalado!",
 
   "screen.fbp.fast_blacklist": "Añadir un bloque a la lista negra",
 
@@ -33,6 +38,8 @@
 
   "screen.fbp.reset_confirm": "¿Estás seguro de que quieres restablecer la configuración de FBP?",
   "screen.fbp.reload_alert": "¡Configuración recargada exitosamente!",
+
+  "button.fbp.shaders_warning.dont_show_again": "No mostrar de nuevo",
 
   "button.fbp.animations.fancy_placing_animation": "Animación de colocación elegante",
   "button.fbp.animations.render_outline": "Renderizar contorno del bloque",
@@ -107,6 +114,8 @@
   "widget.fbp.global.categories": "Categorías",
 
   "widget.fbp.overlay.freeze_effect_color": "Color del efecto de congelación",
+
+  "tooltip.fbp.shaders_warning.wait": "Espera %s segundos más...",
 
   "tooltip.fbp.animations.fancy_placing_animation": "Habilitar/deshabilitar animación de colocación elegante.",
   "tooltip.fbp.animations.render_outline": "¿Debería renderizarse el contorno del bloque durante la animación?",

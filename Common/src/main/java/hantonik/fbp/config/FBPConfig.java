@@ -195,7 +195,10 @@ public final class FBPConfig implements IFBPConfig<FBPConfig> {
     @AllArgsConstructor(access = AccessLevel.PRIVATE)
     public static class Global implements IFBPConfig<Global> {
         private static final boolean DEFAULT_ENABLED = true;
+
         private static final boolean DEFAULT_LOCKED = false;
+        private static final boolean DEFAULT_DISABLE_OCULUS_WARNING = false;
+
         private static final boolean DEFAULT_FREEZE_EFFECT = false;
 
         private static final boolean DEFAULT_CARTOON_MODE = false;
@@ -207,14 +210,19 @@ public final class FBPConfig implements IFBPConfig<FBPConfig> {
         private static final List<Block> DEFAULT_DISABLED_ANIMATIONS = Lists.newArrayList();
 
         public static final Global DEFAULT_CONFIG = new Global(
-                DEFAULT_ENABLED, DEFAULT_LOCKED, DEFAULT_FREEZE_EFFECT,
+                DEFAULT_ENABLED,
+                DEFAULT_LOCKED, DEFAULT_DISABLE_OCULUS_WARNING,
+                DEFAULT_FREEZE_EFFECT,
                 DEFAULT_CARTOON_MODE, DEFAULT_CULL_PARTICLES,
                 DEFAULT_INFINITE_DURATION,
                 DEFAULT_DISABLED_PARTICLES, DEFAULT_DISABLED_ANIMATIONS
         );
 
         private boolean enabled;
+
         private boolean locked;
+        private boolean disableOculusWarning;
+
         private boolean freezeEffect;
 
         private boolean cartoonMode;
@@ -231,7 +239,9 @@ public final class FBPConfig implements IFBPConfig<FBPConfig> {
         @Override
         public void setConfig(Global config) {
             this.enabled = config.enabled;
+
             this.locked = config.locked;
+
             this.freezeEffect = config.freezeEffect;
 
             this.cartoonMode = config.cartoonMode;
@@ -246,7 +256,9 @@ public final class FBPConfig implements IFBPConfig<FBPConfig> {
         @Override
         public void applyConfig(Global config) {
             this.enabled = config.enabled;
+
             this.locked = config.locked;
+
             this.freezeEffect = config.freezeEffect;
 
             this.cartoonMode = config.cartoonMode;
@@ -261,7 +273,10 @@ public final class FBPConfig implements IFBPConfig<FBPConfig> {
         @Override
         public void load(JsonObject json) {
             this.enabled = GsonHelper.getAsBoolean(json, "enabled", DEFAULT_ENABLED);
+
             this.locked = GsonHelper.getAsBoolean(json, "locked", DEFAULT_LOCKED);
+            this.disableOculusWarning = GsonHelper.getAsBoolean(json, "disableOculusWarning", DEFAULT_DISABLE_OCULUS_WARNING);
+
             this.freezeEffect = GsonHelper.getAsBoolean(json, "freezeEffect", DEFAULT_FREEZE_EFFECT);
 
             this.cartoonMode = GsonHelper.getAsBoolean(json, "cartoonMode", DEFAULT_CARTOON_MODE);
@@ -291,7 +306,10 @@ public final class FBPConfig implements IFBPConfig<FBPConfig> {
             var json = new JsonObject();
 
             json.addProperty("enabled", this.enabled);
+
             json.addProperty("locked", this.locked);
+            json.addProperty("disableOculusWarning", this.disableOculusWarning);
+
             json.addProperty("freezeEffect", this.freezeEffect);
 
             json.addProperty("cartoonMode", this.cartoonMode);
@@ -320,7 +338,9 @@ public final class FBPConfig implements IFBPConfig<FBPConfig> {
         @Override
         public Global copy() {
             return new Global(
-                    this.enabled, this.locked, this.freezeEffect,
+                    this.enabled,
+                    this.locked, this.disableOculusWarning,
+                    this.freezeEffect,
                     this.cartoonMode, this.cullParticles,
                     this.infiniteDuration,
                     new ArrayList<>(this.disabledParticles), new ArrayList<>(this.disabledAnimations)
