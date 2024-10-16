@@ -9,10 +9,15 @@
   "key.fbp.add_to_blacklist": "Fast add block to blacklist",
   "key.fbp.reload_config": "Reload config",
 
+  "gui.fbp.shaders_warning.message": "It seems you have the %s mod installed, which may cause visual glitches or other issues.",
+  "gui.fbp.shaders_warning.report": "Before reporting a bug, please uninstall the %s mod and check if the issue is still present!",
+
   "gui.fbp.freeze_effect": "Freeze effect!",
 
   "gui.fbp.blacklist.blacklist": "Blacklist",
   "gui.fbp.blacklist.whitelist": "Whitelist",
+
+  "screen.fbp.shaders_warning": "Warning: %s installed!",
 
   "screen.fbp.fast_blacklist": "Blacklist a block",
 
@@ -33,6 +38,8 @@
 
   "screen.fbp.reset_confirm": "Are you sure you want to reset the FBP settings?",
   "screen.fbp.reload_alert": "Config has been successfully reloaded!",
+
+  "button.fbp.shaders_warning.dont_show_again": "Don't show again",
 
   "button.fbp.animations.fancy_placing_animation": "Fancy placing animation",
   "button.fbp.animations.render_outline": "Render block outline",
@@ -107,6 +114,8 @@
   "widget.fbp.global.categories": "Categories",
 
   "widget.fbp.overlay.freeze_effect_color": "Freeze effect color",
+
+  "tooltip.fbp.shaders_warning.wait": "Wait for %s more seconds...",
 
   "tooltip.fbp.animations.fancy_placing_animation": "Enable/disable fancy placing animation.",
   "tooltip.fbp.animations.render_outline": "Should the block outline be rendered during animation?",
