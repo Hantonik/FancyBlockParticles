@@ -5,13 +5,15 @@ import hantonik.fbp.animation.FBPPlacingAnimationManager;
 import hantonik.fbp.config.FBPConfig;
 import hantonik.fbp.init.FBPKeyMappings;
 import hantonik.fbp.platform.Services;
-import hantonik.fbp.screen.FBPAbstractOptionsScreen;
 import hantonik.fbp.screen.FBPFastBlacklistScreen;
+import hantonik.fbp.screen.FBPOculusWarningScreen;
 import hantonik.fbp.screen.FBPOptionsScreen;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiComponent;
+import net.minecraft.client.gui.screens.PauseScreen;
 import net.minecraft.client.gui.screens.Screen;
+import net.minecraft.client.gui.screens.TitleScreen;
 import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.phys.BlockHitResult;
@@ -30,6 +32,8 @@ public final class FancyBlockParticles {
     public static final Marker SETUP_MARKER = MarkerManager.getMarker("SETUP");
 
     public static final FBPConfig CONFIG = FBPConfig.create();
+
+    private static boolean OCULUS_WARNING_SCREEN_SHOWN = false;
 
     public static void postClientTick(Minecraft client) {
         if (FBPKeyMappings.TOGGLE_MOD.consumeClick()) {
@@ -84,9 +88,21 @@ public final class FancyBlockParticles {
             GuiComponent.drawCenteredString(stack, Minecraft.getInstance().font, new TranslatableComponent("gui.fbp.freeze_effect").withStyle(ChatFormatting.BOLD), width / 2, 5, FancyBlockParticles.CONFIG.overlay.getFreezeEffectColor());
     }
 
-    public static void onClientPause(Screen screen) {
-        if (!(screen instanceof FBPAbstractOptionsScreen))
+    public static void postScreenInit(Screen screen) {
+        if (screen instanceof PauseScreen)
             FancyBlockParticles.CONFIG.save();
+
+        if (!OCULUS_WARNING_SCREEN_SHOWN) {
+            if (!FancyBlockParticles.CONFIG.global.isDisableOculusWarning()) {
+                if (screen instanceof TitleScreen) {
+                    if (Services.PLATFORM.isModLoaded("oculus")) {
+                        Minecraft.getInstance().setScreen(new FBPOculusWarningScreen(screen));
+
+                        OCULUS_WARNING_SCREEN_SHOWN = true;
+                    }
+                }
+            }
+        }
     }
 
     public static void onLevelLoad() {

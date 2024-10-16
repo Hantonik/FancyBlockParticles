@@ -13,7 +13,6 @@ import net.fabricmc.fabric.api.resource.ResourceManagerHelper;
 import net.fabricmc.fabric.api.resource.SimpleSynchronousResourceReloadListener;
 import net.minecraft.Util;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.screens.PauseScreen;
 import net.minecraft.client.particle.ParticleEngine;
 import net.minecraft.client.particle.ParticleRenderType;
 import net.minecraft.resources.ResourceLocation;
@@ -42,10 +41,7 @@ public final class FBPFabric implements ClientModInitializer {
 
         ClientTickEvents.END_CLIENT_TICK.register(FancyBlockParticles::postClientTick);
         HudRenderCallback.EVENT.register((stack, partialTick) -> FancyBlockParticles.onRenderHud(stack, Minecraft.getInstance().getWindow().getGuiScaledWidth()));
-        ScreenEvents.AFTER_INIT.register(((minecraft, screen, width, height) -> {
-            if (screen instanceof PauseScreen)
-                FancyBlockParticles.onClientPause(screen);
-        }));
+        ScreenEvents.AFTER_INIT.register(((minecraft, screen, width, height) -> FancyBlockParticles.postScreenInit(screen)));
         ClientPlayConnectionEvents.JOIN.register(((handler, sender, client) -> FancyBlockParticles.onLevelLoad()));
 
         ParticleEngine.RENDER_ORDER = Util.make(new ImmutableList.Builder<ParticleRenderType>(), builder -> {

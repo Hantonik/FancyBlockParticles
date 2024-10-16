@@ -9,10 +9,15 @@
   "key.fbp.add_to_blacklist": "Block schnell zur Blacklist hinzufügen",
   "key.fbp.reload_config": "Konfiguration neu laden",
 
+  "gui.fbp.shaders_warning.message": "Es scheint, dass du den %s Mod installiert hast, was visuelle Fehler oder andere Probleme verursachen könnte.",
+  "gui.fbp.shaders_warning.report": "Bevor du einen Fehler meldest, deinstalliere bitte den %s Mod und überprüfe, ob das Problem weiterhin besteht!",
+
   "gui.fbp.freeze_effect": "Freeze-Effekt!",
 
   "gui.fbp.blacklist.blacklist": "Blacklist",
   "gui.fbp.blacklist.whitelist": "Whitelist",
+
+  "screen.fbp.shaders_warning": "Warnung: %s installiert!",
 
   "screen.fbp.fast_blacklist": "Block zur Blacklist hinzufügen",
 
@@ -34,10 +39,14 @@
   "screen.fbp.reset_confirm": "Sind Sie sicher, dass Sie die FBP-Einstellungen zurücksetzen möchten?",
   "screen.fbp.reload_alert": "Konfiguration wurde erfolgreich neu geladen!",
 
+  "button.fbp.shaders_warning.dont_show_again": "Nicht erneut anzeigen",
+
   "button.fbp.animations.fancy_placing_animation": "Fancy Platzierungsanimation",
   "button.fbp.animations.render_outline": "Blockumriss rendern",
 
   "button.fbp.campfire_smoke.fancy_campfire_smoke_particles": "Fancy Lagerfeuerrauchpartikel",
+
+  "button.fbp.common.continue": "Fortfahren",
 
   "button.fbp.common.particles_decay": "Partikel zerfallen",
 
@@ -107,6 +116,8 @@
   "widget.fbp.global.categories": "Kategorien",
 
   "widget.fbp.overlay.freeze_effect_color": "Farbe des Freeze-Effekts",
+
+  "tooltip.fbp.shaders_warning.wait": "Warte noch %s Sekunden...",
 
   "tooltip.fbp.animations.fancy_placing_animation": "Fancy Platzierungsanimation aktivieren/deaktivieren.",
   "tooltip.fbp.animations.render_outline": "Soll der Blockumriss während der Animation gerendert werden?",
