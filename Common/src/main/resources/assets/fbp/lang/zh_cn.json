@@ -9,10 +9,15 @@
   "key.fbp.add_to_blacklist": "快速添加方块到黑名单",
   "key.fbp.reload_config": "重新加载配置",
 
+  "gui.fbp.shaders_warning.message": "您似乎安装了 %s 模组，这可能会导致视觉错误或其他问题。",
+  "gui.fbp.shaders_warning.report": "在报告错误之前，请卸载 %s 模组，并检查问题是否仍然存在！",
+
   "gui.fbp.freeze_effect": "冻结效果！",
 
   "gui.fbp.blacklist.blacklist": "黑名单",
   "gui.fbp.blacklist.whitelist": "白名单",
+
+  "screen.fbp.shaders_warning": "警告：已安装 %s！",
 
   "screen.fbp.fast_blacklist": "快速添加方块到黑名单",
 
@@ -33,6 +38,8 @@
 
   "screen.fbp.reset_confirm": "你确定要重置FBP设置吗？",
   "screen.fbp.reload_alert": "配置已成功重新加载！",
+
+  "button.fbp.shaders_warning.dont_show_again": "不再显示",
 
   "button.fbp.animations.fancy_placing_animation": "高级放置动画",
   "button.fbp.animations.render_outline": "渲染方块轮廓",
@@ -107,6 +114,8 @@
   "widget.fbp.global.categories": "类别",
 
   "widget.fbp.overlay.freeze_effect_color": "冻结效果颜色",
+
+  "tooltip.fbp.shaders_warning.wait": "请再等待 %s 秒...",
 
   "tooltip.fbp.animations.fancy_placing_animation": "启用/禁用高级放置动画。",
   "tooltip.fbp.animations.render_outline": "是否在动画期间渲染方块轮廓？",
