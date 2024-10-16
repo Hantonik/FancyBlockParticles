@@ -9,10 +9,15 @@
   "key.fbp.add_to_blacklist": "ブロックをブラックリストに追加",
   "key.fbp.reload_config": "設定をリロード",
 
+  "gui.fbp.shaders_warning.message": "%s モッドがインストールされているようです。これにより、視覚的な不具合やその他の問題が発生する可能性があります。",
+  "gui.fbp.shaders_warning.report": "バグを報告する前に、%s モッドをアンインストールし、問題がまだ発生するか確認してください！",
+
   "gui.fbp.freeze_effect": "フリーズエフェクト！",
 
   "gui.fbp.blacklist.blacklist": "ブラックリスト",
   "gui.fbp.blacklist.whitelist": "ホワイトリスト",
+
+  "screen.fbp.shaders_warning": "警告: %s がインストールされています！",
 
   "screen.fbp.fast_blacklist": "ブロックをブラックリストに追加",
 
@@ -34,10 +39,14 @@
   "screen.fbp.reset_confirm": "FBPの設定をリセットしてもよろしいですか？",
   "screen.fbp.reload_alert": "設定が正常にリロードされました！",
 
+  "button.fbp.shaders_warning.dont_show_again": "今後表示しない",
+
   "button.fbp.animations.fancy_placing_animation": "ファンシー配置アニメーション",
   "button.fbp.animations.render_outline": "ブロックの輪郭をレンダリング",
 
   "button.fbp.campfire_smoke.fancy_campfire_smoke_particles": "豪華な焚き火の煙の粒子",
+
+  "button.fbp.common.continue": "続ける",
 
   "button.fbp.common.particles_decay": "パーティクルの減衰",
 
@@ -107,6 +116,8 @@
   "widget.fbp.global.categories": "カテゴリ",
 
   "widget.fbp.overlay.freeze_effect_color": "フリーズエフェクトの色",
+
+  "tooltip.fbp.shaders_warning.wait": "あと %s 秒お待ちください…",
 
   "tooltip.fbp.animations.fancy_placing_animation": "ファンシーな配置アニメーションを有効/無効にします。",
   "tooltip.fbp.animations.render_outline": "アニメーション中にブロックの輪郭をレンダリングしますか？",

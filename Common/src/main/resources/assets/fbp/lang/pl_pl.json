@@ -9,10 +9,15 @@
   "key.fbp.add_to_blacklist": "Szybkie dodawanie bloków do czarnej listy",
   "key.fbp.reload_config": "Przeładuj konfigurację",
 
+  "gui.fbp.shaders_warning.message": "Wygląda na to, że masz zainstalowany mod %s, który może powodować błędy wizualne lub inne problemy.",
+  "gui.fbp.shaders_warning.report": "Przed zgłoszeniem błędu, odinstaluj moda %s i sprawdź czy problem dalej występuje!",
+
   "gui.fbp.freeze_effect": "Efekt zamrożenia!",
 
   "gui.fbp.blacklist.blacklist": "Czarna lista",
   "gui.fbp.blacklist.whitelist": "Biała lista",
+
+  "screen.fbp.shaders_warning": "Uwaga: %s zainstalowany!",
 
   "screen.fbp.fast_blacklist": "Dodaj blok do czarnej listy",
 
@@ -34,10 +39,14 @@
   "screen.fbp.reset_confirm": "Czy jesteś pewien, że chcesz zresetować ustawienia FBP?",
   "screen.fbp.reload_alert": "Konfiguracja została przeładowana pomyślnie!",
 
+  "button.fbp.shaders_warning.dont_show_again": "Nie pokazuj więcej",
+
   "button.fbp.animations.fancy_placing_animation": "Fantazyjna animacja kładzenia",
   "button.fbp.animations.render_outline": "Renderowanie konturów bloku",
 
   "button.fbp.campfire_smoke.fancy_campfire_smoke_particles": "Fantazyjne cząsteczki dymu ogniskowego",
+
+  "button.fbp.common.continue": "Kontynuuj",
 
   "button.fbp.common.particles_decay": "Cząsteczki znikają",
 
@@ -107,6 +116,8 @@
   "widget.fbp.global.categories": "Kategorie",
 
   "widget.fbp.overlay.freeze_effect_color": "Kolor efektu zamrożenia",
+
+  "tooltip.fbp.shaders_warning.wait": "Poczekaj jeszcze %s sekund...",
 
   "tooltip.fbp.animations.fancy_placing_animation": "Włącz/wyłącz fantazyjną animację kładzenia.",
   "tooltip.fbp.animations.render_outline": "Czy kontury bloku powinny być renderowane podczas animacji?",

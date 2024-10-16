@@ -3,7 +3,6 @@ package hantonik.fbp;
 import hantonik.fbp.init.FBPKeyMappings;
 import hantonik.fbp.screen.FBPOptionsScreen;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.screens.PauseScreen;
 import net.minecraft.server.packs.resources.ResourceManagerReloadListener;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.ClientRegistry;
@@ -58,8 +57,7 @@ public final class FBPForge {
     }
 
     private void postScreenInit(final ScreenEvent.InitScreenEvent.Post event) {
-        if (event.getScreen() instanceof PauseScreen screen)
-            FancyBlockParticles.onClientPause(screen);
+        FancyBlockParticles.postScreenInit(event.getScreen());
     }
 
     private void postRenderGuiOverlay(final RenderGameOverlayEvent.Post event) {
