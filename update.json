@@ -2,10 +2,11 @@
   "homepage": "https://www.curseforge.com/minecraft/mc-mods/fbp-renewed",
 
   "promos": {
-    "1.21.1-latest": "21.1.0.1-beta"
+    "1.21.1-latest": "21.1.1.0"
   },
 
   "1.21.1": {
+    "21.1.1.0": "Add Oculus warning screen. Add snowball and slime ball particles. Optimize performance. Add FBPRainParticle transparency adjustment option. Add FBPCampfireSmokeParticle. Fix flame particles not spawning while frozen. Add FBPSnowParticle water physics. Particle physics improvements. Fix shaders incompatibility. Code cleanup & improvements. Add FBPDripParticle. Add block placing animation. Fix incorrect lighting of FBPTerrainParticle",
     "21.1.0.1-beta": "Fix particles becoming dark",
     "21.1.0.0-beta": "Update to Minecraft 1.21.1"
   }
