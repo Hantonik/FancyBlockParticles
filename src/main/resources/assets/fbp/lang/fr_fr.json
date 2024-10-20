@@ -9,10 +9,15 @@
   "key.fbp.add_to_blacklist": "Ajouter rapidement un bloc à la liste noire",
   "key.fbp.reload_config": "Recharger la configuration",
 
+  "gui.fbp.shaders_warning.message": "Il semble que vous ayez installé le mod %s, ce qui pourrait provoquer des bugs visuels ou d'autres problèmes.",
+  "gui.fbp.shaders_warning.report": "Avant de signaler un bug, veuillez désinstaller le mod %s et vérifier si le problème persiste.",
+
   "gui.fbp.freeze_effect": "Effet de gel!",
 
   "gui.fbp.blacklist.blacklist": "Liste noire",
   "gui.fbp.blacklist.whitelist": "Liste blanche",
+
+  "screen.fbp.shaders_warning": "Attention: %s installé!",
 
   "screen.fbp.fast_blacklist": "Ajouter un bloc à la liste noire",
 
@@ -34,10 +39,14 @@
   "screen.fbp.reset_confirm": "Êtes-vous sûr de vouloir réinitialiser les paramètres de FBP?",
   "screen.fbp.reload_alert": "La configuration a été rechargée avec succès!",
 
+  "button.fbp.shaders_warning.dont_show_again": "Ne plus afficher",
+
   "button.fbp.animations.fancy_placing_animation": "Animation de placement sophistiquée",
   "button.fbp.animations.render_outline": "Rendu du contour du bloc",
 
   "button.fbp.campfire_smoke.fancy_campfire_smoke_particles": "Particules de fumée de feu de camp sophistiquées",
+
+  "button.fbp.common.continue": "Continuer",
 
   "button.fbp.common.particles_decay": "Désintégration des particules",
 
@@ -107,6 +116,8 @@
   "widget.fbp.global.categories": "Catégories",
 
   "widget.fbp.overlay.freeze_effect_color": "Couleur de l'effet de gel",
+
+  "tooltip.fbp.shaders_warning.wait": "Attendez encore %s secondes...",
 
   "tooltip.fbp.animations.fancy_placing_animation": "Activer/désactiver l'animation de placement sophistiquée.",
   "tooltip.fbp.animations.render_outline": "Le contour du bloc doit-il être rendu pendant l'animation?",

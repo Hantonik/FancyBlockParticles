@@ -4,10 +4,12 @@ import hantonik.fbp.animation.FBPPlacingAnimationManager;
 import hantonik.fbp.config.FBPConfig;
 import hantonik.fbp.init.FBPKeyMappings;
 import hantonik.fbp.screen.FBPFastBlacklistScreen;
+import hantonik.fbp.screen.FBPOculusWarningScreen;
 import hantonik.fbp.screen.FBPOptionsScreen;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.screen.IngameMenuScreen;
+import net.minecraft.client.gui.screen.MainMenuScreen;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.world.ClientWorld;
 import net.minecraft.item.BlockItem;
@@ -52,6 +54,8 @@ public final class FancyBlockParticles {
     public static final Marker SETUP_MARKER = MarkerManager.getMarker("SETUP");
 
     public static final FBPConfig CONFIG = FBPConfig.create();
+
+    private static boolean OCULUS_WARNING_SCREEN_SHOWN = false;
 
     public FancyBlockParticles() {
         FancyBlockParticles.LOGGER.info(FancyBlockParticles.SETUP_MARKER, "Initializing...");
@@ -134,6 +138,18 @@ public final class FancyBlockParticles {
     private void postScreenInit(final GuiScreenEvent.InitGuiEvent.Post event) {
         if (event.getGui() instanceof IngameMenuScreen)
             FancyBlockParticles.CONFIG.save();
+
+        if (!OCULUS_WARNING_SCREEN_SHOWN) {
+            if (!FancyBlockParticles.CONFIG.global.isDisableOculusWarning()) {
+                if (event.getGui() instanceof MainMenuScreen) {
+                    if (ModList.get().isLoaded("oculus")) {
+                        Minecraft.getInstance().setScreen(new FBPOculusWarningScreen(event.getGui()));
+
+                        OCULUS_WARNING_SCREEN_SHOWN = true;
+                    }
+                }
+            }
+        }
     }
 
     private void postRenderGuiOverlay(final RenderGameOverlayEvent.Post event) {
