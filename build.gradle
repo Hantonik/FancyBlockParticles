@@ -90,7 +90,7 @@ repositories {
 dependencies {
     minecraft "net.minecraftforge:forge:$mc_version-$forge_version"
 
-    implementation fg.deobf("maven.modrinth:serene-seasons:$sereneseasons_version")
+    compileOnly fg.deobf("maven.modrinth:serene-seasons:$sereneseasons_version")
 
     compileOnly fg.deobf("maven.modrinth:rubidium:$rubidium_version")
     compileOnly fg.deobf("maven.modrinth:oculus:$mc_version-$oculus_version")

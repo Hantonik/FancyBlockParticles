@@ -111,10 +111,10 @@ public class FBPWhiteSmokeParticle extends SmokeParticle implements IKillablePar
                 if (this.age >= this.lifetime) {
                     this.quadSize *= 0.9F * this.multiplier;
 
-                    if (this.alpha > 0.01D && this.quadSize <= this.scaleAlpha)
+                    if (this.alpha >= 0.01D && this.quadSize <= this.scaleAlpha)
                         this.alpha *= 0.76F * this.multiplier;
 
-                    if (this.alpha <= 0.01D)
+                    if (this.alpha < 0.01D)
                         this.remove();
                 }
 
@@ -234,25 +234,25 @@ public class FBPWhiteSmokeParticle extends SmokeParticle implements IKillablePar
         float brightness = 1.0F;
 
         float red;
-        float greed;
+        float green;
         float blue;
 
         for (int i = 0; i < cube.length; i += 4) {
             Vector3d vec0 = cube[i];
             Vector3d vec1 = cube[i + 1];
             Vector3d vec2 = cube[i + 2];
-            Vector3d Vector3d = cube[i + 3];
+            Vector3d vec3 = cube[i + 3];
 
             red = rCol * brightness;
-            greed = gCol * brightness;
+            green = gCol * brightness;
             blue = bCol * brightness;
 
             brightness *= 0.875F;
 
-            this.addVertex(builder, vec0, u, v, light, red, greed, blue, alpha);
-            this.addVertex(builder, vec1, u, v, light, red, greed, blue, alpha);
-            this.addVertex(builder, vec2, u, v, light, red, greed, blue, alpha);
-            this.addVertex(builder, Vector3d, u, v, light, red, greed, blue, alpha);
+            this.addVertex(builder, vec0, u, v, light, red, green, blue, alpha);
+            this.addVertex(builder, vec1, u, v, light, red, green, blue, alpha);
+            this.addVertex(builder, vec2, u, v, light, red, green, blue, alpha);
+            this.addVertex(builder, vec3, u, v, light, red, green, blue, alpha);
         }
     }
 

@@ -12,6 +12,8 @@ import net.minecraft.util.text.TextFormatting;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraftforge.fml.ModList;
 
+import java.text.DecimalFormat;
+
 public class FBPAnimationsScreen extends FBPAbstractOptionsScreen {
     public FBPAnimationsScreen(Screen lastScreen, FBPConfig config) {
         super(new TranslationTextComponent("screen.fbp.category.animations"), lastScreen, config);

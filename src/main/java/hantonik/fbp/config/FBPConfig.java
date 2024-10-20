@@ -597,8 +597,6 @@ public final class FBPConfig implements IFBPConfig<FBPConfig> {
     public static class Rain implements IFBPConfig<Rain> {
         private static final boolean DEFAULT_ENABLED = true;
 
-        private static final boolean DEFAULT_WATER_PHYSICS = false;
-
         private static final boolean DEFAULT_RANDOM_SIZE = true;
         private static final boolean DEFAULT_RANDOM_FADING_SPEED = true;
 
@@ -612,7 +610,6 @@ public final class FBPConfig implements IFBPConfig<FBPConfig> {
 
         public static final Rain DEFAULT_CONFIG = new Rain(
                 DEFAULT_ENABLED,
-                DEFAULT_WATER_PHYSICS,
                 DEFAULT_RANDOM_SIZE, DEFAULT_RANDOM_FADING_SPEED,
                 DEFAULT_RENDER_DISTANCE, DEFAULT_SIMULATION_DISTANCE,
                 DEFAULT_PARTICLE_DENSITY,
@@ -620,8 +617,6 @@ public final class FBPConfig implements IFBPConfig<FBPConfig> {
         );
 
         private boolean enabled;
-
-        private boolean waterPhysics;
 
         private boolean randomSize;
         private boolean randomFadingSpeed;
@@ -638,8 +633,6 @@ public final class FBPConfig implements IFBPConfig<FBPConfig> {
         public void setConfig(Rain config) {
             this.enabled = config.enabled;
 
-            this.waterPhysics = config.waterPhysics;
-
             this.randomSize = config.randomSize;
             this.randomFadingSpeed = config.randomFadingSpeed;
 
@@ -655,8 +648,6 @@ public final class FBPConfig implements IFBPConfig<FBPConfig> {
         @Override
         public void load(JsonObject json) {
             this.enabled = json.has("enabled") ? json.getAsJsonPrimitive("enabled").getAsBoolean() : DEFAULT_ENABLED;
-
-            this.waterPhysics = json.has("waterPhysics") ? json.getAsJsonPrimitive("waterPhysics").getAsBoolean() : DEFAULT_WATER_PHYSICS;
 
             this.randomSize = json.has("randomSize") ? json.getAsJsonPrimitive("randomSize").getAsBoolean() : DEFAULT_RANDOM_SIZE;
             this.randomFadingSpeed = json.has("randomFadingSpeed") ? json.getAsJsonPrimitive("randomFadingSpeed").getAsBoolean() : DEFAULT_RANDOM_FADING_SPEED;
@@ -675,8 +666,6 @@ public final class FBPConfig implements IFBPConfig<FBPConfig> {
             JsonObject json = new JsonObject();
 
             json.addProperty("enabled", this.enabled);
-
-            json.addProperty("waterPhysics", this.waterPhysics);
 
             json.addProperty("randomSize", this.randomSize);
             json.addProperty("randomFadingSpeed", this.randomFadingSpeed);
@@ -701,7 +690,6 @@ public final class FBPConfig implements IFBPConfig<FBPConfig> {
         public Rain copy() {
             return new Rain(
                     this.enabled,
-                    this.waterPhysics,
                     this.randomSize, this.randomFadingSpeed,
                     this.renderDistance, this.simulationDistance,
                     this.particleDensity,

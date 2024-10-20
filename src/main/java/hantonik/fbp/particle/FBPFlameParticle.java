@@ -8,7 +8,10 @@ import lombok.RequiredArgsConstructor;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.TorchBlock;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.particle.*;
+import net.minecraft.client.particle.FlameParticle;
+import net.minecraft.client.particle.IParticleFactory;
+import net.minecraft.client.particle.IParticleRenderType;
+import net.minecraft.client.particle.Particle;
 import net.minecraft.client.renderer.ActiveRenderInfo;
 import net.minecraft.client.world.ClientWorld;
 import net.minecraft.entity.Entity;
@@ -121,12 +124,12 @@ public class FBPFlameParticle extends FlameParticle implements IKillableParticle
                 if (this.age >= this.lifetime) {
                     this.quadSize *= this.multiplier * 0.95F;
 
-                    if (this.alpha > 0.01D && this.quadSize <= this.scaleAlpha)
+                    if (this.alpha >= 0.01D && this.quadSize <= this.scaleAlpha)
                         this.alpha *= this.multiplier * 0.95F;
 
                     BlockState state = this.level.getBlockState(new BlockPos(this.x, this.y, this.z));
 
-                    if (this.alpha <= 0.01D)
+                    if (this.alpha < 0.01D)
                         this.remove();
                     else if (this.alpha <= 0.325D && this.hasChild && state.getBlock() instanceof TorchBlock) {
                         this.hasChild = false;

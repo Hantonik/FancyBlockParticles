@@ -8,6 +8,7 @@ import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.widget.TextFieldWidget;
 import net.minecraft.util.IReorderingProcessor;
 import net.minecraft.util.text.Color;
+import net.minecraft.util.text.StringTextComponent;
 import net.minecraft.util.text.Style;
 import net.minecraft.util.text.TranslationTextComponent;
 
@@ -40,7 +41,7 @@ public class FBPOverlayScreen extends FBPAbstractOptionsScreen {
         );
 
         this.list.addSmall(
-                new FBPStringWidget(150, 21, new TranslationTextComponent("widget.fbp.overlay.freeze_effect_color").append(": "), this.font).alignLeft(),
+                new FBPStringWidget(150, 21, new StringTextComponent(" ").append(new TranslationTextComponent("widget.fbp.overlay.freeze_effect_color")).append(":"), this.font).alignLeft(),
                 colorBox
         );
     }
