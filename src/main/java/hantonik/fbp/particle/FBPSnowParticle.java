@@ -8,7 +8,6 @@ import lombok.RequiredArgsConstructor;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.block.CampfireBlock;
-import net.minecraft.block.FlowingFluidBlock;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.particle.IParticleFactory;
 import net.minecraft.client.particle.IParticleRenderType;
@@ -18,9 +17,13 @@ import net.minecraft.client.renderer.ActiveRenderInfo;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.client.world.ClientWorld;
 import net.minecraft.entity.Entity;
+import net.minecraft.fluid.Fluid;
+import net.minecraft.fluid.FluidState;
 import net.minecraft.particles.BasicParticleType;
 import net.minecraft.particles.ParticleTypes;
 import net.minecraft.tags.FluidTags;
+import net.minecraft.tags.ITag;
+import net.minecraft.util.Direction;
 import net.minecraft.util.ReuseableStream;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
@@ -54,6 +57,8 @@ public class FBPSnowParticle extends RainParticle implements IKillableParticle {
     private double lastZSpeed;
 
     private boolean wasFrozen;
+    private boolean wasInWater;
+
     private boolean killToggle;
     private boolean visible;
 
@@ -170,32 +175,25 @@ public class FBPSnowParticle extends RainParticle implements IKillableParticle {
                             Minecraft.getInstance().particleEngine.add(new FBPRainParticle.Provider().createParticle(ParticleTypes.RAIN.getType(), this.level, x, y, z, 0.0D, 0.0D, 0.0D));
                     }
                 } else {
-                    if (this.quadSize < this.targetSize) {
-                        this.quadSize += 0.075F * this.multiplier;
+                    if (!this.wasInWater) {
+                        if (this.quadSize < this.targetSize) {
+                            this.quadSize += 0.075F * this.multiplier;
 
-                        if (this.quadSize > this.targetSize)
-                            this.quadSize = this.targetSize;
+                            if (this.quadSize > this.targetSize)
+                                this.quadSize = this.targetSize;
+                        }
+
+                        if (this.alpha < 1.0F) {
+                            this.alpha += 0.045F * this.multiplier;
+
+                            if (this.alpha > 1.0F)
+                                this.alpha = 1.0F;
+                        }
                     }
-
-                    if (this.alpha < 1.0F) {
-                        this.alpha += 0.045F * this.multiplier;
-
-                        if (this.alpha > 1.0F)
-                            this.alpha = 1.0F;
-                    }
-                }
-
-                BlockState state = this.level.getBlockState(pos);
-
-                if (state.getBlock() instanceof FlowingFluidBlock) {
-                    this.remove();
-
-                    if (state.getFluidState().is(FluidTags.LAVA) || state.is(Blocks.MAGMA_BLOCK) || CampfireBlock.isLitCampfire(state))
-                        Minecraft.getInstance().particleEngine.add(new FBPSmokeParticle.Provider(this.quadSize / 5.0F).createParticle(ParticleTypes.SMOKE, this.level, this.x, this.y, this.z, 0.0D, 0.05D, 0.0D));
                 }
 
                 if (!this.onGround)
-                    this.yd -= 0.04D * this.gravity;
+                    this.yd -= (this.wasInWater ? 0.02D : 0.04D) * this.gravity;
 
                 this.move(this.xd, this.yd, this.zd);
 
@@ -213,6 +211,34 @@ public class FBPSnowParticle extends RainParticle implements IKillableParticle {
                     this.yd *= 0.75D;
 
                 this.zd *= 0.98D;
+
+                BlockState state = this.level.getBlockState(pos.relative(Direction.DOWN));
+
+                if (this.isInFluid(this.getBoundingBox(), FluidTags.LAVA) || ((state.is(Blocks.MAGMA_BLOCK) || CampfireBlock.isLitCampfire(state)) && this.onGround)) {
+                    this.remove();
+
+                    Minecraft.getInstance().particleEngine.add(new FBPSmokeParticle.Provider(this.quadSize / 5.0F).createParticle(ParticleTypes.SMOKE, this.level, this.x, this.y, this.z, 0.0D, 0.05D, 0.0D));
+                }
+
+                if (this.isInFluid(this.getBoundingBox(), FluidTags.WATER)) {
+                    if (FancyBlockParticles.CONFIG.snow.isWaterPhysics()) {
+                        this.xd *= 0.3D;
+                        this.yd *= 0.05D;
+                        this.zd *= 0.3D;
+
+                        this.quadSize *= 0.98F * this.multiplier;
+
+                        this.wasInWater = true;
+
+                        if (this.alpha >= 0.01F && this.quadSize <= this.scaleAlpha)
+                            this.alpha *= 0.95F * this.multiplier;
+
+                        if (this.alpha < 0.01F)
+                            this.remove();
+                    } else
+                        this.remove();
+                } else
+                    this.wasInWater = false;
 
                 if (this.onGround) {
                     if (FancyBlockParticles.CONFIG.snow.isLowTraction()) {
@@ -235,6 +261,45 @@ public class FBPSnowParticle extends RainParticle implements IKillableParticle {
             this.remove();
 
         this.visible = Minecraft.getInstance().cameraEntity.position().distanceTo(new Vector3d(this.x, Minecraft.getInstance().cameraEntity.getY(), this.z)) <= Math.min(FancyBlockParticles.CONFIG.snow.getRenderDistance(), Minecraft.getInstance().options.renderDistance) * 16;
+    }
+
+    private boolean isInFluid(AxisAlignedBB box, ITag.INamedTag<Fluid> fluid) {
+        if (!this.touchingUnloadedChunk()) {
+            box = box.deflate(0.001D);
+
+            int minX = MathHelper.floor(box.minX);
+            int maxX = MathHelper.ceil(box.maxX);
+            int minY = MathHelper.floor(box.minY);
+            int maxY = MathHelper.ceil(box.maxY);
+            int minZ = MathHelper.floor(box.minZ);
+            int maxZ = MathHelper.ceil(box.maxZ);
+
+            for (int x = minX; x < maxX; x++) {
+                for (int y = minY; y < maxY; y++) {
+                    for (int z = minZ; z < maxZ; z++) {
+                        BlockPos pos = new BlockPos(x, y, z);
+                        FluidState fluidState = this.level.getFluidState(pos);
+
+                        if (fluidState.is(fluid))
+                            if (fluidState.getHeight(this.level, pos) + y >= box.minY)
+                                return true;
+                    }
+                }
+            }
+        }
+
+        return false;
+    }
+
+    private boolean touchingUnloadedChunk() {
+        AxisAlignedBB box = this.getBoundingBox().inflate(1.0D);
+
+        int minX = MathHelper.floor(box.minX);
+        int maxX = MathHelper.ceil(box.maxX);
+        int minZ = MathHelper.floor(box.minZ);
+        int maxZ = MathHelper.ceil(box.maxZ);
+
+        return !this.level.hasChunksAt(minX, 0, minZ, maxX, 0, maxZ);
     }
 
     @Override
@@ -332,7 +397,7 @@ public class FBPSnowParticle extends RainParticle implements IKillableParticle {
                         MathHelper.lerp(partialTick, this.lastRotation.y, this.rotation.y),
                         MathHelper.lerp(partialTick, this.lastRotation.z, this.rotation.z)
                 );
-                
+
                 if (FancyBlockParticles.CONFIG.snow.isRandomRotation())
                     smoothRotation = new Vector3d(smoothRotation.x, vec.y, vec.z);
                 else

@@ -707,7 +707,7 @@ public final class FBPConfig implements IFBPConfig<FBPConfig> {
         private static final boolean DEFAULT_LOW_TRACTION = false;
         private static final boolean DEFAULT_REST_ON_FLOOR = true;
         private static final boolean DEFAULT_BOUNCE_OFF_WALLS = true;
-        private static final boolean DEFAULT_WATER_PHYSICS = false;
+        private static final boolean DEFAULT_WATER_PHYSICS = true;
 
         private static final boolean DEFAULT_INFINITE_DURATION = false;
 
