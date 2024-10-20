@@ -1,20 +1,27 @@
 package hantonik.fbp.mixin;
 
+import com.mojang.blaze3d.matrix.MatrixStack;
+import com.mojang.blaze3d.vertex.IVertexBuilder;
 import hantonik.fbp.FancyBlockParticles;
+import hantonik.fbp.animation.FBPPlacingAnimationManager;
 import hantonik.fbp.particle.FBPRainParticle;
 import hantonik.fbp.particle.FBPSnowParticle;
 import hantonik.fbp.util.FBPConstants;
+import net.minecraft.block.BlockState;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.ActiveRenderInfo;
 import net.minecraft.client.renderer.WorldRenderer;
 import net.minecraft.client.world.ClientWorld;
+import net.minecraft.entity.Entity;
 import net.minecraft.particles.IParticleData;
 import net.minecraft.particles.ParticleTypes;
 import net.minecraft.resources.IResourceManagerReloadListener;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.vector.Vector3d;
+import net.minecraft.world.World;
 import net.minecraft.world.biome.Biome;
+import net.minecraft.world.biome.BiomeRegistry;
 import net.minecraft.world.gen.Heightmap;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
@@ -57,7 +64,7 @@ public abstract class MixinWorldRenderer implements IResourceManagerReloadListen
                     int surfaceHeight = this.level.getHeightmapPos(Heightmap.Type.MOTION_BLOCKING, pos).getY();
 
                     Biome biome = this.level.getBiome(pos);
-                    Biome.RainType precipitation = biome.getPrecipitation();
+                    Biome.RainType precipitation = FancyBlockParticles.getBiomePrecipitation(this.level, biome);
 
                     if (precipitation != Biome.RainType.NONE) {
                         if (this.minecraft.cameraEntity.position().distanceTo(new Vector3d(x, y, z)) > (precipitation == Biome.RainType.RAIN ? FancyBlockParticles.CONFIG.rain.getSimulationDistance() : FancyBlockParticles.CONFIG.snow.getSimulationDistance()) * 16.0F)
@@ -68,7 +75,7 @@ public abstract class MixinWorldRenderer implements IResourceManagerReloadListen
                         if (y <= surfaceHeight + 2)
                             y = surfaceHeight + 10;
 
-                        if (biome.getTemperature(pos) >= 0.15F) {
+                        if (FancyBlockParticles.getBiomeTemperature(biome, pos, this.level) >= 0.15F) {
                             if (FancyBlockParticles.CONFIG.rain.isEnabled())
                                 if (i < rainDensity)
                                     this.minecraft.particleEngine.add(new FBPRainParticle.Provider().createParticle(ParticleTypes.RAIN.getType(), this.level, x, y, z, 0.0D, 0.0D, 0.0D));
@@ -96,17 +103,24 @@ public abstract class MixinWorldRenderer implements IResourceManagerReloadListen
         instance.addParticle(particleOptions, x, y, z, xd, yd, zd);
     }
 
-    @Redirect(at = @At(value = "INVOKE", target = "Lnet/minecraft/world/biome/Biome;getPrecipitation()Lnet/minecraft/world/biome/Biome$RainType;"), method = "renderSnowAndRain")
-    private Biome.RainType getPrecipitation(Biome instance) {
-        Biome.RainType precipitation = instance.getPrecipitation();
+    @Redirect(at = @At(value = "INVOKE", target = "Lnet/minecraft/world/World;getBiome(Lnet/minecraft/util/math/BlockPos;)Lnet/minecraft/world/biome/Biome;"), method = "renderSnowAndRain")
+    private Biome getBiome(World instance, BlockPos pos) {
+        Biome biome = instance.getBiome(pos);
+        Biome.RainType precipitation = biome.getPrecipitation();
 
         if (FancyBlockParticles.CONFIG.global.isEnabled()) {
             if (precipitation == Biome.RainType.RAIN && FancyBlockParticles.CONFIG.rain.isEnabled())
-                return Biome.RainType.NONE;
+                return BiomeRegistry.THE_VOID;
             else if (precipitation == Biome.RainType.SNOW && FancyBlockParticles.CONFIG.snow.isEnabled())
-                return Biome.RainType.NONE;
+                return BiomeRegistry.THE_VOID;
         }
 
-        return precipitation;
+        return biome;
+    }
+
+    @Inject(at = @At("HEAD"), method = "renderHitOutline", cancellable = true)
+    private void renderHitOutline(MatrixStack stack, IVertexBuilder consumer, Entity entity, double camX, double camY, double camZ, BlockPos pos, BlockState state, CallbackInfo callback) {
+        if (!FancyBlockParticles.CONFIG.animations.isRenderOutline() && FBPPlacingAnimationManager.isHidden(pos))
+            callback.cancel();
     }
 }

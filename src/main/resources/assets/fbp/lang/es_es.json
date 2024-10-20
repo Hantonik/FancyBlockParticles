@@ -2,6 +2,7 @@
   "key.fbp.category": "Fancy Block Particles",
 
   "key.fbp.toggle_mod": "Habilitar/deshabilitar mod",
+  "key.fbp.toggle_animations": "Habilitar/deshabilitar la colocación de animaciones",
   "key.fbp.open_settings": "Abrir configuración",
   "key.fbp.freeze_particles": "Alternar efecto de congelación",
   "key.fbp.kill_particles": "Eliminar partículas",
@@ -33,7 +34,7 @@
   "screen.fbp.reload_alert": "¡Configuración recargada exitosamente!",
 
   "button.fbp.animations.fancy_placing_animation": "Animación de colocación elegante",
-  "button.fbp.animations.smooth_animation_lighting": "Iluminación suave de animación",
+  "button.fbp.animations.render_outline": "Renderizar contorno del bloque",
 
   "button.fbp.common.particles_decay": "Decaimiento de partículas",
 
@@ -100,7 +101,12 @@
   "widget.fbp.overlay.freeze_effect_color": "Color del efecto de congelación",
 
   "tooltip.fbp.animations.fancy_placing_animation": "Habilitar/deshabilitar animación de colocación elegante.",
-  "tooltip.fbp.animations.smooth_animation_lighting": "Habilitar/deshabilitar iluminación suave de animación.",
+  "tooltip.fbp.animations.render_outline": "¿Debería renderizarse el contorno del bloque durante la animación?",
+
+  "tooltip.fbp.animations.min_lifetime": "Tiempo de vida mínimo de la animación.",
+  "tooltip.fbp.animations.max_lifetime": "Tiempo de vida máximo de la animación.",
+
+  "tooltip.fbp.animations.size_multiplier": "Multiplicador de tamaño de la animación",
 
   "tooltip.fbp.common.homepage": "¡Página principal de FBP aquí!",
   "tooltip.fbp.common.report": "¿Encontraste un error?\n¡Repórtalo aquí!",
@@ -129,6 +135,7 @@
   "tooltip.fbp.common.bounce_off_walls": "¿Deberían las partículas rebotar en las paredes?",
 
   "tooltip.fbp.common.option_unsupported": "¡Próximamente!",
+  "tooltip.fbp.common.mod_incompatibility": "Esta función es incompatible con el mod %s.",
 
   "tooltip.fbp.flame.fancy_flame_particles": "Habilitar/deshabilitar partículas de llama elegantes.\nCuando está deshabilitado, se restauran las partículas predeterminadas.",
 

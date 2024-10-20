@@ -10,6 +10,7 @@ public final class FBPKeyMappings {
     public static final List<KeyBinding> MAPPINGS = Lists.newArrayList();
 
     public static final KeyBinding TOGGLE_MOD = register("toggle_mod", -1);
+    public static final KeyBinding TOGGLE_ANIMATIONS = register("toggle_animations", -1);
     public static final KeyBinding OPEN_SETTINGS = register("open_settings", GLFW.GLFW_KEY_I);
     public static final KeyBinding FREEZE_PARTICLES = register("freeze_particles", GLFW.GLFW_KEY_R);
     public static final KeyBinding KILL_PARTICLES = register("kill_particles", -1);

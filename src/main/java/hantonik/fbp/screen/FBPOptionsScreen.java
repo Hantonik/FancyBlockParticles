@@ -8,7 +8,10 @@ import hantonik.fbp.screen.component.widget.button.FBPToggleButton;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.widget.button.Button;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.text.StringTextComponent;
+import net.minecraft.util.text.TextFormatting;
 import net.minecraft.util.text.TranslationTextComponent;
+import net.minecraftforge.fml.ModList;
 
 public class FBPOptionsScreen extends FBPAbstractOptionsScreen {
     public static final ResourceLocation LOGO_TEXTURE = new ResourceLocation(FancyBlockParticles.MOD_ID, "textures/gui/logo.png");
@@ -32,15 +35,22 @@ public class FBPOptionsScreen extends FBPAbstractOptionsScreen {
                 new FBPStringWidget(310, 20, new TranslationTextComponent("widget.fbp.global.categories"), this.font)
         );
 
-        Button animationsButton = this.openScreenButton(new TranslationTextComponent("screen.fbp.category.animations").append("..."), () -> new FBPAnimationsScreen(this, this.config), new TranslationTextComponent("tooltip.fbp.common.option_unsupported"));
-        animationsButton.active = false;
+        Button animationsScreenButton;
+
+        if (ModList.get().isLoaded("a_good_place")) {
+            animationsScreenButton = this.openScreenButton(new TranslationTextComponent("screen.fbp.category.animations").append("..."), () -> new FBPAnimationsScreen(this, this.config), new TranslationTextComponent("tooltip.fbp.common.mod_incompatibility", new StringTextComponent("A Good Place").withStyle(TextFormatting.AQUA)).withStyle(TextFormatting.YELLOW));
+            animationsScreenButton.active = false;
+        } else if (ModList.get().isLoaded("optifine"))
+            animationsScreenButton = this.openScreenButton(new TranslationTextComponent("screen.fbp.category.animations").append("..."), () -> new FBPAnimationsScreen(this, this.config), new TranslationTextComponent("tooltip.fbp.common.mod_incompatibility", new StringTextComponent("OptiFine").withStyle(TextFormatting.AQUA)));
+        else
+            animationsScreenButton = this.openScreenButton(new TranslationTextComponent("screen.fbp.category.animations").append("..."), () -> new FBPAnimationsScreen(this, this.config));
 
         this.list.addSmall(
                 this.openScreenButton(new TranslationTextComponent("screen.fbp.category.terrain").append("..."), () -> new FBPTerrainScreen(this, this.config)),
                 this.openScreenButton(new TranslationTextComponent("screen.fbp.category.weather").append("..."), () -> new FBPWeatherScreen(this, this.config)),
                 this.openScreenButton(new TranslationTextComponent("screen.fbp.category.flame").append("..."), () -> new FBPFlameScreen(this, this.config)),
                 this.openScreenButton(new TranslationTextComponent("screen.fbp.category.smoke").append("..."), () -> new FBPSmokeScreen(this, this.config)),
-                animationsButton,
+                animationsScreenButton,
                 this.openScreenButton(new TranslationTextComponent("screen.fbp.category.overlay").append("..."), () -> new FBPOverlayScreen(this, this.config))
         );
     }

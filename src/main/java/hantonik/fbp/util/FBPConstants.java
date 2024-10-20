@@ -45,6 +45,10 @@ public final class FBPConstants {
             new Vector3d(-1.0D, 0.0D, 0.0D), new Vector3d(1.0D, 0.0D, 0.0D)
     };
 
+    public static final Vector3d ANIMATION_TRANSLATION = new Vector3d(0.1D, 0.1D, 0.1D);
+    public static final Vector3d ANIMATION_ROTATION = new Vector3d(0.0D, -0.07D, 0.07D);
+    public static final Vector3d ANIMATION_PIVOT = new Vector3d(0.25D, -0.25D, 0.25D);
+
     public static final Supplier<TextureAtlasSprite> FBP_PARTICLE_SPRITE = () -> Minecraft.getInstance().getBlockRenderer().getBlockModelShaper().getParticleIcon(Blocks.WHITE_CONCRETE.defaultBlockState());
 
     public static final IParticleRenderType FBP_PARTICLE_RENDER = new IParticleRenderType() {
