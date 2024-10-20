@@ -31,7 +31,7 @@ public final class FBPConfig implements IFBPConfig<FBPConfig> {
     private static final Gson GSON = new GsonBuilder().disableHtmlEscaping().setPrettyPrinting().create();
 
     public static final FBPConfig DEFAULT_CONFIG = new FBPConfig(
-            Global.DEFAULT_CONFIG, Terrain.DEFAULT_CONFIG, FlameSmoke.DEFAULT_CONFIG, FlameSmoke.DEFAULT_CONFIG, Rain.DEFAULT_CONFIG, Snow.DEFAULT_CONFIG, Animations.DEFAULT_CONFIG, Overlay.DEFAULT_CONFIG
+            Global.DEFAULT_CONFIG, Terrain.DEFAULT_CONFIG, FlameSmoke.DEFAULT_CONFIG, FlameSmoke.DEFAULT_CONFIG, Rain.DEFAULT_CONFIG, Snow.DEFAULT_CONFIG, Drip.DEFAULT_CONFIG, Animations.DEFAULT_CONFIG, Overlay.DEFAULT_CONFIG
     );
 
     public final Global global;
@@ -40,6 +40,7 @@ public final class FBPConfig implements IFBPConfig<FBPConfig> {
     public final FlameSmoke smoke;
     public final Rain rain;
     public final Snow snow;
+    public final Drip drip;
     public final Animations animations;
     public final Overlay overlay;
 
@@ -77,6 +78,7 @@ public final class FBPConfig implements IFBPConfig<FBPConfig> {
         this.smoke.setConfig(config.smoke);
         this.rain.setConfig(config.rain);
         this.snow.setConfig(config.snow);
+        this.drip.setConfig(config.drip);
         this.animations.setConfig(config.animations);
         this.overlay.setConfig(config.overlay);
     }
@@ -89,6 +91,7 @@ public final class FBPConfig implements IFBPConfig<FBPConfig> {
         this.smoke.applyConfig(config.smoke);
         this.rain.applyConfig(config.rain);
         this.snow.applyConfig(config.snow);
+        this.drip.applyConfig(config.drip);
         this.animations.applyConfig(config.animations);
         this.overlay.applyConfig(config.overlay);
     }
@@ -120,6 +123,7 @@ public final class FBPConfig implements IFBPConfig<FBPConfig> {
             this.smoke.load(json.has("smoke") ? json.getAsJsonObject("smoke") : new JsonObject());
             this.rain.load(json.has("rain") ? json.getAsJsonObject("rain") : new JsonObject());
             this.snow.load(json.has("snow") ? json.getAsJsonObject("snow") : new JsonObject());
+            this.drip.load(json.has("drip") ? json.getAsJsonObject("drip") : new JsonObject());
             this.animations.load(json.has("animations") ? json.getAsJsonObject("animations") : new JsonObject());
             this.overlay.load(json.has("overlay") ? json.getAsJsonObject("overlay") : new JsonObject());
         } catch (IOException e) {
@@ -142,6 +146,7 @@ public final class FBPConfig implements IFBPConfig<FBPConfig> {
             json.add("smoke", this.smoke.save());
             json.add("rain", this.rain.save());
             json.add("snow", this.snow.save());
+            json.add("drip", this.drip.save());
             json.add("animations", this.animations.save());
             json.add("overlay", this.overlay.save());
 
@@ -161,7 +166,7 @@ public final class FBPConfig implements IFBPConfig<FBPConfig> {
     @Override
     public FBPConfig copy() {
         return new FBPConfig(
-                this.global.copy(), this.terrain.copy(), this.flame.copy(), this.smoke.copy(), this.rain.copy(), this.snow.copy(), this.animations.copy(), this.overlay.copy()
+                this.global.copy(), this.terrain.copy(), this.flame.copy(), this.smoke.copy(), this.rain.copy(), this.snow.copy(), this.drip.copy(), this.animations.copy(), this.overlay.copy()
         );
     }
 
@@ -874,6 +879,113 @@ public final class FBPConfig implements IFBPConfig<FBPConfig> {
                     this.renderDistance, this.simulationDistance,
                     this.particleDensity,
                     this.sizeMultiplier, this.rotationMultiplier, this.gravityMultiplier
+            );
+        }
+    }
+
+    @Getter
+    @Setter
+    @AllArgsConstructor(access = AccessLevel.PRIVATE)
+    public static class Drip implements IFBPConfig<Drip> {
+        private static final boolean DEFAULT_ENABLED = true;
+
+        private static final boolean DEFAULT_SPAWN_WHILE_FROZEN = true;
+
+        private static final boolean DEFAULT_RANDOM_SIZE = true;
+        private static final boolean DEFAULT_RANDOM_FADING_SPEED = true;
+
+        private static final int DEFAULT_MIN_LIFETIME = 60;
+        private static final int DEFAULT_MAX_LIFETIME = 100;
+
+        private static final float DEFAULT_SIZE_MULTIPLIER = 1.0F;
+        private static final float DEFAULT_GRAVITY_MULTIPLIER = 1.0F;
+
+        public static final Drip DEFAULT_CONFIG = new Drip(
+                DEFAULT_ENABLED,
+                DEFAULT_SPAWN_WHILE_FROZEN,
+                DEFAULT_RANDOM_SIZE, DEFAULT_RANDOM_FADING_SPEED,
+                DEFAULT_MIN_LIFETIME, DEFAULT_MAX_LIFETIME,
+                DEFAULT_SIZE_MULTIPLIER, DEFAULT_GRAVITY_MULTIPLIER
+        );
+
+        private boolean enabled;
+
+        private boolean spawnWhileFrozen;
+
+        private boolean randomSize;
+        private boolean randomFadingSpeed;
+
+        private int minLifetime;
+        private int maxLifetime;
+
+        private float sizeMultiplier;
+        private float gravityMultiplier;
+
+        @Override
+        public void setConfig(Drip config) {
+            this.enabled = config.enabled;
+
+            this.spawnWhileFrozen = config.spawnWhileFrozen;
+
+            this.randomSize = config.randomSize;
+            this.randomFadingSpeed = config.randomFadingSpeed;
+
+            this.minLifetime = config.minLifetime;
+            this.maxLifetime = config.maxLifetime;
+
+            this.sizeMultiplier = config.sizeMultiplier;
+            this.gravityMultiplier = config.gravityMultiplier;
+        }
+
+        @Override
+        public void load(JsonObject json) {
+            this.enabled = json.has("enabled") ? json.getAsJsonPrimitive("enabled").getAsBoolean() : DEFAULT_ENABLED;
+
+            this.spawnWhileFrozen = json.has("spawnWhileFrozen") ? json.getAsJsonPrimitive("spawnWhileFrozen").getAsBoolean() : DEFAULT_SPAWN_WHILE_FROZEN;
+
+            this.randomSize = json.has("randomSize") ? json.getAsJsonPrimitive("randomSize").getAsBoolean() : DEFAULT_RANDOM_SIZE;
+            this.randomFadingSpeed = json.has("randomFadingSpeed") ? json.getAsJsonPrimitive("randomFadingSpeed").getAsBoolean() : DEFAULT_RANDOM_FADING_SPEED;
+
+            this.minLifetime = json.has("minLifetime") ? json.getAsJsonPrimitive("minLifetime").getAsInt() : DEFAULT_MIN_LIFETIME;
+            this.maxLifetime = json.has("maxLifetime") ? json.getAsJsonPrimitive("maxLifetime").getAsInt() : DEFAULT_MAX_LIFETIME;
+
+            this.sizeMultiplier = json.has("sizeMultiplier") ? json.getAsJsonPrimitive("sizeMultiplier").getAsFloat() : DEFAULT_SIZE_MULTIPLIER;
+            this.gravityMultiplier = json.has("gravityMultiplier") ? json.getAsJsonPrimitive("gravityMultiplier").getAsFloat() : DEFAULT_GRAVITY_MULTIPLIER;
+        }
+
+        @Override
+        public JsonObject save() {
+            JsonObject json = new JsonObject();
+
+            json.addProperty("enabled", this.enabled);
+
+            json.addProperty("spawnWhileFrozen", this.spawnWhileFrozen);
+
+            json.addProperty("randomSize", this.randomSize);
+            json.addProperty("randomFadingSpeed", this.randomFadingSpeed);
+
+            json.addProperty("minLifetime", this.minLifetime);
+            json.addProperty("maxLifetime", this.maxLifetime);
+
+            json.addProperty("sizeMultiplier", this.sizeMultiplier);
+            json.addProperty("gravityMultiplier", this.gravityMultiplier);
+
+            return json;
+        }
+
+        @Override
+        public void reset() {
+            this.setConfig(DEFAULT_CONFIG.copy());
+        }
+
+        @Override
+        public Drip copy() {
+            return new Drip(
+                    this.enabled,
+                    this.spawnWhileFrozen,
+                    this.randomSize, this.randomFadingSpeed,
+                    this.minLifetime, this.maxLifetime,
+                    this.sizeMultiplier, this.gravityMultiplier
             );
         }
     }

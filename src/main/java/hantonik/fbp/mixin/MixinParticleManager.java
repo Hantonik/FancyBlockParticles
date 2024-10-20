@@ -7,20 +7,21 @@ import hantonik.fbp.util.FBPConstants;
 import it.unimi.dsi.fastutil.ints.Int2ObjectMap;
 import net.minecraft.block.BlockRenderType;
 import net.minecraft.block.BlockState;
+import net.minecraft.block.Blocks;
 import net.minecraft.block.FlowingFluidBlock;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.particle.DiggingParticle;
-import net.minecraft.client.particle.Particle;
-import net.minecraft.client.particle.ParticleManager;
-import net.minecraft.client.particle.TexturedParticle;
+import net.minecraft.client.particle.*;
 import net.minecraft.client.renderer.DestroyBlockProgress;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.client.world.ClientWorld;
+import net.minecraft.fluid.Fluids;
 import net.minecraft.particles.BasicParticleType;
 import net.minecraft.particles.BlockParticleData;
 import net.minecraft.particles.IParticleData;
 import net.minecraft.particles.ParticleTypes;
 import net.minecraft.util.Direction;
+import net.minecraft.util.SoundEvent;
+import net.minecraft.util.SoundEvents;
 import net.minecraft.util.math.*;
 import net.minecraft.util.math.shapes.VoxelShape;
 import net.minecraft.util.math.vector.Vector3d;
@@ -74,6 +75,44 @@ public abstract class MixinParticleManager {
                         callback.setReturnValue(new FBPRainParticle.Provider().createParticle((BasicParticleType) particleData, this.level, x, y, z, xd, yd, zd));
                     else
                         callback.setReturnValue(new FBPSnowParticle.Provider().createParticle((BasicParticleType) particleData, this.level, x, y, z, xd, yd, zd));
+                }
+            }
+        }
+
+        if (FancyBlockParticles.CONFIG.drip.isEnabled() && !(callback.getReturnValue() instanceof FBPDripParticle)) {
+            if (callback.getReturnValue() instanceof DripParticle) {
+                if (FancyBlockParticles.CONFIG.global.isFreezeEffect() && !FancyBlockParticles.CONFIG.drip.isSpawnWhileFrozen())
+                    callback.setReturnValue(null);
+                else {
+                    DripParticle original = (DripParticle) callback.getReturnValue();
+
+                    BlockState state = original.type == Fluids.EMPTY ? Blocks.SNOW_BLOCK.defaultBlockState() : original.type.defaultFluidState().createLegacyBlock();
+                    SoundEvent sound = null;
+                    float rCol = original.rCol;
+                    float gCol = original.gCol;
+                    float bCol = original.bCol;
+                    float alpha = 1.0F;
+                    int lightLevel = -1;
+
+                    if (particleData == ParticleTypes.DRIPPING_WATER) {
+                        alpha = FancyBlockParticles.CONFIG.rain.getTransparency(); // Small exception:)
+
+                        Vector3d color = this.level.getSkyColor(Minecraft.getInstance().gameRenderer.getMainCamera().getBlockPosition(), 0.0F);
+
+                        rCol = (float) color.x;
+                        gCol = (float) MathHelper.clamp(color.y + 0.1D, 0.1D, 1.0D);
+                        bCol = (float) MathHelper.clamp(color.y + 0.5D, 0.5D, 1.0D);
+                    }
+
+                    if (particleData == ParticleTypes.DRIPPING_HONEY) {
+                        state = Blocks.HONEY_BLOCK.defaultBlockState();
+                        sound = SoundEvents.BEEHIVE_DRIP;
+                    }
+
+                    if (particleData == ParticleTypes.DRIPPING_OBSIDIAN_TEAR)
+                        lightLevel = 10;
+
+                    callback.setReturnValue(new FBPDripParticle.Provider(state, sound, rCol, gCol, bCol, alpha, lightLevel).createParticle((BasicParticleType) particleData, this.level, x, y, z, xd, yd, zd));
                 }
             }
         }

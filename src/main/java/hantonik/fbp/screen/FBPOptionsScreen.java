@@ -47,7 +47,9 @@ public class FBPOptionsScreen extends FBPAbstractOptionsScreen {
 
         this.list.addSmall(
                 this.openScreenButton(new TranslationTextComponent("screen.fbp.category.terrain").append("..."), () -> new FBPTerrainScreen(this, this.config)),
-                this.openScreenButton(new TranslationTextComponent("screen.fbp.category.weather").append("..."), () -> new FBPWeatherScreen(this, this.config)),
+                this.openScreenButton(new TranslationTextComponent("screen.fbp.category.drip").append("..."), () -> new FBPDripScreen(this, this.config)),
+                this.openScreenButton(new TranslationTextComponent("screen.fbp.category.rain").append("..."), () -> new FBPRainScreen(this, this.config)),
+                this.openScreenButton(new TranslationTextComponent("screen.fbp.category.snow").append("..."), () -> new FBPSnowScreen(this, this.config)),
                 this.openScreenButton(new TranslationTextComponent("screen.fbp.category.flame").append("..."), () -> new FBPFlameScreen(this, this.config)),
                 this.openScreenButton(new TranslationTextComponent("screen.fbp.category.smoke").append("..."), () -> new FBPSmokeScreen(this, this.config)),
                 animationsScreenButton,

@@ -19,6 +19,10 @@ public class FBPRainScreen extends FBPAbstractOptionsScreen {
     protected void initOptions() {
         FBPToggleButton waterPhysicsButton = new FBPToggleButton(150, 20, new TranslationTextComponent("button.fbp.common.water_physics"), this.config.rain::isWaterPhysics, button -> this.config.rain.setWaterPhysics(!this.config.rain.isWaterPhysics()), /*this.tooltip(new TranslationTextComponent("tooltip.fbp.common.water_physics").append("\n").append("\n").append(new TranslationTextComponent("tooltip.fbp.default")).append(new TranslationTextComponent("button.fbp.common." + FBPConfig.DEFAULT_CONFIG.rain.isWaterPhysics())))*/ new TranslationTextComponent("tooltip.fbp.common.option_unsupported"), () -> false); // TODO
 
+        this.list.addBig(
+                new FBPToggleButton(310, 20, new TranslationTextComponent("button.fbp.rain.fancy_rain_particles"), this.config.rain::isEnabled, button -> this.config.rain.setEnabled(!this.config.rain.isEnabled()), new TranslationTextComponent("tooltip.fbp.rain.fancy_rain_particles").append("\n").append("\n").append(new TranslationTextComponent("tooltip.fbp.default")).append(new TranslationTextComponent("button.fbp.common." + FBPConfig.DEFAULT_CONFIG.rain.isEnabled())))
+        );
+
         this.list.addSmall(
                 waterPhysicsButton,
 
