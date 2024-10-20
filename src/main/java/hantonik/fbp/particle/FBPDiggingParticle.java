@@ -129,7 +129,7 @@ public class FBPDiggingParticle extends DiggingParticle implements IKillablePart
         } else
             this.sprite = sprite;
 
-        this.multiplier = FancyBlockParticles.CONFIG.terrain.isRandomFadingSpeed() ? MathHelper.clamp((float) FBPConstants.RANDOM.nextDouble(0.5D, 0.9D), 0.55F, 0.8F) : 0.75F;
+        this.multiplier = FancyBlockParticles.CONFIG.terrain.isRandomFadingSpeed() ? MathHelper.clamp((float) FBPConstants.RANDOM.nextDouble(0.5D, 0.9D), 0.6F, 0.8F) : 0.75F;
 
         this.scale(1.0F);
     }

@@ -69,7 +69,7 @@ public class FBPWhiteSmokeParticle extends SmokeParticle implements IKillablePar
         for (int i = 0; i < FBPConstants.CUBE.length; i++)
             this.rotatedCube[i] = FBPRenderHelper.rotate(FBPConstants.CUBE[i], 0, angleY, 0);
 
-        this.multiplier = FancyBlockParticles.CONFIG.smoke.isRandomFadingSpeed() ? MathHelper.clamp((float) FBPConstants.RANDOM.nextDouble(0.425D, 1.15D), 0.5432F, 1.0F) : 0.75F;
+        this.multiplier = FancyBlockParticles.CONFIG.smoke.isRandomFadingSpeed() ? MathHelper.clamp((float) FBPConstants.RANDOM.nextDouble(0.55D, 1.15D), 0.7F, 1.0F) : 0.75F;
 
         this.rCol = (float) FBPConstants.RANDOM.nextDouble((double) Math.max(1.0F, this.rCol * 1.1F) - 0.1D, 1.0D);
         this.gCol = (float) FBPConstants.RANDOM.nextDouble((double) Math.max(1.0F, this.gCol * 1.1F) - 0.1D, 1.0D);

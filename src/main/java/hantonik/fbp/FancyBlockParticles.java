@@ -14,6 +14,7 @@ import net.minecraft.item.BlockItem;
 import net.minecraft.item.ItemStack;
 import net.minecraft.resources.IResourceManagerReloadListener;
 import net.minecraft.util.RegistryKey;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.BlockRayTraceResult;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.util.text.ITextComponent;
@@ -146,6 +147,10 @@ public final class FancyBlockParticles {
 
     private void onClientLoggingIn(final ClientPlayerNetworkEvent.LoggedInEvent event) {
         FBPPlacingAnimationManager.clear();
+    }
+
+    public static float getBiomeTemperature(Biome biome, BlockPos pos, ClientWorld level) {
+        return ModList.get().isLoaded("sereneseasons") ? SeasonHooks.getBiomeTemperatureHook(biome, pos, level) : biome.getTemperature(pos);
     }
 
     public static Biome.RainType getBiomePrecipitation(ClientWorld level, Biome biome) {
