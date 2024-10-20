@@ -15,10 +15,8 @@ import net.minecraft.client.renderer.DestroyBlockProgress;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.client.world.ClientWorld;
 import net.minecraft.fluid.Fluids;
-import net.minecraft.particles.BasicParticleType;
-import net.minecraft.particles.BlockParticleData;
-import net.minecraft.particles.IParticleData;
-import net.minecraft.particles.ParticleTypes;
+import net.minecraft.item.Items;
+import net.minecraft.particles.*;
 import net.minecraft.util.Direction;
 import net.minecraft.util.SoundEvent;
 import net.minecraft.util.SoundEvents;
@@ -135,6 +133,34 @@ public abstract class MixinParticleManager {
 
                         if (this.level.getFluidState(original.pos).isEmpty())
                             callback.setReturnValue(new FBPDiggingParticle.Provider(original.pos, original.getQuadSize(1) * 5.0F, null, original.sprite, original.rCol, original.gCol, original.bCol).createParticle((BlockParticleData) particleData, this.level, x, y, z, 0.0D, 0.0D, 0.0D));
+                    }
+                }
+            }
+        }
+
+        if (FancyBlockParticles.CONFIG.terrain.isFancyCrackingParticles() && !(callback.getReturnValue() instanceof FBPDripParticle)) {
+            if (particleData.getType() == ParticleTypes.ITEM_SNOWBALL || particleData instanceof ItemParticleData && ((ItemParticleData) particleData).getItem().getItem().equals(Items.SNOWBALL)) {
+                if (callback.getReturnValue() instanceof BreakingParticle) {
+                    if (FancyBlockParticles.CONFIG.isBlockParticlesEnabled(Blocks.SNOW)) {
+                        BreakingParticle original = (BreakingParticle) callback.getReturnValue();
+
+                        if (FancyBlockParticles.CONFIG.global.isFreezeEffect() && !FancyBlockParticles.CONFIG.terrain.isSpawnWhileFrozen())
+                            callback.setReturnValue(null);
+                        else
+                            callback.setReturnValue(new FBPDiggingParticle.Provider(new BlockPos(x, y, z), (float) FBPConstants.RANDOM.nextDouble(0.35D, 0.6D), null, null, original.rCol, original.gCol, original.bCol).createParticle(new BlockParticleData(ParticleTypes.BLOCK, Blocks.SNOW_BLOCK.defaultBlockState()), this.level, x, y, z, 0.0D, 0.0D, 0.0D));
+                    }
+                }
+            }
+
+            if (particleData.getType() == ParticleTypes.ITEM_SLIME || particleData instanceof ItemParticleData && ((ItemParticleData) particleData).getItem().getItem().equals(Items.SLIME_BALL)) {
+                if (callback.getReturnValue() instanceof BreakingParticle) {
+                    if (FancyBlockParticles.CONFIG.isBlockParticlesEnabled(Blocks.SLIME_BLOCK)) {
+                        BreakingParticle original = (BreakingParticle) callback.getReturnValue();
+
+                        if (FancyBlockParticles.CONFIG.global.isFreezeEffect() && !FancyBlockParticles.CONFIG.terrain.isSpawnWhileFrozen())
+                            callback.setReturnValue(null);
+                        else
+                            callback.setReturnValue(new FBPDiggingParticle.Provider(new BlockPos(x, y, z), (float) FBPConstants.RANDOM.nextDouble(0.35D, 0.6D), null, null, original.rCol, original.gCol, original.bCol).createParticle(new BlockParticleData(ParticleTypes.BLOCK, Blocks.SLIME_BLOCK.defaultBlockState()), this.level, x, y, z, 0.0D, 0.0D, 0.0D));
                     }
                 }
             }
