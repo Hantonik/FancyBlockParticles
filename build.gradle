@@ -156,7 +156,7 @@ tasks.register('publishCurseForge', TaskPublishCurseForge) {
 
     var modFile = upload('937011', tasks.jar.archiveFile)
     modFile.displayName = "${base.archivesName.get()}-$version"
-    modFile.releaseType = Constants.RELEASE_TYPE_BETA
+    modFile.releaseType = "$mod_version_label"
     modFile.addGameVersion(mc_version, 'client')
     modFile.addModLoader('Forge')
     modFile.addJavaVersion "Java 8"
@@ -172,7 +172,7 @@ modrinth {
 
     versionName = "${base.archivesName.get()}-$version"
     versionNumber = "$version+forge"
-    versionType = 'beta'
+    versionType = "$mod_version_label"
 
     gameVersions = [ mc_version ]
     loaders = [ 'forge' ]
