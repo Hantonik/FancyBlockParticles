@@ -38,11 +38,13 @@ jobs:
           java-version: '17'
           distribution: 'temurin'
 
-      - name: 'Build ${{ matrix.loader }} with Gradle'
-        uses: gradle/gradle-build-action@v2
+      - name: 'Setup Gradle'
+        uses: gradle/actions/setup-gradle@v4
         with:
-          arguments: :${{ matrix.loader }}:build
           cache-read-only: false
+
+      - name: 'Build ${{ matrix.loader }} with Gradle'
+        run: ./gradlew :${{ matrix.loader }}:build
 
       - name: 'Upload ${{ matrix.loader }} artifacts'
         uses: actions/upload-artifact@v4
@@ -68,11 +70,13 @@ jobs:
           java-version: '17'
           distribution: 'temurin'
 
-      - name: 'Generate changelog with Gradle'
-        uses: gradle/gradle-build-action@v2
+      - name: 'Setup Gradle'
+        uses: gradle/actions/setup-gradle@v4
         with:
-          arguments: makeChangelog
           cache-read-only: false
+
+      - name: 'Generate changelog with Gradle'
+        run: ./gradlew makeChangelog
 
       - name: 'Upload changelog'
         uses: actions/upload-artifact@v4
@@ -108,11 +112,13 @@ jobs:
           name: 'Changelog'
           path: Changelog/
 
-      - name: 'Publish with Gradle'
-        uses: gradle/gradle-build-action@v2
+      - name: 'Setup Gradle'
+        uses: gradle/actions/setup-gradle@v4
         with:
-          arguments: publishMod
           cache-read-only: false
+
+      - name: 'Publish with Gradle'
+        run: ./gradlew publishMod
         env:
           CURSEFORGE_TOKEN: ${{ secrets.CURSEFORGE_TOKEN }}
           MODRINTH_TOKEN: ${{ secrets.MODRINTH_TOKEN }}
@@ -167,8 +173,8 @@ jobs:
           target_commitish: ${{ github.ref }}
           body_path: Changelog/changelog.md
           files: |
-            'artifacts/*'
-            '!artifacts/*-slim.*'
+            artifacts/*
+            !artifacts/*-slim.*
 
       - name: 'Upload changelog'
         uses: actions/upload-artifact@v4
