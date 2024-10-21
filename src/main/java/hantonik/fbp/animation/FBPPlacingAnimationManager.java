@@ -69,7 +69,7 @@ public final class FBPPlacingAnimationManager {
     }
 
     public static boolean isHidden(BlockPos pos) {
-        return HIDDEN_BLOCKS.contains(pos);
+        return pos != null && HIDDEN_BLOCKS.contains(pos);
     }
 
     private static void markBlockForRender(BlockPos pos) {
