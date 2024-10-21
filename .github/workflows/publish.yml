@@ -7,8 +7,9 @@ on:
         type: choice
         description: 'Version label'
         options:
-          - -beta
-          - -alpha
+          - ''
+          - '-beta'
+          - '-alpha'
         default: ''
         required: false
 
