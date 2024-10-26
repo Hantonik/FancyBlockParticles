@@ -17,7 +17,7 @@ public abstract class MixinOptionsScreen extends Screen {
         super(title);
     }
 
-    @Inject(at = @At(value = "INVOKE_ASSIGN", target = "Lnet/minecraft/client/gui/screens/OptionsScreen;addRenderableWidget(Lnet/minecraft/client/gui/components/events/GuiEventListener;)Lnet/minecraft/client/gui/components/events/GuiEventListener;"/*, shift = At.Shift.AFTER*/, ordinal = 11), method = "init")
+    @Inject(at = @At(value = "INVOKE_ASSIGN", target = "Lnet/minecraft/client/gui/screens/OptionsScreen;addRenderableWidget(Lnet/minecraft/client/gui/components/events/GuiEventListener;)Lnet/minecraft/client/gui/components/events/GuiEventListener;", ordinal = 11), method = "init")
     protected void init(CallbackInfo callback) {
         this.addRenderableWidget(
                 new Button(
