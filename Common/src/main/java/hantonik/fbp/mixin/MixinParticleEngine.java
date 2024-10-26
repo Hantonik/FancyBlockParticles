@@ -12,6 +12,7 @@ import net.minecraft.core.Direction;
 import net.minecraft.core.particles.*;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
+import net.minecraft.util.ARGB;
 import net.minecraft.util.Mth;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.item.Items;
@@ -79,7 +80,7 @@ public abstract class MixinParticleEngine {
         if ((FancyBlockParticles.CONFIG.rain.isEnabled() || FancyBlockParticles.CONFIG.snow.isEnabled()) && !(callback.getReturnValue() instanceof FBPRainParticle) && !(callback.getReturnValue() instanceof FBPSnowParticle)) {
             if (particleData.getType() == ParticleTypes.RAIN) {
                 var pos = BlockPos.containing(x, y, z);
-                var precipitation = this.level.getBiome(pos).value().getPrecipitationAt(pos);
+                var precipitation = this.level.getBiome(pos).value().getPrecipitationAt(pos, this.level.getSeaLevel());
 
                 if (precipitation == Biome.Precipitation.SNOW)
                     callback.setReturnValue(new FBPSnowParticle.Provider().createParticle((SimpleParticleType) particleData, this.level, x, y, z, xd, yd, zd));
@@ -106,9 +107,9 @@ public abstract class MixinParticleEngine {
 
                         var color = this.level.getSkyColor(Minecraft.getInstance().gameRenderer.getMainCamera().getPosition(), 0.0F);
 
-                        rCol = (float) color.x;
-                        gCol = (float) Mth.clamp(color.y + 0.1D, 0.1D, 1.0D);
-                        bCol = (float) Mth.clamp(color.y + 0.5D, 0.5D, 1.0D);
+                        rCol = ARGB.from8BitChannel(ARGB.red(color));
+                        gCol = Mth.clamp(ARGB.from8BitChannel(ARGB.green(color)) + 0.1F, 0.1F, 1.0F);
+                        bCol = Mth.clamp(ARGB.from8BitChannel(ARGB.blue(color)) + 0.5F, 0.5F, 1.0F);
                     }
 
                     if (particleData == ParticleTypes.DRIPPING_DRIPSTONE_WATER)

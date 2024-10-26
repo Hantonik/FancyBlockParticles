@@ -10,6 +10,6 @@ public interface IRegistryHelper {
     }
 
     default Block getBlock(ResourceLocation id) {
-        return BuiltInRegistries.BLOCK.get(id);
+        return BuiltInRegistries.BLOCK.getValue(id);
     }
 }

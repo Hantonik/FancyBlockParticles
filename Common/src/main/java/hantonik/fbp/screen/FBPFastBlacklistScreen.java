@@ -6,7 +6,9 @@ import hantonik.fbp.screen.component.widget.button.FBPBlacklistButton;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.components.WidgetSprites;
 import net.minecraft.client.gui.screens.Screen;
+import net.minecraft.client.renderer.RenderType;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.chat.Component;
@@ -18,7 +20,11 @@ import net.minecraft.world.level.block.state.BlockState;
 import org.lwjgl.glfw.GLFW;
 
 public class FBPFastBlacklistScreen extends Screen {
-    private static final ResourceLocation WIDGETS = ResourceLocation.tryBuild(FancyBlockParticles.MOD_ID, "textures/gui/widgets.png");
+    private static final WidgetSprites INDICATOR_SPRITES = new WidgetSprites(
+            ResourceLocation.tryBuild(FancyBlockParticles.MOD_ID, "blacklist/indicator"),
+            ResourceLocation.tryBuild(FancyBlockParticles.MOD_ID, "blacklist/indicator_inactive")
+    );
+    private static final ResourceLocation INDICATOR_BACKGROUND_SPRITE = ResourceLocation.tryBuild(FancyBlockParticles.MOD_ID, "blacklist/indicator_background");
 
     private final BlockState state;
     private final ItemStack displayStack;
@@ -98,7 +104,7 @@ public class FBPFastBlacklistScreen extends Screen {
         mouseX = Mth.clamp(mouseX, this.animationButton.getX() + 30, this.particleButton.getX() + 30);
         mouseY = y + 35;
 
-        graphics.blit(WIDGETS, this.animationButton.getX() + 30, this.animationButton.getY() + 30 - 10, 0, 0, 195, 20);
+        graphics.blitSprite(RenderType::guiTextured, INDICATOR_BACKGROUND_SPRITE, this.animationButton.getX() + 30, this.animationButton.getY() + 30 - 10, 200, 20);
         graphics.drawCenteredString(this.font, Component.literal("<").withStyle(this.animationButton.active ? ChatFormatting.GREEN : ChatFormatting.RED).append("             ").append(Component.literal(">").withStyle(this.particleButton.active ? ChatFormatting.GREEN : ChatFormatting.RED)), this.animationButton.getX() + 30 + 100, this.animationButton.getY() + 30 - 4, 0);
 
         graphics.drawCenteredString(this.font, this.title.copy().withStyle(ChatFormatting.BOLD, ChatFormatting.GREEN), x, 10, 0);
@@ -131,7 +137,7 @@ public class FBPFastBlacklistScreen extends Screen {
         this.particleButton.render(graphics, mouseX, mouseY, partialTick);
 
         var hovered = this.animationButton.isHovered() ? this.animationButton : (this.particleButton.isHovered() ? this.particleButton : null);
-        graphics.blit(WIDGETS, mouseX - 20 / 2, mouseY - 20 / 2, hovered != null && !hovered.active ? 256 - 20 * 2 : 256 - 20, 256 - 20, 20, 20);
+        graphics.blitSprite(RenderType::guiTextured, INDICATOR_SPRITES.get(true, hovered != null && !hovered.active), mouseX - 20 / 2, mouseY - 20 / 2, 20, 20);
     }
 
     @Override

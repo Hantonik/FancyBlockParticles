@@ -142,7 +142,7 @@ public class FBPPlacingAnimationParticle extends Particle implements IKillablePa
 
         var progress = Math.min(1.0F, (this.age + partialTick) / (this.lifetime + 1.0F));
 
-        var offset = this.state.getOffset(this.level, this.pos);
+        var offset = this.state.getOffset(this.pos);
         stack.translate(offset.x, offset.y, offset.z);
 
         stack.mulPose(Axis.YP.rotation(this.angleY));

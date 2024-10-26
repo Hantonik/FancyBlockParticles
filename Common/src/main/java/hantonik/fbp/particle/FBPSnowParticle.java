@@ -157,7 +157,7 @@ public class FBPSnowParticle extends WaterDropParticle implements IKillableParti
                 this.rotation.add(this.rotationStep.mul(FancyBlockParticles.CONFIG.snow.getRotationMultiplier() * 5.0F, new Vector3d()));
 
                 var pos = BlockPos.containing(this.x, this.y, this.z);
-                var precipitation = this.level.getBiome(pos).value().getPrecipitationAt(pos);
+                var precipitation = this.level.getBiome(pos).value().getPrecipitationAt(pos, this.level.getSeaLevel());
 
                 if (this.age >= this.lifetime || precipitation != Biome.Precipitation.SNOW) {
                     this.quadSize *= 0.75F * this.multiplier;

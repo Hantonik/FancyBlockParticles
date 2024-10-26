@@ -1,5 +1,5 @@
 modLoader="javafml"
-loaderVersion="[52,)"
+loaderVersion="[53,)"
 license="GPLv3"
 issueTrackerURL="https://github.com/Hantonik/FancyBlockParticles/issues"
 
@@ -19,13 +19,13 @@ clientSideOnly=true
 [[dependencies.fbp]]
     modId="forge"
     mandatory=true
-    versionRange="[52,)"
+    versionRange="[53,)"
     ordering="NONE"
     side="CLIENT"
 
 [[dependencies.fbp]]
     modId="minecraft"
     mandatory=true
-    versionRange="[1.21.1,1.22)"
+    versionRange="[1.21.3,1.22)"
     ordering="NONE"
     side="CLIENT"

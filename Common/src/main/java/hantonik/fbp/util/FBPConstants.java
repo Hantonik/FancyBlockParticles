@@ -62,8 +62,7 @@ public final class FBPConstants {
             RenderSystem.depthMask(true);
             RenderSystem.enableDepthTest();
             RenderSystem.setShaderTexture(0, InventoryMenu.BLOCK_ATLAS);
-            RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
-            RenderSystem.setShader(Services.CLIENT::getParticleTranslucentShader);
+            RenderSystem.setShader(Services.CLIENT.getParticleTranslucentShader());
 
             RenderSystem.enableCull();
 
@@ -87,8 +86,7 @@ public final class FBPConstants {
             RenderSystem.depthMask(true);
             RenderSystem.enableDepthTest();
             RenderSystem.setShaderTexture(0, InventoryMenu.BLOCK_ATLAS);
-            RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
-            RenderSystem.setShader(Services.CLIENT::getBlockTranslucentShader);
+            RenderSystem.setShader(Services.CLIENT.getBlockTranslucentShader());
 
             if (FancyBlockParticles.CONFIG.global.isCullParticles())
                 RenderSystem.enableCull();

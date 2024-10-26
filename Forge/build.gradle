@@ -19,7 +19,7 @@ mixin {
 println "Forge: $forge_version"
 
 minecraft {
-    mappings channel: mappings_channel, version: "$mappings_version-1.21" // "$mappings_version-$mc_version"
+    mappings channel: 'official', version: "$mc_version" // mappings channel: mappings_channel, version: "$mappings_version-$mc_version"
 
     reobf = false
     copyIdeResources = true
@@ -68,10 +68,10 @@ dependencies {
 
     compileOnly project(':Common')
 
-    compileOnly "com.github.glitchfiend:SereneSeasons-forge:$mc_version-$sereneseasons_version"
-    compileOnly "com.github.glitchfiend:GlitchCore-forge:$mc_version-$glitchcore_version"
+    compileOnly "com.github.glitchfiend:SereneSeasons-forge:1.21.1-$sereneseasons_version" // Update to 1.21.3
+    compileOnly "com.github.glitchfiend:GlitchCore-forge:1.21.1-$glitchcore_version" // Update to 1.21.3
 
-    compileOnly "org.embeddedt:embeddium-$mc_version:$embeddium_version+mc$mc_version"
+    compileOnly "org.embeddedt:embeddium-1.21.1:$embeddium_version+mc1.21.1" // Update to 1.21.3
     compileOnly "maven.modrinth:oculus:$oculus_version"
 
     runtimeOnly "maven.modrinth:spark:$spark_version-forge"

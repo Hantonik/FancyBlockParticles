@@ -7,8 +7,8 @@ import net.irisshaders.iris.pipeline.programs.ShaderAccess;
 import net.irisshaders.iris.pipeline.programs.ShaderKey;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ClientLevel;
+import net.minecraft.client.renderer.CompiledShaderProgram;
 import net.minecraft.client.renderer.MultiBufferSource;
-import net.minecraft.client.renderer.ShaderInstance;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.client.resources.model.BakedModel;
 import net.minecraft.core.BlockPos;
@@ -34,12 +34,12 @@ public final class NeoForgeClientHelper implements IClientHelper {
     }
 
     @Override
-    public ShaderInstance getParticleTranslucentShader() {
+    public CompiledShaderProgram getParticleTranslucentShader() {
         return ModList.get().isLoaded("iris") || ModList.get().isLoaded("oculus") ? ShaderAccess.getParticleTranslucentShader() : IClientHelper.super.getParticleTranslucentShader();
     }
 
     @Override
-    public ShaderInstance getBlockTranslucentShader() {
+    public CompiledShaderProgram getBlockTranslucentShader() {
         if (ModList.get().isLoaded("iris") || ModList.get().isLoaded("oculus")) {
             var pipeline = Iris.getPipelineManager().getPipelineNullable();
 

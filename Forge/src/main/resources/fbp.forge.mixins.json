@@ -3,6 +3,7 @@
   "package": "hantonik.fbp.mixin",
   "compatibilityLevel": "JAVA_21",
   "client": [
+    "MixinModelBlockRenderer",
     "embeddium.MixinBlockOcclusionCache",
     "embeddium.MixinBlockRenderer"
   ],

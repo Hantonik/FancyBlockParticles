@@ -18,6 +18,7 @@ import net.minecraft.core.Direction;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.core.particles.SimpleParticleType;
 import net.minecraft.tags.FluidTags;
+import net.minecraft.util.ARGB;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.level.block.Blocks;
@@ -66,9 +67,9 @@ public class FBPRainParticle extends WaterDropParticle implements IKillableParti
 
         var color = this.level.getSkyColor(Minecraft.getInstance().gameRenderer.getMainCamera().getPosition(), 0.0F);
 
-        this.rCol = (float) color.x;
-        this.gCol = (float) Mth.clamp(color.y + 0.1D, 0.1D, 1.0D);
-        this.bCol = (float) Mth.clamp(color.y + 0.5D, 0.5D, 1.0D);
+        this.rCol = ARGB.from8BitChannel(ARGB.red(color));
+        this.gCol = Mth.clamp(ARGB.from8BitChannel(ARGB.green(color)) + 0.1F, 0.1F, 1.0F);
+        this.bCol = Mth.clamp(ARGB.from8BitChannel(ARGB.blue(color)) + 0.5F, 0.5F, 1.0F);
 
         this.alpha = FancyBlockParticles.CONFIG.rain.getTransparency();
 
