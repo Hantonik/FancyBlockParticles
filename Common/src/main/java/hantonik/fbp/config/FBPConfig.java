@@ -138,7 +138,7 @@ public final class FBPConfig implements IFBPConfig<FBPConfig> {
             this.overlay.load(GsonHelper.getAsJsonObject(json, "overlay", new JsonObject()));
         } catch (IOException e) {
             FancyBlockParticles.LOGGER.error("Could no load FBP config.", e);
-        } catch (JsonSyntaxException e) {
+        } catch (JsonParseException | IllegalStateException e) {
             FancyBlockParticles.LOGGER.warn("FBP config file is corrupt! Generating a new one.");
 
             this.save();
