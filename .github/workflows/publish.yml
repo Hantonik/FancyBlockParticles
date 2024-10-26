@@ -51,7 +51,9 @@ jobs:
         with:
           if-no-files-found: error
           name: 'Artifacts-${{ matrix.loader }}'
-          path: ${{ matrix.loader }}/build/libs/*.jar
+          path: |
+            ${{ matrix.loader }}/build/libs/*.jar
+            !${{ matrix.loader }}/build/libs/*-slim.*
 
   changelog:
     name: 'Generate changelog'
