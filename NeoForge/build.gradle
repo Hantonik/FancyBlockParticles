@@ -36,6 +36,12 @@ runs {
     }
 
     client
+
+    server {
+        server()
+
+        programArgument '--nogui'
+    }
 }
 
 dependencies {
