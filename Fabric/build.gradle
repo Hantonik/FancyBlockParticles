@@ -25,6 +25,12 @@ loom {
 
 			setConfigName('Fabric: Client')
 		}
+
+		server {
+			server()
+
+			setConfigName('Fabric: Server')
+		}
 	}
 
 	mixin {

@@ -15,7 +15,7 @@ import net.neoforged.neoforge.client.event.*;
 import net.neoforged.neoforge.client.gui.IConfigScreenFactory;
 import net.neoforged.neoforge.common.NeoForge;
 
-@Mod(FancyBlockParticles.MOD_ID)
+@Mod(value = FancyBlockParticles.MOD_ID, dist = Dist.CLIENT)
 public final class FBPNeoForge {
     public FBPNeoForge(IEventBus bus) {
         FancyBlockParticles.LOGGER.info(FancyBlockParticles.SETUP_MARKER, "Initializing...");
