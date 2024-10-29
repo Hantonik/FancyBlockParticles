@@ -74,7 +74,7 @@ dependencies {
     compileOnly "com.github.glitchfiend:SereneSeasons-neoforge:$mc_version-$sereneseasons_version"
     compileOnly "com.github.glitchfiend:GlitchCore-neoforge:$mc_version-$glitchcore_version"
 
-    compileOnly "maven.modrinth:sodium:$sodium_version-neoforge"
+    compileOnly "maven.modrinth:sodium:mc$mc_version-$sodium_version-neoforge"
     compileOnly "maven.modrinth:iris:$iris_version-neoforge"
 
     compileOnly "org.embeddedt:embeddium-$mc_version:$embeddium_version+mc$mc_version"
