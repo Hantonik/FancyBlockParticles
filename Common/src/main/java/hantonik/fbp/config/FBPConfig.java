@@ -922,7 +922,7 @@ public final class FBPConfig implements IFBPConfig<FBPConfig> {
             json.addProperty("simulationDistance", this.simulationDistance);
 
             json.addProperty("transparency", this.transparency);
-            json.addProperty("rainParticleDensity", this.particleDensity);
+            json.addProperty("particleDensity", this.particleDensity);
 
             json.addProperty("sizeMultiplier", this.sizeMultiplier);
             json.addProperty("gravityMultiplier", this.gravityMultiplier);
@@ -1091,7 +1091,7 @@ public final class FBPConfig implements IFBPConfig<FBPConfig> {
             json.addProperty("renderDistance", this.renderDistance);
             json.addProperty("simulationDistance", this.simulationDistance);
 
-            json.addProperty("snowParticleDensity", this.particleDensity);
+            json.addProperty("particleDensity", this.particleDensity);
 
             json.addProperty("sizeMultiplier", this.sizeMultiplier);
             json.addProperty("rotationMultiplier", this.rotationMultiplier);
