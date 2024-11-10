@@ -1,4 +1,4 @@
-package hantonik.fbp.mixin.sodium;
+package hantonik.fbp.mixin.sodium_embeddium;
 
 import hantonik.fbp.animation.FBPPlacingAnimationManager;
 import me.jellysquid.mods.sodium.client.render.chunk.compile.pipeline.BlockOcclusionCache;
@@ -18,7 +18,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 @Mixin(value = BlockOcclusionCache.class, remap = false)
 public abstract class MixinBlockOcclusionCache {
     @Final
-    @Shadow
+    @Shadow(aliases = "cpos")
     private BlockPos.MutableBlockPos cachedPositionObject;
 
     @Inject(at = @At(value = "INVOKE", target = "Lnet/minecraft/core/BlockPos$MutableBlockPos;set(III)Lnet/minecraft/core/BlockPos$MutableBlockPos;", shift = At.Shift.AFTER), method = "shouldDrawSide", cancellable = true)

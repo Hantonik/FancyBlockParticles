@@ -46,7 +46,7 @@ dependencies {
     compileOnly "com.github.glitchfiend:SereneSeasons-neoforge:$mc_version-$sereneseasons_version"
     compileOnly "com.github.glitchfiend:GlitchCore-neoforge:$mc_version-$glitchcore_version"
 
-    compileOnly "org.embeddedt:embeddium-$mc_version:$embeddium_version+mc$mc_version"
+    compileOnly "org.embeddedt:embeddium-$mc_version:$embeddium_forge_version+mc$mc_version"
     compileOnly "maven.modrinth:oculus:$oculus_version"
 
     runtimeOnly "maven.modrinth:spark:1.10.61-neoforge"
