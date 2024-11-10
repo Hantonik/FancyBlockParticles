@@ -403,7 +403,7 @@ public class FBPSnowParticle extends WaterDropParticle implements IKillableParti
             if (FancyBlockParticles.CONFIG.global.isFreezeEffect())
                 return null;
 
-            return new FBPSnowParticle(level, x, y, z, FBPConstants.RANDOM.nextDouble(-0.5D, 0.5D), -FBPConstants.RANDOM.nextDouble(0.25D, 1.0D), FBPConstants.RANDOM.nextDouble(-0.5D, 0.5D), Minecraft.getInstance().getBlockRenderer().getBlockModelShaper().getParticleIcon(Blocks.SNOW.defaultBlockState()));
+            return new FBPSnowParticle(level, x, y, z, FBPConstants.RANDOM.nextDouble(-0.5D, 0.5D), -FBPConstants.RANDOM.nextDouble(0.25D, 1.0D), FBPConstants.RANDOM.nextDouble(-0.5D, 0.5D), Minecraft.getInstance().getBlockRenderer().getBlockModelShaper().getParticleIcon(Blocks.SNOW_BLOCK.defaultBlockState()));
         }
     }
 }
