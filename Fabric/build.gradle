@@ -63,7 +63,9 @@ dependencies {
 	modCompileOnly "maven.modrinth:sodium:mc$mc_version-$sodium_version"
 	modCompileOnly "maven.modrinth:iris:$iris_version+$mc_version"
 
-	// Iris libs
+	modCompileOnly "org.embeddedt:embeddium-fabric-$mc_version:$embeddium_fabric_version+mc$mc_version"
+
+    // Iris libs
 	modLocalRuntime 'org.antlr:antlr4-runtime:4.13.1'
 	modLocalRuntime 'io.github.douira:glsl-transformer:2.0.1'
 	modLocalRuntime 'org.anarres:jcpp:1.4.14'

@@ -2,10 +2,11 @@
   "homepage": "https://www.curseforge.com/minecraft/mc-mods/fbp-renewed",
 
   "promos": {
-    "1.20.6-latest": "20.6.1.2"
+    "1.20.6-latest": "20.6.1.3"
   },
 
   "1.20.6": {
+    "20.6.1.3": "Fix crash with Embeddium mod. Fix rain and snow particle density option not saving. Fix incorrect FBPSnowParticle texture",
     "20.6.1.2": "Fix crash when installed on server",
     "20.6.1.1": "Fix crash when pos is null",
     "20.6.1.0": "Add Oculus warning screen. Add snowball and slime ball particles. Optimize performance. Add FBPRainParticle transparency adjustment option. Add FBPCampfireSmokeParticle. Fix flame particles not spawning while frozen. Add FBPSnowParticle water physics. Particle physics improvements. Fix shaders incompatibility. Code cleanup & improvements. Add FBPDripParticle. Add block placing animation. Fix incorrect lighting of FBPTerrainParticle",
