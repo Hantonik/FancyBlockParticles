@@ -57,6 +57,8 @@
   "button.fbp.common.min_lifetime": "最短寿命",
   "button.fbp.common.max_lifetime": "最长寿命",
 
+  "button.fbp.common.puddle": "水坑",
+
   "button.fbp.common.transparency": "透明度",
 
   "button.fbp.common.size_multiplier": "大小倍增器",
@@ -140,6 +142,8 @@
 
   "tooltip.fbp.common.min_lifetime": "粒子最短寿命。",
   "tooltip.fbp.common.max_lifetime": "粒子最长寿命。",
+
+  "tooltip.fbp.common.puddle": "粒子落到地面时是否应该出现水坑？",
 
   "tooltip.fbp.common.transparency": "颗粒透明度。",
 
