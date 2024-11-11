@@ -59,6 +59,8 @@
   "button.fbp.common.min_lifetime": "Durée de vie minimale",
   "button.fbp.common.max_lifetime": "Durée de vie maximale",
 
+  "button.fbp.common.puddle": "Flaque",
+
   "button.fbp.common.transparency": "Transparence",
 
   "button.fbp.common.size_multiplier": "Multiplicateur de taille",
@@ -142,6 +144,8 @@
 
   "tooltip.fbp.common.min_lifetime": "Durée de vie minimale des particules.",
   "tooltip.fbp.common.max_lifetime": "Durée de vie maximale des particules.",
+
+  "tooltip.fbp.common.puddle": "Les flaques devraient-elles apparaître lorsque des particules touchent le sol?",
 
   "tooltip.fbp.common.transparency": "Transparence des particules.",
 
