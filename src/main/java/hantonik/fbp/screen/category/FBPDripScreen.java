@@ -46,8 +46,12 @@ public class FBPDripScreen extends FBPAbstractOptionsScreen {
         }, () -> !FancyBlockParticles.CONFIG.global.isLocked(), new TranslationTextComponent("tooltip.fbp.common.max_lifetime").append("\n").append("\n").append(new TranslationTextComponent("tooltip.fbp.default")).append(new StringTextComponent(String.valueOf(FBPConfig.DEFAULT_CONFIG.drip.getMaxLifetime())).append(new TranslationTextComponent("button.fbp.common.ticks")).withStyle(TextFormatting.YELLOW))));
 
 
+        this.list.addBig(
+                new FBPToggleButton(310, 20, new TranslationTextComponent("button.fbp.drip.fancy_dripping_particles"), this.config.drip::isEnabled, button -> this.config.drip.setEnabled(!this.config.drip.isEnabled()), new TranslationTextComponent("tooltip.fbp.drip.fancy_dripping_particles").append("\n").append("\n").append(new TranslationTextComponent("tooltip.fbp.default")).append(new TranslationTextComponent("button.fbp.common." + FBPConfig.DEFAULT_CONFIG.drip.isEnabled())))
+        );
+
         this.list.addSmall(
-                new FBPToggleButton(150, 20, new TranslationTextComponent("button.fbp.drip.fancy_dripping_particles"), this.config.drip::isEnabled, button -> this.config.drip.setEnabled(!this.config.drip.isEnabled()), new TranslationTextComponent("tooltip.fbp.drip.fancy_dripping_particles").append("\n").append("\n").append(new TranslationTextComponent("tooltip.fbp.default")).append(new TranslationTextComponent("button.fbp.common." + FBPConfig.DEFAULT_CONFIG.drip.isEnabled()))),
+                new FBPToggleButton(150, 20, new TranslationTextComponent("button.fbp.common.puddle"), this.config.drip::isPuddle, button -> this.config.drip.setPuddle(!this.config.drip.isPuddle()), new TranslationTextComponent("tooltip.fbp.common.puddle").append("\n").append("\n").append(new TranslationTextComponent("tooltip.fbp.default")).append(new TranslationTextComponent("button.fbp.common." + FBPConfig.DEFAULT_CONFIG.drip.isPuddle()))),
 
                 new FBPToggleButton(150, 20, new TranslationTextComponent("button.fbp.common.spawn_while_frozen"), this.config.drip::isSpawnWhileFrozen, button -> this.config.drip.setSpawnWhileFrozen(!this.config.drip.isSpawnWhileFrozen()), new TranslationTextComponent("tooltip.fbp.common.spawn_while_frozen").append("\n").append("\n").append(new TranslationTextComponent("tooltip.fbp.default")).append(new TranslationTextComponent("button.fbp.common." + FBPConfig.DEFAULT_CONFIG.drip.isSpawnWhileFrozen()))),
 

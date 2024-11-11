@@ -132,26 +132,38 @@ public class FBPRainParticle extends RainParticle implements IKillableParticle {
 
                 if (this.onGround) {
                     this.xd = 0.0D;
-                    this.yd = -0.25D;
                     this.zd = 0.0D;
 
-                    if (this.height > 0.075F)
-                        this.height *= 0.725F;
+                    if (FancyBlockParticles.CONFIG.rain.isPuddle()) {
+                        this.yd = -0.25D;
 
-                    if (this.quadSize < this.targetSize) {
-                        this.quadSize += this.targetSize / 10.0F;
+                        if (this.height > 0.075F)
+                            this.height *= 0.725F;
 
-                        if (this.quadSize > this.targetSize)
-                            this.quadSize = this.targetSize;
-                    }
+                        if (this.quadSize < this.targetSize) {
+                            this.quadSize += this.targetSize / 10.0F;
 
-                    if (this.quadSize >= this.targetSize / 2.0F) {
-                        this.alpha *= 0.75F * this.multiplier;
+                            if (this.quadSize > this.targetSize)
+                                this.quadSize = this.targetSize;
+                        }
+
+                        if (this.quadSize >= this.targetSize / 2.0F) {
+                            this.alpha *= 0.75F * this.multiplier;
+
+                            if (this.alpha < 0.01F)
+                                this.remove();
+                        } else
+                            this.alpha = FancyBlockParticles.CONFIG.rain.getTransparency();
+                    } else {
+                        this.quadSize *= 0.85F * this.multiplier;
+                        this.height = this.quadSize;
+
+                        if (this.alpha >= 0.01F)
+                            this.alpha *= 0.75F * this.multiplier;
 
                         if (this.alpha < 0.01F)
                             this.remove();
-                    } else
-                        this.alpha = FancyBlockParticles.CONFIG.rain.getTransparency();
+                    }
                 } else
                     this.alpha = FancyBlockParticles.CONFIG.rain.getTransparency();
 

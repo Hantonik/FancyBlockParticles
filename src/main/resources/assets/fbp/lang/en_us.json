@@ -59,6 +59,8 @@
   "button.fbp.common.min_lifetime": "Minimum lifetime",
   "button.fbp.common.max_lifetime": "Maximum lifetime",
 
+  "button.fbp.common.puddle": "Puddle",
+
   "button.fbp.common.transparency": "Transparency",
 
   "button.fbp.common.size_multiplier": "Size multiplier",
@@ -142,6 +144,8 @@
 
   "tooltip.fbp.common.min_lifetime": "Minimum particle lifetime.",
   "tooltip.fbp.common.max_lifetime": "Maximum particle lifetime.",
+
+  "tooltip.fbp.common.puddle": "Should a puddle appear when a particle hits the ground?",
 
   "tooltip.fbp.common.transparency": "Transparency of particles.",
 

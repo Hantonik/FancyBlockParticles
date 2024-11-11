@@ -59,6 +59,8 @@
   "button.fbp.common.min_lifetime": "Minimalny czas istnienia",
   "button.fbp.common.max_lifetime": "Maksymalny czas istnienia",
 
+  "button.fbp.common.puddle": "Kałuża",
+
   "button.fbp.common.transparency": "Przezroczystość",
 
   "button.fbp.common.size_multiplier": "Mnożnik rozmiaru",
@@ -142,6 +144,8 @@
 
   "tooltip.fbp.common.min_lifetime": "Minimalna długość istnienia cząsteczek.",
   "tooltip.fbp.common.max_lifetime": "Maksymalna długość istnienia cząsteczek.",
+
+  "tooltip.fbp.common.puddle": "Czy powinna pojawić się kałuża w momencie uderzenia cząsteczki o ziemię?",
 
   "tooltip.fbp.common.transparency": "Przezroczystość cząsteczek.",
 

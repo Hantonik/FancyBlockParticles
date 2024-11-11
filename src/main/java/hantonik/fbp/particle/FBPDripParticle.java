@@ -160,11 +160,14 @@ public class FBPDripParticle extends DripParticle implements IKillableParticle {
                     this.xd *= 0.6D;
                     this.yd *= 1.00025D;
                     this.zd *= 0.6D;
+                }
 
-                    if (this.onGround && this.age < this.lifetime) {
-                        this.xd = 0.0D;
+                if (this.onGround && this.age < this.lifetime) {
+                    this.xd = 0.0D;
+                    this.zd = 0.0D;
+
+                    if (FancyBlockParticles.CONFIG.drip.isPuddle()) {
                         this.yd = -0.25D;
-                        this.zd = 0.0D;
 
                         if (this.height > 0.075F)
                             this.height *= 0.725F;
@@ -182,6 +185,15 @@ public class FBPDripParticle extends DripParticle implements IKillableParticle {
                             if (this.alpha < 0.01F)
                                 this.remove();
                         }
+                    } else {
+                        this.quadSize *= 0.85F * this.multiplier;
+                        this.height = this.quadSize;
+
+                        if (this.alpha >= 0.01F)
+                            this.alpha *= 0.75F * this.multiplier;
+
+                        if (this.alpha < 0.01F)
+                            this.remove();
                     }
                 }
 
