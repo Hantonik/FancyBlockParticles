@@ -840,6 +840,7 @@ public final class FBPConfig implements IFBPConfig<FBPConfig> {
     @AllArgsConstructor(access = AccessLevel.PRIVATE)
     public static class Rain implements IFBPConfig<Rain> {
         private static final boolean DEFAULT_ENABLED = true;
+        private static final boolean DEFAULT_PUDDLE = true;
 
         private static final boolean DEFAULT_RANDOM_SIZE = true;
         private static final boolean DEFAULT_RANDOM_FADING_SPEED = true;
@@ -854,7 +855,7 @@ public final class FBPConfig implements IFBPConfig<FBPConfig> {
         private static final float DEFAULT_GRAVITY_MULTIPLIER = 1.0F;
 
         public static final Rain DEFAULT_CONFIG = new Rain(
-                DEFAULT_ENABLED,
+                DEFAULT_ENABLED, DEFAULT_PUDDLE,
                 DEFAULT_RANDOM_SIZE, DEFAULT_RANDOM_FADING_SPEED,
                 DEFAULT_RENDER_DISTANCE, DEFAULT_SIMULATION_DISTANCE,
                 DEFAULT_TRANSPARENCY, DEFAULT_PARTICLE_DENSITY,
@@ -862,6 +863,7 @@ public final class FBPConfig implements IFBPConfig<FBPConfig> {
         );
 
         private boolean enabled;
+        private boolean puddle;
 
         private boolean randomSize;
         private boolean randomFadingSpeed;
@@ -878,6 +880,7 @@ public final class FBPConfig implements IFBPConfig<FBPConfig> {
         @Override
         public void setConfig(Rain config) {
             this.enabled = config.enabled;
+            this.puddle = config.puddle;
 
             this.randomSize = config.randomSize;
             this.randomFadingSpeed = config.randomFadingSpeed;
@@ -895,6 +898,7 @@ public final class FBPConfig implements IFBPConfig<FBPConfig> {
         @Override
         public void load(JsonObject json) {
             this.enabled = GsonHelper.getAsBoolean(json, "enabled", DEFAULT_ENABLED);
+            this.puddle = GsonHelper.getAsBoolean(json, "puddle", DEFAULT_PUDDLE);
 
             this.randomSize = GsonHelper.getAsBoolean(json, "randomSize", DEFAULT_RANDOM_SIZE);
             this.randomFadingSpeed = GsonHelper.getAsBoolean(json, "randomFadingSpeed", DEFAULT_RANDOM_FADING_SPEED);
@@ -914,6 +918,7 @@ public final class FBPConfig implements IFBPConfig<FBPConfig> {
             var json = new JsonObject();
 
             json.addProperty("enabled", this.enabled);
+            json.addProperty("puddle", this.puddle);
 
             json.addProperty("randomSize", this.randomSize);
             json.addProperty("randomFadingSpeed", this.randomFadingSpeed);
@@ -938,7 +943,7 @@ public final class FBPConfig implements IFBPConfig<FBPConfig> {
         @Override
         public Rain copy() {
             return new Rain(
-                    this.enabled,
+                    this.enabled, this.puddle,
                     this.randomSize, this.randomFadingSpeed,
                     this.renderDistance, this.simulationDistance,
                     this.transparency, this.particleDensity,
@@ -1125,6 +1130,7 @@ public final class FBPConfig implements IFBPConfig<FBPConfig> {
     @AllArgsConstructor(access = AccessLevel.PRIVATE)
     public static class Drip implements IFBPConfig<Drip> {
         private static final boolean DEFAULT_ENABLED = true;
+        private static final boolean DEFAULT_PUDDLE = true;
 
         private static final boolean DEFAULT_SPAWN_WHILE_FROZEN = true;
 
@@ -1138,7 +1144,7 @@ public final class FBPConfig implements IFBPConfig<FBPConfig> {
         private static final float DEFAULT_GRAVITY_MULTIPLIER = 1.0F;
 
         public static final Drip DEFAULT_CONFIG = new Drip(
-                DEFAULT_ENABLED,
+                DEFAULT_ENABLED, DEFAULT_PUDDLE,
                 DEFAULT_SPAWN_WHILE_FROZEN,
                 DEFAULT_RANDOM_SIZE, DEFAULT_RANDOM_FADING_SPEED,
                 DEFAULT_MIN_LIFETIME, DEFAULT_MAX_LIFETIME,
@@ -1146,6 +1152,7 @@ public final class FBPConfig implements IFBPConfig<FBPConfig> {
         );
 
         private boolean enabled;
+        private boolean puddle;
 
         private boolean spawnWhileFrozen;
 
@@ -1161,6 +1168,7 @@ public final class FBPConfig implements IFBPConfig<FBPConfig> {
         @Override
         public void setConfig(Drip config) {
             this.enabled = config.enabled;
+            this.puddle = config.puddle;
 
             this.spawnWhileFrozen = config.spawnWhileFrozen;
 
@@ -1177,6 +1185,7 @@ public final class FBPConfig implements IFBPConfig<FBPConfig> {
         @Override
         public void load(JsonObject json) {
             this.enabled = GsonHelper.getAsBoolean(json, "enabled", DEFAULT_ENABLED);
+            this.puddle = GsonHelper.getAsBoolean(json, "puddle", DEFAULT_PUDDLE);
 
             this.spawnWhileFrozen = GsonHelper.getAsBoolean(json, "spawnWhileFrozen", DEFAULT_SPAWN_WHILE_FROZEN);
 
@@ -1195,6 +1204,7 @@ public final class FBPConfig implements IFBPConfig<FBPConfig> {
             var json = new JsonObject();
 
             json.addProperty("enabled", this.enabled);
+            json.addProperty("puddle", this.puddle);
 
             json.addProperty("spawnWhileFrozen", this.spawnWhileFrozen);
 
@@ -1218,7 +1228,7 @@ public final class FBPConfig implements IFBPConfig<FBPConfig> {
         @Override
         public Drip copy() {
             return new Drip(
-                    this.enabled,
+                    this.enabled, this.puddle,
                     this.spawnWhileFrozen,
                     this.randomSize, this.randomFadingSpeed,
                     this.minLifetime, this.maxLifetime,

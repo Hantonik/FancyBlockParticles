@@ -57,6 +57,8 @@
   "button.fbp.common.min_lifetime": "最小寿命",
   "button.fbp.common.max_lifetime": "最大寿命",
 
+  "button.fbp.common.puddle": "水たまり",
+
   "button.fbp.common.transparency": "透明性",
 
   "button.fbp.common.size_multiplier": "サイズ倍率",
@@ -140,6 +142,8 @@
 
   "tooltip.fbp.common.min_lifetime": "パーティクルの最小寿命。",
   "tooltip.fbp.common.max_lifetime": "パーティクルの最大寿命。",
+
+  "tooltip.fbp.common.puddle": "粒子が地面に当たったとき、水たまりができるようにしますか？",
 
   "tooltip.fbp.common.transparency": "粒子の透明度。",
 
