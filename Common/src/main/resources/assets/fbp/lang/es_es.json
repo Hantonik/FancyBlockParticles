@@ -57,6 +57,8 @@
   "button.fbp.common.min_lifetime": "Tiempo de vida mínimo",
   "button.fbp.common.max_lifetime": "Tiempo de vida máximo",
 
+  "button.fbp.common.puddle": "Charco",
+
   "button.fbp.common.transparency": "Transparencia",
 
   "button.fbp.common.size_multiplier": "Multiplicador de tamaño",
@@ -140,6 +142,8 @@
 
   "tooltip.fbp.common.min_lifetime": "Tiempo de vida mínimo de la partícula.",
   "tooltip.fbp.common.max_lifetime": "Tiempo de vida máximo de la partícula.",
+
+  "tooltip.fbp.common.puddle": "¿Deberían aparecer charcos cuando una partícula toca el suelo?",
 
   "tooltip.fbp.common.transparency": "Transparencia de partículas.",
 
