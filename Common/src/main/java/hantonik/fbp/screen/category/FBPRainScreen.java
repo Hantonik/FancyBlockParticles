@@ -21,11 +21,10 @@ public class FBPRainScreen extends FBPAbstractOptionsScreen {
     protected void initOptions() {
         var formatter = new DecimalFormat("0.00");
 
-        this.list.addBig(
-                new FBPToggleButton(310, 20, Component.translatable("button.fbp.rain.fancy_rain_particles"), this.config.rain::isEnabled, button -> this.config.rain.setEnabled(!this.config.rain.isEnabled()), Component.translatable("tooltip.fbp.rain.fancy_rain_particles").append(CommonComponents.NEW_LINE).append(CommonComponents.NEW_LINE).append(Component.translatable("tooltip.fbp.default")).append(Component.translatable("button.fbp.common." + FBPConfig.DEFAULT_CONFIG.rain.isEnabled())))
-        );
-
         this.list.addSmall(
+                new FBPToggleButton(150, 20, Component.translatable("button.fbp.rain.fancy_rain_particles"), this.config.rain::isEnabled, button -> this.config.rain.setEnabled(!this.config.rain.isEnabled()), Component.translatable("tooltip.fbp.rain.fancy_rain_particles").append(CommonComponents.NEW_LINE).append(CommonComponents.NEW_LINE).append(Component.translatable("tooltip.fbp.default")).append(Component.translatable("button.fbp.common." + FBPConfig.DEFAULT_CONFIG.rain.isEnabled()))),
+                new FBPToggleButton(150, 20, Component.translatable("button.fbp.common.puddle"), this.config.rain::isPuddle, button -> this.config.rain.setPuddle(!this.config.rain.isPuddle()), Component.translatable("tooltip.fbp.common.puddle").append(CommonComponents.NEW_LINE).append(CommonComponents.NEW_LINE).append(Component.translatable("tooltip.fbp.default")).append(Component.translatable("button.fbp.common." + FBPConfig.DEFAULT_CONFIG.rain.isPuddle()))),
+
                 new FBPToggleButton(150, 20, Component.translatable("button.fbp.common.random_size"), this.config.rain::isRandomSize, button -> this.config.rain.setRandomSize(!this.config.rain.isRandomSize()), Component.translatable("tooltip.fbp.common.random_size").append(CommonComponents.NEW_LINE).append(CommonComponents.NEW_LINE).append(Component.translatable("tooltip.fbp.default")).append(Component.translatable("button.fbp.common." + FBPConfig.DEFAULT_CONFIG.rain.isRandomSize()))),
                 new FBPToggleButton(150, 20, Component.translatable("button.fbp.common.random_fading_speed"), this.config.rain::isRandomFadingSpeed, button -> this.config.rain.setRandomFadingSpeed(!this.config.rain.isRandomFadingSpeed()), Component.translatable("tooltip.fbp.common.random_fading_speed").append(CommonComponents.NEW_LINE).append(CommonComponents.NEW_LINE).append(Component.translatable("tooltip.fbp.default")).append(Component.translatable("button.fbp.common." + FBPConfig.DEFAULT_CONFIG.rain.isRandomFadingSpeed()))),
 
