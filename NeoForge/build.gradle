@@ -3,7 +3,7 @@ import net.darkhax.curseforgegradle.TaskPublishCurseForge
 import org.slf4j.event.Level
 
 plugins {
-    id 'net.neoforged.moddev' version '1.+'
+    id 'net.neoforged.moddev' version '2.+'
 }
 
 base {
@@ -16,7 +16,7 @@ neoForge {
     version = neo_version
 
     parchment {
-        minecraftVersion = '1.21' // mc_version
+        minecraftVersion = mc_version
         mappingsVersion = mappings_version
     }
 
@@ -75,7 +75,7 @@ dependencies {
     compileOnly "com.github.glitchfiend:GlitchCore-neoforge:$mc_version-$glitchcore_version"
 
     compileOnly "maven.modrinth:sodium:mc$mc_version-$sodium_version-neoforge"
-    compileOnly "maven.modrinth:iris:$iris_version-neoforge"
+    compileOnly "maven.modrinth:iris:$iris_version+$mc_version-neoforge"
 
     compileOnly "org.embeddedt:embeddium-$mc_version:$embeddium_version+mc$mc_version"
     compileOnly "maven.modrinth:oculus:$oculus_version"

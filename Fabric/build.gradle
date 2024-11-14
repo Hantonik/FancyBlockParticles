@@ -49,8 +49,7 @@ dependencies {
 
 	mappings loom.layered() {
 		officialMojangMappings()
-		parchment("org.parchmentmc.data:parchment-1.21:$mappings_version@zip")
-//		parchment("org.parchmentmc.data:parchment-$mc_version:$mappings_version@zip")
+		parchment("org.parchmentmc.data:parchment-$mc_version:$mappings_version@zip")
 	}
 
 	compileOnly project(':Common')
@@ -62,7 +61,7 @@ dependencies {
 	modCompileOnly "com.github.glitchfiend:GlitchCore-fabric:$mc_version-$glitchcore_version"
 
 	modCompileOnly "maven.modrinth:sodium:mc$mc_version-$sodium_version-fabric"
-	modCompileOnly "maven.modrinth:iris:$iris_version-fabric"
+	modCompileOnly "maven.modrinth:iris:$iris_version+$mc_version-fabric"
 
 	// Iris libs
 	modLocalRuntime 'org.antlr:antlr4-runtime:4.13.1'
