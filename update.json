@@ -5,7 +5,7 @@
     "1.21.3-latest": "21.3.1.0"
   },
 
-  "1.21.1": {
+  "1.21.3": {
     "21.3.1.0": "Add option to disable rain & drip puddle particle. Fix rain and snow particle density option not saving. Fix incorrect FBPSnowParticle texture",
     "21.3.0.0-beta": "Update to Minecraft 1.21.3"
   }
