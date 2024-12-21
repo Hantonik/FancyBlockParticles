@@ -25,7 +25,7 @@ public final class NeoForgeClientHelper implements IClientHelper {
     }
 
     @Override
-    public void renderBlock(ClientLevel level, BakedModel model, BlockState state, BlockPos pos, PoseStack stack, MultiBufferSource.BufferSource bufferSource) {
+    public void renderBlock(ClientLevel level, BakedModel model, BlockState state, BlockPos pos, PoseStack stack, MultiBufferSource bufferSource) {
         for (var type : model.getRenderTypes(state, RandomSource.create(state.getSeed(pos)), ModelData.EMPTY)) {
             var buffer = bufferSource.getBuffer(RenderTypeHelper.getMovingBlockRenderType(type));
 

@@ -4,7 +4,7 @@ import net.darkhax.curseforgegradle.Constants as CFConstants
 import net.darkhax.curseforgegradle.TaskPublishCurseForge
 
 plugins {
-	id 'fabric-loom' version '1.8.+'
+	id 'fabric-loom' version '1.9.+'
 }
 
 base {
@@ -49,8 +49,7 @@ dependencies {
 
 	mappings loom.layered() {
 		officialMojangMappings()
-		parchment("org.parchmentmc.data:parchment-1.21:$mappings_version@zip")
-//		parchment("org.parchmentmc.data:parchment-$mc_version:$mappings_version@zip")
+		parchment("org.parchmentmc.data:parchment-$mc_version:$mappings_version@zip")
 	}
 
 	compileOnly project(':Common')

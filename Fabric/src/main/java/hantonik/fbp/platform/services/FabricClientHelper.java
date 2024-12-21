@@ -29,7 +29,7 @@ public final class FabricClientHelper implements IClientHelper {
     }
 
     @Override
-    public void renderBlock(ClientLevel level, BakedModel model, BlockState state, BlockPos pos, PoseStack stack, MultiBufferSource.BufferSource bufferSource) {
+    public void renderBlock(ClientLevel level, BakedModel model, BlockState state, BlockPos pos, PoseStack stack, MultiBufferSource bufferSource) {
         var renderer = Minecraft.getInstance().getBlockRenderer();
 
         renderer.getModelRenderer().tesselateBlock(level, renderer.getBlockModel(state), state, pos, stack, bufferSource.getBuffer(ItemBlockRenderTypes.getMovingBlockRenderType(state)), false, RandomSource.create(), state.getSeed(pos), OverlayTexture.NO_OVERLAY);

@@ -21,7 +21,7 @@ public abstract class MixinBlockOcclusionCache {
     @Shadow
     private BlockPos.MutableBlockPos cachedPositionObject;
 
-    @Inject(at = @At(value = "INVOKE", target = "Lnet/minecraft/core/BlockPos$MutableBlockPos;set(III)Lnet/minecraft/core/BlockPos$MutableBlockPos;", shift = At.Shift.AFTER), method = "shouldDrawSide", cancellable = true)
+    @Inject(at = @At(value = "INVOKE", target = "Lnet/minecraft/core/BlockPos$MutableBlockPos;setWithOffset(Lnet/minecraft/core/Vec3i;Lnet/minecraft/core/Direction;)Lnet/minecraft/core/BlockPos$MutableBlockPos;", shift = At.Shift.AFTER), method = "shouldDrawSide", cancellable = true)
     public void shouldDrawSide(BlockState selfState, BlockGetter view, BlockPos selfPos, Direction facing, CallbackInfoReturnable<Boolean> callback) {
         if (FBPPlacingAnimationManager.isHidden(this.cachedPositionObject))
             callback.setReturnValue(true);

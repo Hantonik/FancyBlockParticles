@@ -284,7 +284,7 @@ public class FBPDripParticle extends DripParticle implements IKillableParticle {
 
     @Override
     public ParticleRenderType getRenderType() {
-        return FBPConstants.FBP_TERRAIN_RENDER;
+        return ParticleRenderType.TERRAIN_SHEET;
     }
 
     @Override

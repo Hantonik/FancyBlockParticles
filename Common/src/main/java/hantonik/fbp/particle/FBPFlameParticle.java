@@ -1,7 +1,9 @@
 package hantonik.fbp.particle;
 
+import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import hantonik.fbp.FancyBlockParticles;
+import hantonik.fbp.platform.Services;
 import hantonik.fbp.util.FBPConstants;
 import hantonik.fbp.util.FBPRenderHelper;
 import lombok.RequiredArgsConstructor;
@@ -12,6 +14,7 @@ import net.minecraft.client.particle.FlameParticle;
 import net.minecraft.client.particle.Particle;
 import net.minecraft.client.particle.ParticleProvider;
 import net.minecraft.client.particle.ParticleRenderType;
+import net.minecraft.client.renderer.texture.TextureAtlas;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.SimpleParticleType;
 import net.minecraft.util.Mth;
@@ -252,6 +255,17 @@ public class FBPFlameParticle extends FlameParticle implements IKillableParticle
 
             cube[i] = corner;
         }
+
+        Minecraft.getInstance().gameRenderer.lightTexture().turnOnLightLayer();
+
+        RenderSystem.enableBlend();
+        RenderSystem.defaultBlendFunc();
+        RenderSystem.depthMask(true);
+        RenderSystem.enableDepthTest();
+        RenderSystem.setShaderTexture(0, TextureAtlas.LOCATION_BLOCKS);
+        RenderSystem.setShader(Services.CLIENT.getParticleTranslucentShader());
+
+        RenderSystem.enableCull();
 
         this.putCube(buffer, cube, u, v, light, this.rCol, this.gCol, this.bCol, alpha);
     }

@@ -67,9 +67,9 @@ public class FBPRainParticle extends WaterDropParticle implements IKillableParti
 
         var color = this.level.getSkyColor(Minecraft.getInstance().gameRenderer.getMainCamera().getPosition(), 0.0F);
 
-        this.rCol = ARGB.from8BitChannel(ARGB.red(color));
-        this.gCol = Mth.clamp(ARGB.from8BitChannel(ARGB.green(color)) + 0.1F, 0.1F, 1.0F);
-        this.bCol = Mth.clamp(ARGB.from8BitChannel(ARGB.blue(color)) + 0.5F, 0.5F, 1.0F);
+        this.rCol = ARGB.redFloat(color);
+        this.gCol = Mth.clamp(ARGB.greenFloat(color) + 0.1F, 0.1F, 1.0F);
+        this.bCol = Mth.clamp(ARGB.blueFloat(color) + 0.5F, 0.5F, 1.0F);
 
         this.alpha = FancyBlockParticles.CONFIG.rain.getTransparency();
 
@@ -250,7 +250,7 @@ public class FBPRainParticle extends WaterDropParticle implements IKillableParti
 
     @Override
     public ParticleRenderType getRenderType() {
-        return FBPConstants.FBP_TERRAIN_RENDER;
+        return ParticleRenderType.TERRAIN_SHEET;
     }
 
     @Override

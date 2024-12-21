@@ -1,7 +1,9 @@
 package hantonik.fbp.particle;
 
+import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import hantonik.fbp.FancyBlockParticles;
+import hantonik.fbp.platform.Services;
 import hantonik.fbp.util.FBPConstants;
 import hantonik.fbp.util.FBPRenderHelper;
 import lombok.RequiredArgsConstructor;
@@ -9,6 +11,7 @@ import net.minecraft.client.Camera;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.particle.*;
+import net.minecraft.client.renderer.texture.TextureAtlas;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.SimpleParticleType;
@@ -225,6 +228,17 @@ public class FBPWhiteSmokeParticle extends WhiteSmokeParticle implements IKillab
 
             cube[i] = corner;
         }
+
+        Minecraft.getInstance().gameRenderer.lightTexture().turnOnLightLayer();
+
+        RenderSystem.enableBlend();
+        RenderSystem.defaultBlendFunc();
+        RenderSystem.depthMask(true);
+        RenderSystem.enableDepthTest();
+        RenderSystem.setShaderTexture(0, TextureAtlas.LOCATION_BLOCKS);
+        RenderSystem.setShader(Services.CLIENT.getParticleTranslucentShader());
+
+        RenderSystem.enableCull();
 
         this.putCube(buffer, cube, u, v, light, this.rCol, this.gCol, this.bCol, alpha);
     }

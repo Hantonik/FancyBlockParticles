@@ -10,6 +10,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 import net.minecraft.Util;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.GsonHelper;
 import net.minecraft.world.level.block.Block;
@@ -287,7 +288,7 @@ public final class FBPConfig implements IFBPConfig<FBPConfig> {
             this.disabledParticles = Util.make(Lists.newArrayList(), disabled -> {
                 if (json.has("disabledParticles")) {
                     for (var entry : GsonHelper.getAsJsonArray(json, "disabledParticles"))
-                        disabled.add(Services.REGISTRY.getBlock(ResourceLocation.tryParse(entry.getAsString())));
+                        disabled.add(BuiltInRegistries.BLOCK.getValue(ResourceLocation.tryParse(entry.getAsString())));
                 } else
                     disabled.addAll(DEFAULT_DISABLED_PARTICLES);
             });
@@ -295,7 +296,7 @@ public final class FBPConfig implements IFBPConfig<FBPConfig> {
             this.disabledAnimations = Util.make(Lists.newArrayList(), disabled -> {
                 if (json.has("disabledAnimations")) {
                     for (var entry : GsonHelper.getAsJsonArray(json, "disabledAnimations"))
-                        disabled.add(Services.REGISTRY.getBlock(ResourceLocation.tryParse(entry.getAsString())));
+                        disabled.add(BuiltInRegistries.BLOCK.getValue(ResourceLocation.tryParse(entry.getAsString())));
                 } else
                     disabled.addAll(DEFAULT_DISABLED_ANIMATIONS);
             });
@@ -319,12 +320,12 @@ public final class FBPConfig implements IFBPConfig<FBPConfig> {
 
             json.add("disabledParticles", Util.make(new JsonArray(), disabled -> {
                 for (var entry : this.disabledParticles)
-                    disabled.add(Services.REGISTRY.getBlockKey(entry).toString());
+                    disabled.add(BuiltInRegistries.BLOCK.getKey(entry).toString());
             }));
 
             json.add("disabledAnimations", Util.make(new JsonArray(), disabled -> {
                 for (var entry : this.disabledAnimations)
-                    disabled.add(Services.REGISTRY.getBlockKey(entry).toString());
+                    disabled.add(BuiltInRegistries.BLOCK.getKey(entry).toString());
             }));
 
             return json;

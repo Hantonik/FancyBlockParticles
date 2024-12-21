@@ -107,9 +107,9 @@ public abstract class MixinParticleEngine {
 
                         var color = this.level.getSkyColor(Minecraft.getInstance().gameRenderer.getMainCamera().getPosition(), 0.0F);
 
-                        rCol = ARGB.from8BitChannel(ARGB.red(color));
-                        gCol = Mth.clamp(ARGB.from8BitChannel(ARGB.green(color)) + 0.1F, 0.1F, 1.0F);
-                        bCol = Mth.clamp(ARGB.from8BitChannel(ARGB.blue(color)) + 0.5F, 0.5F, 1.0F);
+                        rCol = ARGB.redFloat(color);
+                        gCol = Mth.clamp(ARGB.greenFloat(color) + 0.1F, 0.1F, 1.0F);
+                        bCol = Mth.clamp(ARGB.blueFloat(color) + 0.5F, 0.5F, 1.0F);
                     }
 
                     if (particleData == ParticleTypes.DRIPPING_DRIPSTONE_WATER)

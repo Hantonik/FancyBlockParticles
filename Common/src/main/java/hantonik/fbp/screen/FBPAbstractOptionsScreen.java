@@ -123,7 +123,7 @@ public abstract class FBPAbstractOptionsScreen extends Screen {
     @Override
     public void onClose() {
         if (this.lastScreen instanceof FBPAbstractOptionsScreen screen) {
-            var scrollAmount = screen.list.getScrollAmount();
+            var scrollAmount = screen.list.scrollAmount();
 
             screen.rebuildWidgets();
             screen.list.setScrollAmount(scrollAmount);

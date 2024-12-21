@@ -2,11 +2,10 @@
   "homepage": "https://www.curseforge.com/minecraft/mc-mods/fbp-renewed",
 
   "promos": {
-    "1.21.3-latest": "21.3.1.0"
+    "1.21.4-latest": "21.4.0.0-beta"
   },
 
-  "1.21.1": {
-    "21.3.1.0": "Add option to disable rain & drip puddle particle. Fix rain and snow particle density option not saving. Fix incorrect FBPSnowParticle texture",
-    "21.3.0.0-beta": "Update to Minecraft 1.21.3"
+  "1.21.4": {
+    "21.4.0.0-beta": "Update to Minecraft 1.21.4"
   }
 }

@@ -1,22 +1,16 @@
 package hantonik.fbp.util;
 
-import com.mojang.blaze3d.systems.RenderSystem;
-import com.mojang.blaze3d.vertex.BufferBuilder;
-import com.mojang.blaze3d.vertex.DefaultVertexFormat;
-import com.mojang.blaze3d.vertex.Tesselator;
-import com.mojang.blaze3d.vertex.VertexFormat;
 import hantonik.fbp.FancyBlockParticles;
 import hantonik.fbp.platform.Services;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.particle.ParticleRenderType;
+import net.minecraft.client.renderer.RenderType;
+import net.minecraft.client.renderer.texture.TextureAtlas;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
-import net.minecraft.client.renderer.texture.TextureManager;
-import net.minecraft.world.inventory.InventoryMenu;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.phys.Vec3;
-import org.jetbrains.annotations.Nullable;
 import org.joml.Vector3d;
 
 import java.nio.file.Path;
@@ -51,54 +45,5 @@ public final class FBPConstants {
 
     public static final Supplier<TextureAtlasSprite> FBP_PARTICLE_SPRITE = () -> Minecraft.getInstance().getBlockRenderer().getBlockModelShaper().getParticleIcon(Blocks.WHITE_CONCRETE.defaultBlockState());
 
-    public static final ParticleRenderType FBP_PARTICLE_RENDER = new ParticleRenderType() {
-        @Nullable
-        @Override
-        public BufferBuilder begin(Tesselator tesselator, TextureManager manager) {
-            Minecraft.getInstance().gameRenderer.lightTexture().turnOnLightLayer();
-
-            RenderSystem.enableBlend();
-            RenderSystem.defaultBlendFunc();
-            RenderSystem.depthMask(true);
-            RenderSystem.enableDepthTest();
-            RenderSystem.setShaderTexture(0, InventoryMenu.BLOCK_ATLAS);
-            RenderSystem.setShader(Services.CLIENT.getParticleTranslucentShader());
-
-            RenderSystem.enableCull();
-
-            return tesselator.begin(VertexFormat.Mode.QUADS, DefaultVertexFormat.PARTICLE);
-        }
-
-        @Override
-        public String toString() {
-            return "FBP_PARTICLE_RENDER";
-        }
-    };
-
-    public static final ParticleRenderType FBP_TERRAIN_RENDER = new ParticleRenderType() {
-        @Nullable
-        @Override
-        public BufferBuilder begin(Tesselator tesselator, TextureManager manager) {
-            Minecraft.getInstance().gameRenderer.lightTexture().turnOnLightLayer();
-
-            RenderSystem.enableBlend();
-            RenderSystem.defaultBlendFunc();
-            RenderSystem.depthMask(true);
-            RenderSystem.enableDepthTest();
-            RenderSystem.setShaderTexture(0, InventoryMenu.BLOCK_ATLAS);
-            RenderSystem.setShader(Services.CLIENT.getBlockTranslucentShader());
-
-            if (FancyBlockParticles.CONFIG.global.isCullParticles())
-                RenderSystem.enableCull();
-            else
-                RenderSystem.disableCull();
-
-            return tesselator.begin(VertexFormat.Mode.QUADS, DefaultVertexFormat.BLOCK);
-        }
-
-        @Override
-        public String toString() {
-            return "FBP_TERRAIN_RENDER";
-        }
-    };
+    public static final ParticleRenderType FBP_PARTICLE_RENDER = new ParticleRenderType("FBP_PARTICLE_RENDER", RenderType.translucentParticle(TextureAtlas.LOCATION_BLOCKS));
 }

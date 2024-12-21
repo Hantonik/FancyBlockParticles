@@ -18,7 +18,7 @@ public abstract class MixinBlockRenderInfo {
     @Shadow
     private BlockPos.MutableBlockPos searchPos;
 
-    @WrapOperation(at = @At(value = "INVOKE", target = "Lnet/minecraft/world/level/block/Block;shouldRenderFace(Lnet/minecraft/world/level/block/state/BlockState;Lnet/minecraft/world/level/block/state/BlockState;Lnet/minecraft/core/Direction;)Z"), method = "shouldDrawFace")
+    @WrapOperation(at = @At(value = "INVOKE", target = "Lnet/minecraft/world/level/block/Block;shouldRenderFace(Lnet/minecraft/world/level/block/state/BlockState;Lnet/minecraft/world/level/block/state/BlockState;Lnet/minecraft/core/Direction;)Z"), method = "shouldDrawSide")
     private boolean shouldDrawFace(BlockState state, BlockState faceState, Direction face, Operation<Boolean> original) {
         if (FBPPlacingAnimationManager.isHidden(this.searchPos))
             return true;

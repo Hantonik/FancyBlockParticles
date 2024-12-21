@@ -333,7 +333,7 @@ public class FBPSnowParticle extends WaterDropParticle implements IKillableParti
 
     @Override
     public ParticleRenderType getRenderType() {
-        return FBPConstants.FBP_TERRAIN_RENDER;
+        return ParticleRenderType.TERRAIN_SHEET;
     }
 
     @Override

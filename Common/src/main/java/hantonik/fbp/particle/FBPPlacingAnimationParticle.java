@@ -14,6 +14,7 @@ import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.particle.Particle;
 import net.minecraft.client.particle.ParticleRenderType;
 import net.minecraft.client.renderer.LevelRenderer;
+import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.resources.model.BakedModel;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -131,9 +132,7 @@ public class FBPPlacingAnimationParticle extends Particle implements IKillablePa
     }
 
     @Override
-    public void render(VertexConsumer buffer, Camera info, float partialTick) {
-        var stack = new PoseStack();
-
+    public void renderCustom(PoseStack stack, MultiBufferSource bufferSource, Camera info, float partialTick) {
         var posX = Mth.lerp(partialTick, this.xo, this.x) - info.getPosition().x + 0.5D;
         var posY = Mth.lerp(partialTick, this.yo, this.y) - info.getPosition().y + 0.5D;
         var posZ = Mth.lerp(partialTick, this.zo, this.z) - info.getPosition().z + 0.5D;
@@ -156,10 +155,11 @@ public class FBPPlacingAnimationParticle extends Particle implements IKillablePa
         stack.translate(-offset.x, -offset.y, -offset.z);
         stack.translate(-0.5F, -0.5F, -0.5F);
 
-        var bufferSource = Minecraft.getInstance().renderBuffers().bufferSource();
         Services.CLIENT.renderBlock(this.level, this.model, this.state, this.pos, stack, bufferSource);
-        bufferSource.endBatch();
     }
+
+    @Override
+    public void render(VertexConsumer buffer, Camera info, float partialTick) {}
 
     private void slideIn(PoseStack stack, float progress) {
         var translate = this.slide.scale(1.0F - this.exponent(0.9F, progress));

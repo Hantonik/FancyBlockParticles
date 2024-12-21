@@ -1,10 +1,14 @@
 package hantonik.fbp.util;
 
+import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.VertexConsumer;
+import hantonik.fbp.FancyBlockParticles;
 import hantonik.fbp.platform.Services;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.texture.OverlayTexture;
+import net.minecraft.client.renderer.texture.TextureAtlas;
 import net.minecraft.util.Mth;
 import org.joml.Vector2f;
 import org.joml.Vector3d;
@@ -12,6 +16,20 @@ import org.joml.Vector3d;
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public final class FBPRenderHelper {
     public static void renderCubeShaded(VertexConsumer buffer, Vector2f[] uv, double xPos, double yPos, double zPos, double scale, Vector3d rotation, int light, float red, float green, float blue, float alpha, boolean cartoon) {
+        Minecraft.getInstance().gameRenderer.lightTexture().turnOnLightLayer();
+
+        RenderSystem.enableBlend();
+        RenderSystem.defaultBlendFunc();
+        RenderSystem.depthMask(true);
+        RenderSystem.enableDepthTest();
+        RenderSystem.setShaderTexture(0, TextureAtlas.LOCATION_BLOCKS);
+        RenderSystem.setShader(Services.CLIENT.getBlockTranslucentShader());
+
+        if (FancyBlockParticles.CONFIG.global.isCullParticles())
+            RenderSystem.enableCull();
+        else
+            RenderSystem.disableCull();
+
         var radX = (float) Math.toRadians(rotation.x);
         var radY = (float) Math.toRadians(rotation.y);
         var radZ = (float) Math.toRadians(rotation.z);
@@ -41,6 +59,20 @@ public final class FBPRenderHelper {
     }
 
     public static void renderCubeShaded(VertexConsumer buffer, Vector2f[] uv, double xPos, double yPos, double zPos, double width, double height, Vector3d rotation, int light, float red, float green, float blue, float alpha, boolean cartoon) {
+        Minecraft.getInstance().gameRenderer.lightTexture().turnOnLightLayer();
+
+        RenderSystem.enableBlend();
+        RenderSystem.defaultBlendFunc();
+        RenderSystem.depthMask(true);
+        RenderSystem.enableDepthTest();
+        RenderSystem.setShaderTexture(0, TextureAtlas.LOCATION_BLOCKS);
+        RenderSystem.setShader(Services.CLIENT.getBlockTranslucentShader());
+
+        if (FancyBlockParticles.CONFIG.global.isCullParticles())
+            RenderSystem.enableCull();
+        else
+            RenderSystem.disableCull();
+
         var radX = (float) Math.toRadians(rotation.x);
         var radY = (float) Math.toRadians(rotation.y);
         var radZ = (float) Math.toRadians(rotation.z);
