@@ -23,15 +23,15 @@
 
   "screen.fbp.settings": "Paramètres",
 
-  "screen.fbp.category.animations": "Animations",
   "screen.fbp.category.campfire_smoke": "Fumée du feu de camp",
   "screen.fbp.category.drip": "Goutte",
   "screen.fbp.category.flame": "Flamme",
-  "screen.fbp.category.overlay": "Superposition",
+  "screen.fbp.category.other": "Autre",
   "screen.fbp.category.rain": "Pluie",
   "screen.fbp.category.smoke": "Fumée",
   "screen.fbp.category.snow": "Neige",
   "screen.fbp.category.terrain": "Terrain",
+  "screen.fbp.category.trail": "Trace",
 
   "screen.fbp.terrain.animation_blacklist": "Liste noire d'animations",
   "screen.fbp.terrain.particle_blacklist": "Liste noire de particules",
@@ -113,7 +113,12 @@
 
   "button.fbp.terrain.particles_per_axis": "Particules par axe",
 
+  "button.fbp.trail.fancy_trail_particles": "Particules de trace sophistiquées",
+
   "widget.fbp.global.categories": "Catégories",
+
+  "widget.fbp.other.animations": "Animations",
+  "widget.fbp.other.overlay": "Superposition",
 
   "widget.fbp.overlay.freeze_effect_color": "Couleur de l'effet de gel",
 
@@ -192,6 +197,8 @@
   "tooltip.fbp.terrain.entity_collision": "Activer/désactiver la collision des entités.",
 
   "tooltip.fbp.terrain.particles_per_axis": "Nombre de particules par axe.",
+
+  "tooltip.fbp.trail.fancy_trail_particles": "Activer/désactiver les particules de trace sophistiquées.\nLorsqu'elles sont désactivées, les particules par défaut sont restaurées.",
 
   "tooltip.fbp.chunks": " chunks",
   "tooltip.fbp.default": "Par défaut: ",

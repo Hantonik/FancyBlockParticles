@@ -23,15 +23,15 @@
 
   "screen.fbp.settings": "Settings",
 
-  "screen.fbp.category.animations": "Animations",
   "screen.fbp.category.campfire_smoke": "Campfire smoke",
   "screen.fbp.category.drip": "Drip",
   "screen.fbp.category.flame": "Flame",
-  "screen.fbp.category.overlay": "Overlay",
+  "screen.fbp.category.other": "Other",
   "screen.fbp.category.rain": "Rain",
   "screen.fbp.category.smoke": "Smoke",
   "screen.fbp.category.snow": "Snow",
   "screen.fbp.category.terrain": "Terrain",
+  "screen.fbp.category.trail": "Trail",
 
   "screen.fbp.terrain.animation_blacklist": "Animation blacklist",
   "screen.fbp.terrain.particle_blacklist": "Particle blacklist",
@@ -113,7 +113,12 @@
 
   "button.fbp.terrain.particles_per_axis": "Particles per axis",
 
+  "button.fbp.trail.fancy_trail_particles": "Fancy trail particles",
+
   "widget.fbp.global.categories": "Categories",
+
+  "widget.fbp.other.animations": "Animations",
+  "widget.fbp.other.overlay": "Overlay",
 
   "widget.fbp.overlay.freeze_effect_color": "Freeze effect color",
 
@@ -192,6 +197,8 @@
   "tooltip.fbp.terrain.entity_collision": "Enable/disable entity collision.",
 
   "tooltip.fbp.terrain.particles_per_axis": "Number of particles per axis.",
+
+  "tooltip.fbp.trail.fancy_trail_particles": "Enable/disable fancy trail particles.\nWhen disabled, the default particles are restored.",
 
   "tooltip.fbp.chunks": " chunks",
   "tooltip.fbp.default": "Default: ",

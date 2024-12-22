@@ -77,6 +77,11 @@ public abstract class MixinParticleEngine {
                 callback.setReturnValue(new FBPCampfireSmokeParticle.Provider(true).createParticle((SimpleParticleType) particleData, this.level, x, y, z, xd, yd, zd));
         }
 
+        if (FancyBlockParticles.CONFIG.trail.isEnabled() && !(callback.getReturnValue() instanceof FBPTrailParticle)) {
+            if (particleData.getType() == ParticleTypes.TRAIL)
+                callback.setReturnValue(new FBPTrailParticle.Provider().createParticle((TrailParticleOption) particleData, this.level, x, y, z, xd, yd, zd));
+        }
+
         if ((FancyBlockParticles.CONFIG.rain.isEnabled() || FancyBlockParticles.CONFIG.snow.isEnabled()) && !(callback.getReturnValue() instanceof FBPRainParticle) && !(callback.getReturnValue() instanceof FBPSnowParticle)) {
             if (particleData.getType() == ParticleTypes.RAIN) {
                 var pos = BlockPos.containing(x, y, z);

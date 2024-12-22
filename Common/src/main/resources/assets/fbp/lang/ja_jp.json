@@ -23,15 +23,15 @@
 
   "screen.fbp.settings": "設定",
 
-  "screen.fbp.category.animations": "アニメーション",
   "screen.fbp.category.campfire_smoke": "焚き火の煙",
   "screen.fbp.category.drip": "滴",
   "screen.fbp.category.flame": "炎",
-  "screen.fbp.category.overlay": "オーバーレイ",
+  "screen.fbp.category.other": "その他",
   "screen.fbp.category.rain": "雨",
   "screen.fbp.category.smoke": "煙",
   "screen.fbp.category.snow": "雪",
   "screen.fbp.category.terrain": "地形",
+  "screen.fbp.category.trail": "軌跡",
 
   "screen.fbp.terrain.animation_blacklist": "アニメーションブラックリスト",
   "screen.fbp.terrain.particle_blacklist": "パーティクルブラックリスト",
@@ -113,7 +113,12 @@
 
   "button.fbp.terrain.particles_per_axis": "軸ごとのパーティクル数",
 
+  "button.fbp.trail.fancy_trail_particles": "ファンシーな軌跡パーティクル",
+
   "widget.fbp.global.categories": "カテゴリ",
+
+  "widget.fbp.other.animations": "アニメーション",
+  "widget.fbp.other.overlay": "オーバーレイ",
 
   "widget.fbp.overlay.freeze_effect_color": "フリーズエフェクトの色",
 
@@ -192,6 +197,8 @@
   "tooltip.fbp.terrain.entity_collision": "エンティティの衝突を有効/無効にします。",
 
   "tooltip.fbp.terrain.particles_per_axis": "軸ごとのパーティクル数。",
+
+  "tooltip.fbp.trail.fancy_trail_particles": "ファンシーな軌跡パーティクルを有効/無効にします。\n無効にすると、デフォルトのパーティクルが復元されます。",
 
   "tooltip.fbp.chunks": " チャンク",
   "tooltip.fbp.default": "デフォルト: ",

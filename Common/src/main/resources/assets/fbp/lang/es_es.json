@@ -23,15 +23,15 @@
 
   "screen.fbp.settings": "Configuración",
 
-  "screen.fbp.category.animations": "Animaciones",
   "screen.fbp.category.campfire_smoke": "Humo de hoguera",
   "screen.fbp.category.drip": "Goteo",
   "screen.fbp.category.flame": "Llama",
-  "screen.fbp.category.overlay": "Superposición",
+  "screen.fbp.category.other": "Otros",
   "screen.fbp.category.rain": "Lluvia",
   "screen.fbp.category.smoke": "Humo",
   "screen.fbp.category.snow": "Nieve",
   "screen.fbp.category.terrain": "Terreno",
+  "screen.fbp.category.trail": "Rastro",
 
   "screen.fbp.terrain.animation_blacklist": "Lista negra de animación",
   "screen.fbp.terrain.particle_blacklist": "Lista negra de partículas",
@@ -113,7 +113,12 @@
 
   "button.fbp.terrain.particles_per_axis": "Partículas por eje",
 
+  "button.fbp.trail.fancy_trail_particles": "Partículas de rastro elegantes",
+
   "widget.fbp.global.categories": "Categorías",
+
+  "widget.fbp.other.animations": "Animaciones",
+  "widget.fbp.other.overlay": "Superposición",
 
   "widget.fbp.overlay.freeze_effect_color": "Color del efecto de congelación",
 
@@ -192,6 +197,8 @@
   "tooltip.fbp.terrain.entity_collision": "Habilitar/deshabilitar colisión de entidad.",
 
   "tooltip.fbp.terrain.particles_per_axis": "Número de partículas por eje.",
+
+  "tooltip.fbp.trail.fancy_trail_particles": "Habilitar/deshabilitar partículas de rastro elegantes.\nCuando está deshabilitado, se restauran las partículas predeterminadas.",
 
   "tooltip.fbp.chunks": " chunks",
   "tooltip.fbp.default": "Predeterminado: ",

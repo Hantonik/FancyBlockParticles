@@ -34,6 +34,7 @@ public final class FBPConfig implements IFBPConfig<FBPConfig> {
             Flame.DEFAULT_CONFIG,
             Smoke.DEFAULT_CONFIG,
             CampfireSmoke.DEFAULT_CONFIG,
+            Trail.DEFAULT_CONFIG,
             Rain.DEFAULT_CONFIG,
             Snow.DEFAULT_CONFIG,
             Drip.DEFAULT_CONFIG,
@@ -46,6 +47,7 @@ public final class FBPConfig implements IFBPConfig<FBPConfig> {
     public final Flame flame;
     public final Smoke smoke;
     public final CampfireSmoke campfireSmoke;
+    public final Trail trail;
     public final Rain rain;
     public final Snow snow;
     public final Drip drip;
@@ -85,6 +87,7 @@ public final class FBPConfig implements IFBPConfig<FBPConfig> {
         this.flame.setConfig(config.flame);
         this.smoke.setConfig(config.smoke);
         this.campfireSmoke.setConfig(config.campfireSmoke);
+        this.trail.setConfig(config.trail);
         this.rain.setConfig(config.rain);
         this.snow.setConfig(config.snow);
         this.drip.setConfig(config.drip);
@@ -99,6 +102,7 @@ public final class FBPConfig implements IFBPConfig<FBPConfig> {
         this.flame.applyConfig(config.flame);
         this.smoke.applyConfig(config.smoke);
         this.campfireSmoke.applyConfig(config.campfireSmoke);
+        this.trail.applyConfig(config.trail);
         this.rain.applyConfig(config.rain);
         this.snow.applyConfig(config.snow);
         this.drip.applyConfig(config.drip);
@@ -130,6 +134,7 @@ public final class FBPConfig implements IFBPConfig<FBPConfig> {
                     this.flame.load(GsonHelper.getAsJsonObject(json, "flame", new JsonObject()));
                     this.smoke.load(GsonHelper.getAsJsonObject(json, "smoke", new JsonObject()));
                     this.campfireSmoke.load(GsonHelper.getAsJsonObject(json, "campfireSmoke", new JsonObject()));
+                    this.trail.load(GsonHelper.getAsJsonObject(json, "trail", new JsonObject()));
                     this.rain.load(GsonHelper.getAsJsonObject(json, "rain", new JsonObject()));
                     this.snow.load(GsonHelper.getAsJsonObject(json, "snow", new JsonObject()));
                     this.drip.load(GsonHelper.getAsJsonObject(json, "drip", new JsonObject()));
@@ -156,6 +161,7 @@ public final class FBPConfig implements IFBPConfig<FBPConfig> {
             json.add("flame", this.flame.save());
             json.add("smoke", this.smoke.save());
             json.add("campfireSmoke", this.campfireSmoke.save());
+            json.add("trail", this.trail.save());
             json.add("rain", this.rain.save());
             json.add("snow", this.snow.save());
             json.add("drip", this.drip.save());
@@ -183,6 +189,7 @@ public final class FBPConfig implements IFBPConfig<FBPConfig> {
                 this.flame.copy(),
                 this.smoke.copy(),
                 this.campfireSmoke.copy(),
+                this.trail.copy(),
                 this.rain.copy(),
                 this.snow.copy(),
                 this.drip.copy(),
@@ -831,6 +838,113 @@ public final class FBPConfig implements IFBPConfig<FBPConfig> {
                     this.spawnWhileFrozen,
                     this.randomSize, this.randomFadingSpeed,
                     this.transparency,
+                    this.sizeMultiplier
+            );
+        }
+    }
+
+    @Getter
+    @Setter
+    @AllArgsConstructor(access = AccessLevel.PRIVATE)
+    public static class Trail implements IFBPConfig<Trail> {
+        private static final boolean DEFAULT_ENABLED = true;
+
+        private static final boolean DEFAULT_SPAWN_WHILE_FROZEN = false;
+        private static final boolean DEFAULT_INFINITE_DURATION = false;
+
+        private static final boolean DEFAULT_RANDOM_SIZE = true;
+        private static final boolean DEFAULT_RANDOM_FADING_SPEED = true;
+
+        private static final int DEFAULT_MIN_LIFETIME = 30;
+        private static final int DEFAULT_MAX_LIFETIME = 50;
+
+        private static final float DEFAULT_SIZE_MULTIPLIER = 1.0F;
+
+        public static final Trail DEFAULT_CONFIG = new Trail(
+                DEFAULT_ENABLED,
+                DEFAULT_SPAWN_WHILE_FROZEN, DEFAULT_INFINITE_DURATION,
+                DEFAULT_RANDOM_SIZE, DEFAULT_RANDOM_FADING_SPEED,
+                DEFAULT_MIN_LIFETIME, DEFAULT_MAX_LIFETIME,
+                DEFAULT_SIZE_MULTIPLIER
+        );
+
+        private boolean enabled;
+
+        private boolean spawnWhileFrozen;
+        private boolean infiniteDuration;
+
+        private boolean randomSize;
+        private boolean randomFadingSpeed;
+
+        private int minLifetime;
+        private int maxLifetime;
+
+        private float sizeMultiplier;
+
+        @Override
+        public void setConfig(Trail config) {
+            this.enabled = config.enabled;
+
+            this.spawnWhileFrozen = config.spawnWhileFrozen;
+            this.infiniteDuration = config.infiniteDuration;
+
+            this.randomSize = config.randomSize;
+            this.randomFadingSpeed = config.randomFadingSpeed;
+
+            this.minLifetime = config.minLifetime;
+            this.maxLifetime = config.maxLifetime;
+
+            this.sizeMultiplier = config.sizeMultiplier;
+        }
+
+        @Override
+        public void load(JsonObject json) {
+            this.enabled = GsonHelper.getAsBoolean(json, "enabled", DEFAULT_ENABLED);
+
+            this.spawnWhileFrozen = GsonHelper.getAsBoolean(json, "spawnWhileFrozen", DEFAULT_SPAWN_WHILE_FROZEN);
+            this.infiniteDuration = GsonHelper.getAsBoolean(json, "infiniteDuration", DEFAULT_INFINITE_DURATION);
+
+            this.randomSize = GsonHelper.getAsBoolean(json, "randomSize", DEFAULT_RANDOM_SIZE);
+            this.randomFadingSpeed = GsonHelper.getAsBoolean(json, "randomFadingSpeed", DEFAULT_RANDOM_FADING_SPEED);
+
+            this.minLifetime = GsonHelper.getAsInt(json, "minLifetime", DEFAULT_MIN_LIFETIME);
+            this.maxLifetime = GsonHelper.getAsInt(json, "maxLifetime", DEFAULT_MAX_LIFETIME);
+
+            this.sizeMultiplier = GsonHelper.getAsFloat(json, "sizeMultiplier", DEFAULT_SIZE_MULTIPLIER);
+        }
+
+        @Override
+        public JsonObject save() {
+            var json = new JsonObject();
+
+            json.addProperty("enabled", this.enabled);
+
+            json.addProperty("spawnWhileFrozen", this.spawnWhileFrozen);
+            json.addProperty("infiniteDuration", this.infiniteDuration);
+
+            json.addProperty("randomSize", this.randomSize);
+            json.addProperty("randomFadingSpeed", this.randomFadingSpeed);
+
+            json.addProperty("minLifetime", this.minLifetime);
+            json.addProperty("maxLifetime", this.maxLifetime);
+
+            json.addProperty("sizeMultiplier", this.sizeMultiplier);
+
+            return json;
+        }
+
+        @Override
+        public void reset() {
+            this.setConfig(DEFAULT_CONFIG.copy());
+        }
+
+        @Override
+        public Trail copy() {
+            return new Trail(
+                    this.enabled,
+                    this.spawnWhileFrozen, this.infiniteDuration,
+                    this.randomSize, this.randomFadingSpeed,
+                    this.minLifetime, this.maxLifetime,
                     this.sizeMultiplier
             );
         }

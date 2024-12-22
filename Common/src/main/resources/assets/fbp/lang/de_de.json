@@ -23,15 +23,15 @@
 
   "screen.fbp.settings": "Einstellungen",
 
-  "screen.fbp.category.animations": "Animationen",
   "screen.fbp.category.campfire_smoke": "Lagerfeuerrauch",
   "screen.fbp.category.drip": "Tropfen",
   "screen.fbp.category.flame": "Flamme",
-  "screen.fbp.category.overlay": "Overlay",
+  "screen.fbp.category.other": "Andere",
   "screen.fbp.category.rain": "Regen",
   "screen.fbp.category.smoke": "Rauch",
   "screen.fbp.category.snow": "Schnee",
   "screen.fbp.category.terrain": "Terrain",
+  "screen.fbp.category.trail": "Spur",
 
   "screen.fbp.terrain.animation_blacklist": "Animations-Blacklist",
   "screen.fbp.terrain.particle_blacklist": "Partikel-Blacklist",
@@ -113,7 +113,12 @@
 
   "button.fbp.terrain.particles_per_axis": "Partikel pro Achse",
 
+  "button.fbp.trail.fancy_trail_particles": "Fancy Spurenpartikel",
+
   "widget.fbp.global.categories": "Kategorien",
+
+  "widget.fbp.other.animations": "Animationen",
+  "widget.fbp.other.overlay": "Overlay",
 
   "widget.fbp.overlay.freeze_effect_color": "Farbe des Freeze-Effekts",
 
@@ -192,6 +197,8 @@
   "tooltip.fbp.terrain.entity_collision": "Kollision mit Entitäten aktivieren/deaktivieren.",
 
   "tooltip.fbp.terrain.particles_per_axis": "Anzahl der Partikel pro Achse.",
+
+  "tooltip.fbp.trail.fancy_trail_particles": "Fancy Spurenpartikel aktivieren/deaktivieren.\nWenn deaktiviert, werden die Standardpartikel wiederhergestellt.",
 
   "tooltip.fbp.chunks": " Chunks",
   "tooltip.fbp.default": "Standard: ",

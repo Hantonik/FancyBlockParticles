@@ -23,15 +23,15 @@
 
   "screen.fbp.settings": "Ustawienia",
 
-  "screen.fbp.category.animations": "Animacje",
   "screen.fbp.category.campfire_smoke": "Dym ogniskowy",
   "screen.fbp.category.drip": "Krople",
   "screen.fbp.category.flame": "Płomień",
-  "screen.fbp.category.overlay": "Nakładka",
+  "screen.fbp.category.other": "Inne",
   "screen.fbp.category.rain": "Deszcz",
   "screen.fbp.category.smoke": "Dym",
   "screen.fbp.category.snow": "Śnieg",
   "screen.fbp.category.terrain": "Teren",
+  "screen.fbp.category.trail": "Szlak",
 
   "screen.fbp.terrain.animation_blacklist": "Czarna lista animacji",
   "screen.fbp.terrain.particle_blacklist": "Czarna lista cząsteczek",
@@ -113,7 +113,12 @@
 
   "button.fbp.terrain.particles_per_axis": "Ilość cząsteczek na oś",
 
+  "button.fbp.trail.fancy_trail_particles": "Fantazyjne cząsteczki szlaku",
+
   "widget.fbp.global.categories": "Kategorie",
+
+  "widget.fbp.other.animations": "Animacje",
+  "widget.fbp.other.overlay": "Nakładka",
 
   "widget.fbp.overlay.freeze_effect_color": "Kolor efektu zamrożenia",
 
@@ -192,6 +197,8 @@
   "tooltip.fbp.terrain.entity_collision": "Włącz/wyłącz kolizję z bytami.",
 
   "tooltip.fbp.terrain.particles_per_axis": "Ilość cząsteczek na oś.",
+
+  "tooltip.fbp.trail.fancy_trail_particles": "Włącz/wyłącz fantazyjne cząsteczki szlaku.\nGdy wyłączone przywrócone zostają domyślne cząsteczki.",
 
   "tooltip.fbp.chunks": " chunków",
   "tooltip.fbp.default": "Domyślnie: ",

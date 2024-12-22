@@ -23,15 +23,15 @@
 
   "screen.fbp.settings": "设置",
 
-  "screen.fbp.category.animations": "动画",
   "screen.fbp.category.campfire_smoke": "篝火烟雾",
   "screen.fbp.category.drip": "滴落",
   "screen.fbp.category.flame": "火焰",
-  "screen.fbp.category.overlay": "覆盖",
+  "screen.fbp.category.other": "其他",
   "screen.fbp.category.rain": "雨",
   "screen.fbp.category.smoke": "烟雾",
   "screen.fbp.category.snow": "雪",
   "screen.fbp.category.terrain": "地形",
+  "screen.fbp.category.trail": "轨迹",
 
   "screen.fbp.terrain.animation_blacklist": "动画黑名单",
   "screen.fbp.terrain.particle_blacklist": "粒子黑名单",
@@ -113,7 +113,12 @@
 
   "button.fbp.terrain.particles_per_axis": "每轴粒子数",
 
+  "button.fbp.trail.fancy_trail_particles": "精美轨迹粒子",
+
   "widget.fbp.global.categories": "类别",
+
+  "widget.fbp.other.animations": "动画",
+  "widget.fbp.other.overlay": "覆盖",
 
   "widget.fbp.overlay.freeze_effect_color": "冻结效果颜色",
 
@@ -192,6 +197,8 @@
   "tooltip.fbp.terrain.entity_collision": "启用/禁用实体碰撞。",
 
   "tooltip.fbp.terrain.particles_per_axis": "每轴粒子数。",
+
+  "tooltip.fbp.trail.fancy_trail_particles": "启用/禁用精美轨迹粒子。\n禁用时，将恢复默认粒子。",
 
   "tooltip.fbp.chunks": " 区块",
   "tooltip.fbp.default": "默认: ",
