@@ -377,7 +377,7 @@ public class FBPSnowParticle extends WaterDropParticle implements IKillableParti
         if (FancyBlockParticles.CONFIG.snow.isRestOnFloor())
             posY += scale;
 
-        var smoothRotation = new Vector3d(0.0D, 0.0D, 0.0D);
+        var smoothRotation = new Vector3d();
 
         if (FancyBlockParticles.CONFIG.snow.getRotationMultiplier() > 0.0F) {
             smoothRotation.y = this.rotation.y;
@@ -387,13 +387,11 @@ public class FBPSnowParticle extends WaterDropParticle implements IKillableParti
                 smoothRotation.x = this.rotation.x;
 
             if (!FancyBlockParticles.CONFIG.global.isFreezeEffect()) {
-                var vec = this.rotation.lerp(this.lastRotation, partialTick, new Vector3d());
-
                 if (FancyBlockParticles.CONFIG.snow.isRandomRotation()) {
-                    smoothRotation.y = vec.y;
-                    smoothRotation.z = vec.z;
+                    smoothRotation.y = Mth.lerp(partialTick, this.lastRotation.y, this.rotation.y);
+                    smoothRotation.z = Mth.lerp(partialTick, this.lastRotation.z, this.rotation.z);
                 } else
-                    smoothRotation.x = vec.x;
+                    smoothRotation.x = Mth.lerp(partialTick, this.lastRotation.x, this.rotation.x);
             }
         }
 
