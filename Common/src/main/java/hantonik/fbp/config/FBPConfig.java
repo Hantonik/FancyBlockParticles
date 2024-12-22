@@ -119,30 +119,30 @@ public final class FBPConfig implements IFBPConfig<FBPConfig> {
         var file = new File(FBPConstants.CONFIG_PATH.toString(), "config.json");
 
         try {
-            if (!file.exists()) {
-                file.createNewFile();
-
+            if (file.createNewFile())
                 this.save();
+            else {
+                try (var reader = new InputStreamReader(new FileInputStream(file))) {
+                    var json = JsonParser.parseReader(reader).getAsJsonObject();
+
+                    this.global.load(GsonHelper.getAsJsonObject(json, "global", new JsonObject()));
+                    this.terrain.load(GsonHelper.getAsJsonObject(json, "terrain", new JsonObject()));
+                    this.flame.load(GsonHelper.getAsJsonObject(json, "flame", new JsonObject()));
+                    this.smoke.load(GsonHelper.getAsJsonObject(json, "smoke", new JsonObject()));
+                    this.campfireSmoke.load(GsonHelper.getAsJsonObject(json, "campfireSmoke", new JsonObject()));
+                    this.rain.load(GsonHelper.getAsJsonObject(json, "rain", new JsonObject()));
+                    this.snow.load(GsonHelper.getAsJsonObject(json, "snow", new JsonObject()));
+                    this.drip.load(GsonHelper.getAsJsonObject(json, "drip", new JsonObject()));
+                    this.animations.load(GsonHelper.getAsJsonObject(json, "animations", new JsonObject()));
+                    this.overlay.load(GsonHelper.getAsJsonObject(json, "overlay", new JsonObject()));
+                } catch (JsonParseException | IllegalStateException e) {
+                    FancyBlockParticles.LOGGER.warn("FBP config file is corrupt! Generating a new one.");
+
+                    this.save();
+                }
             }
-
-            var json = JsonParser.parseReader(new InputStreamReader(new FileInputStream(file))).getAsJsonObject();
-
-            this.global.load(GsonHelper.getAsJsonObject(json, "global", new JsonObject()));
-            this.terrain.load(GsonHelper.getAsJsonObject(json, "terrain", new JsonObject()));
-            this.flame.load(GsonHelper.getAsJsonObject(json, "flame", new JsonObject()));
-            this.smoke.load(GsonHelper.getAsJsonObject(json, "smoke", new JsonObject()));
-            this.campfireSmoke.load(GsonHelper.getAsJsonObject(json, "campfireSmoke", new JsonObject()));
-            this.rain.load(GsonHelper.getAsJsonObject(json, "rain", new JsonObject()));
-            this.snow.load(GsonHelper.getAsJsonObject(json, "snow", new JsonObject()));
-            this.drip.load(GsonHelper.getAsJsonObject(json, "drip", new JsonObject()));
-            this.animations.load(GsonHelper.getAsJsonObject(json, "animations", new JsonObject()));
-            this.overlay.load(GsonHelper.getAsJsonObject(json, "overlay", new JsonObject()));
         } catch (IOException e) {
             FancyBlockParticles.LOGGER.error("Could no load FBP config.", e);
-        } catch (JsonParseException | IllegalStateException e) {
-            FancyBlockParticles.LOGGER.warn("FBP config file is corrupt! Generating a new one.");
-
-            this.save();
         }
     }
 
@@ -207,8 +207,8 @@ public final class FBPConfig implements IFBPConfig<FBPConfig> {
 
         private static final boolean DEFAULT_INFINITE_DURATION = false;
 
-        private static final List<Block> DEFAULT_DISABLED_PARTICLES = Lists.newArrayList();
-        private static final List<Block> DEFAULT_DISABLED_ANIMATIONS = Lists.newArrayList();
+        private static final List<Block> DEFAULT_DISABLED_PARTICLES = List.of();
+        private static final List<Block> DEFAULT_DISABLED_ANIMATIONS = List.of();
 
         public static final Global DEFAULT_CONFIG = new Global(
                 DEFAULT_ENABLED,
@@ -1133,7 +1133,7 @@ public final class FBPConfig implements IFBPConfig<FBPConfig> {
         private static final boolean DEFAULT_ENABLED = true;
         private static final boolean DEFAULT_PUDDLE = true;
 
-        private static final boolean DEFAULT_SPAWN_WHILE_FROZEN = true;
+        private static final boolean DEFAULT_SPAWN_WHILE_FROZEN = false;
 
         private static final boolean DEFAULT_RANDOM_SIZE = true;
         private static final boolean DEFAULT_RANDOM_FADING_SPEED = true;
