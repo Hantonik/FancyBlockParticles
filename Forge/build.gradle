@@ -71,7 +71,6 @@ dependencies {
     compileOnly "com.github.glitchfiend:SereneSeasons-forge:$mc_version-$sereneseasons_version"
     compileOnly "com.github.glitchfiend:GlitchCore-forge:$mc_version-$glitchcore_version"
 
-    compileOnly "org.embeddedt:embeddium-$mc_version:$embeddium_forge_version+mc$mc_version"
     compileOnly "maven.modrinth:oculus:$oculus_version"
 
     runtimeOnly "maven.modrinth:spark:$spark_version-forge"
