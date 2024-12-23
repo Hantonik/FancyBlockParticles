@@ -1,8 +1,9 @@
 import net.darkhax.curseforgegradle.Constants as CFConstants
 import net.darkhax.curseforgegradle.TaskPublishCurseForge
+import org.slf4j.event.Level
 
 plugins {
-    id 'net.neoforged.gradle.userdev' version '7.+'
+    id 'net.neoforged.moddev' version '2.+'
 }
 
 base {
@@ -11,42 +12,69 @@ base {
 
 println "NeoForge: $neo_version"
 
-minecraft.accessTransformers.file('src/main/resources/META-INF/accesstransformer.cfg')
+neoForge {
+    version = neo_version
 
-subsystems {
     parchment {
         minecraftVersion = mc_version
         mappingsVersion = mappings_version
     }
-}
 
-runs {
-    configureEach {
-        workingDirectory rootProject.file('run')
+    runs {
+        client {
+            client()
 
-        systemProperty 'forge.logging.markers', 'REGISTRIES'
-        systemProperty 'forge.logging.console.level', 'debug'
+            gameDirectory = rootProject.file('run')
 
-        systemProperty 'neoforge.enabledGameTestNamespaces', mod_id
+            systemProperty 'forge.logging.markers', 'REGISTRIES'
+            systemProperty 'forge.logging.console.level', 'debug'
 
-        systemProperty 'mixin.env.remapRefMap', 'true'
-        systemProperty 'mixin.env.refMapRemappingFile', "$buildDir/createSrgToMcp/output.srg"
+            systemProperty 'neoforge.enabledGameTestNamespaces', mod_id
 
-        modSource sourceSets.main
+            systemProperty 'mixin.env.remapRefMap', 'true'
+            systemProperty 'mixin.env.refMapRemappingFile', "$buildDir/createSrgToMcp/output.srg"
+
+            logLevel = Level.DEBUG
+        }
+
+        server {
+            server()
+
+            gameDirectory = rootProject.file('run')
+
+            systemProperty 'forge.logging.markers', 'REGISTRIES'
+            systemProperty 'forge.logging.console.level', 'debug'
+
+            systemProperty 'neoforge.enabledGameTestNamespaces', mod_id
+
+            systemProperty 'mixin.env.remapRefMap', 'true'
+            systemProperty 'mixin.env.refMapRemappingFile', "$buildDir/createSrgToMcp/output.srg"
+
+            programArgument '--nogui'
+
+            logLevel = Level.DEBUG
+        }
     }
 
-    client
+    mods {
+        "${mod_id}" {
+            sourceSet(sourceSets.main)
+            sourceSet(project(':Common').sourceSets.main)
+        }
+    }
+}
+
+configurations {
+    runtimeClasspath.extendsFrom localRuntime
 }
 
 dependencies {
-    implementation "net.neoforged:neoforge:$neo_version"
-
     compileOnly project(':Common')
 
     compileOnly "com.github.glitchfiend:SereneSeasons-neoforge:$mc_version-$sereneseasons_version"
     compileOnly "com.github.glitchfiend:GlitchCore-neoforge:$mc_version-$glitchcore_version"
 
-    compileOnly "org.embeddedt:embeddium-$mc_version:$embeddium_forge_version+mc$mc_version"
+    compileOnly "org.embeddedt:embeddium-$mc_version:$embeddium_neoforge_version+mc$mc_version"
     compileOnly "maven.modrinth:oculus:$oculus_version"
 
     runtimeOnly "maven.modrinth:spark:1.10.61-neoforge"
