@@ -45,52 +45,64 @@ public abstract class MixinParticleEngine {
     public abstract void add(Particle particle);
 
     @Inject(at = @At("RETURN"), method = "makeParticle", cancellable = true)
-    private <T extends ParticleOptions> void makeParticle(T particleData, double x, double y, double z, double xd, double yd, double zd, CallbackInfoReturnable<Particle> callback) {
+    private <T extends ParticleOptions> void makeParticle(T options, double x, double y, double z, double xd, double yd, double zd, CallbackInfoReturnable<Particle> callback) {
         if (!FancyBlockParticles.CONFIG.global.isEnabled())
             return;
 
         if (FancyBlockParticles.CONFIG.flame.isEnabled() && !(callback.getReturnValue() instanceof FBPFlameParticle)) {
-            if (particleData.getType() == ParticleTypes.FLAME || particleData.getType() == ParticleTypes.SOUL_FIRE_FLAME)
-                callback.setReturnValue(new FBPFlameParticle.Provider(particleData.getType() == ParticleTypes.SOUL_FIRE_FLAME).createParticle((SimpleParticleType) particleData, this.level, x, y, z, xd, yd, zd));
-            if (particleData.getType() == ParticleTypes.SMALL_FLAME)
-                callback.setReturnValue(new FBPFlameParticle.SmallFlameProvider().createParticle((SimpleParticleType) particleData, this.level, x, y, z, xd, yd, zd));
+            if (options instanceof SimpleParticleType type) {
+                if (callback.getReturnValue() instanceof FlameParticle) {
+                    if (options.getType() == ParticleTypes.FLAME || options.getType() == ParticleTypes.SOUL_FIRE_FLAME)
+                        callback.setReturnValue(new FBPFlameParticle.Provider(options.getType() == ParticleTypes.SOUL_FIRE_FLAME).createParticle(type, this.level, x, y, z, xd, yd, zd));
+                    if (options.getType() == ParticleTypes.SMALL_FLAME)
+                        callback.setReturnValue(new FBPFlameParticle.SmallFlameProvider().createParticle(type, this.level, x, y, z, xd, yd, zd));
+                }
 
-            if (particleData.getType() == ParticleTypes.LAVA)
-                callback.setReturnValue(new FBPLavaParticle.Provider().createParticle((SimpleParticleType) particleData, this.level, x, y, z, xd, yd, zd));
+                if (callback.getReturnValue() instanceof LavaParticle)
+                    if (options.getType() == ParticleTypes.LAVA)
+                        callback.setReturnValue(new FBPLavaParticle.Provider().createParticle(type, this.level, x, y, z, xd, yd, zd));
+            }
         }
 
         if (FancyBlockParticles.CONFIG.smoke.isEnabled() && !(callback.getReturnValue() instanceof FBPSmokeParticle)) {
-            if (callback.getReturnValue() instanceof SingleQuadParticle original) {
-                if (particleData.getType() == ParticleTypes.SMOKE || particleData.getType() == ParticleTypes.LARGE_SMOKE)
-                    callback.setReturnValue(new FBPSmokeParticle.Provider(original.getQuadSize(1)).createParticle((SimpleParticleType) particleData, this.level, x, y, z, xd, yd, zd));
+            if (options instanceof SimpleParticleType type) {
+                if (callback.getReturnValue() instanceof SmokeParticle original)
+                    if (options.getType() == ParticleTypes.SMOKE || options.getType() == ParticleTypes.LARGE_SMOKE)
+                        callback.setReturnValue(new FBPSmokeParticle.Provider(original.getQuadSize(1)).createParticle(type, this.level, x, y, z, xd, yd, zd));
 
-                if (particleData.getType() == ParticleTypes.WHITE_SMOKE)
-                    callback.setReturnValue(new FBPWhiteSmokeParticle.Provider(original.getQuadSize(1)).createParticle((SimpleParticleType) particleData, this.level, x, y, z, xd, yd, zd));
+                if (callback.getReturnValue() instanceof WhiteSmokeParticle original)
+                    if (options.getType() == ParticleTypes.WHITE_SMOKE)
+                        callback.setReturnValue(new FBPWhiteSmokeParticle.Provider(original.getQuadSize(1)).createParticle(type, this.level, x, y, z, xd, yd, zd));
             }
         }
 
         if (FancyBlockParticles.CONFIG.campfireSmoke.isEnabled() && !(callback.getReturnValue() instanceof FBPCampfireSmokeParticle)) {
-            if (particleData.getType() == ParticleTypes.CAMPFIRE_COSY_SMOKE)
-                callback.setReturnValue(new FBPCampfireSmokeParticle.Provider(false).createParticle((SimpleParticleType) particleData, this.level, x, y, z, xd, yd, zd));
+            if (options instanceof SimpleParticleType type && callback.getReturnValue() instanceof CampfireSmokeParticle) {
+                if (options.getType() == ParticleTypes.CAMPFIRE_COSY_SMOKE)
+                    callback.setReturnValue(new FBPCampfireSmokeParticle.Provider(false).createParticle(type, this.level, x, y, z, xd, yd, zd));
 
-            if (particleData.getType() == ParticleTypes.CAMPFIRE_SIGNAL_SMOKE)
-                callback.setReturnValue(new FBPCampfireSmokeParticle.Provider(true).createParticle((SimpleParticleType) particleData, this.level, x, y, z, xd, yd, zd));
+                if (options.getType() == ParticleTypes.CAMPFIRE_SIGNAL_SMOKE)
+                    callback.setReturnValue(new FBPCampfireSmokeParticle.Provider(true).createParticle(type, this.level, x, y, z, xd, yd, zd));
+            }
         }
 
         if (FancyBlockParticles.CONFIG.trail.isEnabled() && !(callback.getReturnValue() instanceof FBPTrailParticle)) {
-            if (particleData.getType() == ParticleTypes.TRAIL)
-                callback.setReturnValue(new FBPTrailParticle.Provider().createParticle((TrailParticleOption) particleData, this.level, x, y, z, xd, yd, zd));
+            if (options instanceof TrailParticleOption type && callback.getReturnValue() instanceof TrailParticle)
+                if (options.getType() == ParticleTypes.TRAIL)
+                    callback.setReturnValue(new FBPTrailParticle.Provider().createParticle(type, this.level, x, y, z, xd, yd, zd));
         }
 
         if ((FancyBlockParticles.CONFIG.rain.isEnabled() || FancyBlockParticles.CONFIG.snow.isEnabled()) && !(callback.getReturnValue() instanceof FBPRainParticle) && !(callback.getReturnValue() instanceof FBPSnowParticle)) {
-            if (particleData.getType() == ParticleTypes.RAIN) {
-                var pos = BlockPos.containing(x, y, z);
-                var precipitation = this.level.getBiome(pos).value().getPrecipitationAt(pos, this.level.getSeaLevel());
+            if (options instanceof SimpleParticleType type && callback.getReturnValue() instanceof WaterDropParticle) {
+                if (options.getType() == ParticleTypes.RAIN) {
+                    var pos = BlockPos.containing(x, y, z);
+                    var precipitation = this.level.getBiome(pos).value().getPrecipitationAt(pos, this.level.getSeaLevel());
 
-                if (precipitation == Biome.Precipitation.SNOW)
-                    callback.setReturnValue(new FBPSnowParticle.Provider().createParticle((SimpleParticleType) particleData, this.level, x, y, z, xd, yd, zd));
-                else
-                    callback.setReturnValue(new FBPRainParticle.Provider().createParticle((SimpleParticleType) particleData, this.level, x, y, z, xd, yd, zd));
+                    if (precipitation == Biome.Precipitation.SNOW)
+                        callback.setReturnValue(new FBPSnowParticle.Provider().createParticle(type, this.level, x, y, z, xd, yd, zd));
+                    else
+                        callback.setReturnValue(new FBPRainParticle.Provider().createParticle(type, this.level, x, y, z, xd, yd, zd));
+                }
             }
         }
 
@@ -107,7 +119,7 @@ public abstract class MixinParticleEngine {
                     var alpha = 1.0F;
                     var lightLevel = -1;
 
-                    if (particleData == ParticleTypes.DRIPPING_WATER || particleData == ParticleTypes.DRIPPING_DRIPSTONE_WATER) {
+                    if (options == ParticleTypes.DRIPPING_WATER || options == ParticleTypes.DRIPPING_DRIPSTONE_WATER) {
                         alpha = FancyBlockParticles.CONFIG.rain.getTransparency(); // Small exception:)
 
                         var color = this.level.getSkyColor(Minecraft.getInstance().gameRenderer.getMainCamera().getPosition(), 0.0F);
@@ -117,41 +129,41 @@ public abstract class MixinParticleEngine {
                         bCol = Mth.clamp(ARGB.blueFloat(color) + 0.5F, 0.5F, 1.0F);
                     }
 
-                    if (particleData == ParticleTypes.DRIPPING_DRIPSTONE_WATER)
+                    if (options == ParticleTypes.DRIPPING_DRIPSTONE_WATER)
                         sound = SoundEvents.POINTED_DRIPSTONE_DRIP_WATER;
 
-                    if (particleData == ParticleTypes.DRIPPING_DRIPSTONE_LAVA)
+                    if (options == ParticleTypes.DRIPPING_DRIPSTONE_LAVA)
                         sound = SoundEvents.POINTED_DRIPSTONE_DRIP_LAVA;
 
-                    if (particleData == ParticleTypes.DRIPPING_HONEY) {
+                    if (options == ParticleTypes.DRIPPING_HONEY) {
                         state = Blocks.HONEY_BLOCK.defaultBlockState();
                         sound = SoundEvents.BEEHIVE_DRIP;
                     }
 
-                    if (particleData == ParticleTypes.DRIPPING_OBSIDIAN_TEAR)
+                    if (options == ParticleTypes.DRIPPING_OBSIDIAN_TEAR)
                         lightLevel = 10;
 
-                    callback.setReturnValue(new FBPDripParticle.Provider(state, sound, rCol, gCol, bCol, alpha, lightLevel).createParticle((SimpleParticleType) particleData, this.level, x, y, z, xd, yd, zd));
+                    callback.setReturnValue(new FBPDripParticle.Provider(state, sound, rCol, gCol, bCol, alpha, lightLevel).createParticle(options, this.level, x, y, z, xd, yd, zd));
                 }
             }
         }
 
         if (FancyBlockParticles.CONFIG.terrain.isFancyBreakingParticles() && !(callback.getReturnValue() instanceof FBPTerrainParticle)) {
-            if (particleData.getType() == ParticleTypes.BLOCK) {
-                if (callback.getReturnValue() instanceof TerrainParticle original) {
-                    if (FancyBlockParticles.CONFIG.isBlockParticlesEnabled(((BlockParticleOption) particleData).getState().getBlock())) {
+            if (options instanceof BlockParticleOption type && callback.getReturnValue() instanceof TerrainParticle original) {
+                if (options.getType() == ParticleTypes.BLOCK) {
+                    if (FancyBlockParticles.CONFIG.isBlockParticlesEnabled(type.getState().getBlock())) {
                         callback.setReturnValue(null);
 
                         if (this.level.getFluidState(original.pos).isEmpty())
-                            callback.setReturnValue(new FBPTerrainParticle.Provider(original.pos, original.getQuadSize(1) * 5.0F, null, original.sprite, original.rCol, original.gCol, original.bCol).createParticle((BlockParticleOption) particleData, this.level, x, y, z, 0.0D, 0.0D, 0.0D));
+                            callback.setReturnValue(new FBPTerrainParticle.Provider(original.pos, original.getQuadSize(1) * 5.0F, null, original.sprite, original.rCol, original.gCol, original.bCol).createParticle(type, this.level, x, y, z, 0.0D, 0.0D, 0.0D));
                     }
                 }
             }
         }
 
         if (FancyBlockParticles.CONFIG.terrain.isFancyCrackingParticles() && !(callback.getReturnValue() instanceof FBPTerrainParticle)) {
-            if (particleData.getType() == ParticleTypes.ITEM_SNOWBALL || particleData instanceof ItemParticleOption data && data.getItem().is(Items.SNOWBALL)) {
-                if (callback.getReturnValue() instanceof BreakingItemParticle original) {
+            if (callback.getReturnValue() instanceof BreakingItemParticle original) {
+                if (options.getType() == ParticleTypes.ITEM_SNOWBALL || (options instanceof ItemParticleOption data && data.getItem().is(Items.SNOWBALL))) {
                     if (FancyBlockParticles.CONFIG.isBlockParticlesEnabled(Blocks.SNOW)) {
                         if (FancyBlockParticles.CONFIG.global.isFreezeEffect() && !FancyBlockParticles.CONFIG.terrain.isSpawnWhileFrozen())
                             callback.setReturnValue(null);
@@ -161,8 +173,8 @@ public abstract class MixinParticleEngine {
                 }
             }
 
-            if (particleData.getType() == ParticleTypes.ITEM_SLIME || particleData instanceof ItemParticleOption data && data.getItem().is(Items.SLIME_BALL)) {
-                if (callback.getReturnValue() instanceof BreakingItemParticle original) {
+            if (callback.getReturnValue() instanceof BreakingItemParticle original) {
+                if (options.getType() == ParticleTypes.ITEM_SLIME || (options instanceof ItemParticleOption data && data.getItem().is(Items.SLIME_BALL))) {
                     if (FancyBlockParticles.CONFIG.isBlockParticlesEnabled(Blocks.SLIME_BLOCK)) {
                         if (FancyBlockParticles.CONFIG.global.isFreezeEffect() && !FancyBlockParticles.CONFIG.terrain.isSpawnWhileFrozen())
                             callback.setReturnValue(null);
