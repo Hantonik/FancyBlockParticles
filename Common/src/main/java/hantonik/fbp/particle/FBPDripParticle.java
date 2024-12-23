@@ -14,8 +14,8 @@ import net.minecraft.client.particle.ParticleProvider;
 import net.minecraft.client.particle.ParticleRenderType;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.core.particles.ParticleOptions;
 import net.minecraft.core.particles.ParticleTypes;
-import net.minecraft.core.particles.SimpleParticleType;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.tags.FluidTags;
@@ -331,7 +331,7 @@ public class FBPDripParticle extends DripParticle implements IKillableParticle {
     }
 
     @RequiredArgsConstructor
-    public static class Provider implements ParticleProvider<SimpleParticleType> {
+    public static class Provider implements ParticleProvider<ParticleOptions> {
         private final BlockState state;
         @Nullable
         private final SoundEvent sound;
@@ -343,7 +343,7 @@ public class FBPDripParticle extends DripParticle implements IKillableParticle {
 
         @Nullable
         @Override
-        public Particle createParticle(SimpleParticleType type, ClientLevel level, double x, double y, double z, double xd, double yd, double zd) {
+        public Particle createParticle(ParticleOptions options, ClientLevel level, double x, double y, double z, double xd, double yd, double zd) {
             if (FancyBlockParticles.CONFIG.global.isFreezeEffect() && !FancyBlockParticles.CONFIG.drip.isSpawnWhileFrozen())
                 return null;
 
