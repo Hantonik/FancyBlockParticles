@@ -3,11 +3,12 @@ package hantonik.fbp;
 import hantonik.fbp.init.FBPKeyMappings;
 import hantonik.fbp.screen.FBPOptionsScreen;
 import net.minecraft.client.Minecraft;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.packs.resources.ResourceManagerReloadListener;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.bus.api.SubscribeEvent;
-import net.neoforged.fml.ModList;
+import net.neoforged.fml.ModContainer;
 import net.neoforged.fml.common.Mod;
 import net.neoforged.fml.event.lifecycle.FMLClientSetupEvent;
 import net.neoforged.fml.loading.FMLLoader;
@@ -17,7 +18,7 @@ import net.neoforged.neoforge.common.NeoForge;
 
 @Mod(value = FancyBlockParticles.MOD_ID, dist = Dist.CLIENT)
 public final class FBPNeoForge {
-    public FBPNeoForge(IEventBus bus) {
+    public FBPNeoForge(IEventBus bus, ModContainer container) {
         FancyBlockParticles.LOGGER.info(FancyBlockParticles.SETUP_MARKER, "Initializing...");
 
         bus.register(this);
@@ -27,7 +28,7 @@ public final class FBPNeoForge {
             bus.addListener(this::onRegisterClientReloadListeners);
         }
 
-        ModList.get().getModContainerById(FancyBlockParticles.MOD_ID).ifPresent(mc -> mc.registerExtensionPoint(IConfigScreenFactory.class, (container, modsScreen) -> new FBPOptionsScreen(modsScreen)));
+        container.registerExtensionPoint(IConfigScreenFactory.class, (mc, modsScreen) -> new FBPOptionsScreen(modsScreen));
     }
 
     @SubscribeEvent
@@ -47,8 +48,8 @@ public final class FBPNeoForge {
         FBPKeyMappings.MAPPINGS.forEach(event::register);
     }
 
-    private void onRegisterClientReloadListeners(final RegisterClientReloadListenersEvent event) {
-        event.registerReloadListener((ResourceManagerReloadListener) manager -> FancyBlockParticles.CONFIG.load());
+    private void onRegisterClientReloadListeners(final AddClientReloadListenersEvent event) {
+        event.addListener(ResourceLocation.fromNamespaceAndPath(FancyBlockParticles.MOD_ID, "config"), (ResourceManagerReloadListener) manager -> FancyBlockParticles.CONFIG.load());
     }
 
     private void postClientTick(final ClientTickEvent.Post event) {

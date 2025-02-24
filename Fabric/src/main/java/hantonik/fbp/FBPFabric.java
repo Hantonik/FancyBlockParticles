@@ -27,7 +27,7 @@ public final class FBPFabric implements ClientModInitializer {
         ResourceManagerHelper.get(PackType.CLIENT_RESOURCES).registerReloadListener(new SimpleSynchronousResourceReloadListener() {
             @Override
             public ResourceLocation getFabricId() {
-                return ResourceLocation.tryBuild(FancyBlockParticles.MOD_ID, "config");
+                return ResourceLocation.fromNamespaceAndPath(FancyBlockParticles.MOD_ID, "config");
             }
 
             @Override
