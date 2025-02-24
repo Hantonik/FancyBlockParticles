@@ -29,7 +29,7 @@ jobs:
       - name: 'Checkout repository'
         uses: actions/checkout@v4
         with:
-          fetch-depth: 100
+          fetch-depth: 0
           fetch-tags: true
 
       - name: 'Set up JDK 21'
@@ -63,7 +63,7 @@ jobs:
       - name: 'Checkout repository'
         uses: actions/checkout@v4
         with:
-          fetch-depth: 100
+          fetch-depth: 0
           fetch-tags: true
 
       - name: 'Set up JDK 21'
@@ -99,7 +99,7 @@ jobs:
       - name: 'Checkout repository'
         uses: actions/checkout@v4
         with:
-          fetch-depth: 100
+          fetch-depth: 0
           fetch-tags: true
 
       - name: 'Set up JDK 21'
@@ -137,7 +137,7 @@ jobs:
       - name: 'Checkout repository'
         uses: actions/checkout@v4
         with:
-          fetch-depth: 100
+          fetch-depth: 0
           fetch-tags: true
 
       - name: 'Get latest tag'
