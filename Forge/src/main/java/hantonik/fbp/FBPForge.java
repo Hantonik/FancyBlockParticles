@@ -19,17 +19,17 @@ import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 @Mod(FancyBlockParticles.MOD_ID)
 public final class FBPForge {
     public FBPForge() {
-        FancyBlockParticles.LOGGER.info(FancyBlockParticles.SETUP_MARKER, "Initializing...");
-
-        var bus = FMLJavaModLoadingContext.get().getModEventBus();
-        bus.register(this);
-
         DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> () -> {
+            FancyBlockParticles.LOGGER.info(FancyBlockParticles.SETUP_MARKER, "Initializing...");
+
+            var bus = FMLJavaModLoadingContext.get().getModEventBus();
+
+            bus.register(this);
             bus.addListener(this::onRegisterKeyMappings);
             bus.addListener(this::onRegisterClientReloadListeners);
-        });
 
-        ModList.get().getModContainerById(FancyBlockParticles.MOD_ID).ifPresent(mc -> mc.registerExtensionPoint(ConfigScreenHandler.ConfigScreenFactory.class, () -> new ConfigScreenHandler.ConfigScreenFactory(FBPOptionsScreen::new)));
+            ModList.get().getModContainerById(FancyBlockParticles.MOD_ID).ifPresent(mc -> mc.registerExtensionPoint(ConfigScreenHandler.ConfigScreenFactory.class, () -> new ConfigScreenHandler.ConfigScreenFactory(FBPOptionsScreen::new)));
+        });
     }
 
     @SubscribeEvent
