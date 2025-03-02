@@ -19,16 +19,15 @@ import net.neoforged.neoforge.common.NeoForge;
 @Mod(value = FancyBlockParticles.MOD_ID, dist = Dist.CLIENT)
 public final class FBPNeoForge {
     public FBPNeoForge(IEventBus bus, ModContainer container) {
-        FancyBlockParticles.LOGGER.info(FancyBlockParticles.SETUP_MARKER, "Initializing...");
-
-        bus.register(this);
-
         if (FMLLoader.getDist() == Dist.CLIENT) {
+            FancyBlockParticles.LOGGER.info(FancyBlockParticles.SETUP_MARKER, "Initializing...");
+
+            bus.register(this);
             bus.addListener(this::onRegisterKeyMappings);
             bus.addListener(this::onRegisterClientReloadListeners);
-        }
 
-        container.registerExtensionPoint(IConfigScreenFactory.class, (mc, modsScreen) -> new FBPOptionsScreen(modsScreen));
+            container.registerExtensionPoint(IConfigScreenFactory.class, (mc, modsScreen) -> new FBPOptionsScreen(modsScreen));
+        }
     }
 
     @SubscribeEvent

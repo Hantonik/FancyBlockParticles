@@ -6,7 +6,7 @@
   },
 
   "1.21.4": {
-    "21.4.1.0": "Compatible with Iris",
+    "21.4.1.0": "Compatible with Iris. Disable mod on dedicated server",
     "21.4.0.0-beta": "Update to Minecraft 1.21.4"
   }
 }
