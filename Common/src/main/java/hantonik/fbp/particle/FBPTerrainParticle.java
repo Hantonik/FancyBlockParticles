@@ -10,6 +10,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.particle.Particle;
 import net.minecraft.client.particle.ParticleProvider;
+import net.minecraft.client.particle.ParticleRenderType;
 import net.minecraft.client.particle.TerrainParticle;
 import net.minecraft.client.renderer.texture.MissingTextureAtlasSprite;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
@@ -444,6 +445,11 @@ public class FBPTerrainParticle extends TerrainParticle implements IKillablePart
 
         var box = this.getBoundingBox();
         this.y = (box.minY + box.maxY) / 2.0D;
+    }
+
+    @Override
+    public ParticleRenderType getRenderType() {
+        return FBPConstants.FBP_TERRAIN_RENDER;
     }
 
     @Override

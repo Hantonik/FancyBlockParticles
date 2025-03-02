@@ -45,5 +45,6 @@ public final class FBPConstants {
 
     public static final Supplier<TextureAtlasSprite> FBP_PARTICLE_SPRITE = () -> Minecraft.getInstance().getBlockRenderer().getBlockModelShaper().getParticleIcon(Blocks.WHITE_CONCRETE.defaultBlockState());
 
+    public static final ParticleRenderType FBP_TERRAIN_RENDER = new ParticleRenderType("FBP_TERRAIN_RENDER", RenderType.translucentMovingBlock());
     public static final ParticleRenderType FBP_PARTICLE_RENDER = new ParticleRenderType("FBP_PARTICLE_RENDER", RenderType.translucentParticle(TextureAtlas.LOCATION_BLOCKS));
 }

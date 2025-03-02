@@ -26,7 +26,7 @@ import java.util.Set;
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public final class FBPPlacingAnimationManager {
     private static final Map<BlockPos, FBPPlacingAnimationParticle> ACTIVE_ANIMATIONS = Maps.newHashMap();
-    private static final Set<BlockPos> HIDDEN_BLOCKS = Sets.newConcurrentHashSet();
+    private static final Set<BlockPos> HIDDEN_BLOCKS = Sets.newCopyOnWriteArraySet();
 
     public static void addAnimation(ClientLevel level, BlockState state, BlockPos pos, LivingEntity placer, InteractionHand hand) {
         if (Services.PLATFORM.isModLoaded("a_good_place"))

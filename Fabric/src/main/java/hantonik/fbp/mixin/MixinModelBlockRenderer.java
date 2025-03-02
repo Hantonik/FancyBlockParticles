@@ -13,10 +13,18 @@ import org.spongepowered.asm.mixin.injection.At;
 
 @Mixin(ModelBlockRenderer.class)
 public abstract class MixinModelBlockRenderer {
-    @WrapOperation(at = @At(value = "INVOKE", target = "Lnet/minecraft/world/level/block/Block;shouldRenderFace(Lnet/minecraft/world/level/block/state/BlockState;Lnet/minecraft/world/level/block/state/BlockState;Lnet/minecraft/core/Direction;)Z"), method = { "tesselateWithAO", "tesselateWithoutAO" })
-    private boolean shouldRenderFace(BlockState state, BlockState faceState, Direction face, Operation<Boolean> original, @Local BlockPos.MutableBlockPos pos) {
+    @WrapOperation(at = @At(value = "INVOKE", target = "Lnet/minecraft/world/level/block/Block;shouldRenderFace(Lnet/minecraft/world/level/block/state/BlockState;Lnet/minecraft/world/level/block/state/BlockState;Lnet/minecraft/core/Direction;)Z"), method = "tesselateWithAO")
+    private boolean shouldRenderFaceWithAO(BlockState state, BlockState faceState, Direction face, Operation<Boolean> original, @Local(argsOnly = true) BlockPos pos) {
         if (FBPPlacingAnimationManager.isHidden(pos))
-            return true;
+            return false;
+
+        return original.call(state, faceState, face);
+    }
+
+    @WrapOperation(at = @At(value = "INVOKE", target = "Lnet/minecraft/world/level/block/Block;shouldRenderFace(Lnet/minecraft/world/level/block/state/BlockState;Lnet/minecraft/world/level/block/state/BlockState;Lnet/minecraft/core/Direction;)Z"), method = "tesselateWithoutAO")
+    private boolean shouldRenderFaceWithoutAO(BlockState state, BlockState faceState, Direction face, Operation<Boolean> original, @Local(argsOnly = true) BlockPos pos) {
+        if (FBPPlacingAnimationManager.isHidden(pos))
+            return false;
 
         return original.call(state, faceState, face);
     }
