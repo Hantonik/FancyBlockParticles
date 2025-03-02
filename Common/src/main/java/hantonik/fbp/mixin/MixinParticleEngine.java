@@ -189,8 +189,8 @@ public abstract class MixinParticleEngine {
     @Inject(at = @At(value = "INVOKE", target = "Lnet/minecraft/client/particle/Particle;tick()V"), method = "tickParticle")
     private void tickParticle(Particle particle, CallbackInfo callback) {
         if (!Minecraft.getInstance().isPaused() && FBPKeyMappings.KILL_PARTICLES.isDown())
-            if (particle instanceof IKillableParticle)
-                ((IKillableParticle) particle).killParticle();
+            if (particle instanceof IKillableParticle killableParticle)
+                killableParticle.killParticle();
     }
 
     @Inject(at = @At("HEAD"), method = "destroy", cancellable = true)
