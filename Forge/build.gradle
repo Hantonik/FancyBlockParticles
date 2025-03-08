@@ -15,7 +15,6 @@ mixin {
     add sourceSets.main, "${mod_id}.refmap.json"
 
     config "${mod_id}.mixins.json"
-    config "${mod_id}.forge.mixins.json"
 }
 
 println "Forge: $forge_version"
@@ -68,7 +67,7 @@ dependencies {
     compileOnly fg.deobf("com.github.glitchfiend:SereneSeasons-forge:$mc_version-$sereneseasons_version")
     compileOnly fg.deobf("com.github.glitchfiend:GlitchCore-forge:$mc_version-$glitchcore_version")
 
-    compileOnly fg.deobf("org.embeddedt:embeddium-$mc_version:$embeddium_forge_version+mc$mc_version")
+    compileOnly fg.deobf("org.embeddedt:embeddium-$mc_version:$embeddium_version+mc$mc_version")
     compileOnly fg.deobf("maven.modrinth:oculus:$mc_version-$oculus_version")
 
     runtimeOnly fg.deobf("maven.modrinth:spark:$spark_version-forge")
@@ -96,7 +95,7 @@ jar {
 
     manifest {
         attributes([
-                'MixinConfigs': "${mod_id}.mixins.json,${mod_id}.forge.mixins.json"
+                'MixinConfigs': "${mod_id}.mixins.json"
         ])
     }
 
