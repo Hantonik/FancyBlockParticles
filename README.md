@@ -13,6 +13,7 @@ Yes, you can use this mod in your modpack!
 
 ### Particles
  - Block breaking and cracking particles
+ - Falling dust particles
  - Flame, lava, smoke and campfire smoke particles
  - Drip particles
  - Rain and snow particles

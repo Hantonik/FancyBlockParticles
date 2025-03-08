@@ -107,6 +107,7 @@
   "button.fbp.terrain.fancy_breaking_particles": "ファンシーなブロック破壊パーティクル",
   "button.fbp.terrain.fancy_placing_particles": "ファンシーな配置パーティクル",
   "button.fbp.terrain.fancy_cracking_particles": "ファンシーなひび割れパーティクル",
+  "button.fbp.terrain.fancy_falling_dust_particles": "ファンシーな落下する粉塵パーティクル",
 
   "button.fbp.terrain.smart_breaking": "スマートブレイキング",
   "button.fbp.terrain.entity_collision": "エンティティの衝突",
@@ -192,6 +193,7 @@
   "tooltip.fbp.terrain.fancy_breaking_particles": "ファンシーなブロック破壊パーティクルを有効/無効にします。\n無効にすると、デフォルトのパーティクルが復元されます。",
   "tooltip.fbp.terrain.fancy_placing_particles": "ファンシーな配置パーティクルを有効/無効にします。\n無効にすると、デフォルトのパーティクルが復元されます。",
   "tooltip.fbp.terrain.fancy_cracking_particles": "ファンシーなひび割れパーティクルを有効/無効にします。\n無効にすると、デフォルトのパーティクルが復元されます。",
+  "tooltip.fbp.terrain.fancy_falling_dust_particles": "ファンシーな落下する粉塵パーティクルを有効/無効にします。\n無効にすると、デフォルトのパーティクルが復元されます。",
 
   "tooltip.fbp.terrain.smart_breaking": "スマートブレイキングを有効/無効にします。\n有効にすると、ブロックを破壊する際にパーティクル物理が向上します。",
   "tooltip.fbp.terrain.entity_collision": "エンティティの衝突を有効/無効にします。",

@@ -107,6 +107,7 @@
   "button.fbp.terrain.fancy_breaking_particles": "高级破碎粒子",
   "button.fbp.terrain.fancy_placing_particles": "高级放置粒子",
   "button.fbp.terrain.fancy_cracking_particles": "高级裂纹粒子",
+  "button.fbp.terrain.fancy_falling_dust_particles": "精美的落尘粒子",
 
   "button.fbp.terrain.smart_breaking": "智能破碎",
   "button.fbp.terrain.entity_collision": "实体碰撞",
@@ -192,6 +193,7 @@
   "tooltip.fbp.terrain.fancy_breaking_particles": "启用/禁用高级破碎粒子。\n禁用时，将恢复默认粒子。",
   "tooltip.fbp.terrain.fancy_placing_particles": "启用/禁用高级放置粒子。\n禁用时，将恢复默认粒子。",
   "tooltip.fbp.terrain.fancy_cracking_particles": "启用/禁用高级裂纹粒子。\n禁用时，将恢复默认粒子。",
+  "tooltip.fbp.terrain.fancy_falling_dust_particles": "启用/禁用精美的落尘粒子。\n禁用时，将恢复默认粒子。",
 
   "tooltip.fbp.terrain.smart_breaking": "启用/禁用智能破碎。\n启用时，改进破坏方块时的粒子物理效果。",
   "tooltip.fbp.terrain.entity_collision": "启用/禁用实体碰撞。",

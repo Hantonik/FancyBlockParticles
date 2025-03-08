@@ -184,6 +184,19 @@ public abstract class MixinParticleEngine {
                 }
             }
         }
+
+        if (FancyBlockParticles.CONFIG.terrain.isFancyFallingDustParticles() && !(callback.getReturnValue() instanceof FBPTerrainParticle)) {
+            if (options instanceof BlockParticleOption type && callback.getReturnValue() instanceof FallingDustParticle original) {
+                if (options.getType() == ParticleTypes.FALLING_DUST) {
+                    if (FancyBlockParticles.CONFIG.isBlockParticlesEnabled(type.getState().getBlock())) {
+                        if (FancyBlockParticles.CONFIG.global.isFreezeEffect() && !FancyBlockParticles.CONFIG.terrain.isSpawnWhileFrozen())
+                            callback.setReturnValue(null);
+                        else
+                            callback.setReturnValue(new FBPTerrainParticle.Provider(BlockPos.containing(x, y, z), original.getQuadSize(1) * 6.0F, null, null, 1.0F, 1.0F, 1.0F).createParticle(type, this.level, x, y, z, 0.0D, 0.0D, 0.0D).setPower(0.2F).setYSpeed(0.0D));
+                    }
+                }
+            }
+        }
     }
 
     @Inject(at = @At(value = "INVOKE", target = "Lnet/minecraft/client/particle/Particle;tick()V"), method = "tickParticle")
