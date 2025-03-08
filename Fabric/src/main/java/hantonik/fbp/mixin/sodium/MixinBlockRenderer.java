@@ -1,4 +1,4 @@
-package hantonik.fbp.mixin.sodium_embeddium;
+package hantonik.fbp.mixin.sodium;
 
 import hantonik.fbp.animation.FBPPlacingAnimationManager;
 import me.jellysquid.mods.sodium.client.render.chunk.compile.ChunkBuildBuffers;
