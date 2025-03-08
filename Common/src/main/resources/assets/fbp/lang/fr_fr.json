@@ -107,6 +107,7 @@
   "button.fbp.terrain.fancy_breaking_particles": "Particules de cassure sophistiquées",
   "button.fbp.terrain.fancy_placing_particles": "Particules de placement sophistiquées",
   "button.fbp.terrain.fancy_cracking_particles": "Particules de fissuration sophistiquées",
+  "button.fbp.terrain.fancy_falling_dust_particles": "Particules de poussière tombante sophistiquées",
 
   "button.fbp.terrain.smart_breaking": "Cassure intelligente",
   "button.fbp.terrain.entity_collision": "Collision des entités",
@@ -187,6 +188,7 @@
   "tooltip.fbp.terrain.fancy_breaking_particles": "Activer/désactiver les particules de cassure sophistiquées.\nLorsqu'elles sont désactivées, les particules par défaut sont restaurées.",
   "tooltip.fbp.terrain.fancy_placing_particles": "Activer/désactiver les particules de placement sophistiquées.\nLorsqu'elles sont désactivées, les particules par défaut sont restaurées.",
   "tooltip.fbp.terrain.fancy_cracking_particles": "Activer/désactiver les particules de fissuration sophistiquées.\nLorsqu'elles sont désactivées, les particules par défaut sont restaurées.",
+  "tooltip.fbp.terrain.fancy_falling_dust_particles": "Activer/désactiver les particules de poussière tombante sophistiquées.\nLorsqu'elles sont désactivées, les particules par défaut sont restaurées.",
 
   "tooltip.fbp.terrain.smart_breaking": "Activer/désactiver la cassure intelligente.\nLorsqu'elle est activée, améliore la physique des particules lors de la fissuration des blocs.",
   "tooltip.fbp.terrain.entity_collision": "Activer/désactiver la collision des entités.",

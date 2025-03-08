@@ -107,6 +107,7 @@
   "button.fbp.terrain.fancy_breaking_particles": "Partículas de ruptura elegantes",
   "button.fbp.terrain.fancy_placing_particles": "Partículas de colocación elegantes",
   "button.fbp.terrain.fancy_cracking_particles": "Partículas de agrietamiento elegantes",
+  "button.fbp.terrain.fancy_falling_dust_particles": "Partículas de polvo cayendo elegantes",
 
   "button.fbp.terrain.smart_breaking": "Ruptura inteligente",
   "button.fbp.terrain.entity_collision": "Colisión de entidad",
@@ -187,6 +188,7 @@
   "tooltip.fbp.terrain.fancy_breaking_particles": "Habilitar/deshabilitar partículas de ruptura elegantes.\nCuando está deshabilitado, se restauran las partículas predeterminadas.",
   "tooltip.fbp.terrain.fancy_placing_particles": "Habilitar/deshabilitar partículas de colocación elegantes.\nCuando está deshabilitado, se restauran las partículas predeterminadas.",
   "tooltip.fbp.terrain.fancy_cracking_particles": "Habilitar/deshabilitar partículas de agrietamiento elegantes.\nCuando está deshabilitado, se restauran las partículas predeterminadas.",
+  "tooltip.fbp.terrain.fancy_falling_dust_particles": "Habilitar/deshabilitar partículas de polvo cayendo elegantes.\nCuando está deshabilitado, se restauran las partículas predeterminadas.",
 
   "tooltip.fbp.terrain.smart_breaking": "Habilitar/deshabilitar ruptura inteligente.\nCuando está habilitado, mejora la física de partículas al agrietar bloques.",
   "tooltip.fbp.terrain.entity_collision": "Habilitar/deshabilitar colisión de entidad.",
