@@ -107,6 +107,7 @@
   "button.fbp.terrain.fancy_breaking_particles": "Fantazyjne cząsteczki destrukcji",
   "button.fbp.terrain.fancy_placing_particles": "Fantazyjne cząsteczki kładzenia",
   "button.fbp.terrain.fancy_cracking_particles": "Fantazyjne cząsteczki niszczenia",
+  "button.fbp.terrain.fancy_falling_dust_particles": "Fantazyjne cząsteczki opadającego pyłu",
 
   "button.fbp.terrain.smart_breaking": "Inteligentne niszczenie",
   "button.fbp.terrain.entity_collision": "Kolizja z bytami",
@@ -187,6 +188,7 @@
   "tooltip.fbp.terrain.fancy_breaking_particles": "Włącz/wyłącz fantazyjne cząsteczki destrukcji.\nGdy wyłączone przywrócone zostają domyślne cząsteczki.",
   "tooltip.fbp.terrain.fancy_placing_particles": "Włącz/wyłącz fantazyjne cząsteczki kładzenia.\nGdy wyłączone przywrócone zostają domyślne cząsteczki.",
   "tooltip.fbp.terrain.fancy_cracking_particles": "Włącz/wyłącz fantazyjne cząsteczki niszczenia.\nGdy wyłączone przywrócone zostają domyślne cząsteczki.",
+  "tooltip.fbp.terrain.fancy_falling_dust_particles": "Włącz/wyłącz fantazyjne cząsteczki opadającego pyłu.\nGdy wyłączone przywrócone zostają domyślne cząsteczki.",
 
   "tooltip.fbp.terrain.smart_breaking": "Włącz/wyłącz inteligentne niszczenie.\nPo włączeniu poprawia fizykę cząstek podczas pękania bloków.",
   "tooltip.fbp.terrain.entity_collision": "Włącz/wyłącz kolizję z bytami.",

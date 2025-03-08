@@ -107,6 +107,7 @@
   "button.fbp.terrain.fancy_breaking_particles": "Fancy breaking particles",
   "button.fbp.terrain.fancy_placing_particles": "Fancy placing particles",
   "button.fbp.terrain.fancy_cracking_particles": "Fancy cracking particles",
+  "button.fbp.terrain.fancy_falling_dust_particles": "Fancy falling dust particles",
 
   "button.fbp.terrain.smart_breaking": "Smart breaking",
   "button.fbp.terrain.entity_collision": "Entity collision",
@@ -187,6 +188,7 @@
   "tooltip.fbp.terrain.fancy_breaking_particles": "Enable/disable fancy breaking particles.\nWhen disabled, the default particles are restored.",
   "tooltip.fbp.terrain.fancy_placing_particles": "Enable/disable fancy placing particles.\nWhen disabled, the default particles are restored.",
   "tooltip.fbp.terrain.fancy_cracking_particles": "Enable/disable fancy cracking particles.\nWhen disabled, the default particles are restored.",
+  "tooltip.fbp.terrain.fancy_falling_dust_particles": "Enable/disable fancy falling dust particles.\nWhen disabled, the default particles are restored.",
 
   "tooltip.fbp.terrain.smart_breaking": "Enable/disable smart breaking.\nWhen enabled, improves particle physics when cracking blocks.",
   "tooltip.fbp.terrain.entity_collision": "Enable/disable entity collision.",

@@ -148,10 +148,16 @@ public class FBPTerrainParticle extends TerrainParticle implements IKillablePart
     }
 
     @Override
-    public Particle setPower(float power) {
+    public FBPTerrainParticle setPower(float power) {
         super.setPower(power);
 
         this.yd = (this.yd - 0.1D) * (this.multiplier / 2.0F) + 0.1F;
+
+        return this;
+    }
+
+    public FBPTerrainParticle setYSpeed(double yd) {
+        this.yd = yd;
 
         return this;
     }
@@ -185,7 +191,7 @@ public class FBPTerrainParticle extends TerrainParticle implements IKillablePart
         this.lastSize = this.quadSize;
         this.lastAlpha = this.alpha;
 
-        if (!FancyBlockParticles.CONFIG.global.isEnabled() || (this.destroyed && !FancyBlockParticles.CONFIG.terrain.isFancyBreakingParticles()) || (!this.destroyed && !FancyBlockParticles.CONFIG.terrain.isFancyCrackingParticles()))
+        if (!FancyBlockParticles.CONFIG.global.isEnabled() || (this.destroyed && !FancyBlockParticles.CONFIG.terrain.isFancyBreakingParticles() && !FancyBlockParticles.CONFIG.terrain.isFancyFallingDustParticles()) || (!this.destroyed && !FancyBlockParticles.CONFIG.terrain.isFancyCrackingParticles()))
             this.remove();
 
         if (!Minecraft.getInstance().isPaused()) {
@@ -536,7 +542,7 @@ public class FBPTerrainParticle extends TerrainParticle implements IKillablePart
 
         @Nullable
         @Override
-        public Particle createParticle(BlockParticleOption type, ClientLevel level, double x, double y, double z, double xd, double yd, double zd) {
+        public FBPTerrainParticle createParticle(BlockParticleOption type, ClientLevel level, double x, double y, double z, double xd, double yd, double zd) {
             return new FBPTerrainParticle(level, x, y, z, xd, yd, zd, this.scale, this.rCol, this.gCol, this.bCol, this.pos, type.getState(), this.side, this.sprite);
         }
     }
