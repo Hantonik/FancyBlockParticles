@@ -355,6 +355,7 @@ public final class FBPConfig implements IFBPConfig<FBPConfig> {
     public static class Terrain implements IFBPConfig<Terrain> {
         private static final boolean DEFAULT_FANCY_BREAKING_PARTICLES = true;
         private static final boolean DEFAULT_FANCY_CRACKING_PARTICLES = true;
+        private static final boolean DEFAULT_FANCY_FALLING_DUST_PARTICLES = true;
 
         private static final boolean DEFAULT_SPAWN_WHILE_FROZEN = true;
         private static final boolean DEFAULT_INFINITE_DURATION = false;
@@ -380,7 +381,7 @@ public final class FBPConfig implements IFBPConfig<FBPConfig> {
         private static final float DEFAULT_GRAVITY_MULTIPLIER = 1.0F;
         
         public static final Terrain DEFAULT_CONFIG = new Terrain(
-                DEFAULT_FANCY_BREAKING_PARTICLES, DEFAULT_FANCY_CRACKING_PARTICLES,
+                DEFAULT_FANCY_BREAKING_PARTICLES, DEFAULT_FANCY_CRACKING_PARTICLES, DEFAULT_FANCY_FALLING_DUST_PARTICLES,
                 DEFAULT_SPAWN_WHILE_FROZEN, DEFAULT_INFINITE_DURATION,
                 DEFAULT_SMART_BREAKING, DEFAULT_LOW_TRACTION, DEFAULT_REST_ON_FLOOR, DEFAULT_BOUNCE_OFF_WALLS, DEFAULT_ENTITY_COLLISION, DEFAULT_WATER_PHYSICS,
                 DEFAULT_RANDOM_SIZE, DEFAULT_RANDOM_ROTATION, DEFAULT_RANDOM_FADING_SPEED,
@@ -391,7 +392,8 @@ public final class FBPConfig implements IFBPConfig<FBPConfig> {
         
         private boolean fancyBreakingParticles;
         private boolean fancyCrackingParticles;
-        
+        private boolean fancyFallingDustParticles;
+
         private boolean spawnWhileFrozen;
         private boolean infiniteDuration;
         
@@ -419,6 +421,7 @@ public final class FBPConfig implements IFBPConfig<FBPConfig> {
         public void setConfig(Terrain config) {
             this.fancyBreakingParticles = config.fancyBreakingParticles;
             this.fancyCrackingParticles = config.fancyCrackingParticles;
+            this.fancyFallingDustParticles = config.fancyFallingDustParticles;
 
             this.spawnWhileFrozen = config.spawnWhileFrozen;
             this.infiniteDuration = config.infiniteDuration;
@@ -448,6 +451,7 @@ public final class FBPConfig implements IFBPConfig<FBPConfig> {
         public void load(JsonObject json) {
             this.fancyBreakingParticles = GsonHelper.getAsBoolean(json, "fancyBreakingParticles", DEFAULT_FANCY_BREAKING_PARTICLES);
             this.fancyCrackingParticles = GsonHelper.getAsBoolean(json, "fancyCrackingParticles", DEFAULT_FANCY_CRACKING_PARTICLES);
+            this.fancyFallingDustParticles = GsonHelper.getAsBoolean(json, "fancyFallingDustParticles", DEFAULT_FANCY_FALLING_DUST_PARTICLES);
 
             this.spawnWhileFrozen = GsonHelper.getAsBoolean(json, "spawnWhileFrozen", DEFAULT_SPAWN_WHILE_FROZEN);
             this.infiniteDuration = GsonHelper.getAsBoolean(json, "infiniteDuration", DEFAULT_INFINITE_DURATION);
@@ -479,6 +483,7 @@ public final class FBPConfig implements IFBPConfig<FBPConfig> {
 
             json.addProperty("fancyBreakingParticles", this.fancyBreakingParticles);
             json.addProperty("fancyCrackingParticles", this.fancyCrackingParticles);
+            json.addProperty("fancyFallingDustParticles", this.fancyFallingDustParticles);
 
             json.addProperty("spawnWhileFrozen", this.spawnWhileFrozen);
             json.addProperty("infiniteDuration", this.infiniteDuration);
@@ -514,7 +519,7 @@ public final class FBPConfig implements IFBPConfig<FBPConfig> {
         @Override
         public Terrain copy() {
             return new Terrain(
-                    this.fancyBreakingParticles, this.fancyCrackingParticles,
+                    this.fancyBreakingParticles, this.fancyCrackingParticles, this.fancyFallingDustParticles,
                     this.spawnWhileFrozen, this.infiniteDuration,
                     this.smartBreaking, this.lowTraction, this.restOnFloor, this.bounceOffWalls, this.entityCollision, this.waterPhysics,
                     this.randomSize, this.randomRotation, this.randomFadingSpeed,
