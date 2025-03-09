@@ -4,7 +4,7 @@ import net.darkhax.curseforgegradle.Constants as CFConstants
 import net.darkhax.curseforgegradle.TaskPublishCurseForge
 
 plugins {
-	id 'fabric-loom' version '1.7.+'
+	id 'fabric-loom' version '1.10.+'
 }
 
 base {
@@ -54,7 +54,7 @@ dependencies {
 	modCompileOnly "com.github.glitchfiend:SereneSeasons-fabric:$mc_version-$sereneseasons_version"
 	modCompileOnly "com.github.glitchfiend:GlitchCore-fabric:$mc_version-$glitchcore_version"
 
-    modCompileOnly "maven.modrinth:sodium:mc$mc_version-$sodium_version"
+    modCompileOnly "maven.modrinth:sodium:mc$mc_version-$sodium_version-fabric"
     modCompileOnly "maven.modrinth:iris:$iris_version+$mc_version"
 
 	modCompileOnly "org.embeddedt:embeddium-fabric-$mc_version:$embeddium_fabric_version+mc$mc_version"
