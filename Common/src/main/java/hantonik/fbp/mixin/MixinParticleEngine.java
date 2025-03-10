@@ -141,8 +141,9 @@ public abstract class MixinParticleEngine {
                     if (FancyBlockParticles.CONFIG.isBlockParticlesEnabled(type.getState().getBlock())) {
                         callback.setReturnValue(null);
 
-                        if (this.level.getFluidState(original.pos).isEmpty())
-                            callback.setReturnValue(new FBPTerrainParticle.Provider(original.pos, original.getQuadSize(1) * 5.0F, null, original.sprite, original.rCol, original.gCol, original.bCol).createParticle(type, this.level, x, y, z, 0.0D, 0.0D, 0.0D));
+                        if (!FancyBlockParticles.CONFIG.global.isFreezeEffect() || FancyBlockParticles.CONFIG.terrain.isSpawnWhileFrozen())
+                            if (this.level.getFluidState(original.pos).isEmpty())
+                                callback.setReturnValue(new FBPTerrainParticle.Provider(original.pos, original.getQuadSize(1) * 5.0F, null, original.sprite, original.rCol, original.gCol, original.bCol).createParticle(type, this.level, x, y, z, 0.0D, 0.0D, 0.0D));
                     }
                 }
             }
