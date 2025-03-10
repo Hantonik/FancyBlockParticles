@@ -27,7 +27,8 @@
   "screen.fbp.category.campfire_smoke": "Campfire smoke",
   "screen.fbp.category.drip": "Drip",
   "screen.fbp.category.flame": "Flame",
-  "screen.fbp.category.overlay": "Overlay",
+  "screen.fbp.category.misc": "Misc",
+  "screen.fbp.category.other": "Other",
   "screen.fbp.category.rain": "Rain",
   "screen.fbp.category.smoke": "Smoke",
   "screen.fbp.category.snow": "Snow",
@@ -92,6 +93,10 @@
   "button.fbp.global.cartoon_mode": "Cartoon mode",
   "button.fbp.global.cull_particles": "Cull particles",
 
+  "button.fbp.misc.fancy_snowball_particles": "Fancy snowball particles",
+  "button.fbp.misc.fancy_slime_particles": "Fancy slime particles",
+  "button.fbp.misc.fancy_breaking_splash_potion_particles": "Fancy breaking splash potion particles",
+
   "button.fbp.overlay.freeze_effect_overlay": "Freeze effect overlay",
 
   "button.fbp.rain.fancy_rain_particles": "Fancy rain particles",
@@ -115,6 +120,9 @@
   "button.fbp.terrain.particles_per_axis": "Particles per axis",
 
   "widget.fbp.global.categories": "Categories",
+
+  "widget.fbp.other.animations": "Animations",
+  "widget.fbp.other.overlay": "Overlay",
 
   "widget.fbp.overlay.freeze_effect_color": "Freeze effect color",
 
@@ -172,6 +180,14 @@
   "tooltip.fbp.global.freeze_effect": "Enable/disable freeze effect.",
   "tooltip.fbp.global.cartoon_mode": "Enable/disable cartoon mode.",
   "tooltip.fbp.global.cull_particles": "Enable/disable particle culling.\nWhen enabled, optimizes performance by rendering only objects that are visible to the player, improving game performance.",
+
+  "tooltip.fbp.misc.fancy_snowball_particles": "Enable/disable fancy snowball particles.\nWhen disabled, the default particles are restored.",
+  "tooltip.fbp.misc.fancy_slime_particles": "Enable/disable fancy slime particles.\nWhen disabled, the default particles are restored.",
+  "tooltip.fbp.misc.fancy_breaking_splash_potion_particles": "Enable/disable fancy breaking splash potion particles.\nWhen disabled, the default particles are restored.",
+
+  "tooltip.fbp.misc.snowball_particle_size_multiplier": "Fancy snowball particle size multiplier.",
+  "tooltip.fbp.misc.slime_particle_size_multiplier": "Fancy slime particle size multiplier.",
+  "tooltip.fbp.misc.breaking_splash_potion_particle_size_multiplier": "Fancy breaking splash potion particle size multiplier.",
 
   "tooltip.fbp.overlay.freeze_effect_overlay": "Enable/disable freeze effect overlay.\nWhen enabled, a message will appear at the top of the screen during the freeze effect.",
 

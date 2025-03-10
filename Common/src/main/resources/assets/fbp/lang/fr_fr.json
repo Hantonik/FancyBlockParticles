@@ -27,7 +27,8 @@
   "screen.fbp.category.campfire_smoke": "Fumée du feu de camp",
   "screen.fbp.category.drip": "Goutte",
   "screen.fbp.category.flame": "Flamme",
-  "screen.fbp.category.overlay": "Superposition",
+  "screen.fbp.category.misc": "Divers",
+  "screen.fbp.category.other": "Autre",
   "screen.fbp.category.rain": "Pluie",
   "screen.fbp.category.smoke": "Fumée",
   "screen.fbp.category.snow": "Neige",
@@ -92,6 +93,10 @@
   "button.fbp.global.cartoon_mode": "Mode dessin animé",
   "button.fbp.global.cull_particles": "Réduire les particules",
 
+  "button.fbp.misc.fancy_snowball_particles": "Particules de boule de neige sophistiquées",
+  "button.fbp.misc.fancy_slime_particles": "Particules de slime sophistiquées",
+  "button.fbp.misc.fancy_breaking_splash_potion_particles": "Particules de potion jetable brisée sophistiquées",
+
   "button.fbp.overlay.freeze_effect_overlay": "Superposition de l'effet de gel",
 
   "button.fbp.rain.fancy_rain_particles": "Particules de pluie sophistiquées",
@@ -115,6 +120,9 @@
   "button.fbp.terrain.particles_per_axis": "Particules par axe",
 
   "widget.fbp.global.categories": "Catégories",
+
+  "widget.fbp.other.animations": "Animations",
+  "widget.fbp.other.overlay": "Superposition",
 
   "widget.fbp.overlay.freeze_effect_color": "Couleur de l'effet de gel",
 
@@ -172,6 +180,14 @@
   "tooltip.fbp.global.freeze_effect": "Activer/désactiver l'effet de gel.",
   "tooltip.fbp.global.cartoon_mode": "Activer/désactiver le mode dessin animé.",
   "tooltip.fbp.global.cull_particles": "Activer/désactiver la réduction des particules.\nLorsqu'elle est activée, optimise les performances en ne rendant que les objets visibles pour le joueur, améliorant ainsi les performances du jeu.",
+
+  "tooltip.fbp.misc.fancy_snowball_particles": "Activer/désactiver les particules de boule de neige sophistiquées.\nLorsqu'elles sont désactivées, les particules par défaut sont restaurées.",
+  "tooltip.fbp.misc.fancy_slime_particles": "Activer/désactiver les particules de slime sophistiquées.\nLorsqu'elles sont désactivées, les particules par défaut sont restaurées.",
+  "tooltip.fbp.misc.fancy_breaking_splash_potion_particles": "Activer/désactiver les particules de potion jetable brisée sophistiquées.\nLorsqu'elles sont désactivées, les particules par défaut sont restaurées.",
+
+  "tooltip.fbp.misc.snowball_particle_size_multiplier": "Multiplicateur de taille des particules de boule de neige sophistiquées.",
+  "tooltip.fbp.misc.slime_particle_size_multiplier": "Multiplicateur de taille des particules de slime sophistiquées.",
+  "tooltip.fbp.misc.breaking_splash_potion_particle_size_multiplier": "Multiplicateur de taille des particules de potion jetable brisée sophistiquées.",
 
   "tooltip.fbp.overlay.freeze_effect_overlay": "Activer/désactiver la superposition de l'effet de gel.\nLorsqu'elle est activée, un message apparaîtra en haut de l'écran pendant l'effet de gel.",
 

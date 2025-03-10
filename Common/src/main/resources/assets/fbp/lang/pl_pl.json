@@ -27,7 +27,8 @@
   "screen.fbp.category.campfire_smoke": "Dym ogniskowy",
   "screen.fbp.category.drip": "Krople",
   "screen.fbp.category.flame": "Płomień",
-  "screen.fbp.category.overlay": "Nakładka",
+  "screen.fbp.category.misc": "Różne",
+  "screen.fbp.category.other": "Inne",
   "screen.fbp.category.rain": "Deszcz",
   "screen.fbp.category.smoke": "Dym",
   "screen.fbp.category.snow": "Śnieg",
@@ -92,6 +93,10 @@
   "button.fbp.global.cartoon_mode": "Tryb kreskówki",
   "button.fbp.global.cull_particles": "Selekcja cząsteczek",
 
+  "button.fbp.misc.fancy_snowball_particles": "Fantazyjne cząsteczki śnieżek",
+  "button.fbp.misc.fancy_slime_particles": "Fantazyjne cząsteczki szlamu",
+  "button.fbp.misc.fancy_breaking_splash_potion_particles": "Fantazyjne cząsteczki rozbijania mikstur miotanych",
+
   "button.fbp.overlay.freeze_effect_overlay": "Nakładka efektu zamrożenia",
 
   "button.fbp.rain.fancy_rain_particles": "Fantazyjne cząsteczki deszczu",
@@ -115,6 +120,9 @@
   "button.fbp.terrain.particles_per_axis": "Ilość cząsteczek na oś",
 
   "widget.fbp.global.categories": "Kategorie",
+
+  "widget.fbp.other.animations": "Animacje",
+  "widget.fbp.other.overlay": "Nakładka",
 
   "widget.fbp.overlay.freeze_effect_color": "Kolor efektu zamrożenia",
 
@@ -172,6 +180,14 @@
   "tooltip.fbp.global.freeze_effect": "Włącz/wyłącz efekt zamrożenia.",
   "tooltip.fbp.global.cartoon_mode": "Włącz/wyłącz tryb kreskówki.",
   "tooltip.fbp.global.cull_particles": "Włącz/wyłącz selekcję cząsteczek.\nPo włączeniu optymalizuje wydajność, renderując tylko te obiekty, które są widoczne dla gracza.",
+
+  "tooltip.fbp.misc.fancy_snowball_particles": "Włącz/wyłącz fantazyjne cząsteczki śnieżek.\nGdy wyłączone przywrócone zostają domyślne cząsteczki.",
+  "tooltip.fbp.misc.fancy_slime_particles": "Włącz/wyłącz fantazyjne cząsteczki szlamu.\nGdy wyłączone przywrócone zostają domyślne cząsteczki.",
+  "tooltip.fbp.misc.fancy_breaking_splash_potion_particles": "Włącz/wyłącz fantazyjne cząsteczki rozbijania mikstur miotanych.\nGdy wyłączone przywrócone zostają domyślne cząsteczki.",
+
+  "tooltip.fbp.misc.snowball_particle_size_multiplier": "Mnożnik rozmiaru fantazyjnych cząsteczek śnieżek.",
+  "tooltip.fbp.misc.slime_particle_size_multiplier": "Mnożnik rozmiaru fantazyjnych cząsteczek szlamu.",
+  "tooltip.fbp.misc.breaking_splash_potion_particle_size_multiplier": "Mnożnik rozmiaru fantazyjnych cząsteczek rozbijania mikstur miotanych.",
 
   "tooltip.fbp.overlay.freeze_effect_overlay": "Włącz/wyłącz nakładkę efektu zamrożenia.\nPo włączeniu, podczas efektu zamrożenia na górze ekranu pojawi się informujący o tym tekst.",
 

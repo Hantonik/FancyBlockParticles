@@ -164,23 +164,16 @@ public abstract class MixinParticleEngine {
             }
         }
 
-        if (FancyBlockParticles.CONFIG.terrain.isFancyCrackingParticles() && !(callback.getReturnValue() instanceof FBPTerrainParticle)) {
-            if (callback.getReturnValue() instanceof BreakingItemParticle original) {
-                if (options.getType() == ParticleTypes.ITEM_SNOWBALL || (options instanceof ItemParticleOption data && data.getItem().is(Items.SNOWBALL))) {
-                    if (FancyBlockParticles.CONFIG.isBlockParticlesEnabled(Blocks.SNOW)) {
-                        if (FancyBlockParticles.CONFIG.global.isFreezeEffect() && !FancyBlockParticles.CONFIG.terrain.isSpawnWhileFrozen())
-                            callback.setReturnValue(null);
-                        else
-                            callback.setReturnValue(new FBPTerrainParticle.Provider(BlockPos.containing(x, y, z), FBPConstants.RANDOM.nextFloat(0.35F, 0.6F), null, null, original.rCol, original.gCol, original.bCol).createParticle(new BlockParticleOption(ParticleTypes.BLOCK, Blocks.SNOW_BLOCK.defaultBlockState()), this.level, x, y, z, 0.0D, 0.0D, 0.0D));
-                    }
-                } else if (options.getType() == ParticleTypes.ITEM_SLIME || (options instanceof ItemParticleOption data && data.getItem().is(Items.SLIME_BALL))) {
-                    if (FancyBlockParticles.CONFIG.isBlockParticlesEnabled(Blocks.SLIME_BLOCK)) {
-                        if (FancyBlockParticles.CONFIG.global.isFreezeEffect() && !FancyBlockParticles.CONFIG.terrain.isSpawnWhileFrozen())
-                            callback.setReturnValue(null);
-                        else
-                            callback.setReturnValue(new FBPTerrainParticle.Provider(BlockPos.containing(x, y, z), FBPConstants.RANDOM.nextFloat(0.35F, 0.6F), null, null, original.rCol, original.gCol, original.bCol).createParticle(new BlockParticleOption(ParticleTypes.BLOCK, Blocks.SLIME_BLOCK.defaultBlockState()), this.level, x, y, z, 0.0D, 0.0D, 0.0D));
-                    }
-                }
+        if (callback.getReturnValue() instanceof BreakingItemParticle original) {
+            if (options.getType() == ParticleTypes.ITEM_SNOWBALL || (options instanceof ItemParticleOption data && data.getItem().is(Items.SNOWBALL))) {
+                if (FancyBlockParticles.CONFIG.misc.isFancySnowballParticles() && FancyBlockParticles.CONFIG.isBlockParticlesEnabled(Blocks.SNOW))
+                    callback.setReturnValue(new FBPTerrainParticle.Provider(BlockPos.containing(x, y, z), FBPConstants.RANDOM.nextFloat(0.35F, 0.6F) * FancyBlockParticles.CONFIG.misc.getSnowballParticleSizeMultiplier(), null, null, original.rCol, original.gCol, original.bCol).createParticle(new BlockParticleOption(ParticleTypes.BLOCK, Blocks.SNOW_BLOCK.defaultBlockState()), this.level, x, y, z, 0.0D, 0.0D, 0.0D));
+            } else if (options.getType() == ParticleTypes.ITEM_SLIME || (options instanceof ItemParticleOption data && data.getItem().is(Items.SLIME_BALL))) {
+                if (FancyBlockParticles.CONFIG.misc.isFancySlimeParticles() && FancyBlockParticles.CONFIG.isBlockParticlesEnabled(Blocks.SLIME_BLOCK))
+                    callback.setReturnValue(new FBPTerrainParticle.Provider(BlockPos.containing(x, y, z), FBPConstants.RANDOM.nextFloat(0.35F, 0.6F) * FancyBlockParticles.CONFIG.misc.getSlimeParticleSizeMultiplier(), null, null, original.rCol, original.gCol, original.bCol).createParticle(new BlockParticleOption(ParticleTypes.BLOCK, Blocks.SLIME_BLOCK.defaultBlockState()), this.level, x, y, z, 0.0D, 0.0D, 0.0D));
+            } else if (options.getType() == ParticleTypes.ITEM || (options instanceof ItemParticleOption data && data.getItem().is(Items.SPLASH_POTION))) {
+                if (FancyBlockParticles.CONFIG.misc.isFancyBreakingSplashPotionParticles() && FancyBlockParticles.CONFIG.isBlockParticlesEnabled(Blocks.GLASS))
+                    callback.setReturnValue(new FBPTerrainParticle.Provider(BlockPos.containing(x, y, z), FBPConstants.RANDOM.nextFloat(0.5F, 0.75F) * FancyBlockParticles.CONFIG.misc.getBreakingSplashPotionParticleSizeMultiplier(), null, null, original.rCol, original.gCol, original.bCol).createParticle(new BlockParticleOption(ParticleTypes.BLOCK, Blocks.GLASS.defaultBlockState()), this.level, x, y, z, xd, yd, zd));
             }
         }
 
