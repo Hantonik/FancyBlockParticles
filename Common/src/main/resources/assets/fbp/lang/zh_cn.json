@@ -27,7 +27,8 @@
   "screen.fbp.category.campfire_smoke": "篝火烟雾",
   "screen.fbp.category.drip": "滴落",
   "screen.fbp.category.flame": "火焰",
-  "screen.fbp.category.overlay": "覆盖",
+  "screen.fbp.category.other": "其他",
+  "screen.fbp.category.misc": "杂项",
   "screen.fbp.category.rain": "雨",
   "screen.fbp.category.smoke": "烟雾",
   "screen.fbp.category.snow": "雪",
@@ -92,6 +93,10 @@
   "button.fbp.global.cartoon_mode": "卡通模式",
   "button.fbp.global.cull_particles": "剔除粒子",
 
+  "button.fbp.misc.fancy_snowball_particles": "精美的雪球粒子",
+  "button.fbp.misc.fancy_slime_particles": "精美的史莱姆粒子",
+  "button.fbp.misc.fancy_breaking_splash_potion_particles": "精美的破裂喷溅药水粒子",
+
   "button.fbp.overlay.freeze_effect_overlay": "冻结效果覆盖层",
 
   "button.fbp.rain.fancy_rain_particles": "高级雨粒子",
@@ -115,6 +120,9 @@
   "button.fbp.terrain.particles_per_axis": "每轴粒子数",
 
   "widget.fbp.global.categories": "类别",
+
+  "widget.fbp.other.animations": "动画",
+  "widget.fbp.other.overlay": "覆盖",
 
   "widget.fbp.overlay.freeze_effect_color": "冻结效果颜色",
 
@@ -172,6 +180,14 @@
   "tooltip.fbp.global.freeze_effect": "启用/禁用冻结效果。",
   "tooltip.fbp.global.cartoon_mode": "启用/禁用卡通模式。",
   "tooltip.fbp.global.cull_particles": "启用/禁用粒子剔除。\n启用时，通过仅渲染玩家可见的对象来优化性能，提高游戏性能。",
+
+  "tooltip.fbp.misc.fancy_snowball_particles": "启用/禁用精美的雪球粒子。\n禁用时，将恢复默认粒子。",
+  "tooltip.fbp.misc.fancy_slime_particles": "启用/禁用精美的史莱姆粒子。\n禁用时，将恢复默认粒子。",
+  "tooltip.fbp.misc.fancy_breaking_splash_potion_particles": "启用/禁用精美的破裂喷溅药水粒子。\n禁用时，将恢复默认粒子。",
+
+  "tooltip.fbp.misc.snowball_particle_size_multiplier": "精美的雪球粒子尺寸倍增器。",
+  "tooltip.fbp.misc.slime_particle_size_multiplier": "精美的史莱姆粒子尺寸倍增器。",
+  "tooltip.fbp.misc.breaking_splash_potion_particle_size_multiplier": "精美的破裂喷溅药水粒子尺寸倍增器。",
 
   "tooltip.fbp.overlay.freeze_effect_overlay": "启用/禁用冻结效果覆盖层。\n启用时，在冻结效果期间，屏幕顶部会显示消息。",
 

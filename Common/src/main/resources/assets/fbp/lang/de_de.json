@@ -27,7 +27,8 @@
   "screen.fbp.category.campfire_smoke": "Lagerfeuerrauch",
   "screen.fbp.category.drip": "Tropfen",
   "screen.fbp.category.flame": "Flamme",
-  "screen.fbp.category.overlay": "Overlay",
+  "screen.fbp.category.misc": "Verschiedenes",
+  "screen.fbp.category.other": "Andere",
   "screen.fbp.category.rain": "Regen",
   "screen.fbp.category.smoke": "Rauch",
   "screen.fbp.category.snow": "Schnee",
@@ -92,6 +93,10 @@
   "button.fbp.global.cartoon_mode": "Cartoon-Modus",
   "button.fbp.global.cull_particles": "Partikel aussortieren",
 
+  "button.fbp.misc.fancy_snowball_particles": "Fancy Schneeballpartikel",
+  "button.fbp.misc.fancy_slime_particles": "Fancy Schleimpartikel",
+  "button.fbp.misc.fancy_breaking_splash_potion_particles": "Fancy zerbrechende Wurftrankpartikel",
+
   "button.fbp.overlay.freeze_effect_overlay": "Freeze-Effekt-Overlay",
 
   "button.fbp.rain.fancy_rain_particles": "Fancy Regenpartikel",
@@ -115,6 +120,9 @@
   "button.fbp.terrain.particles_per_axis": "Partikel pro Achse",
 
   "widget.fbp.global.categories": "Kategorien",
+
+  "widget.fbp.other.animations": "Animationen",
+  "widget.fbp.other.overlay": "Overlay",
 
   "widget.fbp.overlay.freeze_effect_color": "Farbe des Freeze-Effekts",
 
@@ -172,6 +180,14 @@
   "tooltip.fbp.global.freeze_effect": "Freeze-Effekt aktivieren/deaktivieren.",
   "tooltip.fbp.global.cartoon_mode": "Cartoon-Modus aktivieren/deaktivieren.",
   "tooltip.fbp.global.cull_particles": "Partikelauswahl aktivieren/deaktivieren.\nWenn aktiviert, wird die Leistung optimiert, indem nur sichtbare Objekte gerendert werden, was die Spielleistung verbessert.",
+
+  "tooltip.fbp.misc.fancy_snowball_particles": "Fancy Schneeballpartikel aktivieren/deaktivieren.\nWenn deaktiviert, werden die Standardpartikel wiederhergestellt.",
+  "tooltip.fbp.misc.fancy_slime_particles": "Fancy Schleimpartikel aktivieren/deaktivieren.\nWenn deaktiviert, werden die Standardpartikel wiederhergestellt.",
+  "tooltip.fbp.misc.fancy_breaking_splash_potion_particles": "Fancy zerbrechende Wurftrankpartikel aktivieren/deaktivieren.\nWenn deaktiviert, werden die Standardpartikel wiederhergestellt.",
+
+  "tooltip.fbp.misc.snowball_particle_size_multiplier": "Multiplikator für die Größe der schicken Schneeball-Partikel.",
+  "tooltip.fbp.misc.slime_particle_size_multiplier": "Multiplikator für die Größe der schicken Schleim-Partikel.",
+  "tooltip.fbp.misc.breaking_splash_potion_particle_size_multiplier": "Multiplikator für die Größe der schicken zerbrechenden Wurftrank-Partikel.",
 
   "tooltip.fbp.overlay.freeze_effect_overlay": "Freeze-Effekt-Overlay aktivieren/deaktivieren.\nWenn aktiviert, wird während des Freeze-Effekts eine Nachricht oben auf dem Bildschirm angezeigt.",
 
