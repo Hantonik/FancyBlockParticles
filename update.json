@@ -2,10 +2,11 @@
   "homepage": "https://www.curseforge.com/minecraft/mc-mods/fbp-renewed",
 
   "promos": {
-    "1.21.4-latest": "21.4.1.0"
+    "1.21.4-latest": "21.4.1.1"
   },
 
   "1.21.4": {
+    "21.4.1.1": "Fix particle spawning on Freeze effect",
     "21.4.1.0": "Compatible with Iris. Disable mod on dedicated server. Add Fancy falling dust particles",
     "21.4.0.0-beta": "Update to Minecraft 1.21.4"
   }
