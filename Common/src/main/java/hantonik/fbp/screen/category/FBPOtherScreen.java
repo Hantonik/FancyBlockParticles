@@ -72,10 +72,7 @@ public class FBPOtherScreen extends FBPAbstractOptionsScreen {
         });
 
         this.list.addBig(
-                new StringWidget(310, 20, Component.translatable("widget.fbp.other.animations"), this.font)
-        );
-
-        this.list.addBig(
+                new StringWidget(310, 20, Component.translatable("widget.fbp.other.animations"), this.font),
                 fancyPlacingAnimationButton
         );
 
@@ -88,10 +85,7 @@ public class FBPOtherScreen extends FBPAbstractOptionsScreen {
         );
 
         this.list.addBig(
-                new StringWidget(310, 20, Component.translatable("widget.fbp.other.overlay"), this.font)
-        );
-
-        this.list.addBig(
+                new StringWidget(310, 20, Component.translatable("widget.fbp.other.overlay"), this.font),
                 new FBPToggleButton(310, 20, Component.translatable("button.fbp.overlay.freeze_effect_overlay"), this.config.overlay::isFreezeEffectOverlay, button -> {
                     this.config.overlay.setFreezeEffectOverlay(!this.config.overlay.isFreezeEffectOverlay());
 
