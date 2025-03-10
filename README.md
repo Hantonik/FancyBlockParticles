@@ -3,6 +3,14 @@
 <span style=" color: #8131f9;"><strong>Fancy Block Particles</strong></span> is a client-side mod that turns basic 2D particles in vanilla Minecraft into cool <strong>3D animated particles</strong>!\
 This is revamped MorphoxL's <a href="https://www.curseforge.com/minecraft/mc-mods/fancy-block-particles" target="_blank" rel="noopener noreferrer">Fancy Block Particles</a> mod, ported to the latest versions of Minecraft.
 
+| Version |  Support   |
+|:-------:|:----------:|
+| 1.21.4  | **Active** |
+| 1.21.1  | **Active** |
+| 1.20.6  | **Active** |
+| 1.20.4  | **Active** |
+| 1.20.1  | **Active** |
+
 ## Description
 
 This mod introduces 3D particles into the game, offering the flexibility to customize their options according to your individual preferences. If you find any of the particles undesirable, you can decrease their quantity or disable them entirely. Once disabled (via the FBP panel), standard vanilla particles will appear.
