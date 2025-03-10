@@ -146,6 +146,15 @@ public abstract class MixinParticleEngine {
                                 callback.setReturnValue(new FBPTerrainParticle.Provider(original.pos, original.getQuadSize(1) * 5.0F, null, original.sprite, original.rCol, original.gCol, original.bCol).createParticle(type, this.level, x, y, z, 0.0D, 0.0D, 0.0D));
                     }
                 }
+            } else if (callback.getReturnValue() instanceof SnowflakeParticle original) {
+                if (options.getType() == ParticleTypes.SNOWFLAKE) {
+                    if (FancyBlockParticles.CONFIG.isBlockParticlesEnabled(Blocks.POWDER_SNOW)) {
+                        if (FancyBlockParticles.CONFIG.global.isFreezeEffect() && !FancyBlockParticles.CONFIG.terrain.isSpawnWhileFrozen())
+                            callback.setReturnValue(null);
+                        else
+                            callback.setReturnValue(new FBPTerrainParticle.Provider(BlockPos.containing(x, y, z), original.getQuadSize(1) * 5.0F, null, null, original.rCol, original.gCol, original.bCol).createParticle(new BlockParticleOption(ParticleTypes.BLOCK, Blocks.POWDER_SNOW.defaultBlockState()), this.level, x, y, z, 0.0D, 0.0D, 0.0D));
+                    }
+                }
             }
         }
 
