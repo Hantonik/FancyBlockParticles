@@ -92,6 +92,10 @@
   "button.fbp.global.cartoon_mode": "Modo de dibujos animados",
   "button.fbp.global.cull_particles": "Eliminar partículas",
 
+  "button.fbp.misc.fancy_snowball_particles": "Partículas de bola de nieve elegantes",
+  "button.fbp.misc.fancy_slime_particles": "Partículas de slime elegantes",
+  "button.fbp.misc.fancy_breaking_splash_potion_particles": "Partículas de poción arrojadiza rota elegantes",
+
   "button.fbp.overlay.freeze_effect_overlay": "Superposición de efecto de congelación",
 
   "button.fbp.rain.fancy_rain_particles": "Partículas de lluvia elegantes",
@@ -119,6 +123,7 @@
   "widget.fbp.global.categories": "Categorías",
 
   "widget.fbp.other.animations": "Animaciones",
+  "widget.fbp.other.misc": "Varios",
   "widget.fbp.other.overlay": "Superposición",
 
   "widget.fbp.overlay.freeze_effect_color": "Color del efecto de congelación",
@@ -177,6 +182,14 @@
   "tooltip.fbp.global.freeze_effect": "Habilitar/deshabilitar efecto de congelación.",
   "tooltip.fbp.global.cartoon_mode": "Habilitar/deshabilitar modo de dibujos animados.",
   "tooltip.fbp.global.cull_particles": "Habilitar/deshabilitar eliminación de partículas.\nCuando está habilitado, optimiza el rendimiento renderizando solo los objetos visibles para el jugador, mejorando el rendimiento del juego.",
+
+  "tooltip.fbp.misc.fancy_snowball_particles": "Habilitar/deshabilitar partículas de bola de nieve elegantes.\nCuando está deshabilitado, se restauran las partículas predeterminadas.",
+  "tooltip.fbp.misc.fancy_slime_particles": "Habilitar/deshabilitar partículas de slime elegantes.\nCuando está deshabilitado, se restauran las partículas predeterminadas.",
+  "tooltip.fbp.misc.fancy_breaking_splash_potion_particles": "Habilitar/deshabilitar partículas de poción arrojadiza rota elegantes.\nCuando está deshabilitado, se restauran las partículas predeterminadas.",
+  
+  "tooltip.fbp.misc.snowball_particle_size_multiplier": "Multiplicador del tamaño de las partículas de bola de nieve elegantes.",
+  "tooltip.fbp.misc.slime_particle_size_multiplier": "Multiplicador del tamaño de las partículas de slime elegantes.",
+  "tooltip.fbp.misc.breaking_splash_potion_particle_size_multiplier": "Multiplicador del tamaño de las partículas de poción arrojadiza rota elegantes.",
 
   "tooltip.fbp.overlay.freeze_effect_overlay": "Habilitar/deshabilitar superposición de efecto de congelación.\nCuando está habilitado, aparecerá un mensaje en la parte superior de la pantalla durante el efecto de congelación.",
 

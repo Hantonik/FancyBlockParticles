@@ -92,6 +92,10 @@
   "button.fbp.global.cartoon_mode": "カートゥーンモード",
   "button.fbp.global.cull_particles": "パーティクルのカリング",
 
+  "button.fbp.misc.fancy_snowball_particles": "ファンシーな雪玉パーティクル",
+  "button.fbp.misc.fancy_slime_particles": "ファンシーなスライムパーティクル",
+  "button.fbp.misc.fancy_breaking_splash_potion_particles": "ファンシーなスプラッシュポーション破壊パーティクル",
+
   "button.fbp.overlay.freeze_effect_overlay": "フリーズエフェクトオーバーレイ",
 
   "button.fbp.rain.fancy_rain_particles": "ファンシーな雨パーティクル",
@@ -119,6 +123,7 @@
   "widget.fbp.global.categories": "カテゴリ",
 
   "widget.fbp.other.animations": "アニメーション",
+  "widget.fbp.other.misc": "いろいろ",
   "widget.fbp.other.overlay": "オーバーレイ",
 
   "widget.fbp.overlay.freeze_effect_color": "フリーズエフェクトの色",
@@ -177,6 +182,14 @@
   "tooltip.fbp.global.freeze_effect": "フリーズエフェクトを有効/無効にします。",
   "tooltip.fbp.global.cartoon_mode": "カートゥーンモードを有効/無効にします。",
   "tooltip.fbp.global.cull_particles": "パーティクルのカリングを有効/無効にします。\n有効にすると、プレイヤーに見えるオブジェクトのみをレンダリングしてパフォーマンスを最適化し、ゲームパフォーマンスを向上させます。",
+
+  "tooltip.fbp.misc.fancy_snowball_particles": "ファンシーな雪玉パーティクルを有効/無効にします。\n無効にすると、デフォルトのパーティクルが復元されます。",
+  "tooltip.fbp.misc.fancy_slime_particles": "ファンシーなスライムパーティクルを有効/無効にします。\n無効にすると、デフォルトのパーティクルが復元されます。",
+  "tooltip.fbp.misc.fancy_breaking_splash_potion_particles": "ファンシーなスプラッシュポーション破壊パーティクルを有効/無効にします。\n無効にすると、デフォルトのパーティクルが復元されます。",
+
+  "tooltip.fbp.misc.snowball_particle_size_multiplier": "ファンシーな雪玉パーティクルのサイズ倍率。",
+  "tooltip.fbp.misc.slime_particle_size_multiplier": "ファンシーなスライムパーティクルのサイズ倍率。",
+  "tooltip.fbp.misc.breaking_splash_potion_particle_size_multiplier": "ファンシーなスプラッシュポーション破壊パーティクルのサイズ倍率。",
 
   "tooltip.fbp.overlay.freeze_effect_overlay": "フリーズエフェクトオーバーレイを有効/無効にします。\n有効にすると、フリーズエフェクト中に画面上部にメッセージが表示されます。",
 

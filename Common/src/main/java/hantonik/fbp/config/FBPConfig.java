@@ -38,6 +38,7 @@ public final class FBPConfig implements IFBPConfig<FBPConfig> {
             Rain.DEFAULT_CONFIG,
             Snow.DEFAULT_CONFIG,
             Drip.DEFAULT_CONFIG,
+            Misc.DEFAULT_CONFIG,
             Animations.DEFAULT_CONFIG,
             Overlay.DEFAULT_CONFIG
     );
@@ -51,6 +52,7 @@ public final class FBPConfig implements IFBPConfig<FBPConfig> {
     public final Rain rain;
     public final Snow snow;
     public final Drip drip;
+    public final Misc misc;
     public final Animations animations;
     public final Overlay overlay;
 
@@ -91,6 +93,7 @@ public final class FBPConfig implements IFBPConfig<FBPConfig> {
         this.rain.setConfig(config.rain);
         this.snow.setConfig(config.snow);
         this.drip.setConfig(config.drip);
+        this.misc.setConfig(config.misc);
         this.animations.setConfig(config.animations);
         this.overlay.setConfig(config.overlay);
     }
@@ -106,6 +109,7 @@ public final class FBPConfig implements IFBPConfig<FBPConfig> {
         this.rain.applyConfig(config.rain);
         this.snow.applyConfig(config.snow);
         this.drip.applyConfig(config.drip);
+        this.misc.applyConfig(config.misc);
         this.animations.applyConfig(config.animations);
         this.overlay.applyConfig(config.overlay);
     }
@@ -138,6 +142,7 @@ public final class FBPConfig implements IFBPConfig<FBPConfig> {
                     this.rain.load(GsonHelper.getAsJsonObject(json, "rain", new JsonObject()));
                     this.snow.load(GsonHelper.getAsJsonObject(json, "snow", new JsonObject()));
                     this.drip.load(GsonHelper.getAsJsonObject(json, "drip", new JsonObject()));
+                    this.misc.load(GsonHelper.getAsJsonObject(json, "misc", new JsonObject()));
                     this.animations.load(GsonHelper.getAsJsonObject(json, "animations", new JsonObject()));
                     this.overlay.load(GsonHelper.getAsJsonObject(json, "overlay", new JsonObject()));
                 } catch (JsonParseException | IllegalStateException e) {
@@ -165,6 +170,7 @@ public final class FBPConfig implements IFBPConfig<FBPConfig> {
             json.add("rain", this.rain.save());
             json.add("snow", this.snow.save());
             json.add("drip", this.drip.save());
+            json.add("misc", this.misc.save());
             json.add("animations", this.animations.save());
             json.add("overlay", this.overlay.save());
 
@@ -193,6 +199,7 @@ public final class FBPConfig implements IFBPConfig<FBPConfig> {
                 this.rain.copy(),
                 this.snow.copy(),
                 this.drip.copy(),
+                this.misc.copy(),
                 this.animations.copy(),
                 this.overlay.copy()
         );
@@ -1353,6 +1360,82 @@ public final class FBPConfig implements IFBPConfig<FBPConfig> {
                     this.randomSize, this.randomFadingSpeed,
                     this.minLifetime, this.maxLifetime,
                     this.sizeMultiplier, this.gravityMultiplier
+            );
+        }
+    }
+
+    @Getter
+    @Setter
+    @AllArgsConstructor(access = AccessLevel.PRIVATE)
+    public static class Misc implements IFBPConfig<Misc> {
+        private static final boolean DEFAULT_FANCY_SNOWBALL_PARTICLES = true;
+        private static final boolean DEFAULT_FANCY_SLIME_PARTICLES = true;
+        private static final boolean DEFAULT_FANCY_BREAKING_SPLASH_POTION_PARTICLES = true;
+
+        private static final float DEFAULT_SNOWBALL_PARTICLE_SIZE_MULTIPLIER = 1.0F;
+        private static final float DEFAULT_SLIME_PARTICLE_SIZE_MULTIPLIER = 1.0F;
+        private static final float DEFAULT_BREAKING_SPLASH_POTION_PARTICLE_SIZE_MULTIPLIER = 1.0F;
+
+        public static final Misc DEFAULT_CONFIG = new Misc(
+                DEFAULT_FANCY_SNOWBALL_PARTICLES, DEFAULT_FANCY_SLIME_PARTICLES, DEFAULT_FANCY_BREAKING_SPLASH_POTION_PARTICLES,
+                DEFAULT_SNOWBALL_PARTICLE_SIZE_MULTIPLIER, DEFAULT_SLIME_PARTICLE_SIZE_MULTIPLIER, DEFAULT_BREAKING_SPLASH_POTION_PARTICLE_SIZE_MULTIPLIER
+        );
+
+        private boolean fancySnowballParticles;
+        private boolean fancySlimeParticles;
+        private boolean fancyBreakingSplashPotionParticles;
+
+        private float snowballParticleSizeMultiplier;
+        private float slimeParticleSizeMultiplier;
+        private float breakingSplashPotionParticleSizeMultiplier;
+
+        @Override
+        public void setConfig(Misc config) {
+            this.fancySnowballParticles = config.fancySnowballParticles;
+            this.fancySlimeParticles = config.fancySlimeParticles;
+            this.fancyBreakingSplashPotionParticles = config.fancyBreakingSplashPotionParticles;
+
+            this.snowballParticleSizeMultiplier = config.snowballParticleSizeMultiplier;
+            this.slimeParticleSizeMultiplier = config.slimeParticleSizeMultiplier;
+            this.breakingSplashPotionParticleSizeMultiplier = config.breakingSplashPotionParticleSizeMultiplier;
+        }
+
+        @Override
+        public void load(JsonObject json) {
+            this.fancySnowballParticles = GsonHelper.getAsBoolean(json, "fancySnowballParticles", DEFAULT_FANCY_SNOWBALL_PARTICLES);
+            this.fancySlimeParticles = GsonHelper.getAsBoolean(json, "fancySlimeParticles", DEFAULT_FANCY_SLIME_PARTICLES);
+            this.fancyBreakingSplashPotionParticles = GsonHelper.getAsBoolean(json, "fancyBreakingSplashPotionParticles", DEFAULT_FANCY_BREAKING_SPLASH_POTION_PARTICLES);
+
+            this.snowballParticleSizeMultiplier = GsonHelper.getAsFloat(json, "snowballParticleSizeMultiplier", DEFAULT_SNOWBALL_PARTICLE_SIZE_MULTIPLIER);
+            this.slimeParticleSizeMultiplier = GsonHelper.getAsFloat(json, "slimeParticleSizeMultiplier", DEFAULT_SLIME_PARTICLE_SIZE_MULTIPLIER);
+            this.breakingSplashPotionParticleSizeMultiplier = GsonHelper.getAsFloat(json, "breakingSplashPotionParticleSizeMultiplier", DEFAULT_BREAKING_SPLASH_POTION_PARTICLE_SIZE_MULTIPLIER);
+        }
+
+        @Override
+        public JsonObject save() {
+            var json = new JsonObject();
+
+            json.addProperty("fancySnowballParticles", this.fancySnowballParticles);
+            json.addProperty("fancySlimeParticles", this.fancySlimeParticles);
+            json.addProperty("fancyBreakingSplashPotionParticles", this.fancyBreakingSplashPotionParticles);
+
+            json.addProperty("snowballParticleSizeMultiplier", this.snowballParticleSizeMultiplier);
+            json.addProperty("slimeParticleSizeMultiplier", this.slimeParticleSizeMultiplier);
+            json.addProperty("breakingSplashPotionParticleSizeMultiplier", this.breakingSplashPotionParticleSizeMultiplier);
+
+            return json;
+        }
+
+        @Override
+        public void reset() {
+            this.setConfig(DEFAULT_CONFIG.copy());
+        }
+
+        @Override
+        public Misc copy() {
+            return new Misc(
+                    this.fancySnowballParticles, this.fancySlimeParticles, this.fancyBreakingSplashPotionParticles,
+                    this.snowballParticleSizeMultiplier, this.slimeParticleSizeMultiplier, this.breakingSplashPotionParticleSizeMultiplier
             );
         }
     }
