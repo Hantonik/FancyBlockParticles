@@ -2,10 +2,11 @@
   "homepage": "https://www.curseforge.com/minecraft/mc-mods/fbp-renewed",
 
   "promos": {
-    "1.20.6-latest": "20.6.3.0"
+    "1.20.6-latest": "20.6.3.1"
   },
 
   "1.20.6": {
+    "20.6.3.1": "Fix particle spawning on Freeze effect",
     "20.6.3.0": "Compatible with Iris. Disable mod on dedicated server. Add Fancy falling dust particles",
     "20.6.2.1": "Fix crash with Productive Bees mod",
     "20.6.2.0": "Add option to disable rain & drip puddle particle. Fix crash with Embeddium mod. Fix rain and snow particle density option not saving. Fix incorrect FBPSnowParticle texture",
