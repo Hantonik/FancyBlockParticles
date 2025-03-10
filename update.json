@@ -6,7 +6,7 @@
   },
 
   "1.21.1": {
-    "21.1.4.0": "Fix particle spawning on Freeze effect. Add Fancy snowflake particles",
+    "21.1.4.0": "Fix particle spawning on Freeze effect. Add Fancy snowflake particles. Add Fancy breaking bottle particles",
     "21.1.3.0": "Discontinue Forge version. Compatible with Iris. Disable mod on dedicated server. Add Fancy falling dust particles",
     "21.1.2.1": "Fix crash with Productive Bees mod",
     "21.1.2.0": "Add option to disable rain & drip puddle particle. Fix rain and snow particle density option not saving. Fix incorrect FBPSnowParticle texture",

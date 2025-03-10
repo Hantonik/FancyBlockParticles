@@ -191,7 +191,7 @@ public class FBPTerrainParticle extends TerrainParticle implements IKillablePart
         this.lastSize = this.quadSize;
         this.lastAlpha = this.alpha;
 
-        if (!FancyBlockParticles.CONFIG.global.isEnabled() || (this.destroyed && !FancyBlockParticles.CONFIG.terrain.isFancyBreakingParticles() && !FancyBlockParticles.CONFIG.terrain.isFancyFallingDustParticles()) || (!this.destroyed && !FancyBlockParticles.CONFIG.terrain.isFancyCrackingParticles()))
+        if (!FancyBlockParticles.CONFIG.global.isEnabled() || (((this.destroyed && !FancyBlockParticles.CONFIG.terrain.isFancyBreakingParticles() && !FancyBlockParticles.CONFIG.terrain.isFancyFallingDustParticles()) || (!this.destroyed && !FancyBlockParticles.CONFIG.terrain.isFancyCrackingParticles())) && !FancyBlockParticles.CONFIG.misc.isFancySnowballParticles() && !FancyBlockParticles.CONFIG.misc.isFancySlimeParticles() && !FancyBlockParticles.CONFIG.misc.isFancyBreakingSplashPotionParticles()))
             this.remove();
 
         if (!Minecraft.getInstance().isPaused()) {
