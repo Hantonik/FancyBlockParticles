@@ -2,10 +2,11 @@
   "homepage": "https://www.curseforge.com/minecraft/mc-mods/fbp-renewed",
 
   "promos": {
-    "1.20.4-latest": "20.4.4.0"
+    "1.20.4-latest": "20.4.4.1"
   },
 
   "1.20.4": {
+    "20.4.4.1": "Fix glass particles when breaking egg",
     "20.4.4.0": "Fix particle spawning on Freeze effect. Add Fancy snowflake particles. Add Fancy breaking bottle particles",
     "20.4.3.0": "Compatible with Iris. Disable mod on dedicated server. Add Fancy falling dust particles",
     "20.4.2.1": "Fix crash with Productive Bees mod",
