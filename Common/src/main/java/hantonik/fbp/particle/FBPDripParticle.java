@@ -77,12 +77,12 @@ public class FBPDripParticle extends DripParticle implements IKillableParticle {
         this.sound = sound;
         this.lightLevel = lightLevel;
 
-        var quads = Minecraft.getInstance().getBlockRenderer().getBlockModelShaper().getBlockModel(this.state).getQuads(this.state, null, this.random);
+        var quads = Minecraft.getInstance().getBlockRenderer().getBlockModelShaper().getBlockModel(this.state).collectParts(this.random).getFirst().getQuads(null);
 
         if (quads.isEmpty())
             this.sprite = Minecraft.getInstance().getBlockRenderer().getBlockModelShaper().getParticleIcon(this.state);
         else
-            this.sprite = quads.getFirst().getSprite();
+            this.sprite = quads.getFirst().sprite();
 
         this.lifetime = (int) FBPConstants.RANDOM.nextFloat(Math.min(FancyBlockParticles.CONFIG.drip.getMinLifetime(), FancyBlockParticles.CONFIG.drip.getMaxLifetime()), Math.max(FancyBlockParticles.CONFIG.drip.getMinLifetime(), FancyBlockParticles.CONFIG.drip.getMaxLifetime()) + 0.5F);
 

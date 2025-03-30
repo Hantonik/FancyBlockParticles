@@ -1,21 +1,16 @@
 package hantonik.fbp.platform.services;
 
 import com.mojang.blaze3d.vertex.PoseStack;
-import net.fabricmc.loader.api.FabricLoader;
-import net.irisshaders.iris.Iris;
-import net.irisshaders.iris.pipeline.ShaderRenderingPipeline;
-import net.irisshaders.iris.pipeline.programs.ShaderAccess;
-import net.irisshaders.iris.pipeline.programs.ShaderKey;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ClientLevel;
-import net.minecraft.client.renderer.CompiledShaderProgram;
 import net.minecraft.client.renderer.ItemBlockRenderTypes;
 import net.minecraft.client.renderer.MultiBufferSource;
+import net.minecraft.client.renderer.block.model.BlockModelPart;
 import net.minecraft.client.renderer.texture.OverlayTexture;
-import net.minecraft.client.resources.model.BakedModel;
 import net.minecraft.core.BlockPos;
-import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.block.state.BlockState;
+
+import java.util.List;
 
 public final class FabricClientHelper implements IClientHelper {
     @Override
@@ -29,30 +24,9 @@ public final class FabricClientHelper implements IClientHelper {
     }
 
     @Override
-    public void renderBlock(ClientLevel level, BakedModel model, BlockState state, BlockPos pos, PoseStack stack, MultiBufferSource bufferSource) {
+    public void renderBlock(ClientLevel level, List<BlockModelPart> list, BlockState state, BlockPos pos, PoseStack stack, MultiBufferSource bufferSource) {
         var renderer = Minecraft.getInstance().getBlockRenderer();
 
-        renderer.getModelRenderer().tesselateBlock(level, renderer.getBlockModel(state), state, pos, stack, bufferSource.getBuffer(ItemBlockRenderTypes.getMovingBlockRenderType(state)), false, RandomSource.create(), state.getSeed(pos), OverlayTexture.NO_OVERLAY);
-    }
-
-    @Override
-    public CompiledShaderProgram getParticleTranslucentShader() {
-        return FabricLoader.getInstance().isModLoaded("iris") ? ShaderAccess.getParticleTranslucentShader() : IClientHelper.super.getParticleTranslucentShader();
-    }
-
-    @Override
-    public CompiledShaderProgram getBlockTranslucentShader() {
-        if (FabricLoader.getInstance().isModLoaded("iris")) {
-            var pipeline = Iris.getPipelineManager().getPipelineNullable();
-
-            if (pipeline instanceof ShaderRenderingPipeline shaderPipeline) {
-                var shader = shaderPipeline.getShaderMap().getShader(ShaderKey.MOVING_BLOCK);
-
-                if (shader != null)
-                    return shader;
-            }
-        }
-
-        return IClientHelper.super.getBlockTranslucentShader();
+        renderer.getModelRenderer().tesselateBlock(level, list, state, pos, stack, bufferSource.getBuffer(ItemBlockRenderTypes.getMovingBlockRenderType(state)), false, OverlayTexture.NO_OVERLAY);
     }
 }

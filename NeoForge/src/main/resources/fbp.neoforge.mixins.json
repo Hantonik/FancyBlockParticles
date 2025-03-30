@@ -6,7 +6,7 @@
     "MixinModelBlockRenderer",
     "embeddium.MixinBlockOcclusionCache",
     "embeddium.MixinBlockRenderer",
-    "neoforge.MixinSectionCompiler",
+    "MixinSectionCompiler",
     "sodium.MixinBlockOcclusionCache",
     "sodium.MixinBlockRenderer"
   ],

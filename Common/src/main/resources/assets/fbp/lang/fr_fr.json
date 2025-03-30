@@ -90,7 +90,6 @@
 
   "button.fbp.global.freeze_effect": "Effet de gel",
   "button.fbp.global.cartoon_mode": "Mode dessin animé",
-  "button.fbp.global.cull_particles": "Réduire les particules",
 
   "button.fbp.misc.fancy_snowball_particles": "Particules de boule de neige sophistiquées",
   "button.fbp.misc.fancy_slime_particles": "Particules de slime sophistiquées",
@@ -181,7 +180,6 @@
 
   "tooltip.fbp.global.freeze_effect": "Activer/désactiver l'effet de gel.",
   "tooltip.fbp.global.cartoon_mode": "Activer/désactiver le mode dessin animé.",
-  "tooltip.fbp.global.cull_particles": "Activer/désactiver la réduction des particules.\nLorsqu'elle est activée, optimise les performances en ne rendant que les objets visibles pour le joueur, améliorant ainsi les performances du jeu.",
 
   "tooltip.fbp.misc.fancy_snowball_particles": "Activer/désactiver les particules de boule de neige sophistiquées.\nLorsqu'elles sont désactivées, les particules par défaut sont restaurées.",
   "tooltip.fbp.misc.fancy_slime_particles": "Activer/désactiver les particules de slime sophistiquées.\nLorsqu'elles sont désactivées, les particules par défaut sont restaurées.",

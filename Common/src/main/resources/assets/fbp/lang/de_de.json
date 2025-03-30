@@ -90,7 +90,6 @@
 
   "button.fbp.global.freeze_effect": "Freeze-Effekt",
   "button.fbp.global.cartoon_mode": "Cartoon-Modus",
-  "button.fbp.global.cull_particles": "Partikel aussortieren",
 
   "button.fbp.misc.fancy_snowball_particles": "Fancy Schneeballpartikel",
   "button.fbp.misc.fancy_slime_particles": "Fancy Schleimpartikel",
@@ -181,7 +180,6 @@
 
   "tooltip.fbp.global.freeze_effect": "Freeze-Effekt aktivieren/deaktivieren.",
   "tooltip.fbp.global.cartoon_mode": "Cartoon-Modus aktivieren/deaktivieren.",
-  "tooltip.fbp.global.cull_particles": "Partikelauswahl aktivieren/deaktivieren.\nWenn aktiviert, wird die Leistung optimiert, indem nur sichtbare Objekte gerendert werden, was die Spielleistung verbessert.",
 
   "tooltip.fbp.misc.fancy_snowball_particles": "Fancy Schneeballpartikel aktivieren/deaktivieren.\nWenn deaktiviert, werden die Standardpartikel wiederhergestellt.",
   "tooltip.fbp.misc.fancy_slime_particles": "Fancy Schleimpartikel aktivieren/deaktivieren.\nWenn deaktiviert, werden die Standardpartikel wiederhergestellt.",

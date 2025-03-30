@@ -115,10 +115,10 @@ public class FBPTerrainParticle extends TerrainParticle implements IKillablePart
 
         if (sprite == null) {
             if (!this.destroyed) {
-                var quads = Minecraft.getInstance().getBlockRenderer().getBlockModelShaper().getBlockModel(state).getQuads(state, side, this.random);
+                var quads = Minecraft.getInstance().getBlockRenderer().getBlockModelShaper().getBlockModel(state).collectParts(this.random).getFirst().getQuads(side);
 
                 if (!quads.isEmpty())
-                    this.sprite = quads.getFirst().getSprite();
+                    this.sprite = quads.getFirst().sprite();
             }
 
             if (this.sprite.atlasLocation() == MissingTextureAtlasSprite.getLocation())

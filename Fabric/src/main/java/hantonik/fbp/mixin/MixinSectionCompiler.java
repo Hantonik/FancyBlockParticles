@@ -6,22 +6,23 @@ import hantonik.fbp.animation.FBPPlacingAnimationManager;
 import net.minecraft.client.renderer.chunk.SectionCompiler;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.block.RenderShape;
+import net.minecraft.world.level.block.state.BlockState;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 
 @Mixin(SectionCompiler.class)
 public abstract class MixinSectionCompiler {
     @ModifyExpressionValue(at = @At(value = "INVOKE", target = "Lnet/minecraft/world/level/block/state/BlockState;getRenderShape()Lnet/minecraft/world/level/block/RenderShape;"), method = "compile")
-    private RenderShape getBlockState(RenderShape original, @Local(ordinal = 2) BlockPos pos) {
-        if (original != RenderShape.INVISIBLE && FBPPlacingAnimationManager.isHidden(pos))
+    private RenderShape getRenderShape(RenderShape original, @Local(ordinal = 2) BlockPos pos, @Local BlockState state) {
+        if (FBPPlacingAnimationManager.isHidden(pos))
             return RenderShape.INVISIBLE;
 
         return original;
     }
 
     @ModifyExpressionValue(at = @At(value = "INVOKE", target = "Lnet/minecraft/world/level/block/state/BlockState;isSolidRender()Z"), method = "compile")
-    private boolean getBlockState(boolean original, @Local(ordinal = 2) BlockPos pos) {
-        if (original && FBPPlacingAnimationManager.isHidden(pos))
+    private boolean isSolidRender(boolean original, @Local(ordinal = 2) BlockPos pos, @Local BlockState state) {
+        if (FBPPlacingAnimationManager.isHidden(pos))
             return false;
 
         return original;

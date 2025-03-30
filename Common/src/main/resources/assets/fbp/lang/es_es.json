@@ -90,7 +90,6 @@
 
   "button.fbp.global.freeze_effect": "Efecto de congelación",
   "button.fbp.global.cartoon_mode": "Modo de dibujos animados",
-  "button.fbp.global.cull_particles": "Eliminar partículas",
 
   "button.fbp.misc.fancy_snowball_particles": "Partículas de bola de nieve elegantes",
   "button.fbp.misc.fancy_slime_particles": "Partículas de slime elegantes",
@@ -181,7 +180,6 @@
 
   "tooltip.fbp.global.freeze_effect": "Habilitar/deshabilitar efecto de congelación.",
   "tooltip.fbp.global.cartoon_mode": "Habilitar/deshabilitar modo de dibujos animados.",
-  "tooltip.fbp.global.cull_particles": "Habilitar/deshabilitar eliminación de partículas.\nCuando está habilitado, optimiza el rendimiento renderizando solo los objetos visibles para el jugador, mejorando el rendimiento del juego.",
 
   "tooltip.fbp.misc.fancy_snowball_particles": "Habilitar/deshabilitar partículas de bola de nieve elegantes.\nCuando está deshabilitado, se restauran las partículas predeterminadas.",
   "tooltip.fbp.misc.fancy_slime_particles": "Habilitar/deshabilitar partículas de slime elegantes.\nCuando está deshabilitado, se restauran las partículas predeterminadas.",

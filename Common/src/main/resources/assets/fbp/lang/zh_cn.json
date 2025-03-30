@@ -90,7 +90,6 @@
 
   "button.fbp.global.freeze_effect": "冻结效果",
   "button.fbp.global.cartoon_mode": "卡通模式",
-  "button.fbp.global.cull_particles": "剔除粒子",
 
   "button.fbp.misc.fancy_snowball_particles": "精美的雪球粒子",
   "button.fbp.misc.fancy_slime_particles": "精美的史莱姆粒子",
@@ -181,7 +180,6 @@
 
   "tooltip.fbp.global.freeze_effect": "启用/禁用冻结效果。",
   "tooltip.fbp.global.cartoon_mode": "启用/禁用卡通模式。",
-  "tooltip.fbp.global.cull_particles": "启用/禁用粒子剔除。\n启用时，通过仅渲染玩家可见的对象来优化性能，提高游戏性能。",
 
   "tooltip.fbp.misc.fancy_snowball_particles": "启用/禁用精美的雪球粒子。\n禁用时，将恢复默认粒子。",
   "tooltip.fbp.misc.fancy_slime_particles": "启用/禁用精美的史莱姆粒子。\n禁用时，将恢复默认粒子。",

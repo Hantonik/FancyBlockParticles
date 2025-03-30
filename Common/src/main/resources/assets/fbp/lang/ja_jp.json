@@ -90,7 +90,6 @@
 
   "button.fbp.global.freeze_effect": "フリーズエフェクト",
   "button.fbp.global.cartoon_mode": "カートゥーンモード",
-  "button.fbp.global.cull_particles": "パーティクルのカリング",
 
   "button.fbp.misc.fancy_snowball_particles": "ファンシーな雪玉パーティクル",
   "button.fbp.misc.fancy_slime_particles": "ファンシーなスライムパーティクル",
@@ -181,7 +180,6 @@
 
   "tooltip.fbp.global.freeze_effect": "フリーズエフェクトを有効/無効にします。",
   "tooltip.fbp.global.cartoon_mode": "カートゥーンモードを有効/無効にします。",
-  "tooltip.fbp.global.cull_particles": "パーティクルのカリングを有効/無効にします。\n有効にすると、プレイヤーに見えるオブジェクトのみをレンダリングしてパフォーマンスを最適化し、ゲームパフォーマンスを向上させます。",
 
   "tooltip.fbp.misc.fancy_snowball_particles": "ファンシーな雪玉パーティクルを有効/無効にします。\n無効にすると、デフォルトのパーティクルが復元されます。",
   "tooltip.fbp.misc.fancy_slime_particles": "ファンシーなスライムパーティクルを有効/無効にします。\n無効にすると、デフォルトのパーティクルが復元されます。",

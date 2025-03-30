@@ -215,9 +215,7 @@ public final class FBPConfig implements IFBPConfig<FBPConfig> {
         private static final boolean DEFAULT_DISABLE_OCULUS_WARNING = false;
 
         private static final boolean DEFAULT_FREEZE_EFFECT = false;
-
         private static final boolean DEFAULT_CARTOON_MODE = false;
-        private static final boolean DEFAULT_CULL_PARTICLES = true;
 
         private static final boolean DEFAULT_INFINITE_DURATION = false;
 
@@ -227,8 +225,7 @@ public final class FBPConfig implements IFBPConfig<FBPConfig> {
         public static final Global DEFAULT_CONFIG = new Global(
                 DEFAULT_ENABLED,
                 DEFAULT_LOCKED, DEFAULT_DISABLE_OCULUS_WARNING,
-                DEFAULT_FREEZE_EFFECT,
-                DEFAULT_CARTOON_MODE, DEFAULT_CULL_PARTICLES,
+                DEFAULT_FREEZE_EFFECT, DEFAULT_CARTOON_MODE,
                 DEFAULT_INFINITE_DURATION,
                 DEFAULT_DISABLED_PARTICLES, DEFAULT_DISABLED_ANIMATIONS
         );
@@ -239,9 +236,7 @@ public final class FBPConfig implements IFBPConfig<FBPConfig> {
         private boolean disableOculusWarning;
 
         private boolean freezeEffect;
-
         private boolean cartoonMode;
-        private boolean cullParticles;
 
         private boolean infiniteDuration;
 
@@ -260,7 +255,6 @@ public final class FBPConfig implements IFBPConfig<FBPConfig> {
             this.freezeEffect = config.freezeEffect;
 
             this.cartoonMode = config.cartoonMode;
-            this.cullParticles = config.cullParticles;
 
             this.infiniteDuration = config.infiniteDuration;
 
@@ -277,7 +271,6 @@ public final class FBPConfig implements IFBPConfig<FBPConfig> {
             this.freezeEffect = config.freezeEffect;
 
             this.cartoonMode = config.cartoonMode;
-            this.cullParticles = config.cullParticles;
 
             this.infiniteDuration = config.infiniteDuration;
 
@@ -295,7 +288,6 @@ public final class FBPConfig implements IFBPConfig<FBPConfig> {
             this.freezeEffect = GsonHelper.getAsBoolean(json, "freezeEffect", DEFAULT_FREEZE_EFFECT);
 
             this.cartoonMode = GsonHelper.getAsBoolean(json, "cartoonMode", DEFAULT_CARTOON_MODE);
-            this.cullParticles = GsonHelper.getAsBoolean(json, "cullParticles", DEFAULT_CULL_PARTICLES);
 
             this.infiniteDuration = GsonHelper.getAsBoolean(json, "infiniteDuration", DEFAULT_INFINITE_DURATION);
 
@@ -328,7 +320,6 @@ public final class FBPConfig implements IFBPConfig<FBPConfig> {
             json.addProperty("freezeEffect", this.freezeEffect);
 
             json.addProperty("cartoonMode", this.cartoonMode);
-            json.addProperty("cullParticles", this.cullParticles);
 
             json.addProperty("infiniteDuration", this.infiniteDuration);
 
@@ -356,7 +347,7 @@ public final class FBPConfig implements IFBPConfig<FBPConfig> {
                     this.enabled,
                     this.locked, this.disableOculusWarning,
                     this.freezeEffect,
-                    this.cartoonMode, this.cullParticles,
+                    this.cartoonMode,
                     this.infiniteDuration,
                     new ArrayList<>(this.disabledParticles), new ArrayList<>(this.disabledAnimations)
             );

@@ -4,7 +4,6 @@ import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 import hantonik.fbp.FancyBlockParticles;
 import hantonik.fbp.particle.FBPPlacingAnimationParticle;
-import hantonik.fbp.platform.Services;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 import net.minecraft.client.Minecraft;
@@ -29,9 +28,6 @@ public final class FBPPlacingAnimationManager {
     private static final Set<BlockPos> HIDDEN_BLOCKS = Sets.newCopyOnWriteArraySet();
 
     public static void addAnimation(ClientLevel level, BlockState state, BlockPos pos, LivingEntity placer, InteractionHand hand) {
-        if (Services.PLATFORM.isModLoaded("a_good_place"))
-            return;
-
         if (FancyBlockParticles.CONFIG.animations.isEnabled() && FancyBlockParticles.CONFIG.isBlockAnimationsEnabled(state.getBlock())) {
             if (!state.is(BlockTags.BEDS) && !(state.getBlock() instanceof DoublePlantBlock) && !(state.getBlock() instanceof DoorBlock) && (!state.hasProperty(ChestBlock.TYPE) || state.getValue(ChestBlock.TYPE) != ChestType.SINGLE)) {
                 if (Minecraft.getInstance().cameraEntity.position().distanceTo(pos.getCenter()) <= Minecraft.getInstance().options.renderDistance().get() * 16) {

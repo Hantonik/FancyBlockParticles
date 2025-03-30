@@ -5,6 +5,8 @@
   "client": [
     "MixinBlockRenderInfo",
     "MixinModelBlockRenderer",
+    "MixinSectionCompiler",
+    "MixinTerrainRenderContext",
     "sodium.MixinBlockOcclusionCache",
     "sodium.MixinBlockRenderer"
   ],

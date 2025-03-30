@@ -14,6 +14,8 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.Style;
 import org.lwjgl.glfw.GLFW;
 
+import java.net.URI;
+
 public class FBPOculusWarningScreen extends Screen {
     private static final Component OCULUS_COMPONENT = Component.literal("Oculus").withStyle(ChatFormatting.AQUA);
 
@@ -34,8 +36,8 @@ public class FBPOculusWarningScreen extends Screen {
     protected void init() {
         var layout = new HeaderAndFooterLayout(this, 52, 84);
 
-        layout.addToHeader(new ImageButton(25, 25, FBPOptionsScreen.LOGO_SPRITES, button -> this.handleComponentClicked(Style.EMPTY.withClickEvent(new ClickEvent(ClickEvent.Action.OPEN_URL, "https://www.curseforge.com/minecraft/mc-mods/fbp-renewed"))), CommonComponents.EMPTY), settings -> settings.alignHorizontallyLeft().alignVerticallyTop().padding(10)).setTooltip(Tooltip.create(Component.translatable("tooltip.fbp.common.homepage")));
-        layout.addToHeader(new ImageButton(25, 25, FBPOptionsScreen.REPORT_SPRITES, button -> this.handleComponentClicked(Style.EMPTY.withClickEvent(new ClickEvent(ClickEvent.Action.OPEN_URL, "https://github.com/Hantonik/FancyBlockParticles/issues"))), CommonComponents.EMPTY), settings -> settings.alignHorizontallyRight().alignVerticallyTop().padding(10)).setTooltip(Tooltip.create(Component.translatable("tooltip.fbp.common.report")));
+        layout.addToHeader(new ImageButton(25, 25, FBPOptionsScreen.LOGO_SPRITES, button -> this.handleComponentClicked(Style.EMPTY.withClickEvent(new ClickEvent.OpenUrl(URI.create("https://www.curseforge.com/minecraft/mc-mods/fbp-renewed")))), CommonComponents.EMPTY), settings -> settings.alignHorizontallyLeft().alignVerticallyTop().padding(10)).setTooltip(Tooltip.create(Component.translatable("tooltip.fbp.common.homepage")));
+        layout.addToHeader(new ImageButton(25, 25, FBPOptionsScreen.REPORT_SPRITES, button -> this.handleComponentClicked(Style.EMPTY.withClickEvent(new ClickEvent.OpenUrl(URI.create("https://github.com/Hantonik/FancyBlockParticles/issues")))), CommonComponents.EMPTY), settings -> settings.alignHorizontallyRight().alignVerticallyTop().padding(10)).setTooltip(Tooltip.create(Component.translatable("tooltip.fbp.common.report")));
 
         layout.addToHeader(new StringWidget(this.title, this.font), settings -> settings.alignHorizontallyCenter().alignVerticallyBottom());
 

@@ -15,10 +15,11 @@ import net.minecraft.client.particle.Particle;
 import net.minecraft.client.particle.ParticleRenderType;
 import net.minecraft.client.renderer.LevelRenderer;
 import net.minecraft.client.renderer.MultiBufferSource;
-import net.minecraft.client.resources.model.BakedModel;
+import net.minecraft.client.renderer.block.model.BlockModelPart;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.util.Mth;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.HumanoidArm;
 import net.minecraft.world.entity.LivingEntity;
@@ -36,7 +37,7 @@ public class FBPPlacingAnimationParticle extends Particle implements IKillablePa
     private final BlockState state;
     private final BlockPos pos;
 
-    private final BakedModel model;
+    private final List<BlockModelPart> model;
 
     private final Vec3 rotation;
     private final Vec2 slide;
@@ -51,7 +52,7 @@ public class FBPPlacingAnimationParticle extends Particle implements IKillablePa
         this.state = state;
         this.pos = pos;
 
-        this.model = Minecraft.getInstance().getBlockRenderer().getBlockModel(state);
+        this.model = Minecraft.getInstance().getBlockRenderer().getBlockModel(state).collectParts(RandomSource.create(state.getSeed(pos)));
 
         this.lifetime = (int) FBPConstants.RANDOM.nextFloat(Math.min(FancyBlockParticles.CONFIG.animations.getMinLifetime(), FancyBlockParticles.CONFIG.animations.getMaxLifetime()), Math.max(FancyBlockParticles.CONFIG.animations.getMinLifetime(), FancyBlockParticles.CONFIG.animations.getMaxLifetime()) + 0.5F);
 
@@ -111,7 +112,8 @@ public class FBPPlacingAnimationParticle extends Particle implements IKillablePa
 
     @Override
     public void remove() {
-        FBPPlacingAnimationManager.showBlock(this.pos, true);
+        if (!this.removed)
+            FBPPlacingAnimationManager.showBlock(this.pos, true);
 
         super.remove();
     }
@@ -128,7 +130,7 @@ public class FBPPlacingAnimationParticle extends Particle implements IKillablePa
 
     @Override
     public int getLightColor(float partialTick) {
-        return this.level.hasChunkAt(this.pos) ? LevelRenderer.getLightColor(this.level, this.state, this.pos) : 0;
+        return this.level.hasChunkAt(this.pos) ? LevelRenderer.getLightColor(LevelRenderer.BrightnessGetter.DEFAULT, this.level, this.state, this.pos) : 0;
     }
 
     @Override

@@ -1,21 +1,19 @@
-package hantonik.fbp.mixin.sodium;
+package hantonik.fbp.mixin;
 
 import hantonik.fbp.animation.FBPPlacingAnimationManager;
-import net.caffeinemc.mods.sodium.client.render.chunk.compile.pipeline.BlockRenderer;
+import net.fabricmc.fabric.impl.client.indigo.renderer.render.TerrainRenderContext;
 import net.minecraft.client.renderer.block.model.BlockStateModel;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.block.state.BlockState;
 import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.Pseudo;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
-@Pseudo
-@Mixin(value = BlockRenderer.class, remap = false)
-public abstract class MixinBlockRenderer {
-    @Inject(at = @At("HEAD"), method = "renderModel", cancellable = true)
-    public void renderModel(BlockStateModel model, BlockState state, BlockPos pos, BlockPos origin, CallbackInfo callback) {
+@Mixin(TerrainRenderContext.class)
+public abstract class MixinTerrainRenderContext {
+    @Inject(at = @At("HEAD"), method = "bufferModel", cancellable = true)
+    public void bufferModel(BlockStateModel model, BlockState state, BlockPos pos, CallbackInfo callback) {
         if (FBPPlacingAnimationManager.isHidden(pos))
             callback.cancel();
     }

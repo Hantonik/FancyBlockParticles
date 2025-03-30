@@ -90,7 +90,6 @@
 
   "button.fbp.global.freeze_effect": "Efekt zamrożenia",
   "button.fbp.global.cartoon_mode": "Tryb kreskówki",
-  "button.fbp.global.cull_particles": "Selekcja cząsteczek",
 
   "button.fbp.misc.fancy_snowball_particles": "Fantazyjne cząsteczki śnieżek",
   "button.fbp.misc.fancy_slime_particles": "Fantazyjne cząsteczki szlamu",
@@ -181,7 +180,6 @@
 
   "tooltip.fbp.global.freeze_effect": "Włącz/wyłącz efekt zamrożenia.",
   "tooltip.fbp.global.cartoon_mode": "Włącz/wyłącz tryb kreskówki.",
-  "tooltip.fbp.global.cull_particles": "Włącz/wyłącz selekcję cząsteczek.\nPo włączeniu optymalizuje wydajność, renderując tylko te obiekty, które są widoczne dla gracza.",
 
   "tooltip.fbp.misc.fancy_snowball_particles": "Włącz/wyłącz fantazyjne cząsteczki śnieżek.\nGdy wyłączone przywrócone zostają domyślne cząsteczki.",
   "tooltip.fbp.misc.fancy_slime_particles": "Włącz/wyłącz fantazyjne cząsteczki szlamu.\nGdy wyłączone przywrócone zostają domyślne cząsteczki.",

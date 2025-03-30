@@ -7,7 +7,6 @@ import lombok.NoArgsConstructor;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.particle.ParticleRenderType;
 import net.minecraft.client.renderer.RenderType;
-import net.minecraft.client.renderer.texture.TextureAtlas;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.phys.Vec3;
@@ -46,5 +45,4 @@ public final class FBPConstants {
     public static final Supplier<TextureAtlasSprite> FBP_PARTICLE_SPRITE = () -> Minecraft.getInstance().getBlockRenderer().getBlockModelShaper().getParticleIcon(Blocks.WHITE_CONCRETE.defaultBlockState());
 
     public static final ParticleRenderType FBP_TERRAIN_RENDER = new ParticleRenderType("FBP_TERRAIN_RENDER", RenderType.translucentMovingBlock());
-    public static final ParticleRenderType FBP_PARTICLE_RENDER = new ParticleRenderType("FBP_PARTICLE_RENDER", RenderType.translucentParticle(TextureAtlas.LOCATION_BLOCKS));
 }

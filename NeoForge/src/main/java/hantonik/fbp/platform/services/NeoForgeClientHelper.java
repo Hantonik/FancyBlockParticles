@@ -1,22 +1,16 @@
 package hantonik.fbp.platform.services;
 
 import com.mojang.blaze3d.vertex.PoseStack;
-import net.irisshaders.iris.Iris;
-import net.irisshaders.iris.pipeline.ShaderRenderingPipeline;
-import net.irisshaders.iris.pipeline.programs.ShaderAccess;
-import net.irisshaders.iris.pipeline.programs.ShaderKey;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ClientLevel;
-import net.minecraft.client.renderer.CompiledShaderProgram;
 import net.minecraft.client.renderer.MultiBufferSource;
+import net.minecraft.client.renderer.block.model.BlockModelPart;
 import net.minecraft.client.renderer.texture.OverlayTexture;
-import net.minecraft.client.resources.model.BakedModel;
 import net.minecraft.core.BlockPos;
-import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.block.state.BlockState;
-import net.neoforged.fml.ModList;
 import net.neoforged.neoforge.client.RenderTypeHelper;
-import net.neoforged.neoforge.client.model.data.ModelData;
+
+import java.util.List;
 
 public final class NeoForgeClientHelper implements IClientHelper {
     @Override
@@ -25,32 +19,7 @@ public final class NeoForgeClientHelper implements IClientHelper {
     }
 
     @Override
-    public void renderBlock(ClientLevel level, BakedModel model, BlockState state, BlockPos pos, PoseStack stack, MultiBufferSource bufferSource) {
-        for (var type : model.getRenderTypes(state, RandomSource.create(state.getSeed(pos)), ModelData.EMPTY)) {
-            var buffer = bufferSource.getBuffer(RenderTypeHelper.getMovingBlockRenderType(type));
-
-            Minecraft.getInstance().getBlockRenderer().getModelRenderer().tesselateBlock(level, model, state, pos, stack, buffer, false, RandomSource.create(), state.getSeed(pos), OverlayTexture.NO_OVERLAY, ModelData.EMPTY, type);
-        }
-    }
-
-    @Override
-    public CompiledShaderProgram getParticleTranslucentShader() {
-        return ModList.get().isLoaded("iris") || ModList.get().isLoaded("oculus") ? ShaderAccess.getParticleTranslucentShader() : IClientHelper.super.getParticleTranslucentShader();
-    }
-
-    @Override
-    public CompiledShaderProgram getBlockTranslucentShader() {
-        if (ModList.get().isLoaded("iris") || ModList.get().isLoaded("oculus")) {
-            var pipeline = Iris.getPipelineManager().getPipelineNullable();
-
-            if (pipeline instanceof ShaderRenderingPipeline shaderPipeline) {
-                var shader = shaderPipeline.getShaderMap().getShader(ShaderKey.MOVING_BLOCK);
-
-                if (shader != null)
-                    return shader;
-            }
-        }
-
-        return IClientHelper.super.getBlockTranslucentShader();
+    public void renderBlock(ClientLevel level, List<BlockModelPart> list, BlockState state, BlockPos pos, PoseStack stack, MultiBufferSource bufferSource) {
+        Minecraft.getInstance().getBlockRenderer().getModelRenderer().tesselateBlock(level, list, state, pos, stack, type -> bufferSource.getBuffer(RenderTypeHelper.getMovingBlockRenderType(type)), false, OverlayTexture.NO_OVERLAY);
     }
 }

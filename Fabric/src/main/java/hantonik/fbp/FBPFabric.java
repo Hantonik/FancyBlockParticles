@@ -51,7 +51,6 @@ public final class FBPFabric implements ClientModInitializer {
 
         ParticleEngine.RENDER_ORDER = Util.make(new ImmutableList.Builder<ParticleRenderType>(), builder -> {
             builder.add(FBPConstants.FBP_TERRAIN_RENDER);
-            builder.add(FBPConstants.FBP_PARTICLE_RENDER);
 
             builder.addAll(ParticleEngine.RENDER_ORDER);
         }).build();

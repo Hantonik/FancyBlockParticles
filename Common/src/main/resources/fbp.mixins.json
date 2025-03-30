@@ -7,7 +7,6 @@
     "MixinLevelRenderer",
     "MixinOptionsScreen",
     "MixinParticleEngine",
-    "MixinSectionCompiler",
     "MixinWeatherEffectRenderer"
   ],
   "minVersion": "0.8"
