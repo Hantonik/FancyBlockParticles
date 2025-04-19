@@ -6,7 +6,7 @@ plugins {
 
     id 'io.freefair.lombok' version '8.+' apply false
 
-    id 'net.neoforged.gradleutils' version '3.+'
+    id 'net.neoforged.gradleutils' version '4.+'
 }
 
 gradleutils.version {
