@@ -16,7 +16,7 @@ public abstract class MixinModelBlockRenderer {
     @WrapOperation(at = @At(value = "INVOKE", target = "Lnet/minecraft/world/level/block/Block;shouldRenderFace(Lnet/minecraft/world/level/BlockGetter;Lnet/minecraft/core/BlockPos;Lnet/minecraft/world/level/block/state/BlockState;Lnet/minecraft/world/level/block/state/BlockState;Lnet/minecraft/core/Direction;)Z"), method = "shouldRenderFace(Lnet/minecraft/world/level/BlockAndTintGetter;Lnet/minecraft/core/BlockPos;Lnet/minecraft/world/level/block/state/BlockState;ZLnet/minecraft/core/Direction;Lnet/minecraft/core/BlockPos;)Z")
     private static boolean shouldRenderFace(BlockGetter level, BlockPos pos, BlockState state, BlockState faceState, Direction face, Operation<Boolean> original) {
         if (FBPPlacingAnimationManager.isHidden(pos.relative(face)))
-            return false;
+            return true;
 
         return original.call(level, pos, state, faceState, face);
     }
