@@ -219,8 +219,9 @@
   "tooltip.fbp.animation": "PLATZIERUNGSANIMATION",
   "tooltip.fbp.particles": "PARTIKEL",
 
-  "tooltip.fbp.add": "HINZUFÜGEN",
-  "tooltip.fbp.remove": "ENTFERNEN",
+  "tooltip.fbp.fancy": "SCHICK",
+  "tooltip.fbp.vanilla": "VANILLA",
+  "tooltip.fbp.disabled": "DEAKTIVIERT",
 
   "text.fbp.version": "Version: %s"
 }

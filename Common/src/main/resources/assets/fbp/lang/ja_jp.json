@@ -219,8 +219,9 @@
   "tooltip.fbp.animation": "配置アニメーション",
   "tooltip.fbp.particles": "パーティクル",
 
-  "tooltip.fbp.add": "追加",
-  "tooltip.fbp.remove": "削除",
+  "tooltip.fbp.fancy": "ファンシー",
+  "tooltip.fbp.vanilla": "バニラ",
+  "tooltip.fbp.disabled": "無効",
 
   "text.fbp.version": "バージョン: %s"
 }

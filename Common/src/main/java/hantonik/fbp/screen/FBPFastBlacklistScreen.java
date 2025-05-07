@@ -3,6 +3,7 @@ package hantonik.fbp.screen;
 import hantonik.fbp.FancyBlockParticles;
 import hantonik.fbp.init.FBPKeyMappings;
 import hantonik.fbp.screen.component.widget.button.FBPBlacklistButton;
+import hantonik.fbp.util.BlacklistMode;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
@@ -51,13 +52,13 @@ public class FBPFastBlacklistScreen extends Screen {
         var x = this.width / 2;
         var y = this.height / 2;
 
-        this.animationButton = this.addRenderableWidget(new FBPBlacklistButton(x - 130, y + 5, false, !FancyBlockParticles.CONFIG.isBlockAnimationsEnabled(this.state.getBlock()), button -> {
+        this.animationButton = this.addRenderableWidget(new FBPBlacklistButton(x - 130, y + 5, false, FancyBlockParticles.CONFIG.isBlockAnimationsEnabled(this.state.getBlock()) ? BlacklistMode.FANCY : BlacklistMode.BLACKLISTED, button -> {
             FancyBlockParticles.CONFIG.toggleAnimations(this.state.getBlock());
 
             this.onClose();
         }));
 
-        this.particleButton = this.addRenderableWidget(new FBPBlacklistButton(x + 70, y + 5, true, !FancyBlockParticles.CONFIG.isBlockParticlesEnabled(this.state.getBlock()), button -> {
+        this.particleButton = this.addRenderableWidget(new FBPBlacklistButton(x + 70, y + 5, true, FancyBlockParticles.CONFIG.getBlockParticlesMode(this.state.getBlock()), button -> {
             FancyBlockParticles.CONFIG.toggleParticles(this.state.getBlock());
 
             this.onClose();
@@ -113,15 +114,19 @@ public class FBPFastBlacklistScreen extends Screen {
         graphics.drawCenteredString(this.font, Component.literal(displayId.getNamespace()).withStyle(ChatFormatting.GOLD).append(Component.literal(":").withStyle(ChatFormatting.RED)).append(Component.literal(displayId.getPath()).withStyle(ChatFormatting.GREEN)).withStyle(ChatFormatting.BOLD), x, y - 19, 0);
 
         if (this.animationButton.isHovered()) {
-            graphics.drawCenteredString(this.font, Component.translatable("tooltip.fbp.animation").withStyle(ChatFormatting.BOLD, ChatFormatting.GREEN), this.animationButton.getX() + 30, this.animationButton.getY() + 30 - 42, 0);
+            graphics.drawCenteredString(this.font, Component.translatable("tooltip.fbp.animation").withStyle(ChatFormatting.BOLD, ChatFormatting.AQUA), this.animationButton.getX() + 30, this.animationButton.getY() + 30 - 42, 0);
 
-            graphics.drawCenteredString(this.font, this.animationButton.isBlackListed() ? Component.translatable("tooltip.fbp.remove").withStyle(ChatFormatting.BOLD, ChatFormatting.RED) : Component.translatable("tooltip.fbp.add").withStyle(ChatFormatting.BOLD, ChatFormatting.GREEN), this.animationButton.getX() + 30, this.animationButton.getY() + 30 + 35, 0);
+            graphics.drawCenteredString(this.font, this.animationButton.getBlacklistMode() == BlacklistMode.FANCY ? Component.translatable("tooltip.fbp.fancy").withStyle(ChatFormatting.BOLD, ChatFormatting.GREEN) : Component.translatable("tooltip.fbp.disabled").withStyle(ChatFormatting.BOLD, ChatFormatting.RED), this.animationButton.getX() + 30, this.animationButton.getY() + 30 + 35, 0);
         }
 
         if (this.particleButton.isHovered()) {
-            graphics.drawCenteredString(this.font, Component.translatable("tooltip.fbp.particles").withStyle(ChatFormatting.BOLD, ChatFormatting.GREEN), this.particleButton.getX() + 30, this.particleButton.getY() + 30 - 42, 0);
+            graphics.drawCenteredString(this.font, Component.translatable("tooltip.fbp.particles").withStyle(ChatFormatting.BOLD, ChatFormatting.AQUA), this.particleButton.getX() + 30, this.particleButton.getY() + 30 - 42, 0);
 
-            graphics.drawCenteredString(this.font, this.particleButton.isBlackListed() ? Component.translatable("tooltip.fbp.remove").withStyle(ChatFormatting.BOLD, ChatFormatting.RED) : Component.translatable("tooltip.fbp.add").withStyle(ChatFormatting.BOLD, ChatFormatting.GREEN), this.particleButton.getX() + 30, this.particleButton.getY() + 30 + 35, 0);
+            switch (this.particleButton.getBlacklistMode()) {
+                case FANCY -> graphics.drawCenteredString(this.font, Component.translatable("tooltip.fbp.fancy").withStyle(ChatFormatting.BOLD, ChatFormatting.GREEN), this.particleButton.getX() + 30, this.particleButton.getY() + 30 + 35, 0);
+                case VANILLA -> graphics.drawCenteredString(this.font, Component.translatable("tooltip.fbp.vanilla").withStyle(ChatFormatting.BOLD, ChatFormatting.YELLOW), this.particleButton.getX() + 30, this.particleButton.getY() + 30 + 35, 0);
+                case BLACKLISTED -> graphics.drawCenteredString(this.font, Component.translatable("tooltip.fbp.disabled").withStyle(ChatFormatting.BOLD, ChatFormatting.RED), this.particleButton.getX() + 30, this.particleButton.getY() + 30 + 35, 0);
+            }
         }
 
         graphics.pose().pushPose();
