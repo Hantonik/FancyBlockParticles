@@ -217,8 +217,9 @@
   "tooltip.fbp.animation": "放置动画",
   "tooltip.fbp.particles": "粒子",
 
-  "tooltip.fbp.add": "添加",
-  "tooltip.fbp.remove": "移除",
+  "tooltip.fbp.fancy": "精美",
+  "tooltip.fbp.vanilla": "原版",
+  "tooltip.fbp.disabled": "已禁用",
 
   "text.fbp.version": "版本: %s"
 }

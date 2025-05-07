@@ -1,9 +1,11 @@
 package hantonik.fbp.config;
 
+import com.google.common.collect.Maps;
 import com.google.gson.*;
 import hantonik.fbp.FancyBlockParticles;
 import hantonik.fbp.animation.FBPPlacingAnimationManager;
 import hantonik.fbp.platform.Services;
+import hantonik.fbp.util.BlacklistMode;
 import hantonik.fbp.util.FBPConstants;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
@@ -19,8 +21,7 @@ import org.apache.commons.compress.utils.Lists;
 import java.io.*;
 import java.nio.file.FileAlreadyExistsException;
 import java.nio.file.Files;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 @Getter
 @Setter
@@ -55,25 +56,27 @@ public final class FBPConfig implements IFBPConfig<FBPConfig> {
     public final Overlay overlay;
 
     public void toggleParticles(Block block) {
-        if (this.isBlockParticlesEnabled(block))
-            this.global.disabledParticles.add(block);
+        var mode = this.global.particlesBlacklist.getOrDefault(block, BlacklistMode.FANCY).getNext();
+
+        if (mode == BlacklistMode.FANCY)
+            this.global.particlesBlacklist.remove(block);
         else
-            this.global.disabledParticles.remove(block);
+            this.global.particlesBlacklist.put(block, mode);
     }
 
     public void toggleAnimations(Block block) {
         if (this.isBlockAnimationsEnabled(block))
-            this.global.disabledAnimations.add(block);
+            this.global.animationsBlacklist.add(block);
         else
-            this.global.disabledAnimations.remove(block);
+            this.global.animationsBlacklist.remove(block);
     }
 
-    public boolean isBlockParticlesEnabled(Block block) {
-        return !this.global.disabledParticles.contains(block);
+    public BlacklistMode getBlockParticlesMode(Block block) {
+        return this.global.particlesBlacklist.getOrDefault(block, BlacklistMode.FANCY);
     }
 
     public boolean isBlockAnimationsEnabled(Block block) {
-        return !this.global.disabledAnimations.contains(block);
+        return !this.global.animationsBlacklist.contains(block);
     }
 
     public static FBPConfig create() {
@@ -214,8 +217,8 @@ public final class FBPConfig implements IFBPConfig<FBPConfig> {
 
         private static final boolean DEFAULT_INFINITE_DURATION = false;
 
-        private static final List<Block> DEFAULT_DISABLED_PARTICLES = List.of();
-        private static final List<Block> DEFAULT_DISABLED_ANIMATIONS = List.of();
+        private static final Map<Block, BlacklistMode> DEFAULT_PARTICLES_BLACKLIST = Map.of();
+        private static final List<Block> DEFAULT_ANIMATIONS_BLACKLIST = List.of();
 
         public static final Global DEFAULT_CONFIG = new Global(
                 DEFAULT_ENABLED,
@@ -223,7 +226,7 @@ public final class FBPConfig implements IFBPConfig<FBPConfig> {
                 DEFAULT_FREEZE_EFFECT,
                 DEFAULT_CARTOON_MODE, DEFAULT_CULL_PARTICLES,
                 DEFAULT_INFINITE_DURATION,
-                DEFAULT_DISABLED_PARTICLES, DEFAULT_DISABLED_ANIMATIONS
+                DEFAULT_PARTICLES_BLACKLIST, DEFAULT_ANIMATIONS_BLACKLIST
         );
 
         private boolean enabled;
@@ -239,10 +242,10 @@ public final class FBPConfig implements IFBPConfig<FBPConfig> {
         private boolean infiniteDuration;
 
         @Setter(AccessLevel.PRIVATE)
-        private List<Block> disabledParticles;
+        private Map<Block, BlacklistMode> particlesBlacklist;
 
         @Setter(AccessLevel.PRIVATE)
-        private List<Block> disabledAnimations;
+        private List<Block> animationsBlacklist;
 
         @Override
         public void setConfig(Global config) {
@@ -257,8 +260,8 @@ public final class FBPConfig implements IFBPConfig<FBPConfig> {
 
             this.infiniteDuration = config.infiniteDuration;
 
-            this.disabledParticles = new ArrayList<>(config.disabledParticles);
-            this.disabledAnimations = new ArrayList<>(config.disabledAnimations);
+            this.particlesBlacklist = new HashMap<>(config.particlesBlacklist);
+            this.animationsBlacklist = new ArrayList<>(config.animationsBlacklist);
         }
 
         @Override
@@ -274,8 +277,8 @@ public final class FBPConfig implements IFBPConfig<FBPConfig> {
 
             this.infiniteDuration = config.infiniteDuration;
 
-            this.disabledParticles.addAll(config.disabledParticles);
-            this.disabledAnimations.addAll(config.disabledAnimations);
+            this.particlesBlacklist.putAll(config.particlesBlacklist);
+            this.animationsBlacklist.addAll(config.animationsBlacklist);
         }
 
         @Override
@@ -292,20 +295,52 @@ public final class FBPConfig implements IFBPConfig<FBPConfig> {
 
             this.infiniteDuration = GsonHelper.getAsBoolean(json, "infiniteDuration", DEFAULT_INFINITE_DURATION);
 
-            this.disabledParticles = Util.make(Lists.newArrayList(), disabled -> {
-                if (json.has("disabledParticles")) {
-                    for (var entry : GsonHelper.getAsJsonArray(json, "disabledParticles"))
-                        disabled.add(BuiltInRegistries.BLOCK.get(ResourceLocation.tryParse(entry.getAsString())));
+            this.particlesBlacklist = Util.make(Maps.newHashMap(), blacklisted -> {
+                if (json.has("particlesBlacklist")) {
+                    for (var entry : GsonHelper.getAsJsonObject(json, "particlesBlacklist").entrySet()) {
+                        try {
+                            var mode = BlacklistMode.valueOf(entry.getValue().getAsString().toUpperCase(Locale.ENGLISH));
+
+                            if (mode != BlacklistMode.FANCY)
+                                blacklisted.put(BuiltInRegistries.BLOCK.get(ResourceLocation.tryParse(entry.getKey())), mode);
+                        } catch (IllegalArgumentException e) {
+                            FancyBlockParticles.LOGGER.error("Value '{}' is not a valid blacklist mode!", entry.getValue().getAsString().toUpperCase(Locale.ENGLISH));
+                        }
+                    }
                 } else
-                    disabled.addAll(DEFAULT_DISABLED_PARTICLES);
+                    blacklisted.putAll(DEFAULT_PARTICLES_BLACKLIST);
             });
 
-            this.disabledAnimations = Util.make(Lists.newArrayList(), disabled -> {
+            this.animationsBlacklist = Util.make(Lists.newArrayList(), blacklisted -> {
+                if (json.has("animationsBlacklist")) {
+                    for (var entry : GsonHelper.getAsJsonArray(json, "animationsBlacklist"))
+                        blacklisted.add(BuiltInRegistries.BLOCK.get(ResourceLocation.tryParse(entry.getAsString())));
+                } else
+                    blacklisted.addAll(DEFAULT_ANIMATIONS_BLACKLIST);
+            });
+
+            // OUTDATED
+            this.loadOutdated(json);
+        }
+
+        @Deprecated(forRemoval = true)
+        private void loadOutdated(JsonObject json) {
+            this.particlesBlacklist = Util.make(this.particlesBlacklist, blacklisted -> {
+                if (json.has("disabledParticles")) {
+                    FancyBlockParticles.LOGGER.warn("Using outdated object name: 'disabledParticles'");
+
+                    for (var entry : GsonHelper.getAsJsonArray(json, "disabledParticles"))
+                        blacklisted.put(BuiltInRegistries.BLOCK.get(ResourceLocation.tryParse(entry.getAsString())), BlacklistMode.VANILLA);
+                }
+            });
+
+            this.animationsBlacklist = Util.make(this.animationsBlacklist, disabled -> {
                 if (json.has("disabledAnimations")) {
+                    FancyBlockParticles.LOGGER.warn("Using outdated object name: 'disabledAnimations'");
+
                     for (var entry : GsonHelper.getAsJsonArray(json, "disabledAnimations"))
                         disabled.add(BuiltInRegistries.BLOCK.get(ResourceLocation.tryParse(entry.getAsString())));
-                } else
-                    disabled.addAll(DEFAULT_DISABLED_ANIMATIONS);
+                }
             });
         }
 
@@ -325,13 +360,14 @@ public final class FBPConfig implements IFBPConfig<FBPConfig> {
 
             json.addProperty("infiniteDuration", this.infiniteDuration);
 
-            json.add("disabledParticles", Util.make(new JsonArray(), disabled -> {
-                for (var entry : this.disabledParticles)
-                    disabled.add(BuiltInRegistries.BLOCK.getKey(entry).toString());
+            json.add("particlesBlacklist", Util.make(new JsonObject(), blacklisted -> {
+                for (var entry : this.particlesBlacklist.entrySet())
+                    if (entry.getValue() != BlacklistMode.FANCY)
+                        blacklisted.addProperty(BuiltInRegistries.BLOCK.getKey(entry.getKey()).toString(), entry.getValue().name());
             }));
 
-            json.add("disabledAnimations", Util.make(new JsonArray(), disabled -> {
-                for (var entry : this.disabledAnimations)
+            json.add("animationsBlacklist", Util.make(new JsonArray(), disabled -> {
+                for (var entry : this.animationsBlacklist)
                     disabled.add(BuiltInRegistries.BLOCK.getKey(entry).toString());
             }));
 
@@ -351,7 +387,7 @@ public final class FBPConfig implements IFBPConfig<FBPConfig> {
                     this.freezeEffect,
                     this.cartoonMode, this.cullParticles,
                     this.infiniteDuration,
-                    new ArrayList<>(this.disabledParticles), new ArrayList<>(this.disabledAnimations)
+                    new HashMap<>(this.particlesBlacklist), new ArrayList<>(this.animationsBlacklist)
             );
         }
     }
