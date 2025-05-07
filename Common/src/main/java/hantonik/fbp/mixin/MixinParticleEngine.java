@@ -3,6 +3,7 @@ package hantonik.fbp.mixin;
 import hantonik.fbp.FancyBlockParticles;
 import hantonik.fbp.init.FBPKeyMappings;
 import hantonik.fbp.particle.*;
+import hantonik.fbp.util.BlacklistMode;
 import hantonik.fbp.util.FBPConstants;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ClientLevel;
@@ -138,9 +139,12 @@ public abstract class MixinParticleEngine {
         if (FancyBlockParticles.CONFIG.terrain.isFancyBreakingParticles() && !(callback.getReturnValue() instanceof FBPTerrainParticle)) {
             if (options instanceof BlockParticleOption type && callback.getReturnValue() instanceof TerrainParticle original) {
                 if (options.getType() == ParticleTypes.BLOCK) {
-                    if (FancyBlockParticles.CONFIG.isBlockParticlesEnabled(type.getState().getBlock())) {
+                    var mode = FancyBlockParticles.CONFIG.getBlockParticlesMode(type.getState().getBlock());
+
+                    if (mode != BlacklistMode.VANILLA)
                         callback.setReturnValue(null);
 
+                    if (mode == BlacklistMode.FANCY) {
                         if (!FancyBlockParticles.CONFIG.global.isFreezeEffect() || FancyBlockParticles.CONFIG.terrain.isSpawnWhileFrozen())
                             if (this.level.getFluidState(original.pos).isEmpty())
                                 callback.setReturnValue(new FBPTerrainParticle.Provider(original.pos, original.getQuadSize(1) * 5.0F, null, original.sprite, original.rCol, original.gCol, original.bCol).createParticle(type, this.level, x, y, z, 0.0D, 0.0D, 0.0D));
@@ -148,10 +152,12 @@ public abstract class MixinParticleEngine {
                 }
             } else if (callback.getReturnValue() instanceof SnowflakeParticle original) {
                 if (options.getType() == ParticleTypes.SNOWFLAKE) {
-                    if (FancyBlockParticles.CONFIG.isBlockParticlesEnabled(Blocks.POWDER_SNOW)) {
-                        if (FancyBlockParticles.CONFIG.global.isFreezeEffect() && !FancyBlockParticles.CONFIG.terrain.isSpawnWhileFrozen())
+                    var mode = FancyBlockParticles.CONFIG.getBlockParticlesMode(Blocks.POWDER_SNOW);
+
+                    if (mode != BlacklistMode.VANILLA) {
+                        if (mode == BlacklistMode.BLACKLISTED || (FancyBlockParticles.CONFIG.global.isFreezeEffect() && !FancyBlockParticles.CONFIG.terrain.isSpawnWhileFrozen()))
                             callback.setReturnValue(null);
-                        else
+                        else if (mode == BlacklistMode.FANCY)
                             callback.setReturnValue(new FBPTerrainParticle.Provider(BlockPos.containing(x, y, z), original.getQuadSize(1) * 5.0F, null, null, original.rCol, original.gCol, original.bCol).createParticle(new BlockParticleOption(ParticleTypes.BLOCK, Blocks.POWDER_SNOW.defaultBlockState()), this.level, x, y, z, 0.0D, 0.0D, 0.0D));
                     }
                 }
@@ -160,24 +166,43 @@ public abstract class MixinParticleEngine {
 
         if (callback.getReturnValue() instanceof BreakingItemParticle original) {
             if (options.getType() == ParticleTypes.ITEM_SNOWBALL || options instanceof ItemParticleOption data && data.getItem().is(Items.SNOWBALL)) {
-                if (FancyBlockParticles.CONFIG.misc.isFancySnowballParticles() && FancyBlockParticles.CONFIG.isBlockParticlesEnabled(Blocks.SNOW))
+                var mode = FancyBlockParticles.CONFIG.getBlockParticlesMode(Blocks.SNOW);
+
+                if (mode != BlacklistMode.VANILLA)
+                    callback.setReturnValue(null);
+
+                if (FancyBlockParticles.CONFIG.misc.isFancySnowballParticles() && mode == BlacklistMode.FANCY)
                     callback.setReturnValue(new FBPTerrainParticle.Provider(BlockPos.containing(x, y, z), FBPConstants.RANDOM.nextFloat(0.35F, 0.6F) * FancyBlockParticles.CONFIG.misc.getSnowballParticleSizeMultiplier(), null, null, original.rCol, original.gCol, original.bCol).createParticle(new BlockParticleOption(ParticleTypes.BLOCK, Blocks.SNOW_BLOCK.defaultBlockState()), this.level, x, y, z, 0.0D, 0.0D, 0.0D));
             } else if (options.getType() == ParticleTypes.ITEM_SLIME || options instanceof ItemParticleOption data && data.getItem().is(Items.SLIME_BALL)) {
-                if (FancyBlockParticles.CONFIG.misc.isFancySlimeParticles() && FancyBlockParticles.CONFIG.isBlockParticlesEnabled(Blocks.SLIME_BLOCK))
+                var mode = FancyBlockParticles.CONFIG.getBlockParticlesMode(Blocks.SLIME_BLOCK);
+
+                if (mode != BlacklistMode.VANILLA)
+                    callback.setReturnValue(null);
+
+                if (FancyBlockParticles.CONFIG.misc.isFancySlimeParticles() && mode == BlacklistMode.FANCY)
                     callback.setReturnValue(new FBPTerrainParticle.Provider(BlockPos.containing(x, y, z), FBPConstants.RANDOM.nextFloat(0.35F, 0.6F) * FancyBlockParticles.CONFIG.misc.getSlimeParticleSizeMultiplier(), null, null, original.rCol, original.gCol, original.bCol).createParticle(new BlockParticleOption(ParticleTypes.BLOCK, Blocks.SLIME_BLOCK.defaultBlockState()), this.level, x, y, z, 0.0D, 0.0D, 0.0D));
-            } else if (options.getType() == ParticleTypes.ITEM)
-                if (options instanceof ItemParticleOption data && data.getItem().is(Items.SPLASH_POTION))
-                    if (FancyBlockParticles.CONFIG.misc.isFancyBreakingSplashPotionParticles() && FancyBlockParticles.CONFIG.isBlockParticlesEnabled(Blocks.GLASS))
+            } else if (options.getType() == ParticleTypes.ITEM) {
+                if (options instanceof ItemParticleOption data && data.getItem().is(Items.SPLASH_POTION)) {
+                    var mode = FancyBlockParticles.CONFIG.getBlockParticlesMode(Blocks.GLASS);
+
+                    if (mode != BlacklistMode.VANILLA)
+                        callback.setReturnValue(null);
+
+                    if (FancyBlockParticles.CONFIG.misc.isFancyBreakingSplashPotionParticles() && mode == BlacklistMode.FANCY)
                         callback.setReturnValue(new FBPTerrainParticle.Provider(BlockPos.containing(x, y, z), FBPConstants.RANDOM.nextFloat(0.5F, 0.75F) * FancyBlockParticles.CONFIG.misc.getBreakingSplashPotionParticleSizeMultiplier(), null, null, original.rCol, original.gCol, original.bCol).createParticle(new BlockParticleOption(ParticleTypes.BLOCK, Blocks.GLASS.defaultBlockState()), this.level, x, y, z, xd, yd, zd));
+                }
+            }
         }
 
         if (FancyBlockParticles.CONFIG.terrain.isFancyFallingDustParticles() && !(callback.getReturnValue() instanceof FBPTerrainParticle)) {
             if (options instanceof BlockParticleOption type && callback.getReturnValue() instanceof FallingDustParticle original) {
                 if (options.getType() == ParticleTypes.FALLING_DUST) {
-                    if (FancyBlockParticles.CONFIG.isBlockParticlesEnabled(type.getState().getBlock())) {
-                        if (FancyBlockParticles.CONFIG.global.isFreezeEffect() && !FancyBlockParticles.CONFIG.terrain.isSpawnWhileFrozen())
+                    var mode = FancyBlockParticles.CONFIG.getBlockParticlesMode(type.getState().getBlock());
+
+                    if (mode != BlacklistMode.VANILLA) {
+                        if (mode == BlacklistMode.BLACKLISTED || (FancyBlockParticles.CONFIG.global.isFreezeEffect() && !FancyBlockParticles.CONFIG.terrain.isSpawnWhileFrozen()))
                             callback.setReturnValue(null);
-                        else
+                        else if (mode == BlacklistMode.FANCY)
                             callback.setReturnValue(new FBPTerrainParticle.Provider(BlockPos.containing(x, y, z), original.getQuadSize(1) * 6.0F, null, null, 1.0F, 1.0F, 1.0F).createParticle(type, this.level, x, y, z, 0.0D, 0.0D, 0.0D).setPower(0.2F).setYSpeed(0.0D));
                     }
                 }
@@ -194,10 +219,11 @@ public abstract class MixinParticleEngine {
 
     @Inject(at = @At("HEAD"), method = "destroy", cancellable = true)
     public void destroy(BlockPos pos, BlockState state, CallbackInfo callback) {
-        if (!FancyBlockParticles.CONFIG.global.isEnabled() || !FancyBlockParticles.CONFIG.terrain.isFancyBreakingParticles() || !FancyBlockParticles.CONFIG.isBlockParticlesEnabled(state.getBlock()))
-            return;
+        if (FancyBlockParticles.CONFIG.getBlockParticlesMode(state.getBlock()) != BlacklistMode.VANILLA)
+            callback.cancel();
 
-        callback.cancel();
+        if (!FancyBlockParticles.CONFIG.global.isEnabled() || !FancyBlockParticles.CONFIG.terrain.isFancyBreakingParticles() || FancyBlockParticles.CONFIG.getBlockParticlesMode(state.getBlock()) != BlacklistMode.FANCY)
+            return;
 
         if (!state.isAir() && state.shouldSpawnParticlesOnBreak()) {
             var shape = state.getShape(this.level, pos);
@@ -235,10 +261,11 @@ public abstract class MixinParticleEngine {
     public void crack(BlockPos pos, Direction side, CallbackInfo callback) {
         var state = this.level.getBlockState(pos);
 
-        if (!FancyBlockParticles.CONFIG.global.isEnabled() || !FancyBlockParticles.CONFIG.terrain.isFancyCrackingParticles() || !FancyBlockParticles.CONFIG.isBlockParticlesEnabled(state.getBlock()))
-            return;
+        if (FancyBlockParticles.CONFIG.getBlockParticlesMode(state.getBlock()) != BlacklistMode.VANILLA)
+            callback.cancel();
 
-        callback.cancel();
+        if (!FancyBlockParticles.CONFIG.global.isEnabled() || !FancyBlockParticles.CONFIG.terrain.isFancyCrackingParticles() || FancyBlockParticles.CONFIG.getBlockParticlesMode(state.getBlock()) != BlacklistMode.FANCY)
+            return;
 
         if (state.getRenderShape() != RenderShape.INVISIBLE) {
             var posX = pos.getX();
