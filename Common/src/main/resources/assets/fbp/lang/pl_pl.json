@@ -217,8 +217,9 @@
   "tooltip.fbp.animation": "ANIMACJA KŁADZENIA",
   "tooltip.fbp.particles": "CZĄSTECZKI",
 
-  "tooltip.fbp.add": "DODAJ",
-  "tooltip.fbp.remove": "USUŃ",
+  "tooltip.fbp.fancy": "FANTAZYJNE",
+  "tooltip.fbp.vanilla": "WANILIA",
+  "tooltip.fbp.disabled": "WYŁĄCZONE",
 
   "text.fbp.version": "Wersja: %s"
 }

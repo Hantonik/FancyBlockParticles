@@ -2,6 +2,7 @@ package hantonik.fbp.screen.component.widget.button;
 
 import com.mojang.blaze3d.systems.RenderSystem;
 import hantonik.fbp.FancyBlockParticles;
+import hantonik.fbp.util.BlacklistMode;
 import lombok.Getter;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Button;
@@ -13,13 +14,13 @@ public class FBPBlacklistButton extends Button {
 
     private final boolean particle;
     @Getter
-    private final boolean isBlackListed;
+    private final BlacklistMode blacklistMode;
 
-    public FBPBlacklistButton(int x, int y, boolean particle, boolean isBlacklisted, OnPress onPress) {
+    public FBPBlacklistButton(int x, int y, boolean particle, BlacklistMode blacklistMode, OnPress onPress) {
         super(x, y, 60, 60, Component.empty(), onPress, Button.DEFAULT_NARRATION);
 
         this.particle = particle;
-        this.isBlackListed = isBlacklisted;
+        this.blacklistMode = blacklistMode;
     }
 
     @Override
@@ -28,8 +29,16 @@ public class FBPBlacklistButton extends Button {
         RenderSystem.enableBlend();
         RenderSystem.defaultBlendFunc();
 
-        graphics.blit(WIDGETS, this.getX(), this.getY(), this.isBlackListed ? 60 : 0, 196, 60, 60);
-        graphics.blit(WIDGETS, (int) (this.getX() + this.width / 2.0F - 22.5F + (this.particle ? 0.0F : 2.0F)), (int) (this.getY() + this.height / 2 - 22.5F), 256 - 45, this.particle ? 45 : 0, 45, 45);
+        graphics.blit(WIDGETS, this.getX(), this.getY(), this.getOffset(), 196, 60, 60);
+        graphics.blit(WIDGETS, (int) (this.getX() + this.width / 2.0F - 22.5F + (this.particle ? 0.0F : 2.0F)), (int) (this.getY() + this.height / 2.0F - 22.5F), 256 - 45, this.particle ? 45 : 0, 45, 45);
+    }
+
+    private int getOffset() {
+        return switch (this.blacklistMode) {
+            case FANCY -> 0;
+            case VANILLA -> 60;
+            case BLACKLISTED -> 120;
+        };
     }
 
     @Override
