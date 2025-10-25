@@ -80,7 +80,7 @@ public abstract class FBPAbstractOptionsScreen extends Screen {
 
         this.layout.addToFooter(footer);
 
-        var version = Component.translatable("text.fbp.version", SharedConstants.getCurrentVersion().getName() + "-" + FancyBlockParticles.MOD_VERSION);
+        var version = Component.translatable("text.fbp.version", SharedConstants.getCurrentVersion().name() + "-" + FancyBlockParticles.MOD_VERSION);
         this.layout.addToFooter(new StringWidget(this.font.width(version), 9, version, this.font), settings -> settings.alignHorizontallyLeft().alignVerticallyBottom().paddingLeft(5).paddingBottom(3));
 
         this.layout.visitWidgets(widget -> {

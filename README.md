@@ -5,6 +5,7 @@ This is revamped MorphoxL's <a href="https://www.curseforge.com/minecraft/mc-mod
 
 | Version |  Support   |
 |:-------:|:----------:|
+| 1.21.8  | **Active** |
 | 1.21.5  | **Active** |
 | 1.21.4  | **Active** |
 | 1.21.1  | **Active** |
@@ -13,7 +14,6 @@ This is revamped MorphoxL's <a href="https://www.curseforge.com/minecraft/mc-mod
 | 1.20.1  | **Active** |
 
 ## Description
-
 This mod introduces 3D particles into the game, offering the flexibility to customize their options according to your individual preferences. If you find any of the particles undesirable, you can decrease their quantity or disable them entirely. Once disabled (via the FBP panel), standard vanilla particles will appear.
 
 **This mod should be installed on the client side only!**

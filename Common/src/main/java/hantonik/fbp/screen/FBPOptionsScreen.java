@@ -22,6 +22,10 @@ public class FBPOptionsScreen extends FBPAbstractOptionsScreen {
 
     @Override
     protected void initOptions() {
+        this.list.addBig(
+                new StringWidget(310, 20, Component.translatable("widget.fbp.global.general"), this.font)
+        );
+
         this.list.addSmall(
                 new FBPToggleButton(150, 20, Component.translatable("button.fbp.global.enabled"), this.config.global::isEnabled, button -> this.config.global.setEnabled(!this.config.global.isEnabled()), Tooltip.create(Component.translatable("tooltip.fbp.global.enabled").append(CommonComponents.NEW_LINE).append(CommonComponents.NEW_LINE).append(Component.translatable("tooltip.fbp.default")).append(Component.translatable("button.fbp.common." + FBPConfig.DEFAULT_CONFIG.global.isEnabled())))),
                 new FBPToggleButton(150, 20, Component.translatable("button.fbp.global.freeze_effect"), this.config.global::isFreezeEffect, button -> this.config.global.setFreezeEffect(!this.config.global.isFreezeEffect()), Tooltip.create(Component.translatable("tooltip.fbp.global.freeze_effect").append(CommonComponents.NEW_LINE).append(CommonComponents.NEW_LINE).append(Component.translatable("tooltip.fbp.default")).append(Component.translatable("button.fbp.common." + FBPConfig.DEFAULT_CONFIG.global.isFreezeEffect())))),

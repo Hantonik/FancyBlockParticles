@@ -84,7 +84,7 @@ public final class FancyBlockParticles {
 
     public static void onRenderHud(GuiGraphics graphics) {
         if (FancyBlockParticles.CONFIG.global.isEnabled() && FancyBlockParticles.CONFIG.overlay.isFreezeEffectOverlay() && FancyBlockParticles.CONFIG.global.isFreezeEffect() && !Minecraft.getInstance().options.hideGui)
-            graphics.drawCenteredString(Minecraft.getInstance().font, Component.translatable("gui.fbp.freeze_effect").withStyle(ChatFormatting.BOLD), graphics.guiWidth() / 2, 5, FancyBlockParticles.CONFIG.overlay.getFreezeEffectColor());
+            graphics.drawCenteredString(Minecraft.getInstance().font, Component.translatable("gui.fbp.freeze_effect").withStyle(ChatFormatting.BOLD), graphics.guiWidth() / 2, 5, FancyBlockParticles.CONFIG.overlay.getFreezeEffectColor() | 0xFF << 24);
     }
 
     public static void onClientPause(Screen screen) {

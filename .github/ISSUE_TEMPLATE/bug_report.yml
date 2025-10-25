@@ -43,6 +43,7 @@ body:
       description: |
         Older versions are **not** supported!
       options:
+        - '1.21.8'
         - '1.21.5'
         - '1.21.4'
         - '1.21.3'

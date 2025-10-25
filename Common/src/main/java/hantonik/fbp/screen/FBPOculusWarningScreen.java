@@ -111,12 +111,10 @@ public class FBPOculusWarningScreen extends Screen {
 
         if (!this.continueButton.active)
             if (mouseX > this.continueButton.getX() && mouseX < this.continueButton.getX() + this.continueButton.getWidth() && mouseY > this.continueButton.getY() && mouseY < this.continueButton.getY() + this.continueButton.getHeight())
-                graphics.renderTooltip(this.font, Component.translatable("tooltip.fbp.shaders_warning.wait", String.valueOf((this.exitCountdown / 20) + 1)), mouseX, mouseY);
+                graphics.setTooltipForNextFrame(this.font, Component.translatable("tooltip.fbp.shaders_warning.wait", String.valueOf((this.exitCountdown / 20) + 1)), mouseX, mouseY);
 
         if (!this.dontShowAgainButton.active)
             if (mouseX > this.dontShowAgainButton.getX() && mouseX < this.dontShowAgainButton.getX() + this.dontShowAgainButton.getWidth() && mouseY > this.dontShowAgainButton.getY() && mouseY < this.dontShowAgainButton.getY() + this.dontShowAgainButton.getHeight())
-                graphics.renderTooltip(this.font, Component.translatable("tooltip.fbp.shaders_warning.wait", String.valueOf((this.exitCountdown / 20) + 1)), mouseX, mouseY);
-
-
+                graphics.setTooltipForNextFrame(this.font, Component.translatable("tooltip.fbp.shaders_warning.wait", String.valueOf((this.exitCountdown / 20) + 1)), mouseX, mouseY);
     }
 }
