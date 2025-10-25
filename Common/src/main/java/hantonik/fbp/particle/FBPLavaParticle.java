@@ -258,7 +258,7 @@ public class FBPLavaParticle extends LavaParticle implements IKillableParticle {
         buffer.vertex(pos.x, pos.y, pos.z).uv(u, v).color(rCol, gCol, bCol, alpha).uv2(light).endVertex();
     }
 
-    public static class Provider implements ParticleProvider<SimpleParticleType> {
+    public record Provider() implements ParticleProvider<SimpleParticleType> {
         @Nullable
         @Override
         public Particle createParticle(SimpleParticleType type, ClientLevel level, double x, double y, double z, double xd, double yd, double zd) {
