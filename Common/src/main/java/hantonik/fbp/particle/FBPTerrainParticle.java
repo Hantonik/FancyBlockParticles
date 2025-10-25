@@ -4,7 +4,6 @@ import com.mojang.blaze3d.vertex.VertexConsumer;
 import hantonik.fbp.FancyBlockParticles;
 import hantonik.fbp.util.FBPConstants;
 import hantonik.fbp.util.FBPRenderHelper;
-import lombok.RequiredArgsConstructor;
 import net.minecraft.client.Camera;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ClientLevel;
@@ -528,18 +527,7 @@ public class FBPTerrainParticle extends TerrainParticle implements IKillablePart
         return Math.sqrt(this.xd * this.xd + this.zd * this.zd) * (FancyBlockParticles.CONFIG.terrain.isRandomRotation() ? 200.0D : 500.0D) * FancyBlockParticles.CONFIG.terrain.getRotationMultiplier();
     }
 
-    @RequiredArgsConstructor
-    public static class Provider implements ParticleProvider<BlockParticleOption> {
-        private final BlockPos pos;
-        private final float scale;
-        @Nullable
-        private final Direction side;
-        @Nullable
-        private final TextureAtlasSprite sprite;
-        private final float rCol;
-        private final float gCol;
-        private final float bCol;
-
+    public record Provider(BlockPos pos, float scale, @Nullable Direction side, @Nullable TextureAtlasSprite sprite, float rCol, float gCol, float bCol) implements ParticleProvider<BlockParticleOption> {
         @Nullable
         @Override
         public FBPTerrainParticle createParticle(BlockParticleOption type, ClientLevel level, double x, double y, double z, double xd, double yd, double zd) {
