@@ -130,11 +130,8 @@ public class FBPDripParticle extends DripParticle implements IKillableParticle {
                             if (this.quadSize > max) {
                                 this.quadSize = max;
 
-                                if (this.sound != null) {
-                                    var volume = Mth.randomBetween(this.random, 0.3F, 1.0F);
-
-                                    this.level.playLocalSound(this.x, this.y, this.z, this.sound, SoundSource.BLOCKS, volume, 1.0F, false);
-                                }
+                                if (this.sound != null)
+                                    this.level.playLocalSound(this.x, this.y, this.z, this.sound, SoundSource.BLOCKS, Mth.randomBetween(this.random, 0.3F, 1.0F), 1.0F, false);
                             }
 
                             this.height = this.quadSize;
@@ -151,17 +148,7 @@ public class FBPDripParticle extends DripParticle implements IKillableParticle {
                     }
                 }
 
-                if (this.quadSize >= max || this.age >= this.lifetime) {
-                    this.yd -= 0.13D * this.gravity;
-
-                    this.move(this.xd, this.yd, this.zd);
-
-                    this.xd *= 0.6D;
-                    this.yd *= 1.00025D;
-                    this.zd *= 0.6D;
-                }
-
-                if (this.onGround && this.age < this.lifetime) {
+                if (this.onGround) {
                     this.xd = 0.0D;
                     this.zd = 0.0D;
 
@@ -193,6 +180,16 @@ public class FBPDripParticle extends DripParticle implements IKillableParticle {
 
                         if (this.alpha < 0.01F)
                             this.remove();
+                    }
+                } else {
+                    if (this.quadSize >= max || this.age >= this.lifetime) {
+                        this.yd -= 0.13D * this.gravity;
+
+                        this.move(this.xd, this.yd, this.zd);
+
+                        this.xd *= 0.6D;
+                        this.yd *= 1.00025D;
+                        this.zd *= 0.6D;
                     }
                 }
 
