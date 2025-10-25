@@ -4,7 +4,6 @@ import com.mojang.blaze3d.vertex.VertexConsumer;
 import hantonik.fbp.FancyBlockParticles;
 import hantonik.fbp.util.FBPConstants;
 import hantonik.fbp.util.FBPRenderHelper;
-import lombok.RequiredArgsConstructor;
 import net.minecraft.client.Camera;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ClientLevel;
@@ -33,12 +32,17 @@ public class FBPCampfireSmokeParticle extends CampfireSmokeParticle implements I
 
     private final float multiplier;
 
+    private double xdo;
+    private double zdo;
+
     private final float targetAlpha;
     private final float scaleAlpha;
     private float lastAlpha;
 
     private final float targetSize;
     private float lastSize;
+
+    private boolean blocked;
 
     private boolean killToggle;
 
@@ -125,8 +129,25 @@ public class FBPCampfireSmokeParticle extends CampfireSmokeParticle implements I
                 this.move(this.xd, this.yd, this.zd);
 
                 if (this.y == this.yo) {
-                    this.xd *= 1.1D;
-                    this.zd *= 1.1D;
+                    if (!this.blocked) {
+                        this.xdo = this.xd;
+                        this.zdo = this.zd;
+                    }
+
+                    this.blocked = true;
+
+                    if (Math.abs(this.xd) < Math.abs(this.xdo) + 0.035D)
+                        this.xd *= 1.1D;
+
+                    if (Math.abs(this.zd) < Math.abs(this.zdo) + 0.035D)
+                        this.zd *= 1.1D;
+                } else {
+                    if (this.blocked) {
+                        this.blocked = false;
+
+                        this.xd = Mth.lerp(FBPConstants.RANDOM.nextDouble(0.5D, 0.9D), this.xd, this.xdo);
+                        this.zd = Mth.lerp(FBPConstants.RANDOM.nextDouble(0.5D, 0.9D), this.zd, this.zdo);
+                    }
                 }
 
                 if (this.onGround) {
@@ -265,10 +286,7 @@ public class FBPCampfireSmokeParticle extends CampfireSmokeParticle implements I
         buffer.vertex(pos.x, pos.y, pos.z).uv(u, v).color(rCol, gCol, bCol, alpha).uv2(light).endVertex();
     }
 
-    @RequiredArgsConstructor
-    public static class Provider implements ParticleProvider<SimpleParticleType> {
-        private final boolean isSignal;
-
+    public record Provider(boolean isSignal) implements ParticleProvider<SimpleParticleType> {
         @Nullable
         @Override
         public Particle createParticle(SimpleParticleType type, ClientLevel level, double x, double y, double z, double xd, double yd, double zd) {

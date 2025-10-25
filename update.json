@@ -6,7 +6,7 @@
   },
 
   "1.20.4": {
-    "20.4.5.0": "Add option to disable blacklisted block particles completely. Fix Fancy drip particles leak",
+    "20.4.5.0": "Add option to disable blacklisted block particles completely. Fix Fancy drip particles leak. Improve particle physics",
     "20.4.4.1": "Fix glass particles when breaking egg",
     "20.4.4.0": "Fix particle spawning on Freeze effect. Add Fancy snowflake particles. Add Fancy breaking bottle particles",
     "20.4.3.0": "Compatible with Iris. Disable mod on dedicated server. Add Fancy falling dust particles",
