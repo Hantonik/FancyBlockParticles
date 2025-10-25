@@ -6,7 +6,6 @@ import hantonik.fbp.FancyBlockParticles;
 import hantonik.fbp.platform.Services;
 import hantonik.fbp.util.FBPConstants;
 import hantonik.fbp.util.FBPRenderHelper;
-import lombok.RequiredArgsConstructor;
 import net.minecraft.client.Camera;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ClientLevel;
@@ -313,10 +312,7 @@ public class FBPFlameParticle extends FlameParticle implements IKillableParticle
         return new FBPFlameParticle(level, x, y - 0.06D, z, xd, FBPConstants.RANDOM.nextDouble() * 0.025D, zd, isSoulFire, !(state.getBlock() instanceof TorchBlock) && !(state.getBlock() instanceof CandleBlock)).scale(scale);
     }
 
-    @RequiredArgsConstructor
-    public static class Provider implements ParticleProvider<SimpleParticleType> {
-        private final boolean isSoulFire;
-
+    public record Provider(boolean isSoulFire) implements ParticleProvider<SimpleParticleType> {
         @Nullable
         @Override
         public Particle createParticle(SimpleParticleType type, ClientLevel level, double x, double y, double z, double xd, double yd, double zd) {
@@ -324,8 +320,7 @@ public class FBPFlameParticle extends FlameParticle implements IKillableParticle
         }
     }
 
-    @RequiredArgsConstructor
-    public static class SmallFlameProvider implements ParticleProvider<SimpleParticleType> {
+    public record SmallFlameProvider() implements ParticleProvider<SimpleParticleType> {
         @Nullable
         @Override
         public Particle createParticle(SimpleParticleType type, ClientLevel level, double x, double y, double z, double xd, double yd, double zd) {

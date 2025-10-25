@@ -298,8 +298,7 @@ public class FBPRainParticle extends WaterDropParticle implements IKillableParti
         FBPRenderHelper.renderCubeShaded(buffer, new Vector2f[] { new Vector2f(u1, v1), new Vector2f(u1, v0), new Vector2f(u0, v0), new Vector2f(u0, v1) }, posX, posY + height, posZ, width, height, smoothRotation, light, this.rCol, this.gCol, this.bCol, alpha, FancyBlockParticles.CONFIG.global.isCartoonMode());
     }
 
-    @RequiredArgsConstructor
-    public static class Provider implements ParticleProvider<SimpleParticleType> {
+    public record Provider() implements ParticleProvider<SimpleParticleType> {
         @Nullable
         @Override
         public Particle createParticle(SimpleParticleType type, ClientLevel level, double x, double y, double z, double xd, double yd, double zd) {
