@@ -133,6 +133,12 @@ public abstract class MixinParticleEngine {
                     if (options == ParticleTypes.DRIPPING_DRIPSTONE_WATER)
                         sound = SoundEvents.POINTED_DRIPSTONE_DRIP_WATER;
 
+                    if (options == ParticleTypes.DRIPPING_LAVA || options == ParticleTypes.DRIPPING_DRIPSTONE_LAVA) {
+                        rCol = 1.0F;
+                        gCol = 0.75F;
+                        bCol = 0.75F;
+                    }
+
                     if (options == ParticleTypes.DRIPPING_DRIPSTONE_LAVA)
                         sound = SoundEvents.POINTED_DRIPSTONE_DRIP_LAVA;
 

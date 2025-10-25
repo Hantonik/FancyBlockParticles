@@ -4,7 +4,6 @@ import com.mojang.blaze3d.vertex.VertexConsumer;
 import hantonik.fbp.FancyBlockParticles;
 import hantonik.fbp.util.FBPConstants;
 import hantonik.fbp.util.FBPRenderHelper;
-import lombok.RequiredArgsConstructor;
 import net.minecraft.client.Camera;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ClientLevel;
@@ -328,17 +327,7 @@ public class FBPDripParticle extends DripParticle implements IKillableParticle {
         FBPRenderHelper.renderCubeShaded(buffer, new Vector2f[] { new Vector2f(u1, v1), new Vector2f(u1, v0), new Vector2f(u0, v0), new Vector2f(u0, v1) }, posX, posY, posZ, width, height, smoothRotation, light, this.rCol, this.gCol, this.bCol, alpha, FancyBlockParticles.CONFIG.global.isCartoonMode());
     }
 
-    @RequiredArgsConstructor
-    public static class Provider implements ParticleProvider<ParticleOptions> {
-        private final BlockState state;
-        @Nullable
-        private final SoundEvent sound;
-        private final float rCol;
-        private final float gCol;
-        private final float bCol;
-        private final float alpha;
-        private final int lightLevel;
-
+    public record Provider(BlockState state, @Nullable SoundEvent sound, float rCol, float gCol, float bCol, float alpha, int lightLevel) implements ParticleProvider<ParticleOptions> {
         @Nullable
         @Override
         public Particle createParticle(ParticleOptions options, ClientLevel level, double x, double y, double z, double xd, double yd, double zd) {
