@@ -63,11 +63,11 @@ public abstract class MixinWeatherEffectRenderer {
                     if (precipitation == Biome.Precipitation.RAIN) {
                         if (FancyBlockParticles.CONFIG.rain.isEnabled())
                             if (i < rainDensity)
-                                Minecraft.getInstance().particleEngine.add(new FBPRainParticle.Provider().createParticle(ParticleTypes.RAIN.getType(), level, x, y, z, 0.0D, 0.0D, 0.0D));
+                                Minecraft.getInstance().particleEngine.add(new FBPRainParticle.Provider().createParticle(ParticleTypes.RAIN.getType(), level, x, y, z, 0.0D, 0.0D, 0.0D, level.random));
                     } else if (precipitation == Biome.Precipitation.SNOW) {
                         if (FancyBlockParticles.CONFIG.snow.isEnabled())
                             if (i < snowDensity)
-                                Minecraft.getInstance().particleEngine.add(new FBPSnowParticle.Provider().createParticle(ParticleTypes.RAIN.getType(), level, x, y, z, 0.0D, 0.0D, 0.0D));
+                                Minecraft.getInstance().particleEngine.add(new FBPSnowParticle.Provider().createParticle(ParticleTypes.RAIN.getType(), level, x, y, z, 0.0D, 0.0D, 0.0D, level.random));
                     }
                 }
             }
@@ -87,7 +87,7 @@ public abstract class MixinWeatherEffectRenderer {
         instance.addParticle(particleOptions, x, y, z, xd, yd, zd);
     }
 
-    @WrapOperation(at = @At(value = "INVOKE", target = "Lnet/minecraft/client/renderer/WeatherEffectRenderer;getPrecipitationAt(Lnet/minecraft/world/level/Level;Lnet/minecraft/core/BlockPos;)Lnet/minecraft/world/level/biome/Biome$Precipitation;"), method = "collectColumnInstances")
+    @WrapOperation(at = @At(value = "INVOKE", target = "Lnet/minecraft/client/renderer/WeatherEffectRenderer;getPrecipitationAt(Lnet/minecraft/world/level/Level;Lnet/minecraft/core/BlockPos;)Lnet/minecraft/world/level/biome/Biome$Precipitation;"), method = "extractRenderState")
     private Biome.Precipitation getPrecipitationAt(WeatherEffectRenderer instance, Level level, BlockPos pos, Operation<Biome.Precipitation> original) {
         if (FancyBlockParticles.CONFIG.global.isEnabled()) {
             if (original.call(instance, level, pos) == Biome.Precipitation.RAIN && FancyBlockParticles.CONFIG.rain.isEnabled())

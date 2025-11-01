@@ -1,4 +1,4 @@
-package hantonik.fbp.config;
+package hantonik.fbp.config.api;
 
 import com.google.gson.JsonObject;
 

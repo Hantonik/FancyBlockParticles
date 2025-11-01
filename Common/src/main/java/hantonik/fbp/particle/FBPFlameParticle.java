@@ -1,32 +1,36 @@
 package hantonik.fbp.particle;
 
-import com.mojang.blaze3d.vertex.VertexConsumer;
 import hantonik.fbp.FancyBlockParticles;
 import hantonik.fbp.util.FBPConstants;
-import hantonik.fbp.util.FBPRenderHelper;
 import net.minecraft.client.Camera;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.particle.FlameParticle;
 import net.minecraft.client.particle.Particle;
 import net.minecraft.client.particle.ParticleProvider;
-import net.minecraft.client.particle.ParticleRenderType;
+import net.minecraft.client.renderer.state.QuadParticleRenderState;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.SimpleParticleType;
+import net.minecraft.util.ARGB;
 import net.minecraft.util.Mth;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.level.block.CandleBlock;
 import net.minecraft.world.level.block.TorchBlock;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.Nullable;
+import org.joml.Quaternionf;
 import org.joml.Vector3d;
+import org.joml.Vector3f;
 
 import java.util.List;
 
 public class FBPFlameParticle extends FlameParticle implements IKillableParticle {
     private final Vector3d startPos;
-    private final Vector3d[] rotatedCube;
+
+    private final Vector3f[] rotatedNormal;
+    private final Quaternionf rotation;
 
     private final boolean isSoulFire;
 
@@ -42,7 +46,7 @@ public class FBPFlameParticle extends FlameParticle implements IKillableParticle
     private boolean killToggle;
 
     public FBPFlameParticle(ClientLevel level, double x, double y, double z, double xd, double yd, double zd, boolean isSoulFire, boolean hasChild) {
-        super(level, x, y, z, xd, yd, zd);
+        super(level, x, y, z, xd, yd, zd, FBPConstants.FBP_PARTICLE_SPRITE.get());
 
         this.yd = -0.00085D;
         this.gravity = -0.05F;
@@ -60,17 +64,16 @@ public class FBPFlameParticle extends FlameParticle implements IKillableParticle
 
         this.alpha = 1.0F;
 
-        this.sprite = FBPConstants.FBP_PARTICLE_SPRITE.get();
         this.quadSize = FancyBlockParticles.CONFIG.flame.getSizeMultiplier() * (FancyBlockParticles.CONFIG.flame.isRandomSize() ? FBPConstants.RANDOM.nextFloat(0.6F, 1.0F) : 1.0F) * 2.5F;
         this.lifetime = (int) FBPConstants.RANDOM.nextFloat(Math.min(FancyBlockParticles.CONFIG.flame.getMinLifetime(), FancyBlockParticles.CONFIG.flame.getMaxLifetime()), Math.max(FancyBlockParticles.CONFIG.flame.getMinLifetime(), FancyBlockParticles.CONFIG.flame.getMaxLifetime()) + 0.5F);
 
         this.startPos = new Vector3d(x, y, z);
-        this.rotatedCube = new Vector3d[FBPConstants.CUBE.length];
 
-        var angleY = this.random.nextFloat();
+        this.rotatedNormal = new Vector3f[FBPConstants.CUBE_NORMALS.length];
+        this.rotation = new Quaternionf().rotateY(this.random.nextFloat());
 
-        for (var i = 0; i < FBPConstants.CUBE.length; i++)
-            this.rotatedCube[i] = FBPRenderHelper.rotate(FBPConstants.CUBE[i], 0, angleY, 0);
+        for (var i = 0; i < FBPConstants.CUBE_NORMALS.length; i++)
+            this.rotatedNormal[i] = FBPConstants.CUBE_NORMALS[i].rotate(this.rotation, new Vector3f());
 
         this.hasChild = hasChild;
 
@@ -192,8 +195,8 @@ public class FBPFlameParticle extends FlameParticle implements IKillableParticle
     }
 
     @Override
-    public ParticleRenderType getRenderType() {
-        return ParticleRenderType.TERRAIN_SHEET;
+    public Layer getLayer() {
+        return Layer.TERRAIN;
     }
 
     @Override
@@ -217,7 +220,7 @@ public class FBPFlameParticle extends FlameParticle implements IKillableParticle
     }
 
     @Override
-    public void render(VertexConsumer buffer, Camera info, float partialTick) {
+    public void extract(QuadParticleRenderState renderState, Camera info, float partialTick) {
         var u = this.sprite.getU(1.1F / 4.0F);
         var v = this.sprite.getV(1.1F / 4.0F);
 
@@ -237,38 +240,25 @@ public class FBPFlameParticle extends FlameParticle implements IKillableParticle
                 this.bCol = Math.min(1.0F, (scale / this.startSize) * 1.2F);
         }
 
-        var cube = new Vector3d[this.rotatedCube.length];
-
-        for (var i = 0; i < cube.length; i++) {
-            var corner = new Vector3d();
-
-            corner.x = this.rotatedCube[i].x;
-            corner.y = this.rotatedCube[i].y;
-            corner.z = this.rotatedCube[i].z;
-
-            corner.mul(scale / 80.0F);
-            corner.add(posX, posY, posZ);
-
-            cube[i] = corner;
-        }
-
         Minecraft.getInstance().gameRenderer.lightTexture().turnOnLightLayer();
 
-        this.putCube(buffer, cube, u, v, light, this.rCol, this.gCol, this.bCol, alpha);
+        this.putCube(renderState, (float) posX, (float) posY, (float) posZ, scale / 80.0F, this.rotatedNormal, this.rotation, u, v, light, this.rCol, this.gCol, this.bCol, alpha);
     }
 
-    private void putCube(VertexConsumer buffer, Vector3d[] cube, float u, float v, int light, float rCol, float gCol, float bCol, float alpha) {
+    private void putCube(QuadParticleRenderState renderState, float x, float y, float z, float scale, Vector3f[] rotatedNormal, Quaternionf rotation, float u, float v, int light, float rCol, float gCol, float bCol, float alpha) {
         var brightness = 1.0F;
 
         float red;
         float green;
         float blue;
 
-        for (var i = 0; i < cube.length; i += 4) {
-            var vec0 = cube[i];
-            var vec1 = cube[i + 1];
-            var vec2 = cube[i + 2];
-            var vec3 = cube[i + 3];
+        for (var i = 0; i < rotatedNormal.length; i++) {
+            var normal = rotatedNormal[i];
+            var face = new Vector3f(normal).mul(scale).add(x, y, z);
+            var faceRotation = new Quaternionf().rotationTo(new Vector3f(0.0F, 0.0F, 1.0F), normal);
+
+            if (i < 2)
+                rotation.mul(faceRotation, faceRotation);
 
             red = rCol * brightness;
             green = gCol * brightness;
@@ -276,15 +266,8 @@ public class FBPFlameParticle extends FlameParticle implements IKillableParticle
 
             brightness *= 0.95F;
 
-            this.addVertex(buffer, vec0, u, v, light, red, green, blue, alpha);
-            this.addVertex(buffer, vec1, u, v, light, red, green, blue, alpha);
-            this.addVertex(buffer, vec2, u, v, light, red, green, blue, alpha);
-            this.addVertex(buffer, vec3, u, v, light, red, green, blue, alpha);
+            renderState.add(this.getLayer(), face.x, face.y, face.z, faceRotation.x, faceRotation.y, faceRotation.z, faceRotation.w, scale, u, u, v, v, ARGB.colorFromFloat(alpha, red, green, blue), light);
         }
-    }
-
-    private void addVertex(VertexConsumer buffer, Vector3d pos, float u, float v, int light, float rCol, float gCol, float bCol, float alpha) {
-        buffer.addVertex((float) pos.x, (float) pos.y, (float) pos.z).setUv(u, v).setColor(rCol, gCol, bCol, alpha).setLight(light);
     }
 
     @Nullable
@@ -303,7 +286,7 @@ public class FBPFlameParticle extends FlameParticle implements IKillableParticle
     public record Provider(boolean isSoulFire) implements ParticleProvider<SimpleParticleType> {
         @Nullable
         @Override
-        public Particle createParticle(SimpleParticleType type, ClientLevel level, double x, double y, double z, double xd, double yd, double zd) {
+        public Particle createParticle(SimpleParticleType type, ClientLevel level, double x, double y, double z, double xd, double yd, double zd, RandomSource random) {
             return create(level, x, y, z, xd, zd, 1.0F, this.isSoulFire);
         }
     }
@@ -311,7 +294,7 @@ public class FBPFlameParticle extends FlameParticle implements IKillableParticle
     public record SmallFlameProvider() implements ParticleProvider<SimpleParticleType> {
         @Nullable
         @Override
-        public Particle createParticle(SimpleParticleType type, ClientLevel level, double x, double y, double z, double xd, double yd, double zd) {
+        public Particle createParticle(SimpleParticleType type, ClientLevel level, double x, double y, double z, double xd, double yd, double zd, RandomSource random) {
             return create(level, x, y, z, xd, zd, 0.5F, false);
         }
     }

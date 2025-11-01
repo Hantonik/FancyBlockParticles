@@ -66,12 +66,12 @@ public class FBPOptionsList extends ContainerObjectSelectionList<FBPOptionsList.
         }
 
         @Override
-        public void render(GuiGraphics graphics, int index, int top, int left, int width, int height, int mouseX, int mouseY, boolean hovering, float partialTick) {
+        public void renderContent(GuiGraphics graphics, int mouseX, int mouseY, boolean isHovering, float partialTick) {
             var i = 0;
             var j = this.screen.width / 2 - 155;
 
             for (AbstractWidget widget : this.widgets) {
-                widget.setPosition(i + j, top);
+                widget.setPosition(i + j, this.getContentY());
                 widget.render(graphics, mouseX, mouseY, partialTick);
 
                 i += 160;

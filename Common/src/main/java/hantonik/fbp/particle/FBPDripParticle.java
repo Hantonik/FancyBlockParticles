@@ -1,7 +1,8 @@
 package hantonik.fbp.particle;
 
-import com.mojang.blaze3d.vertex.VertexConsumer;
 import hantonik.fbp.FancyBlockParticles;
+import hantonik.fbp.particle.api.IFBPRendererParticle;
+import hantonik.fbp.renderer.state.FBPParticleRenderState;
 import hantonik.fbp.util.FBPConstants;
 import hantonik.fbp.util.FBPRenderHelper;
 import net.minecraft.client.Camera;
@@ -20,6 +21,7 @@ import net.minecraft.sounds.SoundSource;
 import net.minecraft.tags.FluidTags;
 import net.minecraft.tags.TagKey;
 import net.minecraft.util.Mth;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.CampfireBlock;
@@ -28,18 +30,17 @@ import net.minecraft.world.level.material.Fluid;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.Nullable;
-import org.joml.Vector2f;
-import org.joml.Vector3d;
+import org.joml.Vector3f;
 
 import java.util.List;
 
-public class FBPDripParticle extends DripParticle implements IKillableParticle {
+public class FBPDripParticle extends DripParticle implements IFBPRendererParticle, IKillableParticle {
     private final BlockState state;
     @Nullable
     private final SoundEvent sound;
     private final int lightLevel;
 
-    private final double angleY;
+    private final float rotationY;
 
     private final float uo;
     private final float vo;
@@ -57,7 +58,7 @@ public class FBPDripParticle extends DripParticle implements IKillableParticle {
     private boolean killToggle;
 
     protected FBPDripParticle(ClientLevel level, double x, double y, double z, double xd, double yd, double zd, float rCol, float gCol, float bCol, float alpha, int lightLevel, BlockState state, @Nullable SoundEvent sound) {
-        super(level, x, y, z, state.getFluidState().getType());
+        super(level, x, y, z, state.getFluidState().getType(), null);
 
         this.xd = FBPConstants.RANDOM.nextDouble(xd - 0.0005D, xd + 0.0005D);
         this.yd = FBPConstants.RANDOM.nextDouble(yd - 0.2D, yd - 0.1D);
@@ -91,7 +92,7 @@ public class FBPDripParticle extends DripParticle implements IKillableParticle {
 
         this.hasPhysics = true;
 
-        this.angleY = FBPConstants.RANDOM.nextDouble() * 45.0D;
+        this.rotationY = (float) Math.toRadians(FBPConstants.RANDOM.nextDouble() * 45.0D);
 
         this.uo = this.random.nextFloat() * 3.0F;
         this.vo = this.random.nextFloat() * 3.0F;
@@ -198,13 +199,13 @@ public class FBPDripParticle extends DripParticle implements IKillableParticle {
                     if (this.isInFluid(this.getBoundingBox(), FluidTags.WATER)) {
                         this.remove();
 
-                        Minecraft.getInstance().particleEngine.add(new FBPSmokeParticle.Provider(this.quadSize / 5.0F).createParticle(ParticleTypes.SMOKE, this.level, this.x, this.y, this.z, 0.0D, 0.05D, 0.0D));
+                        Minecraft.getInstance().particleEngine.add(new FBPSmokeParticle.Provider(this.quadSize / 5.0F).createParticle(ParticleTypes.SMOKE, this.level, this.x, this.y, this.z, 0.0D, 0.05D, 0.0D, this.random));
                     }
                 } else {
                     if (this.isInFluid(this.getBoundingBox(), FluidTags.LAVA) || ((state.is(Blocks.MAGMA_BLOCK) || CampfireBlock.isLitCampfire(state)) && this.onGround)) {
                         this.remove();
 
-                        Minecraft.getInstance().particleEngine.add(new FBPSmokeParticle.Provider(this.quadSize / 5.0F).createParticle(ParticleTypes.SMOKE, this.level, this.x, this.y, this.z, 0.0D, 0.05D, 0.0D));
+                        Minecraft.getInstance().particleEngine.add(new FBPSmokeParticle.Provider(this.quadSize / 5.0F).createParticle(ParticleTypes.SMOKE, this.level, this.x, this.y, this.z, 0.0D, 0.05D, 0.0D, this.random));
                     }
                 }
             }
@@ -279,8 +280,13 @@ public class FBPDripParticle extends DripParticle implements IKillableParticle {
     }
 
     @Override
-    public ParticleRenderType getRenderType() {
-        return ParticleRenderType.TERRAIN_SHEET;
+    public ParticleRenderType getGroup() {
+        return FBPConstants.FBP_PARTICLE_RENDER;
+    }
+
+    @Override
+    public Layer getLayer() {
+        return Layer.TERRAIN;
     }
 
     @Override
@@ -299,7 +305,7 @@ public class FBPDripParticle extends DripParticle implements IKillableParticle {
     }
 
     @Override
-    public void render(VertexConsumer buffer, Camera info, float partialTick) {
+    public void extract(FBPParticleRenderState renderState, Camera info, float partialTick) {
         var u0 = 0.0F;
         var v0 = 0.0F;
 
@@ -322,15 +328,13 @@ public class FBPDripParticle extends DripParticle implements IKillableParticle {
 
         var light = this.getLightColor(partialTick);
 
-        var smoothRotation = new Vector3d(0.0D, this.angleY, 0.0D);
-
-        FBPRenderHelper.renderCubeShaded(buffer, new Vector2f[] { new Vector2f(u1, v1), new Vector2f(u1, v0), new Vector2f(u0, v0), new Vector2f(u0, v1) }, posX, posY, posZ, width, height, smoothRotation, light, this.rCol, this.gCol, this.bCol, alpha, FancyBlockParticles.CONFIG.global.isCartoonMode());
+        FBPRenderHelper.renderCubeShaded(renderState, this.getLayer(), (float) posX, (float) posY, (float) posZ, width, height, new Vector3f(0.0F, this.rotationY, 0.0F), u0, u1, v0, v1, light, this.rCol, this.gCol, this.bCol, alpha, FancyBlockParticles.CONFIG.global.isCartoonMode());
     }
 
     public record Provider(BlockState state, @Nullable SoundEvent sound, float rCol, float gCol, float bCol, float alpha, int lightLevel) implements ParticleProvider<ParticleOptions> {
         @Nullable
         @Override
-        public Particle createParticle(ParticleOptions options, ClientLevel level, double x, double y, double z, double xd, double yd, double zd) {
+        public Particle createParticle(ParticleOptions options, ClientLevel level, double x, double y, double z, double xd, double yd, double zd, RandomSource random) {
             if (FancyBlockParticles.CONFIG.global.isFreezeEffect() && !FancyBlockParticles.CONFIG.drip.isSpawnWhileFrozen())
                 return null;
 

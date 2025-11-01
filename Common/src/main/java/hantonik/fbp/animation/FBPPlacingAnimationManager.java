@@ -30,7 +30,7 @@ public final class FBPPlacingAnimationManager {
     public static void addAnimation(ClientLevel level, BlockState state, BlockPos pos, LivingEntity placer, InteractionHand hand) {
         if (FancyBlockParticles.CONFIG.animations.isEnabled() && FancyBlockParticles.CONFIG.isBlockAnimationsEnabled(state.getBlock())) {
             if (!state.is(BlockTags.BEDS) && !(state.getBlock() instanceof DoublePlantBlock) && !(state.getBlock() instanceof DoorBlock) && (!state.hasProperty(ChestBlock.TYPE) || state.getValue(ChestBlock.TYPE) != ChestType.SINGLE)) {
-                if (Minecraft.getInstance().cameraEntity.position().distanceTo(pos.getCenter()) <= Minecraft.getInstance().options.renderDistance().get() * 16) {
+                if (Minecraft.getInstance().getCameraEntity().position().distanceTo(pos.getCenter()) <= Minecraft.getInstance().options.renderDistance().get() * 16) {
                     var animation = new FBPPlacingAnimationParticle(level, state, pos, placer, hand);
                     var oldAnimation = ACTIVE_ANIMATIONS.put(pos, animation);
 

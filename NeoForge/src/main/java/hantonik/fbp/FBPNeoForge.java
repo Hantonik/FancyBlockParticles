@@ -1,7 +1,9 @@
 package hantonik.fbp;
 
 import hantonik.fbp.init.FBPKeyMappings;
+import hantonik.fbp.particle.group.FBPParticleGroup;
 import hantonik.fbp.screen.FBPOptionsScreen;
+import hantonik.fbp.util.FBPConstants;
 import net.minecraft.client.Minecraft;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.packs.resources.ResourceManagerReloadListener;
@@ -19,11 +21,12 @@ import net.neoforged.neoforge.common.NeoForge;
 @Mod(value = FancyBlockParticles.MOD_ID, dist = Dist.CLIENT)
 public final class FBPNeoForge {
     public FBPNeoForge(IEventBus bus, ModContainer container) {
-        if (FMLLoader.getDist() == Dist.CLIENT) {
+        if (FMLLoader.getCurrent().getDist() == Dist.CLIENT) {
             FancyBlockParticles.LOGGER.info(FancyBlockParticles.SETUP_MARKER, "Initializing...");
 
             bus.register(this);
             bus.addListener(this::onRegisterKeyMappings);
+            bus.addListener(this::onRegisterParticleGroups);
             bus.addListener(this::onRegisterClientReloadListeners);
 
             container.registerExtensionPoint(IConfigScreenFactory.class, (mc, modsScreen) -> new FBPOptionsScreen(modsScreen));
@@ -45,6 +48,11 @@ public final class FBPNeoForge {
 
     private void onRegisterKeyMappings(final RegisterKeyMappingsEvent event) {
         FBPKeyMappings.MAPPINGS.forEach(event::register);
+    }
+
+    private void onRegisterParticleGroups(final RegisterParticleGroupsEvent event) {
+        event.register(FBPConstants.FBP_PARTICLE_RENDER, engine -> new FBPParticleGroup(engine, FBPConstants.FBP_PARTICLE_RENDER));
+        event.register(FBPConstants.FBP_TERRAIN_RENDER, engine -> new FBPParticleGroup(engine, FBPConstants.FBP_TERRAIN_RENDER));
     }
 
     private void onRegisterClientReloadListeners(final AddClientReloadListenersEvent event) {

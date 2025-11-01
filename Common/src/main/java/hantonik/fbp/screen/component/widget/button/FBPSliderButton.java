@@ -5,6 +5,8 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.AbstractSliderButton;
 import net.minecraft.client.gui.components.Tooltip;
+import net.minecraft.client.input.KeyEvent;
+import net.minecraft.client.input.MouseButtonEvent;
 import net.minecraft.client.renderer.RenderPipelines;
 import net.minecraft.network.chat.Component;
 import net.minecraft.util.Mth;
@@ -84,22 +86,22 @@ public class FBPSliderButton extends AbstractSliderButton {
     }
 
     @Override
-    public void onClick(double mouseX, double mouseY) {
-        this.setValueFromMouse(mouseX);
+    public void onClick(MouseButtonEvent event, boolean isDoubleClick) {
+        this.setValueFromMouse(event.x());
     }
 
     @Override
-    protected void onDrag(double mouseX, double mouseY, double dragX, double dragY) {
-        super.onDrag(mouseX, mouseY, dragX, dragY);
+    protected void onDrag(MouseButtonEvent event, double mouseX, double mouseY) {
+        super.onDrag(event, mouseX, mouseY);
 
-        this.setValueFromMouse(mouseX);
+        this.setValueFromMouse(event.x());
     }
 
     @Override
-    public boolean keyPressed(int keyCode, int scanCode, int modifiers) {
-        var flag = keyCode == GLFW.GLFW_KEY_LEFT;
+    public boolean keyPressed(KeyEvent event) {
+        var flag = event.input() == GLFW.GLFW_KEY_LEFT;
 
-        if (flag || keyCode == GLFW.GLFW_KEY_RIGHT) {
+        if (flag || event.input() == GLFW.GLFW_KEY_RIGHT) {
             if (this.minValue > this.maxValue)
                 flag = !flag;
 

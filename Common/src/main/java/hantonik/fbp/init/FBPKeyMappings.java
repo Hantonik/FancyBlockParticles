@@ -1,13 +1,17 @@
 package hantonik.fbp.init;
 
 import com.google.common.collect.Lists;
+import hantonik.fbp.FancyBlockParticles;
 import net.minecraft.client.KeyMapping;
+import net.minecraft.resources.ResourceLocation;
 import org.lwjgl.glfw.GLFW;
 
 import java.util.List;
 
 public final class FBPKeyMappings {
     public static final List<KeyMapping> MAPPINGS = Lists.newArrayList();
+
+    private static final KeyMapping.Category CATEGORY = KeyMapping.Category.register(ResourceLocation.tryBuild(FancyBlockParticles.MOD_ID, "category"));
 
     public static final KeyMapping TOGGLE_MOD = register("toggle_mod", -1);
     public static final KeyMapping TOGGLE_ANIMATIONS = register("toggle_animations", -1);
@@ -18,7 +22,7 @@ public final class FBPKeyMappings {
     public static final KeyMapping RELOAD_CONFIG = register("reload_config", -1);
 
     private static KeyMapping register(String name, int keyCode) {
-        var mapping = new KeyMapping("key.fbp." + name, keyCode, "key.fbp.category");
+        var mapping = new KeyMapping("key." + FancyBlockParticles.MOD_ID + "." + name, keyCode, CATEGORY);
         MAPPINGS.add(mapping);
 
         return mapping;

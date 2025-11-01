@@ -2,6 +2,7 @@ package hantonik.fbp.particle;
 
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import hantonik.fbp.FancyBlockParticles;
+import hantonik.fbp.particle.api.IFBPRendererParticle;
 import hantonik.fbp.util.FBPConstants;
 import hantonik.fbp.util.FBPRenderHelper;
 import net.minecraft.client.Camera;
@@ -18,18 +19,19 @@ import net.minecraft.core.Direction;
 import net.minecraft.core.particles.BlockParticleOption;
 import net.minecraft.tags.FluidTags;
 import net.minecraft.util.Mth;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.Nullable;
-import org.joml.Vector2f;
 import org.joml.Vector3d;
+import org.joml.Vector3f;
 
 import java.util.List;
 
-public class FBPTerrainParticle extends TerrainParticle implements IKillableParticle {
+public class FBPTerrainParticle extends TerrainParticle implements IFBPRendererParticle, IKillableParticle {
     private final Vector3d rotation;
     private final Vector3d rotationStep;
     private final Vector3d lastRotation;
@@ -79,8 +81,8 @@ public class FBPTerrainParticle extends TerrainParticle implements IKillablePart
 
                 var speed = Math.sqrt(this.xd * this.xd + this.zd * this.zd);
 
-                var cameraXRot = Minecraft.getInstance().cameraEntity.getLookAngle().x;
-                var cameraZRot = Minecraft.getInstance().cameraEntity.getLookAngle().z;
+                var cameraXRot = Minecraft.getInstance().getCameraEntity().getLookAngle().x;
+                var cameraZRot = Minecraft.getInstance().getCameraEntity().getLookAngle().z;
 
                 this.xd = (cameraXRot < 0.0D ? cameraXRot - 0.01D : cameraXRot + 0.01D) * speed;
                 this.zd = (cameraZRot < 0.0D ? cameraZRot - 0.01D : cameraZRot + 0.01D) * speed;
@@ -453,7 +455,7 @@ public class FBPTerrainParticle extends TerrainParticle implements IKillablePart
     }
 
     @Override
-    public ParticleRenderType getRenderType() {
+    public ParticleRenderType getGroup() {
         return FBPConstants.FBP_TERRAIN_RENDER;
     }
 
@@ -472,7 +474,7 @@ public class FBPTerrainParticle extends TerrainParticle implements IKillablePart
     }
 
     @Override
-    public void render(VertexConsumer buffer, Camera info, float partialTick) {
+    public void render(VertexConsumer consumer, Camera camera, float partialTick) {
         var u0 = 0.0F;
         var v0 = 0.0F;
 
@@ -484,9 +486,9 @@ public class FBPTerrainParticle extends TerrainParticle implements IKillablePart
         var u1 = this.sprite.getU((this.uo + 1.0F) / 4.0F);
         var v1 = this.sprite.getV((this.vo + 1.0F) / 4.0F);
 
-        var posX = Mth.lerp(partialTick, this.xo, this.x) - info.getPosition().x;
-        var posY = Mth.lerp(partialTick, this.yo, this.y) - info.getPosition().y;
-        var posZ = Mth.lerp(partialTick, this.zo, this.z) - info.getPosition().z;
+        var posX = Mth.lerp(partialTick, this.xo, this.x) - camera.getPosition().x;
+        var posY = Mth.lerp(partialTick, this.yo, this.y) - camera.getPosition().y;
+        var posZ = Mth.lerp(partialTick, this.zo, this.z) - camera.getPosition().z;
 
         var scale = Mth.lerp(partialTick, this.lastSize, this.quadSize);
         var alpha = Mth.lerp(partialTick, this.lastAlpha, this.alpha);
@@ -496,25 +498,25 @@ public class FBPTerrainParticle extends TerrainParticle implements IKillablePart
         if (FancyBlockParticles.CONFIG.terrain.isRestOnFloor())
             posY += scale;
 
-        var smoothRotation = new Vector3d();
+        var smoothRotation = new Vector3f();
 
         if (FancyBlockParticles.CONFIG.terrain.getRotationMultiplier() > 0.0F) {
-            smoothRotation.y = this.rotation.y;
-            smoothRotation.z = this.rotation.z;
+            smoothRotation.y = (float) Math.toRadians(this.rotation.y);
+            smoothRotation.z = (float) Math.toRadians(this.rotation.z);
 
             if (!FancyBlockParticles.CONFIG.terrain.isRandomRotation())
-                smoothRotation.x = this.rotation.x;
+                smoothRotation.x = (float) Math.toRadians(this.rotation.x);
 
             if (!FancyBlockParticles.CONFIG.global.isFreezeEffect()) {
                 if (FancyBlockParticles.CONFIG.terrain.isRandomRotation()) {
-                    smoothRotation.y = Mth.lerp(partialTick, this.lastRotation.y, this.rotation.y);
-                    smoothRotation.z = Mth.lerp(partialTick, this.lastRotation.z, this.rotation.z);
+                    smoothRotation.y = (float) Math.toRadians(Mth.lerp(partialTick, this.lastRotation.y, this.rotation.y));
+                    smoothRotation.z = (float) Math.toRadians(Mth.lerp(partialTick, this.lastRotation.z, this.rotation.z));
                 } else
-                    smoothRotation.x = Mth.lerp(partialTick, this.lastRotation.x, this.rotation.x);
+                    smoothRotation.x = (float) Math.toRadians(Mth.lerp(partialTick, this.lastRotation.x, this.rotation.x));
             }
         }
 
-        FBPRenderHelper.renderCubeShaded(buffer, new Vector2f[] { new Vector2f(u1, v1), new Vector2f(u1, v0), new Vector2f(u0, v0), new Vector2f(u0, v1) }, (float) posX, (float) posY, (float) posZ, scale, smoothRotation, light, this.rCol, this.gCol, this.bCol, alpha, FancyBlockParticles.CONFIG.global.isCartoonMode());
+        FBPRenderHelper.renderCubeShadedLegacy(consumer, (float) posX, (float) posY, (float) posZ, scale, smoothRotation, u0, u1, v0, v1, light, this.rCol, this.gCol, this.bCol, alpha, FancyBlockParticles.CONFIG.global.isCartoonMode());
     }
 
     private void calculateYAngle() {
@@ -530,7 +532,7 @@ public class FBPTerrainParticle extends TerrainParticle implements IKillablePart
     public record Provider(BlockPos pos, float scale, @Nullable Direction side, @Nullable TextureAtlasSprite sprite, float rCol, float gCol, float bCol) implements ParticleProvider<BlockParticleOption> {
         @Nullable
         @Override
-        public FBPTerrainParticle createParticle(BlockParticleOption type, ClientLevel level, double x, double y, double z, double xd, double yd, double zd) {
+        public FBPTerrainParticle createParticle(BlockParticleOption type, ClientLevel level, double x, double y, double z, double xd, double yd, double zd, RandomSource random) {
             return new FBPTerrainParticle(level, x, y, z, xd, yd, zd, this.scale, this.rCol, this.gCol, this.bCol, this.pos, type.getState(), this.side, this.sprite);
         }
     }

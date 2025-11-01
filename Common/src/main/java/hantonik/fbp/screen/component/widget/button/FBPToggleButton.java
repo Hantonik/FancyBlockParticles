@@ -4,6 +4,7 @@ import lombok.Getter;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.components.Tooltip;
+import net.minecraft.client.input.InputWithModifiers;
 import net.minecraft.network.chat.CommonComponents;
 import net.minecraft.network.chat.Component;
 
@@ -37,8 +38,8 @@ public class FBPToggleButton extends Button {
     }
 
     @Override
-    public void onPress() {
-        super.onPress();
+    public void onPress(InputWithModifiers input) {
+        super.onPress(input);
 
         this.setMessage(CommonComponents.optionNameValue(this.defaultMessage, Component.translatable("button.fbp.common." + this.value.get())));
     }

@@ -4,6 +4,7 @@ import com.google.common.collect.Maps;
 import com.google.gson.*;
 import hantonik.fbp.FancyBlockParticles;
 import hantonik.fbp.animation.FBPPlacingAnimationManager;
+import hantonik.fbp.config.api.IFBPConfig;
 import hantonik.fbp.platform.Services;
 import hantonik.fbp.util.BlacklistMode;
 import hantonik.fbp.util.FBPConstants;

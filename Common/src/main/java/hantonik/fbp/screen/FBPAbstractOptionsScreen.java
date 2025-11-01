@@ -17,6 +17,7 @@ import net.minecraft.client.gui.layouts.LayoutSettings;
 import net.minecraft.client.gui.screens.AlertScreen;
 import net.minecraft.client.gui.screens.ConfirmScreen;
 import net.minecraft.client.gui.screens.Screen;
+import net.minecraft.client.input.KeyEvent;
 import net.minecraft.network.chat.ClickEvent;
 import net.minecraft.network.chat.CommonComponents;
 import net.minecraft.network.chat.Component;
@@ -36,7 +37,7 @@ public abstract class FBPAbstractOptionsScreen extends Screen {
     protected FBPOptionsList list;
 
     public FBPAbstractOptionsScreen(Component title, Screen lastScreen, FBPConfig config) {
-        super(Component.translatable("key.fbp.category").append(" - ").append(title));
+        super(Component.translatable("key.category.fbp.category").append(" - ").append(title));
 
         this.activeConfig = config;
         this.config = config.copy();
@@ -105,20 +106,20 @@ public abstract class FBPAbstractOptionsScreen extends Screen {
     }
 
     @Override
-    public boolean keyPressed(int keyCode, int scanCode, int modifiers) {
-        if ((keyCode == GLFW.GLFW_KEY_ENTER && modifiers == 0)) {
+    public boolean keyPressed(KeyEvent event) {
+        if ((event.key() == GLFW.GLFW_KEY_ENTER && event.modifiers() == 0)) {
             this.onDone();
 
             return true;
         }
 
-        if (FBPKeyMappings.OPEN_SETTINGS.matches(keyCode, scanCode)) {
+        if (FBPKeyMappings.OPEN_SETTINGS.matches(event)) {
             this.minecraft.setScreen(null);
 
             return true;
         }
 
-        return super.keyPressed(keyCode, scanCode, modifiers);
+        return super.keyPressed(event);
     }
 
     @Override

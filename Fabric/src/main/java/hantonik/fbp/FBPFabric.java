@@ -1,20 +1,18 @@
 package hantonik.fbp;
 
-import com.google.common.collect.ImmutableList;
 import hantonik.fbp.init.FBPKeyMappings;
+import hantonik.fbp.particle.group.FBPParticleGroup;
 import hantonik.fbp.util.FBPConstants;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayConnectionEvents;
+import net.fabricmc.fabric.api.client.particle.v1.ParticleRendererRegistry;
 import net.fabricmc.fabric.api.client.rendering.v1.HudRenderCallback;
 import net.fabricmc.fabric.api.client.screen.v1.ScreenEvents;
 import net.fabricmc.fabric.api.resource.ResourceManagerHelper;
 import net.fabricmc.fabric.api.resource.SimpleSynchronousResourceReloadListener;
-import net.minecraft.Util;
 import net.minecraft.client.gui.screens.PauseScreen;
-import net.minecraft.client.particle.ParticleEngine;
-import net.minecraft.client.particle.ParticleRenderType;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.packs.PackType;
 import net.minecraft.server.packs.resources.ResourceManager;
@@ -49,10 +47,7 @@ public final class FBPFabric implements ClientModInitializer {
         });
         ClientPlayConnectionEvents.JOIN.register(((handler, sender, client) -> FancyBlockParticles.onLevelLoad()));
 
-        ParticleEngine.RENDER_ORDER = Util.make(new ImmutableList.Builder<ParticleRenderType>(), builder -> {
-            builder.add(FBPConstants.FBP_TERRAIN_RENDER);
-
-            builder.addAll(ParticleEngine.RENDER_ORDER);
-        }).build();
+        ParticleRendererRegistry.register(FBPConstants.FBP_PARTICLE_RENDER, engine -> new FBPParticleGroup(engine, FBPConstants.FBP_PARTICLE_RENDER));
+        ParticleRendererRegistry.register(FBPConstants.FBP_TERRAIN_RENDER, engine -> new FBPParticleGroup(engine, FBPConstants.FBP_TERRAIN_RENDER));
     }
 }

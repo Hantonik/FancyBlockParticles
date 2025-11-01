@@ -4,9 +4,11 @@
   "compatibilityLevel": "JAVA_21",
   "client": [
     "MixinBlockItem",
+    "MixinClientLevel",
     "MixinLevelRenderer",
     "MixinOptionsScreen",
     "MixinParticleEngine",
+    "MixinParticleGroup",
     "MixinWeatherEffectRenderer"
   ],
   "minVersion": "0.8"

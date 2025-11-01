@@ -1,5 +1,6 @@
 package hantonik.fbp;
 
+import com.mojang.blaze3d.platform.InputConstants;
 import com.mojang.logging.LogUtils;
 import hantonik.fbp.animation.FBPPlacingAnimationManager;
 import hantonik.fbp.config.FBPConfig;
@@ -53,7 +54,7 @@ public final class FancyBlockParticles {
             client.setScreen(new FBPOptionsScreen(null));
 
         if (FBPKeyMappings.ADD_TO_BLACKLIST.isDown()) {
-            if (Screen.hasShiftDown()) {
+            if (InputConstants.isKeyDown(Minecraft.getInstance().getWindow(), 340) || InputConstants.isKeyDown(Minecraft.getInstance().getWindow(), 344)) {
                 var heldItem = client.player.getMainHandItem();
 
                 if (heldItem.getItem() instanceof BlockItem)

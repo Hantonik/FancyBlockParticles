@@ -9,6 +9,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.WidgetSprites;
 import net.minecraft.client.gui.screens.Screen;
+import net.minecraft.client.input.KeyEvent;
 import net.minecraft.client.renderer.RenderPipelines;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.registries.BuiltInRegistries;
@@ -76,12 +77,12 @@ public class FBPFastBlacklistScreen extends Screen {
     }
 
     @Override
-    public boolean keyReleased(int keyCode, int scanCode, int modifiers) {
-        if (FBPKeyMappings.ADD_TO_BLACKLIST.matches(keyCode, scanCode)) {
+    public boolean keyReleased(KeyEvent event) {
+        if (FBPKeyMappings.ADD_TO_BLACKLIST.matches(event)) {
             for (var widget : this.children()) {
                 if (widget instanceof FBPBlacklistButton button) {
                     if (button.isHovered()) {
-                        button.onPress();
+                        button.onPress(event);
 
                         return true;
                     }
@@ -91,7 +92,7 @@ public class FBPFastBlacklistScreen extends Screen {
             this.onClose();
         }
 
-        return super.keyReleased(keyCode, scanCode, modifiers);
+        return super.keyReleased(event);
     }
 
     @Override
@@ -157,6 +158,6 @@ public class FBPFastBlacklistScreen extends Screen {
     }
 
     private void grabMouse() {
-        GLFW.glfwSetInputMode(Minecraft.getInstance().getWindow().getWindow(), GLFW.GLFW_CURSOR, GLFW.GLFW_CURSOR_HIDDEN);
+        GLFW.glfwSetInputMode(Minecraft.getInstance().getWindow().handle(), GLFW.GLFW_CURSOR, GLFW.GLFW_CURSOR_HIDDEN);
     }
 }

@@ -3,8 +3,8 @@ package hantonik.fbp.screen;
 import hantonik.fbp.FancyBlockParticles;
 import hantonik.fbp.config.FBPConfig;
 import hantonik.fbp.screen.category.*;
+import hantonik.fbp.screen.component.widget.CenteredStringWidget;
 import hantonik.fbp.screen.component.widget.button.FBPToggleButton;
-import net.minecraft.client.gui.components.StringWidget;
 import net.minecraft.client.gui.components.Tooltip;
 import net.minecraft.client.gui.components.WidgetSprites;
 import net.minecraft.client.gui.screens.Screen;
@@ -23,7 +23,7 @@ public class FBPOptionsScreen extends FBPAbstractOptionsScreen {
     @Override
     protected void initOptions() {
         this.list.addBig(
-                new StringWidget(310, 20, Component.translatable("widget.fbp.global.general"), this.font)
+                new CenteredStringWidget(310, 20, Component.translatable("widget.fbp.global.general"), this.font)
         );
 
         this.list.addSmall(
@@ -34,7 +34,7 @@ public class FBPOptionsScreen extends FBPAbstractOptionsScreen {
         );
 
         this.list.addBig(
-                new StringWidget(310, 20, Component.translatable("widget.fbp.global.categories"), this.font)
+                new CenteredStringWidget(310, 20, Component.translatable("widget.fbp.global.categories"), this.font)
         );
 
         this.list.addSmall(

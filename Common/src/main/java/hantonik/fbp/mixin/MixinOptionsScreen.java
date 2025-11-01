@@ -22,6 +22,6 @@ public abstract class MixinOptionsScreen {
 
     @Inject(at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/layouts/HeaderAndFooterLayout;addToContents(Lnet/minecraft/client/gui/layouts/LayoutElement;)Lnet/minecraft/client/gui/layouts/LayoutElement;"), method = "init")
     protected void init(CallbackInfo callback, @Local GridLayout.RowHelper helper) {
-        helper.addChild(this.openScreenButton(Component.translatable("key.fbp.category").append("..."), () -> new FBPOptionsScreen((OptionsScreen) (Object) this)));
+        helper.addChild(this.openScreenButton(Component.translatable("key.category.fbp.category").append("..."), () -> new FBPOptionsScreen((OptionsScreen) (Object) this)));
     }
 }

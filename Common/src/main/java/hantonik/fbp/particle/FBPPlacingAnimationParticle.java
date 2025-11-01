@@ -1,7 +1,6 @@
 package hantonik.fbp.particle;
 
 import com.mojang.blaze3d.vertex.PoseStack;
-import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.mojang.math.Axis;
 import hantonik.fbp.FancyBlockParticles;
 import hantonik.fbp.animation.FBPPlacingAnimationManager;
@@ -11,11 +10,10 @@ import net.minecraft.Util;
 import net.minecraft.client.Camera;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ClientLevel;
-import net.minecraft.client.particle.Particle;
-import net.minecraft.client.particle.ParticleRenderType;
+import net.minecraft.client.particle.SingleQuadParticle;
 import net.minecraft.client.renderer.LevelRenderer;
-import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.block.model.BlockModelPart;
+import net.minecraft.client.renderer.state.QuadParticleRenderState;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.util.Mth;
@@ -33,7 +31,7 @@ import org.joml.Vector3f;
 import java.util.Comparator;
 import java.util.List;
 
-public class FBPPlacingAnimationParticle extends Particle implements IKillableParticle {
+public class FBPPlacingAnimationParticle extends SingleQuadParticle implements IKillableParticle {
     private final BlockState state;
     private final BlockPos pos;
 
@@ -47,7 +45,7 @@ public class FBPPlacingAnimationParticle extends Particle implements IKillablePa
     private boolean killToggle;
 
     public FBPPlacingAnimationParticle(ClientLevel level, BlockState state, BlockPos pos, LivingEntity placer, InteractionHand hand) {
-        super(level, pos.getX(), pos.getY(), pos.getZ());
+        super(level, pos.getX(), pos.getY(), pos.getZ(), null);
 
         this.state = state;
         this.pos = pos;
@@ -124,8 +122,8 @@ public class FBPPlacingAnimationParticle extends Particle implements IKillablePa
     }
 
     @Override
-    public ParticleRenderType getRenderType() {
-        return ParticleRenderType.CUSTOM;
+    public Layer getLayer() {
+        return Layer.TRANSLUCENT;
     }
 
     @Override
@@ -134,10 +132,12 @@ public class FBPPlacingAnimationParticle extends Particle implements IKillablePa
     }
 
     @Override
-    public void renderCustom(PoseStack stack, MultiBufferSource bufferSource, Camera info, float partialTick) {
+    public void extract(QuadParticleRenderState renderState, Camera info, float partialTick) {
         var posX = Mth.lerp(partialTick, this.xo, this.x) - info.getPosition().x + 0.5D;
         var posY = Mth.lerp(partialTick, this.yo, this.y) - info.getPosition().y + 0.5D;
         var posZ = Mth.lerp(partialTick, this.zo, this.z) - info.getPosition().z + 0.5D;
+
+        var stack = new PoseStack();
 
         stack.translate(posX, posY, posZ);
 
@@ -157,11 +157,8 @@ public class FBPPlacingAnimationParticle extends Particle implements IKillablePa
         stack.translate(-offset.x, -offset.y, -offset.z);
         stack.translate(-0.5F, -0.5F, -0.5F);
 
-        Services.CLIENT.renderBlock(this.level, this.model, this.state, this.pos, stack, bufferSource);
+        Services.CLIENT.renderBlock(this.level, this.model, this.state, this.pos, stack, Minecraft.getInstance().renderBuffers().bufferSource());
     }
-
-    @Override
-    public void render(VertexConsumer buffer, Camera info, float partialTick) {}
 
     private void slideIn(PoseStack stack, float progress) {
         var translate = this.slide.scale(1.0F - this.exponent(0.9F, progress));

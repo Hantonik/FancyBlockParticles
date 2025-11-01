@@ -1,27 +1,28 @@
 package hantonik.fbp.particle;
 
-import com.mojang.blaze3d.vertex.VertexConsumer;
 import hantonik.fbp.FancyBlockParticles;
 import hantonik.fbp.util.FBPConstants;
-import hantonik.fbp.util.FBPRenderHelper;
 import lombok.RequiredArgsConstructor;
 import net.minecraft.client.Camera;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.particle.Particle;
 import net.minecraft.client.particle.ParticleProvider;
-import net.minecraft.client.particle.ParticleRenderType;
 import net.minecraft.client.particle.TrailParticle;
+import net.minecraft.client.renderer.state.QuadParticleRenderState;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.TrailParticleOption;
+import net.minecraft.util.ARGB;
 import net.minecraft.util.Mth;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.Nullable;
-import org.joml.Vector3d;
+import org.joml.Quaternionf;
+import org.joml.Vector3f;
 
 public class FBPTrailParticle extends TrailParticle implements IKillableParticle {
-    private final Vector3d rotation;
+    private final Vector3f rotation;
 
     private final float multiplier;
 
@@ -33,14 +34,13 @@ public class FBPTrailParticle extends TrailParticle implements IKillableParticle
     private boolean killToggle;
 
     protected FBPTrailParticle(ClientLevel level, double x, double y, double z, double xd, double yd, double zd, Vec3 target, int color) {
-        super(level, x, y, z, xd, yd, zd, target, color);
+        super(level, x, y, z, xd, yd, zd, target, color, FBPConstants.FBP_PARTICLE_SPRITE.get());
 
         this.quadSize = FancyBlockParticles.CONFIG.trail.getSizeMultiplier() * (FancyBlockParticles.CONFIG.trail.isRandomSize() ? FBPConstants.RANDOM.nextFloat(0.6F, 1.0F) : 1.0F) * 3.0F;
         this.scaleAlpha = this.quadSize * 0.82F;
 
-        this.rotation = new Vector3d(FBPConstants.RANDOM.nextDouble() > 0.5D ? 1.0D : -1.0D, FBPConstants.RANDOM.nextDouble() > 0.5D ? 1.0D : -1.0D, FBPConstants.RANDOM.nextDouble() > 0.5D ? 1.0D : -1.0D);
+        this.rotation = new Vector3f((float) Math.toRadians(FBPConstants.RANDOM.nextDouble() > 0.5D ? 1.0D : -1.0D), (float) Math.toRadians(FBPConstants.RANDOM.nextDouble() > 0.5D ? 1.0D : -1.0D), (float) Math.toRadians(FBPConstants.RANDOM.nextDouble() > 0.5D ? 1.0D : -1.0D));
 
-        this.sprite = FBPConstants.FBP_PARTICLE_SPRITE.get();
         this.lifetime = (int) FBPConstants.RANDOM.nextFloat(Math.min(FancyBlockParticles.CONFIG.trail.getMinLifetime(), FancyBlockParticles.CONFIG.trail.getMaxLifetime()), Math.max(FancyBlockParticles.CONFIG.trail.getMinLifetime(), FancyBlockParticles.CONFIG.trail.getMaxLifetime()) + 0.5F);
 
         this.multiplier = FancyBlockParticles.CONFIG.trail.isRandomFadingSpeed() ? Mth.clamp(FBPConstants.RANDOM.nextFloat(0.5F, 0.9F), 0.6F, 0.8F) : 0.75F;
@@ -109,8 +109,8 @@ public class FBPTrailParticle extends TrailParticle implements IKillableParticle
     }
 
     @Override
-    public ParticleRenderType getRenderType() {
-        return ParticleRenderType.TERRAIN_SHEET;
+    public Layer getLayer() {
+        return Layer.TERRAIN;
     }
 
     @Override
@@ -134,7 +134,7 @@ public class FBPTrailParticle extends TrailParticle implements IKillableParticle
     }
 
     @Override
-    public void render(VertexConsumer buffer, Camera info, float partialTick) {
+    public void extract(QuadParticleRenderState renderState, Camera info, float partialTick) {
         var u = this.sprite.getU(1.1F / 4.0F);
         var v = this.sprite.getV(1.1F / 4.0F);
 
@@ -149,25 +149,33 @@ public class FBPTrailParticle extends TrailParticle implements IKillableParticle
 
         Minecraft.getInstance().gameRenderer.lightTexture().turnOnLightLayer();
 
-        this.putCube(buffer, u, v, posX, posY, posZ, scale, this.rotation, light, this.rCol, this.gCol, this.bCol, alpha);
+        this.putCube(renderState, (float) posX, (float) posY, (float) posZ, scale, this.rotation, u, v, light, this.rCol, this.gCol, this.bCol, alpha);
     }
 
-    private void putCube(VertexConsumer buffer, float u, float v, double xPos, double yPos, double zPos, double scale, Vector3d rotation, int light, float rCol, float gCol, float bCol, float alpha) {
-        var radX = (float) Math.toRadians(rotation.x);
-        var radY = (float) Math.toRadians(rotation.y);
-        var radZ = (float) Math.toRadians(rotation.z);
-
+    private void putCube(QuadParticleRenderState renderState, float x, float y, float z, float scale, Vector3f rotationRad, float u, float v, int light, float rCol, float gCol, float bCol, float alpha) {
         var brightness = 1.0F;
 
         float red;
         float green;
         float blue;
 
-        for (var i = 0; i < FBPConstants.CUBE.length; i += 4) {
-            var v1 = FBPRenderHelper.rotate(FBPConstants.CUBE[i], radX, radY, radZ).mul(scale).add(xPos, yPos, zPos);
-            var v2 = FBPRenderHelper.rotate(FBPConstants.CUBE[i + 1], radX, radY, radZ).mul(scale).add(xPos, yPos, zPos);
-            var v3 = FBPRenderHelper.rotate(FBPConstants.CUBE[i + 2], radX, radY, radZ).mul(scale).add(xPos, yPos, zPos);
-            var v4 = FBPRenderHelper.rotate(FBPConstants.CUBE[i + 3], radX, radY, radZ).mul(scale).add(xPos, yPos, zPos);
+        var rotation = new Quaternionf().rotateXYZ(rotationRad.x, rotationRad.y, rotationRad.z);
+
+        var rotationX = new Quaternionf().rotateX(rotationRad.x);
+        var rotationY = new Quaternionf().rotateY(rotationRad.y);
+        var rotationZ = new Quaternionf().rotateZ(rotationRad.z);
+
+        for (var i = 0; i < FBPConstants.CUBE_NORMALS.length; i++) {
+            var normal = FBPConstants.CUBE_NORMALS[i].rotate(rotation, new Vector3f());
+            var face = new Vector3f(normal).mul(scale).add(x, y, z);
+            var faceRotation = new Quaternionf().rotationTo(new Vector3f(0.0F, 0.0F, 1.0F), normal);
+
+            if (i < 2)
+                rotationY.mul(faceRotation, faceRotation);
+            else if (i < 4)
+                rotationZ.mul(faceRotation, faceRotation);
+            else
+                rotationX.mul(faceRotation, faceRotation);
 
             red = rCol * brightness;
             green = gCol * brightness;
@@ -175,22 +183,15 @@ public class FBPTrailParticle extends TrailParticle implements IKillableParticle
 
             brightness *= 0.95F;
 
-            addVertex(buffer, v1, u, v, light, red, green, blue, alpha);
-            addVertex(buffer, v2, u, v, light, red, green, blue, alpha);
-            addVertex(buffer, v3, u, v, light, red, green, blue, alpha);
-            addVertex(buffer, v4, u, v, light, red, green, blue, alpha);
+            renderState.add(this.getLayer(), face.x, face.y, face.z, faceRotation.x, faceRotation.y, faceRotation.z, faceRotation.w, scale, u, u, v, v, ARGB.colorFromFloat(alpha, red, green, blue), light);
         }
-    }
-
-    private void addVertex(VertexConsumer buffer, Vector3d pos, float u, float v, int light, float rCol, float gCol, float bCol, float alpha) {
-        buffer.addVertex((float) pos.x, (float) pos.y, (float) pos.z).setUv(u, v).setColor(rCol, gCol, bCol, alpha).setLight(light);
     }
 
     @RequiredArgsConstructor
     public static class Provider implements ParticleProvider<TrailParticleOption> {
         @Nullable
         @Override
-        public Particle createParticle(TrailParticleOption type, ClientLevel level, double x, double y, double z, double xd, double yd, double zd) {
+        public Particle createParticle(TrailParticleOption type, ClientLevel level, double x, double y, double z, double xd, double yd, double zd, RandomSource random) {
             if (FancyBlockParticles.CONFIG.global.isFreezeEffect() && !FancyBlockParticles.CONFIG.trail.isSpawnWhileFrozen())
                 return null;
 

@@ -4,13 +4,13 @@ import hantonik.fbp.FancyBlockParticles;
 import hantonik.fbp.config.FBPConfig;
 import hantonik.fbp.platform.Services;
 import hantonik.fbp.screen.FBPAbstractOptionsScreen;
+import hantonik.fbp.screen.component.widget.CenteredStringWidget;
 import hantonik.fbp.screen.component.widget.button.FBPSliderButton;
 import hantonik.fbp.screen.component.widget.button.FBPToggleButton;
 import hantonik.fbp.util.DelayedSupplier;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.gui.components.AbstractWidget;
 import net.minecraft.client.gui.components.EditBox;
-import net.minecraft.client.gui.components.StringWidget;
 import net.minecraft.client.gui.components.Tooltip;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.CommonComponents;
@@ -67,14 +67,14 @@ public class FBPOtherScreen extends FBPAbstractOptionsScreen {
         colorBox.setValue("#" + String.format("%06X", this.config.overlay.getFreezeEffectColor()));
         colorBox.setEditable(!this.config.global.isLocked() && this.config.overlay.isFreezeEffectOverlay());
         colorBox.setFilter(text -> text.toUpperCase(Locale.ENGLISH).matches("^#[0-F.]{0,6}$"));
-        colorBox.setFormatter((text, pos) -> FormattedCharSequence.forward(text, text.length() == 7 ? Style.EMPTY.withColor(TextColor.parseColor(text).getOrThrow()) : Style.EMPTY));
+        colorBox.addFormatter((text, pos) -> FormattedCharSequence.forward(text, text.length() == 7 ? Style.EMPTY.withColor(TextColor.parseColor(text).getOrThrow()) : Style.EMPTY));
         colorBox.setResponder(text -> {
             if (text.length() == 7)
                 this.config.overlay.setFreezeEffectColor(Integer.parseInt(text.substring(1), 16));
         });
 
         this.list.addBig(
-                new StringWidget(310, 20, Component.translatable("widget.fbp.other.animations"), this.font),
+                new CenteredStringWidget(310, 20, Component.translatable("widget.fbp.other.animations"), this.font),
                 fancyPlacingAnimationButton
         );
 
@@ -87,7 +87,7 @@ public class FBPOtherScreen extends FBPAbstractOptionsScreen {
         );
 
         this.list.addBig(
-                new StringWidget(310, 20, Component.translatable("widget.fbp.other.misc"), this.font)
+                new CenteredStringWidget(310, 20, Component.translatable("widget.fbp.other.misc"), this.font)
         );
 
         this.list.addSmall(
@@ -102,7 +102,7 @@ public class FBPOtherScreen extends FBPAbstractOptionsScreen {
         );
 
         this.list.addBig(
-                new StringWidget(310, 20, Component.translatable("widget.fbp.other.overlay"), this.font),
+                new CenteredStringWidget(310, 20, Component.translatable("widget.fbp.other.overlay"), this.font),
                 new FBPToggleButton(310, 20, Component.translatable("button.fbp.overlay.freeze_effect_overlay"), this.config.overlay::isFreezeEffectOverlay, button -> {
                     this.config.overlay.setFreezeEffectOverlay(!this.config.overlay.isFreezeEffectOverlay());
 
@@ -111,7 +111,7 @@ public class FBPOtherScreen extends FBPAbstractOptionsScreen {
         );
 
         this.list.addSmall(
-                new StringWidget(150, 21, Component.literal(" ").append(Component.translatable("widget.fbp.overlay.freeze_effect_color")).append(":"), this.font).alignLeft(),
+                new CenteredStringWidget(150, 21, Component.literal(" ").append(Component.translatable("widget.fbp.overlay.freeze_effect_color")).append(":"), this.font),
                 colorBox
         );
     }
