@@ -26,6 +26,7 @@
   "screen.fbp.category.campfire_smoke": "篝火烟雾",
   "screen.fbp.category.drip": "滴落",
   "screen.fbp.category.flame": "火焰",
+  "screen.fbp.category.firefly": "萤火虫",
   "screen.fbp.category.other": "其他",
   "screen.fbp.category.rain": "雨",
   "screen.fbp.category.smoke": "烟雾",
@@ -62,6 +63,7 @@
   "button.fbp.common.transparency": "透明度",
 
   "button.fbp.common.size_multiplier": "大小倍增器",
+  "button.fbp.common.speed_multiplier": "速度倍增器",
   "button.fbp.common.rotation_multiplier": "旋转倍增器",
   "button.fbp.common.gravity_multiplier": "重力倍增器",
 
@@ -85,6 +87,9 @@
   "button.fbp.drip.fancy_dripping_particles": "精致的滴落粒子",
 
   "button.fbp.flame.fancy_flame_particles": "高级火焰粒子",
+
+  "button.fbp.firefly.fancy_firefly_particles": "精美萤火虫粒子",
+  "button.fbp.firefly.random_dimming_speed": "随机变暗速度",
 
   "button.fbp.global.enabled": "启用",
 
@@ -159,6 +164,7 @@
   "tooltip.fbp.common.transparency": "颗粒透明度。",
 
   "tooltip.fbp.common.size_multiplier": "粒子大小倍增器。",
+  "tooltip.fbp.common.speed_multiplier": "粒子速度倍增器。",
   "tooltip.fbp.common.rotation_multiplier": "粒子旋转倍增器。",
   "tooltip.fbp.common.gravity_multiplier": "粒子重力倍增器。",
 
@@ -176,6 +182,9 @@
   "tooltip.fbp.drip.fancy_dripping_particles": "启用/禁用精致的滴落粒子。\n禁用时，将恢复默认粒子。",
 
   "tooltip.fbp.flame.fancy_flame_particles": "启用/禁用高级火焰粒子。\n禁用时，将恢复默认粒子。",
+
+  "tooltip.fbp.firefly.fancy_firefly_particles": "启用/禁用精美的萤火虫粒子。\n禁用时，将恢复默认粒子。",
+  "tooltip.fbp.firefly.random_dimming_speed": "萤火虫粒子消退速度是否随机？",
 
   "tooltip.fbp.global.enabled": "启用/禁用FBP模组。\n禁用时，将恢复默认粒子。",
 

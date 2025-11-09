@@ -26,6 +26,7 @@
   "screen.fbp.category.campfire_smoke": "Humo de hoguera",
   "screen.fbp.category.drip": "Goteo",
   "screen.fbp.category.flame": "Llama",
+  "screen.fbp.category.firefly": "Luciérnagas",
   "screen.fbp.category.other": "Otros",
   "screen.fbp.category.rain": "Lluvia",
   "screen.fbp.category.smoke": "Humo",
@@ -62,6 +63,7 @@
   "button.fbp.common.transparency": "Transparencia",
 
   "button.fbp.common.size_multiplier": "Multiplicador de tamaño",
+  "button.fbp.common.speed_multiplier": "Multiplicador de velocidad",
   "button.fbp.common.rotation_multiplier": "Multiplicador de rotación",
   "button.fbp.common.gravity_multiplier": "Multiplicador de gravedad",
 
@@ -85,6 +87,9 @@
   "button.fbp.drip.fancy_dripping_particles": "Partículas de goteo elegantes",
 
   "button.fbp.flame.fancy_flame_particles": "Partículas de llama elegantes",
+
+  "button.fbp.firefly.fancy_firefly_particles": "Partículas de luciérnagas elegantes",
+  "button.fbp.firefly.random_dimming_speed": "Velocidad de atenuación aleatoria",
 
   "button.fbp.global.enabled": "Habilitado",
 
@@ -159,6 +164,7 @@
   "tooltip.fbp.common.transparency": "Transparencia de partículas.",
 
   "tooltip.fbp.common.size_multiplier": "Multiplicador de tamaño de la partícula.",
+  "tooltip.fbp.common.speed_multiplier": "Multiplicador de velocidad de la partícula.",
   "tooltip.fbp.common.rotation_multiplier": "Multiplicador de rotación de la partícula.",
   "tooltip.fbp.common.gravity_multiplier": "Multiplicador de gravedad de la partícula.",
 
@@ -176,6 +182,9 @@
   "tooltip.fbp.drip.fancy_dripping_particles": "Habilitar/deshabilitar partículas de goteo elegantes.\nCuando está deshabilitado, se restauran las partículas predeterminadas.",
 
   "tooltip.fbp.flame.fancy_flame_particles": "Habilitar/deshabilitar partículas de llama elegantes.\nCuando está deshabilitado, se restauran las partículas predeterminadas.",
+
+  "tooltip.fbp.firefly.fancy_firefly_particles": "Habilitar/deshabilitar partículas de luciérnagas elegantes.\nCuando está deshabilitado, se restauran las partículas predeterminadas.",
+  "tooltip.fbp.firefly.random_dimming_speed": "¿Debería ser la velocidad de atenuación de las partículas aleatoria?",
 
   "tooltip.fbp.global.enabled": "Habilitar/deshabilitar el mod FBP.\nCuando está deshabilitado, se restauran las partículas predeterminadas.",
 

@@ -45,7 +45,11 @@ public class FBPOptionsScreen extends FBPAbstractOptionsScreen {
                 this.openScreenButton(Component.translatable("screen.fbp.category.flame").append("..."), () -> new FBPFlameScreen(this, this.config)),
                 this.openScreenButton(Component.translatable("screen.fbp.category.smoke").append("..."), () -> new FBPSmokeScreen(this, this.config)),
                 this.openScreenButton(Component.translatable("screen.fbp.category.trail").append("..."), () -> new FBPTrailScreen(this, this.config)),
-                this.openScreenButton(Component.translatable("screen.fbp.category.other").append("..."), () -> new FBPOtherScreen(this, this.config))
+                this.openScreenButton(Component.translatable("screen.fbp.category.firefly").append("..."), () -> new FBPFireflyScreen(this, this.config))
+        );
+
+        this.list.addBig(
+                this.openScreenButton(Component.translatable("screen.fbp.category.other").append("..."), () -> new FBPOtherScreen(this, this.config), 310, 20)
         );
     }
 

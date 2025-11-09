@@ -74,8 +74,8 @@ dependencies {
     compileOnly "com.github.glitchfiend:SereneSeasons-neoforge:$mc_version-$sereneseasons_version"
     compileOnly "com.github.glitchfiend:GlitchCore-neoforge:$mc_version-$glitchcore_version"
 
-    compileOnly "maven.modrinth:sodium:mc$sodium_version-neoforge"
-    compileOnly "maven.modrinth:iris:$iris_version-neoforge"
+    compileOnly "maven.modrinth:sodium:mc$mc_version-$sodium_version-neoforge"
+    compileOnly "maven.modrinth:iris:$iris_version+$mc_version-neoforge"
 
     compileOnly "org.embeddedt:embeddium-1.21.4:$embeddium_version+mc1.21.4" // Update 1.21.8
 //    compileOnly "maven.modrinth:oculus:$oculus_version"
@@ -141,18 +141,3 @@ tasks.modrinth.dependsOn(tasks.jar)
 tasks.modrinth.dependsOn(tasks.sourcesJar)
 
 tasks.modrinth.dependsOn(':Changelog:makeMarkdownChangelog')
-
-publishing {
-    publications {
-        register('mavenJava', MavenPublication) {
-            artifact jar
-            artifact sourcesJar
-
-            artifactId archivesBaseName
-        }
-    }
-
-    repositories {
-        mavenLocal()
-    }
-}

@@ -26,6 +26,7 @@
   "screen.fbp.category.campfire_smoke": "焚き火の煙",
   "screen.fbp.category.drip": "滴",
   "screen.fbp.category.flame": "炎",
+  "screen.fbp.category.firefly": "ホタル",
   "screen.fbp.category.other": "その他",
   "screen.fbp.category.rain": "雨",
   "screen.fbp.category.smoke": "煙",
@@ -62,6 +63,7 @@
   "button.fbp.common.transparency": "透明性",
 
   "button.fbp.common.size_multiplier": "サイズ倍率",
+  "button.fbp.common.speed_multiplier": "速度倍率",
   "button.fbp.common.rotation_multiplier": "回転倍率",
   "button.fbp.common.gravity_multiplier": "重力倍率",
 
@@ -85,6 +87,9 @@
   "button.fbp.drip.fancy_dripping_particles": "豪華な滴の粒子",
 
   "button.fbp.flame.fancy_flame_particles": "ファンシーな炎パーティクル",
+
+  "button.fbp.firefly.fancy_firefly_particles": "ファンシーなホタルパーティクル",
+  "button.fbp.firefly.random_dimming_speed": "ランダム減光速度",
 
   "button.fbp.global.enabled": "有効",
 
@@ -159,6 +164,7 @@
   "tooltip.fbp.common.transparency": "粒子の透明度。",
 
   "tooltip.fbp.common.size_multiplier": "パーティクルのサイズ倍率。",
+  "tooltip.fbp.common.speed_multiplier": "パーティクルの速度倍率。",
   "tooltip.fbp.common.rotation_multiplier": "パーティクルの回転倍率。",
   "tooltip.fbp.common.gravity_multiplier": "パーティクルの重力倍率。",
 
@@ -176,6 +182,9 @@
   "tooltip.fbp.drip.fancy_dripping_particles": "豪華な滴の粒子を有効/無効にします。\n無効にすると、デフォルトのパーティクルが復元されます。",
 
   "tooltip.fbp.flame.fancy_flame_particles": "ファンシーな炎パーティクルを有効/無効にします。\n無効にすると、デフォルトのパーティクルが復元されます。",
+
+  "tooltip.fbp.firefly.fancy_firefly_particles": "高品質なホタルパーティクルを有効/無効にします。\n無効にすると、デフォルトのパーティクルが復元されます。",
+  "tooltip.fbp.firefly.random_dimming_speed": "パーティクルの減光速度をランダムにしますか？",
 
   "tooltip.fbp.global.enabled": "FBP MODを有効/無効にします。\n無効にすると、デフォルトのパーティクルが復元されます。",
 
