@@ -60,8 +60,8 @@ dependencies {
 	modCompileOnly "com.github.glitchfiend:SereneSeasons-fabric:$mc_version-$sereneseasons_version"
 	modCompileOnly "com.github.glitchfiend:GlitchCore-fabric:$mc_version-$glitchcore_version"
 
-    modImplementation "maven.modrinth:sodium:mc$mc_version-$sodium_version-fabric"
-    modImplementation "maven.modrinth:iris:$iris_version+$mc_version-fabric"
+    modCompileOnly "maven.modrinth:sodium:mc$mc_version-$sodium_version-fabric"
+    modCompileOnly "maven.modrinth:iris:$iris_version+$mc_version-fabric"
 
 	// Iris libs
     modLocalRuntime 'org.antlr:antlr4-runtime:4.13.1'
