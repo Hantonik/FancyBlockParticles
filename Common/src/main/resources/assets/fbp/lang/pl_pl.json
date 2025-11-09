@@ -26,6 +26,7 @@
   "screen.fbp.category.campfire_smoke": "Dym ogniskowy",
   "screen.fbp.category.drip": "Krople",
   "screen.fbp.category.flame": "Płomień",
+  "screen.fbp.category.firefly": "Świetliki",
   "screen.fbp.category.other": "Inne",
   "screen.fbp.category.rain": "Deszcz",
   "screen.fbp.category.smoke": "Dym",
@@ -62,6 +63,7 @@
   "button.fbp.common.transparency": "Przezroczystość",
 
   "button.fbp.common.size_multiplier": "Mnożnik rozmiaru",
+  "button.fbp.common.speed_multiplier": "Mnożnik prędkości",
   "button.fbp.common.rotation_multiplier": "Mnożnik rotacji",
   "button.fbp.common.gravity_multiplier": "Mnożnik grawitacji",
 
@@ -85,6 +87,9 @@
   "button.fbp.drip.fancy_dripping_particles": "Fantazyjne cząsteczki kropel",
 
   "button.fbp.flame.fancy_flame_particles": "Fantazyjne cząsteczki płomieni",
+
+  "button.fbp.firefly.fancy_firefly_particles": "Fantazyjne cząsteczki świetlików",
+  "button.fbp.firefly.random_dimming_speed": "Losowa prędkość przyciemniania",
 
   "button.fbp.global.enabled": "Włączone",
 
@@ -159,6 +164,7 @@
   "tooltip.fbp.common.transparency": "Przezroczystość cząsteczek.",
 
   "tooltip.fbp.common.size_multiplier": "Mnożnik rozmiaru cząsteczek.",
+  "tooltip.fbp.common.speed_multiplier": "Mnożnik prędkości cząsteczek.",
   "tooltip.fbp.common.rotation_multiplier": "Mnożnik rotacji cząsteczek.",
   "tooltip.fbp.common.gravity_multiplier": "Mnożnik grawitacji cząsteczek.",
 
@@ -176,6 +182,9 @@
   "tooltip.fbp.drip.fancy_dripping_particles": "Włącz/wyłącz fantazyjne cząsteczki kropel.\nGdy wyłączone przywrócone zostają domyślne cząsteczki.",
 
   "tooltip.fbp.flame.fancy_flame_particles": "Włącz/wyłącz fantazyjne cząsteczki płomienia.\nGdy wyłączone przywrócone zostają domyślne cząsteczki.",
+
+  "tooltip.fbp.firefly.fancy_firefly_particles": "Włącz/wyłącz fantazyjne cząsteczki świetlików.\nGdy wyłączone przywrócone zostają domyślne cząsteczki.",
+  "tooltip.fbp.firefly.random_dimming_speed": "Czy prędkość przyciemniania cząsteczek powinna być losowa?",
 
   "tooltip.fbp.global.enabled": "Włącz/wyłącz moda FBP.\nGdy wyłączone przywrócone zostają domyślne cząsteczki.",
 

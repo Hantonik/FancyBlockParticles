@@ -144,6 +144,10 @@ public abstract class FBPAbstractOptionsScreen extends Screen {
     }
 
     protected Button openScreenButton(Component title, Supplier<Screen> screen) {
-        return Button.builder(title, onPress -> this.minecraft.setScreen(screen.get())).build();
+        return this.openScreenButton(title, screen, 150, 20);
+    }
+
+    protected Button openScreenButton(Component title, Supplier<Screen> screen, int width, int height) {
+        return Button.builder(title, onPress -> this.minecraft.setScreen(screen.get())).size(width, height).build();
     }
 }

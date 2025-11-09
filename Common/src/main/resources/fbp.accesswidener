@@ -10,6 +10,7 @@ accessible field net/minecraft/client/particle/SingleQuadParticle bCol F
 
 accessible field net/minecraft/client/particle/SingleQuadParticle sprite Lnet/minecraft/client/renderer/texture/TextureAtlasSprite;
 
+extendable method net/minecraft/client/particle/FireflyParticle <init> (Lnet/minecraft/client/multiplayer/ClientLevel;DDDDDDLnet/minecraft/client/renderer/texture/TextureAtlasSprite;)V
 extendable method net/minecraft/client/particle/CampfireSmokeParticle <init> (Lnet/minecraft/client/multiplayer/ClientLevel;DDDDDDZLnet/minecraft/client/renderer/texture/TextureAtlasSprite;)V
 extendable method net/minecraft/client/particle/DripParticle <init> (Lnet/minecraft/client/multiplayer/ClientLevel;DDDLnet/minecraft/world/level/material/Fluid;Lnet/minecraft/client/renderer/texture/TextureAtlasSprite;)V
 extendable method net/minecraft/client/particle/FallingDustParticle <init> (Lnet/minecraft/client/multiplayer/ClientLevel;DDDFFFLnet/minecraft/client/particle/SpriteSet;)V

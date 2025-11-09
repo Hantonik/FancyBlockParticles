@@ -37,6 +37,7 @@ public final class FBPConfig implements IFBPConfig<FBPConfig> {
             Smoke.DEFAULT_CONFIG,
             CampfireSmoke.DEFAULT_CONFIG,
             Trail.DEFAULT_CONFIG,
+            Firefly.DEFAULT_CONFIG,
             Rain.DEFAULT_CONFIG,
             Snow.DEFAULT_CONFIG,
             Drip.DEFAULT_CONFIG,
@@ -51,6 +52,7 @@ public final class FBPConfig implements IFBPConfig<FBPConfig> {
     public final Smoke smoke;
     public final CampfireSmoke campfireSmoke;
     public final Trail trail;
+    public final Firefly firefly;
     public final Rain rain;
     public final Snow snow;
     public final Drip drip;
@@ -94,6 +96,7 @@ public final class FBPConfig implements IFBPConfig<FBPConfig> {
         this.smoke.setConfig(config.smoke);
         this.campfireSmoke.setConfig(config.campfireSmoke);
         this.trail.setConfig(config.trail);
+        this.firefly.setConfig(config.firefly);
         this.rain.setConfig(config.rain);
         this.snow.setConfig(config.snow);
         this.drip.setConfig(config.drip);
@@ -110,6 +113,7 @@ public final class FBPConfig implements IFBPConfig<FBPConfig> {
         this.smoke.applyConfig(config.smoke);
         this.campfireSmoke.applyConfig(config.campfireSmoke);
         this.trail.applyConfig(config.trail);
+        this.firefly.applyConfig(config.firefly);
         this.rain.applyConfig(config.rain);
         this.snow.applyConfig(config.snow);
         this.drip.applyConfig(config.drip);
@@ -143,6 +147,7 @@ public final class FBPConfig implements IFBPConfig<FBPConfig> {
                     this.smoke.load(GsonHelper.getAsJsonObject(json, "smoke", new JsonObject()));
                     this.campfireSmoke.load(GsonHelper.getAsJsonObject(json, "campfireSmoke", new JsonObject()));
                     this.trail.load(GsonHelper.getAsJsonObject(json, "trail", new JsonObject()));
+                    this.firefly.load(GsonHelper.getAsJsonObject(json, "firefly", new JsonObject()));
                     this.rain.load(GsonHelper.getAsJsonObject(json, "rain", new JsonObject()));
                     this.snow.load(GsonHelper.getAsJsonObject(json, "snow", new JsonObject()));
                     this.drip.load(GsonHelper.getAsJsonObject(json, "drip", new JsonObject()));
@@ -171,6 +176,7 @@ public final class FBPConfig implements IFBPConfig<FBPConfig> {
             json.add("smoke", this.smoke.save());
             json.add("campfireSmoke", this.campfireSmoke.save());
             json.add("trail", this.trail.save());
+            json.add("firefly", this.firefly.save());
             json.add("rain", this.rain.save());
             json.add("snow", this.snow.save());
             json.add("drip", this.drip.save());
@@ -200,6 +206,7 @@ public final class FBPConfig implements IFBPConfig<FBPConfig> {
                 this.smoke.copy(),
                 this.campfireSmoke.copy(),
                 this.trail.copy(),
+                this.firefly.copy(),
                 this.rain.copy(),
                 this.snow.copy(),
                 this.drip.copy(),
@@ -986,6 +993,130 @@ public final class FBPConfig implements IFBPConfig<FBPConfig> {
                     this.randomSize, this.randomFadingSpeed,
                     this.minLifetime, this.maxLifetime,
                     this.sizeMultiplier
+            );
+        }
+    }
+
+    @Getter
+    @Setter
+    @AllArgsConstructor(access = AccessLevel.PRIVATE)
+    public static class Firefly implements IFBPConfig<Firefly> {
+        private static final boolean DEFAULT_ENABLED = true;
+
+        private static final boolean DEFAULT_SPAWN_WHILE_FROZEN = false;
+        private static final boolean DEFAULT_INFINITE_DURATION = false;
+
+        private static final boolean DEFAULT_RANDOM_SIZE = true;
+        private static final boolean DEFAULT_RANDOM_DIMMING_SPEED = true;
+
+        private static final int DEFAULT_MIN_LIFETIME = 200;
+        private static final int DEFAULT_MAX_LIFETIME = 300;
+
+        private static final float DEFAULT_SIZE_MULTIPLIER = 1.0F;
+        private static final float DEFAULT_SPEED_MULTIPLIER = 1.0F;
+
+        private static final float DEFAULT_TRANSPARENCY = 0.75F;
+
+        public static final Firefly DEFAULT_CONFIG = new Firefly(
+                DEFAULT_ENABLED,
+                DEFAULT_SPAWN_WHILE_FROZEN, DEFAULT_INFINITE_DURATION,
+                DEFAULT_RANDOM_SIZE, DEFAULT_RANDOM_DIMMING_SPEED,
+                DEFAULT_MIN_LIFETIME, DEFAULT_MAX_LIFETIME,
+                DEFAULT_SIZE_MULTIPLIER, DEFAULT_SPEED_MULTIPLIER,
+                DEFAULT_TRANSPARENCY
+        );
+
+        private boolean enabled;
+
+        private boolean spawnWhileFrozen;
+        private boolean infiniteDuration;
+
+        private boolean randomSize;
+        private boolean randomDimmingSpeed;
+
+        private int minLifetime;
+        private int maxLifetime;
+
+        private float sizeMultiplier;
+        private float speedMultiplier;
+
+        private float transparency;
+
+        @Override
+        public void setConfig(Firefly config) {
+            this.enabled = config.enabled;
+
+            this.spawnWhileFrozen = config.spawnWhileFrozen;
+            this.infiniteDuration = config.infiniteDuration;
+
+            this.randomSize = config.randomSize;
+            this.randomDimmingSpeed = config.randomDimmingSpeed;
+
+            this.minLifetime = config.minLifetime;
+            this.maxLifetime = config.maxLifetime;
+
+            this.sizeMultiplier = config.sizeMultiplier;
+            this.speedMultiplier = config.speedMultiplier;
+
+            this.transparency = config.transparency;
+        }
+
+        @Override
+        public void load(JsonObject json) {
+            this.enabled = GsonHelper.getAsBoolean(json, "enabled", DEFAULT_ENABLED);
+
+            this.spawnWhileFrozen = GsonHelper.getAsBoolean(json, "spawnWhileFrozen", DEFAULT_SPAWN_WHILE_FROZEN);
+            this.infiniteDuration = GsonHelper.getAsBoolean(json, "infiniteDuration", DEFAULT_INFINITE_DURATION);
+
+            this.randomSize = GsonHelper.getAsBoolean(json, "randomSize", DEFAULT_RANDOM_SIZE);
+            this.randomDimmingSpeed = GsonHelper.getAsBoolean(json, "randomDimmingSpeed", DEFAULT_RANDOM_DIMMING_SPEED);
+
+            this.minLifetime = GsonHelper.getAsInt(json, "minLifetime", DEFAULT_MIN_LIFETIME);
+            this.maxLifetime = GsonHelper.getAsInt(json, "maxLifetime", DEFAULT_MAX_LIFETIME);
+
+            this.sizeMultiplier = GsonHelper.getAsFloat(json, "sizeMultiplier", DEFAULT_SIZE_MULTIPLIER);
+            this.speedMultiplier = GsonHelper.getAsFloat(json, "speedMultiplier", DEFAULT_SPEED_MULTIPLIER);
+
+            this.transparency = GsonHelper.getAsFloat(json, "transparency", DEFAULT_TRANSPARENCY);
+        }
+
+        @Override
+        public JsonObject save() {
+            var json = new JsonObject();
+
+            json.addProperty("enabled", this.enabled);
+
+            json.addProperty("spawnWhileFrozen", this.spawnWhileFrozen);
+            json.addProperty("infiniteDuration", this.infiniteDuration);
+
+            json.addProperty("randomSize", this.randomSize);
+            json.addProperty("randomDimmingSpeed", this.randomDimmingSpeed);
+
+            json.addProperty("minLifetime", this.minLifetime);
+            json.addProperty("maxLifetime", this.maxLifetime);
+
+            json.addProperty("sizeMultiplier", this.sizeMultiplier);
+            json.addProperty("speedMultiplier", this.speedMultiplier);
+
+            json.addProperty("transparency", this.transparency);
+
+            return json;
+        }
+
+        @Override
+        public void reset() {
+            this.setConfig(DEFAULT_CONFIG.copy());
+        }
+
+        @Override
+        public Firefly copy() {
+            return new Firefly(
+                    this.enabled,
+                    this.spawnWhileFrozen, this.infiniteDuration,
+                    this.randomSize, this.randomDimmingSpeed,
+                    this.minLifetime, this.maxLifetime,
+                    this.sizeMultiplier, this.speedMultiplier,
+                    this.transparency
             );
         }
     }

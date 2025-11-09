@@ -26,6 +26,7 @@
   "screen.fbp.category.campfire_smoke": "Lagerfeuerrauch",
   "screen.fbp.category.drip": "Tropfen",
   "screen.fbp.category.flame": "Flamme",
+  "screen.fbp.category.firefly": "Glühwürmchen",
   "screen.fbp.category.other": "Andere",
   "screen.fbp.category.rain": "Regen",
   "screen.fbp.category.smoke": "Rauch",
@@ -62,6 +63,7 @@
   "button.fbp.common.transparency": "Partikel-Transparenz",
 
   "button.fbp.common.size_multiplier": "Größenmultiplikator",
+  "button.fbp.common.speed_multiplier": "Geschwindigkeitsmultiplikator",
   "button.fbp.common.rotation_multiplier": "Rotationsmultiplikator",
   "button.fbp.common.gravity_multiplier": "Schwerkraftmultiplikator",
 
@@ -85,6 +87,9 @@
   "button.fbp.drip.fancy_dripping_particles": "Fancy Tropfpartikel",
 
   "button.fbp.flame.fancy_flame_particles": "Fancy Flammenpartikel",
+
+  "button.fbp.firefly.fancy_firefly_particles": "Fancy Glühwürmchenpartikel",
+  "button.fbp.firefly.random_dimming_speed": "Zufällige Abdunkelungsgeschwindigkeit",
 
   "button.fbp.global.enabled": "Aktiviert",
 
@@ -159,6 +164,7 @@
   "tooltip.fbp.common.transparency": "Transparenz der Partikel.",
 
   "tooltip.fbp.common.size_multiplier": "Partikelgrößen-Multiplikator.",
+  "tooltip.fbp.common.speed_multiplier": "Partikelgeschwindigkeit-Multiplikator.",
   "tooltip.fbp.common.rotation_multiplier": "Partikelrotations-Multiplikator.",
   "tooltip.fbp.common.gravity_multiplier": "Partikelschwerkraft-Multiplikator.",
 
@@ -176,6 +182,9 @@
   "tooltip.fbp.drip.fancy_dripping_particles": "Fancy Tropfpartikel aktivieren/deaktivieren.\nWenn deaktiviert, werden die Standardpartikel wiederhergestellt.",
 
   "tooltip.fbp.flame.fancy_flame_particles": "Fancy Flammenpartikel aktivieren/deaktivieren.\nWenn deaktiviert, werden die Standardpartikel wiederhergestellt.",
+
+  "tooltip.fbp.firefly.fancy_firefly_particles": "Fancy Glühwürmchenpartikel aktivieren/deaktivieren.\nWenn deaktiviert, werden die Standardpartikel wiederhergestellt.",
+  "tooltip.fbp.firefly.random_dimming_speed": "Soll die Abdunkelungsgeschwindigkeit der Partikel zufällig sein?",
 
   "tooltip.fbp.global.enabled": "FBP-Mod aktivieren/deaktivieren.\nWenn deaktiviert, werden die Standardpartikel wiederhergestellt.",
 
