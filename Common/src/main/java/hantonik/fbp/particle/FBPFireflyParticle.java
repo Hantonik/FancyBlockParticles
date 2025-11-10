@@ -121,7 +121,7 @@ public class FBPFireflyParticle extends FireflyParticle implements IKillablePart
                 }
 
                 if (this.cooldown <= 0) {
-                    if (this.random.nextFloat() > 0.98F)
+                    if (this.random.nextFloat() > 0.98F || this.age - 100 >= this.lifetime)
                         this.dimming = true;
                 } else
                     this.cooldown--;
