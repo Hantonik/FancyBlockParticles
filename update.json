@@ -2,10 +2,11 @@
   "homepage": "https://www.curseforge.com/minecraft/mc-mods/fbp-renewed",
 
   "promos": {
-    "1.21.8-latest": "21.8.1.0-beta"
+    "1.21.8-latest": "21.8.1.1"
   },
 
   "1.21.8": {
+    "21.8.1.1": "Improve Fancy firefly particle physics",
     "21.8.1.0-beta": "Add Fancy firefly particles",
     "21.8.0.0-beta": "Update to Minecraft 1.21.8"
   }
