@@ -96,6 +96,8 @@
   "button.fbp.misc.fancy_slime_particles": "Particules de slime sophistiquées",
   "button.fbp.misc.fancy_breaking_splash_potion_particles": "Particules de potion jetable brisée sophistiquées",
 
+  "button.fbp.other.fast_settings": "Bouton rapide des réglages FBP",
+
   "button.fbp.overlay.freeze_effect_overlay": "Superposition de l'effet de gel",
 
   "button.fbp.rain.fancy_rain_particles": "Particules de pluie sophistiquées",
@@ -192,6 +194,8 @@
   "tooltip.fbp.misc.breaking_splash_potion_particle_size_multiplier": "Multiplicateur de taille des particules de potion jetable brisée sophistiquées.",
 
   "tooltip.fbp.overlay.freeze_effect_overlay": "Activer/désactiver la superposition de l'effet de gel.\nLorsqu'elle est activée, un message apparaîtra en haut de l'écran pendant l'effet de gel.",
+
+  "tooltip.fbp.other.fast_settings": "Active/désactive le bouton rapide des réglages FBP dans le menu d’options par défaut.",
 
   "tooltip.fbp.rain.fancy_rain_particles": "Activer/désactiver les particules de pluie sophistiquées.\nLorsqu'elles sont désactivées, les particules par défaut sont restaurées.",
 

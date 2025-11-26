@@ -96,6 +96,8 @@
   "button.fbp.misc.fancy_slime_particles": "Fancy slime particles",
   "button.fbp.misc.fancy_breaking_splash_potion_particles": "Fancy breaking splash potion particles",
 
+  "button.fbp.other.fast_settings": "Fast FBP settings button",
+
   "button.fbp.overlay.freeze_effect_overlay": "Freeze effect overlay",
 
   "button.fbp.rain.fancy_rain_particles": "Fancy rain particles",
@@ -192,6 +194,8 @@
   "tooltip.fbp.misc.breaking_splash_potion_particle_size_multiplier": "Fancy breaking splash potion particle size multiplier.",
 
   "tooltip.fbp.overlay.freeze_effect_overlay": "Enable/disable freeze effect overlay.\nWhen enabled, a message will appear at the top of the screen during the freeze effect.",
+
+  "tooltip.fbp.other.fast_settings": "Enable/disable fast FBP settings button in the vanilla options screen.",
 
   "tooltip.fbp.rain.fancy_rain_particles": "Enable/disable fancy rain particles.\nWhen disabled, the default particles are restored.",
 
