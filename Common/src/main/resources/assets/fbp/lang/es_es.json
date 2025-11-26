@@ -97,6 +97,8 @@
   "button.fbp.misc.fancy_slime_particles": "Partículas de slime elegantes",
   "button.fbp.misc.fancy_breaking_splash_potion_particles": "Partículas de poción arrojadiza rota elegantes",
 
+  "button.fbp.other.fast_settings": "Botón rápido de ajustes de FBP",
+
   "button.fbp.overlay.freeze_effect_overlay": "Superposición de efecto de congelación",
 
   "button.fbp.rain.fancy_rain_particles": "Partículas de lluvia elegantes",
@@ -190,6 +192,8 @@
   "tooltip.fbp.misc.breaking_splash_potion_particle_size_multiplier": "Multiplicador del tamaño de las partículas de poción arrojadiza rota elegantes.",
 
   "tooltip.fbp.overlay.freeze_effect_overlay": "Habilitar/deshabilitar superposición de efecto de congelación.\nCuando está habilitado, aparecerá un mensaje en la parte superior de la pantalla durante el efecto de congelación.",
+
+  "tooltip.fbp.other.fast_settings": "Activa/desactiva el botón rápido de ajustes de FBP en la pantalla de opciones predeterminada.",
 
   "tooltip.fbp.rain.fancy_rain_particles": "Habilitar/deshabilitar partículas de lluvia elegantes.\nCuando está deshabilitado, se restauran las partículas predeterminadas.",
 

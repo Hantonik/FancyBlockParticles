@@ -1,6 +1,7 @@
 package hantonik.fbp.mixin;
 
 import com.llamalad7.mixinextras.sugar.Local;
+import hantonik.fbp.FancyBlockParticles;
 import hantonik.fbp.screen.FBPOptionsScreen;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.layouts.GridLayout;
@@ -22,6 +23,7 @@ public abstract class MixinOptionsScreen {
 
     @Inject(at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/layouts/HeaderAndFooterLayout;addToContents(Lnet/minecraft/client/gui/layouts/LayoutElement;)Lnet/minecraft/client/gui/layouts/LayoutElement;"), method = "init")
     protected void init(CallbackInfo callback, @Local GridLayout.RowHelper helper) {
-        helper.addChild(this.openScreenButton(Component.translatable("key.fbp.category").append("..."), () -> new FBPOptionsScreen((OptionsScreen) (Object) this)));
+        if (FancyBlockParticles.CONFIG.global.isFastSettings())
+            helper.addChild(this.openScreenButton(Component.translatable("key.fbp.category").append("..."), () -> new FBPOptionsScreen((OptionsScreen) (Object) this)));
     }
 }
