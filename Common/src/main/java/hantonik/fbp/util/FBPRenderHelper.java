@@ -1,7 +1,6 @@
 package hantonik.fbp.util;
 
 import com.mojang.blaze3d.vertex.VertexConsumer;
-import hantonik.fbp.platform.Services;
 import hantonik.fbp.renderer.state.FBPParticleRenderState;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
@@ -36,7 +35,7 @@ public final class FBPRenderHelper {
             else
                 rotationX.mul(faceRotation, faceRotation);
 
-            var shade = Services.CLIENT.getShade(normal.x, normal.y, normal.z, true);
+            var shade = getShade(normal.x, normal.y, normal.z, true);
 
             if (cartoon)
                 renderState.add(layer, face.x, face.y, face.z, faceRotation.x, faceRotation.y, faceRotation.z, faceRotation.w, width, i < 2 ? width : height, u1, u1, v1, v1, ARGB.colorFromFloat(alpha, red * shade, green * shade, blue * shade), light);
@@ -56,7 +55,7 @@ public final class FBPRenderHelper {
 
             var normal = rotate(FBPConstants.CUBE_NORMALS[i / 4], rotationRad.x, rotationRad.y, rotationRad.z);
 
-            var shade = Services.CLIENT.getShade(normal.x, normal.y, normal.z, true);
+            var shade = getShade(normal.x, normal.y, normal.z, true);
 
             if (cartoon) {
                 addVertex(buffer, vec1, u1, v1, light, red * shade, green * shade, blue * shade, alpha, normal);
@@ -81,6 +80,15 @@ public final class FBPRenderHelper {
         vector = new Vector3f(vector.x * cos.y + vector.z * sin.y, vector.y, vector.x * sin.y - vector.z * cos.y);
 
         return vector;
+    }
+
+    public static float getShade(float normalX, float normalY, float normalZ, boolean shade) {
+        var constantAmbientLight = Minecraft.getInstance().level.effects().constantAmbientLight();
+
+        if (shade)
+            return Math.min(normalX * normalX * 0.6F + normalY * normalY * (constantAmbientLight ? 0.9F : (3.0F + normalY) / 4.0F) + normalZ * normalZ * 0.8F, 1.0F);
+        else
+            return constantAmbientLight ? 0.9F : 1.0F;
     }
 
     public static void addVertex(VertexConsumer buffer, Vector3f pos, float u, float v, int light, float red, float green, float blue, float alpha, Vector3f normal) {

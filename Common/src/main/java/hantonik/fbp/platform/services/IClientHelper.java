@@ -10,7 +10,5 @@ import net.minecraft.world.level.block.state.BlockState;
 import java.util.List;
 
 public interface IClientHelper {
-    float getShade(float normalX, float normalY, float normalZ, boolean shade);
-
     void renderBlock(ClientLevel level, List<BlockModelPart> list, BlockState state, BlockPos pos, PoseStack stack, MultiBufferSource bufferSource);
 }

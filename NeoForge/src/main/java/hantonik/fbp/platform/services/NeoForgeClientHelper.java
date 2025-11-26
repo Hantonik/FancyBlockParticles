@@ -3,23 +3,18 @@ package hantonik.fbp.platform.services;
 import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ClientLevel;
+import net.minecraft.client.renderer.ItemBlockRenderTypes;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.block.model.BlockModelPart;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.block.state.BlockState;
-import net.neoforged.neoforge.client.RenderTypeHelper;
 
 import java.util.List;
 
 public final class NeoForgeClientHelper implements IClientHelper {
     @Override
-    public float getShade(float normalX, float normalY, float normalZ, boolean shade) {
-        return Minecraft.getInstance().level.getShade(normalX, normalY, normalZ, shade);
-    }
-
-    @Override
     public void renderBlock(ClientLevel level, List<BlockModelPart> list, BlockState state, BlockPos pos, PoseStack stack, MultiBufferSource bufferSource) {
-        Minecraft.getInstance().getBlockRenderer().getModelRenderer().tesselateBlock(level, list, state, pos, stack, type -> bufferSource.getBuffer(RenderTypeHelper.getMovingBlockRenderType(type)), false, OverlayTexture.NO_OVERLAY);
+        Minecraft.getInstance().getBlockRenderer().getModelRenderer().tesselateBlock(level, list, state, pos, stack, bufferSource.getBuffer(ItemBlockRenderTypes.getMovingBlockRenderType(state)), false, OverlayTexture.NO_OVERLAY);
     }
 }

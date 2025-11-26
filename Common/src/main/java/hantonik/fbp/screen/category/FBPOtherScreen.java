@@ -114,6 +114,11 @@ public class FBPOtherScreen extends FBPAbstractOptionsScreen {
                 new CenteredStringWidget(150, 21, Component.literal(" ").append(Component.translatable("widget.fbp.overlay.freeze_effect_color")).append(":"), this.font),
                 colorBox
         );
+
+        this.list.addBig(
+                new CenteredStringWidget(310, 20, Component.translatable("screen.fbp.category.other"), this.font),
+                new FBPToggleButton(310, 20, Component.translatable("button.fbp.other.fast_settings"), this.config.global::isFastSettings, button -> this.config.global.setFastSettings(!this.config.global.isFastSettings()), Tooltip.create(Component.translatable("tooltip.fbp.other.fast_settings").append(CommonComponents.NEW_LINE).append(CommonComponents.NEW_LINE).append(Component.translatable("tooltip.fbp.default")).append(Component.translatable("button.fbp.common." + FBPConfig.DEFAULT_CONFIG.global.isFastSettings()))))
+        );
     }
 
     @Override
@@ -121,5 +126,7 @@ public class FBPOtherScreen extends FBPAbstractOptionsScreen {
         this.config.animations.reset();
         this.config.misc.reset();
         this.config.overlay.reset();
+
+        this.config.global.setFastSettings(FBPConfig.DEFAULT_CONFIG.global.isFastSettings());
     }
 }
