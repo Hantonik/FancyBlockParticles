@@ -214,6 +214,8 @@ public final class FBPConfig implements IFBPConfig<FBPConfig> {
     public static class Global implements IFBPConfig<Global> {
         private static final boolean DEFAULT_ENABLED = true;
 
+        private static final boolean DEFAULT_FAST_SETTINGS = true;
+
         private static final boolean DEFAULT_LOCKED = false;
         private static final boolean DEFAULT_DISABLE_OCULUS_WARNING = false;
 
@@ -227,6 +229,7 @@ public final class FBPConfig implements IFBPConfig<FBPConfig> {
 
         public static final Global DEFAULT_CONFIG = new Global(
                 DEFAULT_ENABLED,
+                DEFAULT_FAST_SETTINGS,
                 DEFAULT_LOCKED, DEFAULT_DISABLE_OCULUS_WARNING,
                 DEFAULT_FREEZE_EFFECT, DEFAULT_CARTOON_MODE,
                 DEFAULT_INFINITE_DURATION,
@@ -234,6 +237,8 @@ public final class FBPConfig implements IFBPConfig<FBPConfig> {
         );
 
         private boolean enabled;
+
+        private boolean fastSettings;
 
         private boolean locked;
         private boolean disableOculusWarning;
@@ -253,6 +258,8 @@ public final class FBPConfig implements IFBPConfig<FBPConfig> {
         public void setConfig(Global config) {
             this.enabled = config.enabled;
 
+            this.fastSettings = config.fastSettings;
+
             this.locked = config.locked;
 
             this.freezeEffect = config.freezeEffect;
@@ -269,6 +276,8 @@ public final class FBPConfig implements IFBPConfig<FBPConfig> {
         public void applyConfig(Global config) {
             this.enabled = config.enabled;
 
+            this.fastSettings = config.fastSettings;
+
             this.locked = config.locked;
 
             this.freezeEffect = config.freezeEffect;
@@ -284,6 +293,8 @@ public final class FBPConfig implements IFBPConfig<FBPConfig> {
         @Override
         public void load(JsonObject json) {
             this.enabled = GsonHelper.getAsBoolean(json, "enabled", DEFAULT_ENABLED);
+
+            this.fastSettings = GsonHelper.getAsBoolean(json, "fastSettings", DEFAULT_FAST_SETTINGS);
 
             this.locked = GsonHelper.getAsBoolean(json, "locked", DEFAULT_LOCKED);
             this.disableOculusWarning = GsonHelper.getAsBoolean(json, "disableOculusWarning", DEFAULT_DISABLE_OCULUS_WARNING);
@@ -349,6 +360,8 @@ public final class FBPConfig implements IFBPConfig<FBPConfig> {
 
             json.addProperty("enabled", this.enabled);
 
+            json.addProperty("fastSettings", this.fastSettings);
+
             json.addProperty("locked", this.locked);
             json.addProperty("disableOculusWarning", this.disableOculusWarning);
 
@@ -381,6 +394,7 @@ public final class FBPConfig implements IFBPConfig<FBPConfig> {
         public Global copy() {
             return new Global(
                     this.enabled,
+                    this.fastSettings,
                     this.locked, this.disableOculusWarning,
                     this.freezeEffect,
                     this.cartoonMode,

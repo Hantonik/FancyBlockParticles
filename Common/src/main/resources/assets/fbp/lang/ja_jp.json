@@ -95,6 +95,8 @@
   "button.fbp.misc.fancy_slime_particles": "ファンシーなスライムパーティクル",
   "button.fbp.misc.fancy_breaking_splash_potion_particles": "ファンシーなスプラッシュポーション破壊パーティクル",
 
+  "button.fbp.other.fast_settings": "FBP設定のクイックボタン",
+
   "button.fbp.overlay.freeze_effect_overlay": "フリーズエフェクトオーバーレイ",
 
   "button.fbp.rain.fancy_rain_particles": "ファンシーな雨パーティクル",
@@ -190,6 +192,8 @@
   "tooltip.fbp.misc.breaking_splash_potion_particle_size_multiplier": "ファンシーなスプラッシュポーション破壊パーティクルのサイズ倍率。",
 
   "tooltip.fbp.overlay.freeze_effect_overlay": "フリーズエフェクトオーバーレイを有効/無効にします。\n有効にすると、フリーズエフェクト中に画面上部にメッセージが表示されます。",
+
+  "tooltip.fbp.other.fast_settings": "バニラのオプション画面にFBP設定のクイックボタンを有効/無効にします。",
 
   "tooltip.fbp.rain.fancy_rain_particles": "ファンシーな雨パーティクルを有効/無効にします。\n無効にすると、デフォルトのパーティクルが復元されます。",
 
