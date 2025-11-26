@@ -51,6 +51,8 @@ dependencies {
 	modImplementation "net.fabricmc:fabric-loader:$loader_version"
 	modImplementation "net.fabricmc.fabric-api:fabric-api:$fabric_version+$mc_version"
 
+    modCompileOnly "maven.modrinth:modmenu:$modmenu_version"
+
 	modCompileOnly "com.github.glitchfiend:SereneSeasons-fabric:$mc_version-$sereneseasons_version"
 	modCompileOnly "com.github.glitchfiend:GlitchCore-fabric:$mc_version-$glitchcore_version"
 
