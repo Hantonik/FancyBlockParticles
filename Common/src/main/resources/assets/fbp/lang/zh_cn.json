@@ -100,6 +100,8 @@
   "button.fbp.misc.fancy_slime_particles": "精美的史莱姆粒子",
   "button.fbp.misc.fancy_breaking_splash_potion_particles": "精美的破裂喷溅药水粒子",
 
+  "button.fbp.other.fast_settings": "FBP设置的快速按钮",
+
   "button.fbp.overlay.freeze_effect_overlay": "冻结效果覆盖层",
 
   "button.fbp.rain.fancy_rain_particles": "高级雨粒子",
@@ -200,6 +202,8 @@
   "tooltip.fbp.misc.breaking_splash_potion_particle_size_multiplier": "精美的破裂喷溅药水粒子尺寸倍增器。",
 
   "tooltip.fbp.overlay.freeze_effect_overlay": "启用/禁用冻结效果覆盖层。\n启用时，在冻结效果期间，屏幕顶部会显示消息。",
+
+  "tooltip.fbp.other.fast_settings": "在默认选项界面中启用/禁用FBP设置的快速按钮。",
 
   "tooltip.fbp.rain.fancy_rain_particles": "启用/禁用高级雨粒子。\n禁用时，将恢复默认粒子。",
 

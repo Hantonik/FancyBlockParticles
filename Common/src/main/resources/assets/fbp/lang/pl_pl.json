@@ -100,6 +100,8 @@
   "button.fbp.misc.fancy_slime_particles": "Fantazyjne cząsteczki szlamu",
   "button.fbp.misc.fancy_breaking_splash_potion_particles": "Fantazyjne cząsteczki rozbijania mikstur miotanych",
 
+  "button.fbp.other.fast_settings": "Szybki przycisk ustawień FBP",
+
   "button.fbp.overlay.freeze_effect_overlay": "Nakładka efektu zamrożenia",
 
   "button.fbp.rain.fancy_rain_particles": "Fantazyjne cząsteczki deszczu",
@@ -200,6 +202,8 @@
   "tooltip.fbp.misc.breaking_splash_potion_particle_size_multiplier": "Mnożnik rozmiaru fantazyjnych cząsteczek rozbijania mikstur miotanych.",
 
   "tooltip.fbp.overlay.freeze_effect_overlay": "Włącz/wyłącz nakładkę efektu zamrożenia.\nPo włączeniu, podczas efektu zamrożenia na górze ekranu pojawi się informujący o tym tekst.",
+
+  "tooltip.fbp.other.fast_settings": "Włącz/wyłącz szybki przycisk ustawień FBP w standardowym menu opcji.",
 
   "tooltip.fbp.rain.fancy_rain_particles": "Włącz/wyłącz fantazyjne cząsteczki deszczu.\nGdy wyłączone przywrócone zostają domyślne cząsteczki.",
 

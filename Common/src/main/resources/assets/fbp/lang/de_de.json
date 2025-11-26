@@ -100,6 +100,8 @@
   "button.fbp.misc.fancy_slime_particles": "Fancy Schleimpartikel",
   "button.fbp.misc.fancy_breaking_splash_potion_particles": "Fancy zerbrechende Wurftrankpartikel",
 
+  "button.fbp.other.fast_settings": "Schneller FBP-Einstellungsbutton",
+
   "button.fbp.overlay.freeze_effect_overlay": "Freeze-Effekt-Overlay",
 
   "button.fbp.rain.fancy_rain_particles": "Fancy Regenpartikel",
@@ -200,6 +202,8 @@
   "tooltip.fbp.misc.breaking_splash_potion_particle_size_multiplier": "Multiplikator für die Größe der schicken zerbrechenden Wurftrank-Partikel.",
 
   "tooltip.fbp.overlay.freeze_effect_overlay": "Freeze-Effekt-Overlay aktivieren/deaktivieren.\nWenn aktiviert, wird während des Freeze-Effekts eine Nachricht oben auf dem Bildschirm angezeigt.",
+
+  "tooltip.fbp.other.fast_settings": "Aktiviert/Deaktiviert den schnellen FBP-Einstellungsbutton im Vanilla-Optionenmenü.",
 
   "tooltip.fbp.rain.fancy_rain_particles": "Fancy Regenpartikel aktivieren/deaktivieren.\nWenn deaktiviert, werden die Standardpartikel wiederhergestellt.",
 
