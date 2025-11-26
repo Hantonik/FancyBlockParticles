@@ -20,7 +20,10 @@
 	"entrypoints": {
 		"client": [
 			"hantonik.fbp.FBPFabric"
-		]
+		],
+        "modmenu": [
+            "hantonik.fbp.integration.FBPModMenuApi"
+        ]
 	},
 	"depends": {
 		"fabricloader": ">=0.14.0",
@@ -28,6 +31,14 @@
 		"minecraft": "~${mc_version}",
 		"java": ">=${java_version}"
 	},
+
+    "custom": {
+        "modmenu": {
+            "links": {
+                "modmenu.buymeacoffee": "https://buymeacoffee.com/hantonik"
+            }
+        }
+    },
 
 	"mixins": [
 		"fbp.mixins.json",
