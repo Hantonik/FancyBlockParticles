@@ -1,6 +1,7 @@
 package hantonik.fbp.mixin;
 
 import com.llamalad7.mixinextras.sugar.Local;
+import hantonik.fbp.FancyBlockParticles;
 import hantonik.fbp.screen.FBPOptionsScreen;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.layouts.GridLayout;
@@ -24,11 +25,12 @@ public abstract class MixinOptionsScreen {
 
     @Redirect(at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/layouts/SpacerElement;height(I)Lnet/minecraft/client/gui/layouts/SpacerElement;", ordinal = 0), method = "init")
     protected SpacerElement height(int height) {
-        return SpacerElement.height(height - 15);
+        return SpacerElement.height(FancyBlockParticles.CONFIG.global.isFastSettings() ? height - 15 : height);
     }
 
     @Inject(at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/components/Button;builder(Lnet/minecraft/network/chat/Component;Lnet/minecraft/client/gui/components/Button$OnPress;)Lnet/minecraft/client/gui/components/Button$Builder;"), method = "init")
     protected void init(CallbackInfo callback, @Local GridLayout.RowHelper helper) {
-        helper.addChild(this.openScreenButton(Component.translatable("key.fbp.category").append("..."), () -> new FBPOptionsScreen((OptionsScreen) (Object) this)));
+        if (FancyBlockParticles.CONFIG.global.isFastSettings())
+            helper.addChild(this.openScreenButton(Component.translatable("key.fbp.category").append("..."), () -> new FBPOptionsScreen((OptionsScreen) (Object) this)));
     }
 }

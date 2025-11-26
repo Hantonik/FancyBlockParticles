@@ -2,10 +2,11 @@
   "homepage": "https://www.curseforge.com/minecraft/mc-mods/fbp-renewed",
 
   "promos": {
-    "1.20.1-latest": "20.1.5.1"
+    "1.20.1-latest": "20.1.6.0"
   },
 
   "1.20.1": {
+    "20.1.6.0": "Add integration with ModMenu",
     "20.1.5.1": "Fix Fancy drip particles leak. Improve particle physics",
     "20.1.5.0": "Add option to disable blacklisted block particles completely",
     "20.1.4.1": "Fix glass particles when breaking egg",
