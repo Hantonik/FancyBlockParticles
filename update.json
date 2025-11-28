@@ -6,7 +6,7 @@
   },
 
   "1.21.1": {
-    "21.1.6.0": "Add integration with ModMenu",
+    "21.1.6.0": "Add integration with ModMenu. Fix block placing animation bug",
     "21.1.5.0": "Add option to disable blacklisted block particles completely. Fix Fancy drip particles leak. Improve particle physics",
     "21.1.4.1": "Fix glass particles when breaking egg",
     "21.1.4.0": "Fix particle spawning on Freeze effect. Add Fancy snowflake particles. Add Fancy breaking bottle particles",
