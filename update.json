@@ -6,7 +6,7 @@
   },
 
   "1.21.8": {
-    "21.8.2.0": "Improve Fancy firefly particle physics. Add integration with ModMenu",
+    "21.8.2.0": "Improve Fancy firefly particle physics. Add integration with ModMenu. Fix block placing animation bug",
     "21.8.1.0-beta": "Add Fancy firefly particles",
     "21.8.0.0-beta": "Update to Minecraft 1.21.8"
   }

@@ -32,14 +32,17 @@ public final class FBPPlacingAnimationManager {
             if (!state.is(BlockTags.BEDS) && !(state.getBlock() instanceof DoublePlantBlock) && !(state.getBlock() instanceof DoorBlock) && (!state.hasProperty(ChestBlock.TYPE) || state.getValue(ChestBlock.TYPE) != ChestType.SINGLE)) {
                 if (Minecraft.getInstance().cameraEntity.position().distanceTo(pos.getCenter()) <= Minecraft.getInstance().options.renderDistance().get() * 16) {
                     var animation = new FBPPlacingAnimationParticle(level, state, pos, placer, hand);
-                    var oldAnimation = ACTIVE_ANIMATIONS.put(pos, animation);
+
+                    var oldAnimation = ACTIVE_ANIMATIONS.get(pos);
 
                     if (oldAnimation != null) {
-                        oldAnimation.remove();
+                        if (oldAnimation.canUpdate(animation))
+                            animation.setAge(oldAnimation.getAge()).setLifetime(oldAnimation.getLifetime());
 
-                        ACTIVE_ANIMATIONS.remove(pos);
+                        oldAnimation.remove();
                     }
 
+                    ACTIVE_ANIMATIONS.put(pos, animation);
                     hideBlock(pos);
 
                     Minecraft.getInstance().particleEngine.add(animation);
