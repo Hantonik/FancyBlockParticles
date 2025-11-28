@@ -84,6 +84,20 @@ public class FBPPlacingAnimationParticle extends Particle implements IKillablePa
         this.hasPhysics = false;
     }
 
+    public boolean canUpdate(FBPPlacingAnimationParticle another) {
+        return this.state.is(another.state.getBlock()) && this.pos.equals(another.pos) && this.rotation.equals(another.rotation) && this.slide.equals(another.slide) && this.angleY == another.angleY;
+    }
+
+    public FBPPlacingAnimationParticle setAge(int age) {
+        this.age = age;
+
+        return this;
+    }
+
+    public int getAge() {
+        return this.age;
+    }
+
     @Override
     public void tick() {
         this.xo = this.x;
@@ -94,16 +108,18 @@ public class FBPPlacingAnimationParticle extends Particle implements IKillablePa
             this.remove();
 
         if (!Minecraft.getInstance().isPaused()) {
-            if (this.killToggle)
-                this.remove();
+            if (!this.removed) {
+                if (this.killToggle)
+                    this.remove();
 
-            this.age++;
+                this.age++;
 
-            if (this.age == this.lifetime + 1)
-                FBPPlacingAnimationManager.showBlock(this.pos, false);
+                if (this.age == this.lifetime + 1)
+                    FBPPlacingAnimationManager.showBlock(this.pos, false);
 
-            if (this.age >= this.lifetime + 2)
-                this.remove();
+                if (this.age >= this.lifetime + 2)
+                    this.remove();
+            }
         }
 
         if (this.level.getBlockState(this.pos) != this.state)
@@ -214,15 +230,12 @@ public class FBPPlacingAnimationParticle extends Particle implements IKillablePa
             }
         }
 
-        var affectedDirections = getAffectedDirections(slideDir.x, slideDir.y, slideDir.z);
-
-        for (var side : affectedDirections)
+        for (var side : getAffectedDirections(slideDir.x, slideDir.y, slideDir.z))
             if (!emptyDirections.contains(side))
                 slideDir.sub(side.step().absolute().mul(slideDir));
 
         if (!emptyDirections.isEmpty() && slideDir.length() == 0) {
-            var nearestDirections = List.of(Direction.orderedByNearest(placer));
-            emptyDirections.sort(Comparator.comparingInt(nearestDirections::indexOf));
+            emptyDirections.sort(Comparator.comparingInt(List.of(Direction.orderedByNearest(placer))::indexOf));
 
             slideDir.set(emptyDirections.getFirst().step());
         }
