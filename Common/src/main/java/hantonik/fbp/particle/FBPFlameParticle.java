@@ -224,9 +224,9 @@ public class FBPFlameParticle extends FlameParticle implements IKillableParticle
         var u = this.sprite.getU(1.1F / 4.0F);
         var v = this.sprite.getV(1.1F / 4.0F);
 
-        var posX = Mth.lerp(partialTick, this.xo, this.x) - info.getPosition().x;
-        var posY = Mth.lerp(partialTick, this.yo, this.y) - info.getPosition().y;
-        var posZ = Mth.lerp(partialTick, this.zo, this.z) - info.getPosition().z;
+        var posX = Mth.lerp(partialTick, this.xo, this.x) - info.position().x;
+        var posY = Mth.lerp(partialTick, this.yo, this.y) - info.position().y;
+        var posZ = Mth.lerp(partialTick, this.zo, this.z) - info.position().z;
 
         var scale = Mth.lerp(partialTick, this.lastSize, this.quadSize);
         var alpha = Mth.lerp(partialTick, this.lastAlpha, this.alpha);
@@ -239,8 +239,6 @@ public class FBPFlameParticle extends FlameParticle implements IKillableParticle
             if (this.isSoulFire)
                 this.bCol = Math.min(1.0F, (scale / this.startSize) * 1.2F);
         }
-
-        Minecraft.getInstance().gameRenderer.lightTexture().turnOnLightLayer();
 
         this.putCube(renderState, (float) posX, (float) posY, (float) posZ, scale / 80.0F, this.rotatedNormal, this.rotation, u, v, light, this.rCol, this.gCol, this.bCol, alpha);
     }

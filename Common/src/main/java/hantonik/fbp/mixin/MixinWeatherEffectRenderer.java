@@ -28,10 +28,10 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 @Mixin(WeatherEffectRenderer.class)
 public abstract class MixinWeatherEffectRenderer {
     @Inject(at = @At("HEAD"), method = "tickRainParticles")
-    private void tickRain(ClientLevel level, Camera camera, int ticks, ParticleStatus status, CallbackInfo callback) {
+    private void tickRain(ClientLevel level, Camera camera, int ticks, ParticleStatus status, int radiusValue, CallbackInfo callback) {
         if (FancyBlockParticles.CONFIG.global.isEnabled() && !FancyBlockParticles.CONFIG.global.isFreezeEffect()) {
             if (FancyBlockParticles.CONFIG.rain.isEnabled() || FancyBlockParticles.CONFIG.snow.isEnabled()) {
-                if (level.getRainLevel(1.0F) / (Minecraft.useFancyGraphics() ? 1.0F : 2.0F) <= 0.0F)
+                if (level.getRainLevel(1.0F) <= 0.0F)
                     return;
 
                 var rainDensity = FancyBlockParticles.CONFIG.rain.getParticleDensity() * 4.0F * FancyBlockParticles.CONFIG.rain.getSimulationDistance() / 2;
@@ -43,16 +43,16 @@ public abstract class MixinWeatherEffectRenderer {
                     var angle = FBPConstants.RANDOM.nextDouble() * Math.PI * 2.0D;
                     var radius = Mth.sqrt(FBPConstants.RANDOM.nextFloat()) * Math.max(FancyBlockParticles.CONFIG.rain.getSimulationDistance(), FancyBlockParticles.CONFIG.snow.getSimulationDistance()) / 2 * 16.0F;
 
-                    var x = camera.getBlockPosition().getX() + radius * Math.cos(angle);
-                    var y = camera.getBlockPosition().getY();
-                    var z = camera.getBlockPosition().getZ() + radius * Math.sin(angle);
+                    var x = camera.blockPosition().getX() + radius * Math.cos(angle);
+                    var y = camera.blockPosition().getY();
+                    var z = camera.blockPosition().getZ() + radius * Math.sin(angle);
 
                     var pos = BlockPos.containing(x, y, z);
                     var surfaceHeight = level.getHeightmapPos(Heightmap.Types.MOTION_BLOCKING, pos).getY();
 
                     var precipitation = level.getBiome(pos).value().getPrecipitationAt(pos, level.getSeaLevel());
 
-                    if (camera.getPosition().distanceTo(new Vec3(x, y, z)) > (precipitation == Biome.Precipitation.RAIN ? FancyBlockParticles.CONFIG.rain.getSimulationDistance() : FancyBlockParticles.CONFIG.snow.getSimulationDistance()) * 16.0F)
+                    if (camera.position().distanceTo(new Vec3(x, y, z)) > (precipitation == Biome.Precipitation.RAIN ? FancyBlockParticles.CONFIG.rain.getSimulationDistance() : FancyBlockParticles.CONFIG.snow.getSimulationDistance()) * 16.0F)
                         continue;
 
                     y = (int) (y + 25.0D + FBPConstants.RANDOM.nextDouble() * 10.0D);

@@ -11,8 +11,8 @@ import net.minecraft.client.particle.ParticleEngine;
 import net.minecraft.client.particle.ParticleGroup;
 import net.minecraft.client.particle.ParticleRenderType;
 import net.minecraft.client.particle.SingleQuadParticle;
-import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.culling.Frustum;
+import net.minecraft.client.renderer.rendertype.RenderTypes;
 import net.minecraft.client.renderer.state.ParticleGroupRenderState;
 
 public class FBPParticleGroup extends ParticleGroup<SingleQuadParticle> {
@@ -28,7 +28,7 @@ public class FBPParticleGroup extends ParticleGroup<SingleQuadParticle> {
     @Override
     public ParticleGroupRenderState extractRenderState(Frustum frustum, Camera camera, float partialTick) {
         if (this.particleRenderType == FBPConstants.FBP_TERRAIN_RENDER) {
-            return (nodeCollector, state) -> nodeCollector.submitCustomGeometry(new PoseStack(), RenderType.translucentMovingBlock(), (pose, consumer) -> {
+            return (nodeCollector, state) -> nodeCollector.submitCustomGeometry(new PoseStack(), RenderTypes.translucentMovingBlock(), (pose, consumer) -> {
                 for (var particle : this.particles) {
                     if (particle instanceof IFBPRendererParticle rendererParticle) {
                         if (frustum.pointInFrustum(particle.x, particle.y, particle.z)) {

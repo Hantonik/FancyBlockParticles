@@ -70,6 +70,10 @@ subprojects {
     version = gradleutils.version.toString()
     group = "hantonik.$mod_id"
 
+    tasks.withType(Test).configureEach {
+        failOnNoDiscoveredTests = false
+    }
+
     tasks.withType(JavaCompile).configureEach {
         if (project.name != 'NeoForge')
             source project(':Common').sourceSets.main.allSource

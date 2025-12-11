@@ -10,11 +10,11 @@ import net.minecraft.client.gui.components.WidgetSprites;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.CommonComponents;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 
 public class FBPOptionsScreen extends FBPAbstractOptionsScreen {
-    public static final WidgetSprites LOGO_SPRITES = new WidgetSprites(ResourceLocation.tryBuild(FancyBlockParticles.MOD_ID, "logo"), ResourceLocation.tryBuild(FancyBlockParticles.MOD_ID, "logo_highlighted"));
-    public static final WidgetSprites REPORT_SPRITES = new WidgetSprites(ResourceLocation.tryBuild(FancyBlockParticles.MOD_ID, "report"), ResourceLocation.tryBuild(FancyBlockParticles.MOD_ID, "report_highlighted"));
+    public static final WidgetSprites LOGO_SPRITES = new WidgetSprites(Identifier.tryBuild(FancyBlockParticles.MOD_ID, "logo"), Identifier.tryBuild(FancyBlockParticles.MOD_ID, "logo_highlighted"));
+    public static final WidgetSprites REPORT_SPRITES = new WidgetSprites(Identifier.tryBuild(FancyBlockParticles.MOD_ID, "report"), Identifier.tryBuild(FancyBlockParticles.MOD_ID, "report_highlighted"));
 
     public FBPOptionsScreen(Screen lastScreen) {
         super(Component.translatable("screen.fbp.settings"), lastScreen, FancyBlockParticles.CONFIG.copy());

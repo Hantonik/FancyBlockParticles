@@ -3,7 +3,7 @@ package hantonik.fbp.init;
 import com.google.common.collect.Lists;
 import hantonik.fbp.FancyBlockParticles;
 import net.minecraft.client.KeyMapping;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import org.lwjgl.glfw.GLFW;
 
 import java.util.List;
@@ -11,7 +11,7 @@ import java.util.List;
 public final class FBPKeyMappings {
     public static final List<KeyMapping> MAPPINGS = Lists.newArrayList();
 
-    private static final KeyMapping.Category CATEGORY = KeyMapping.Category.register(ResourceLocation.tryBuild(FancyBlockParticles.MOD_ID, "category"));
+    private static final KeyMapping.Category CATEGORY = KeyMapping.Category.register(Identifier.tryBuild(FancyBlockParticles.MOD_ID, "category"));
 
     public static final KeyMapping TOGGLE_MOD = register("toggle_mod", -1);
     public static final KeyMapping TOGGLE_ANIMATIONS = register("toggle_animations", -1);

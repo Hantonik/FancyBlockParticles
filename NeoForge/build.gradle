@@ -16,7 +16,7 @@ neoForge {
     version = neo_version
 
     parchment {
-        minecraftVersion = mc_version
+        minecraftVersion = '1.21.10' // mc_version Update to 1.21.11
         mappingsVersion = mappings_version
     }
 
@@ -71,13 +71,13 @@ configurations {
 dependencies {
     compileOnly project(':Common')
 
-    compileOnly "com.github.glitchfiend:SereneSeasons-neoforge:$mc_version-$sereneseasons_version"
-    compileOnly "com.github.glitchfiend:GlitchCore-neoforge:$mc_version-$glitchcore_version"
+    compileOnly "com.github.glitchfiend:SereneSeasons-neoforge:1.21.10-$sereneseasons_version" // Update 1.21.11
+    compileOnly "com.github.glitchfiend:GlitchCore-neoforge:1.21.10-$glitchcore_version" // Update 1.21.11
 
-    compileOnly 'maven.modrinth:sodium:mc1.21.8-0.7.2-neoforge' // Update 1.21.10
-    compileOnly 'maven.modrinth:iris:1.9.6+1.21.8-neoforge' // Update 1.21.10
+    compileOnly 'maven.modrinth:sodium:mc1.21.8-0.7.2-neoforge' // Update 1.21.11
+    compileOnly 'maven.modrinth:iris:1.9.6+1.21.8-neoforge' // Update 1.21.11
 
-    compileOnly "org.embeddedt:embeddium-1.21.4:$embeddium_version+mc1.21.4" // Update 1.21.10
+    compileOnly "org.embeddedt:embeddium-1.21.4:$embeddium_version+mc1.21.4" // Update 1.21.11
 //    compileOnly "maven.modrinth:oculus:$oculus_version"
 
     runtimeOnly "maven.modrinth:spark:$spark_version-neoforge"

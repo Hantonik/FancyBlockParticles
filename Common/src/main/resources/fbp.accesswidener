@@ -33,10 +33,10 @@ accessible field net/minecraft/client/renderer/LevelRenderer destroyingBlocks Li
 accessible field net/minecraft/client/gui/components/StringWidget maxWidth I
 accessible field net/minecraft/client/gui/components/StringWidget textOverflow Lnet/minecraft/client/gui/components/StringWidget$TextOverflow;
 
-extendable method net/minecraft/client/gui/components/StringWidget clipText (Lnet/minecraft/network/chat/Component;I)Lnet/minecraft/util/FormattedCharSequence;
+extendable method net/minecraft/client/gui/components/StringWidget clipText (Lnet/minecraft/network/chat/Component;Lnet/minecraft/client/gui/Font;I)Lnet/minecraft/util/FormattedCharSequence;
 
-extendable method net/minecraft/client/gui/components/AbstractSliderButton getSprite ()Lnet/minecraft/resources/ResourceLocation;
-extendable method net/minecraft/client/gui/components/AbstractSliderButton getHandleSprite ()Lnet/minecraft/resources/ResourceLocation;
+extendable method net/minecraft/client/gui/components/AbstractSliderButton getSprite ()Lnet/minecraft/resources/Identifier;
+extendable method net/minecraft/client/gui/components/AbstractSliderButton getHandleSprite ()Lnet/minecraft/resources/Identifier;
 
 accessible field net/minecraft/client/particle/ParticleEngine RENDER_ORDER Ljava/util/List;
 mutable field net/minecraft/client/particle/ParticleEngine RENDER_ORDER Ljava/util/List;

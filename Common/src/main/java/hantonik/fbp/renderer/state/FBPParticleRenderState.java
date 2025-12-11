@@ -12,6 +12,7 @@ import net.minecraft.client.renderer.state.ParticleGroupRenderState;
 import net.minecraft.client.renderer.state.QuadParticleRenderState;
 import net.minecraft.client.renderer.texture.TextureManager;
 import org.jetbrains.annotations.Nullable;
+import org.joml.Matrix4f;
 import org.joml.Quaternionf;
 import org.joml.Vector3f;
 import org.joml.Vector4f;
@@ -64,7 +65,7 @@ public class FBPParticleRenderState implements SubmitNodeCollector.ParticleGroup
                 cache.write(data.vertexBuffer());
                 RenderSystem.getSequentialBuffer(VertexFormat.Mode.QUADS).getBuffer(data.drawState().indexCount());
 
-                return new QuadParticleRenderState.PreparedBuffers(data.drawState().indexCount(), RenderSystem.getDynamicUniforms().writeTransform(RenderSystem.getModelViewMatrix(), new Vector4f(1.0F, 1.0F, 1.0F, 1.0F), new Vector3f(), RenderSystem.getTextureMatrix(), RenderSystem.getShaderLineWidth()), prepared);
+                return new QuadParticleRenderState.PreparedBuffers(data.drawState().indexCount(), RenderSystem.getDynamicUniforms().writeTransform(RenderSystem.getModelViewMatrix(), new Vector4f(1.0F, 1.0F, 1.0F, 1.0F), new Vector3f(), new Matrix4f()), prepared);
             }
         }
 
@@ -81,8 +82,10 @@ public class FBPParticleRenderState implements SubmitNodeCollector.ParticleGroup
 
         for (var entry : buffers.layers().entrySet()) {
             if (translucent == entry.getKey().translucent()) {
+                var texture = manager.getTexture(entry.getKey().textureAtlasLocation());
+
                 pass.setPipeline(entry.getKey().pipeline());
-                pass.bindSampler("Sampler0", manager.getTexture(entry.getKey().textureAtlasLocation()).getTextureView());
+                pass.bindTexture("Sampler0", texture.getTextureView(), texture.getSampler());
 
                 pass.drawIndexed(entry.getValue().vertexOffset(), 0, entry.getValue().indexCount(), 1);
             }

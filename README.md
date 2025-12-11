@@ -5,6 +5,7 @@ This is revamped MorphoxL's <a href="https://www.curseforge.com/minecraft/mc-mod
 
 | Version |  Support   |
 |:-------:|:----------:|
+| 1.21.11 | **Active** |
 | 1.21.10 | **Active** |
 | 1.21.8  | **Active** |
 | 1.21.5  | **Active** |

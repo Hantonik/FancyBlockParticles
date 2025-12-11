@@ -6,7 +6,6 @@ import hantonik.fbp.FancyBlockParticles;
 import hantonik.fbp.animation.FBPPlacingAnimationManager;
 import hantonik.fbp.platform.Services;
 import hantonik.fbp.util.FBPConstants;
-import net.minecraft.Util;
 import net.minecraft.client.Camera;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ClientLevel;
@@ -18,6 +17,7 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.util.Mth;
 import net.minecraft.util.RandomSource;
+import net.minecraft.util.Util;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.HumanoidArm;
 import net.minecraft.world.entity.LivingEntity;
@@ -149,9 +149,9 @@ public class FBPPlacingAnimationParticle extends SingleQuadParticle implements I
 
     @Override
     public void extract(QuadParticleRenderState renderState, Camera info, float partialTick) {
-        var posX = Mth.lerp(partialTick, this.xo, this.x) - info.getPosition().x + 0.5D;
-        var posY = Mth.lerp(partialTick, this.yo, this.y) - info.getPosition().y + 0.5D;
-        var posZ = Mth.lerp(partialTick, this.zo, this.z) - info.getPosition().z + 0.5D;
+        var posX = Mth.lerp(partialTick, this.xo, this.x) - info.position().x + 0.5D;
+        var posY = Mth.lerp(partialTick, this.yo, this.y) - info.position().y + 0.5D;
+        var posZ = Mth.lerp(partialTick, this.zo, this.z) - info.position().z + 0.5D;
 
         var stack = new PoseStack();
 

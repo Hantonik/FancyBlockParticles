@@ -317,9 +317,9 @@ public class FBPDripParticle extends DripParticle implements IFBPRendererParticl
         var u1 = this.sprite.getU((this.uo + 1.0F) / 4.0F);
         var v1 = this.sprite.getV((this.vo + 1.0F) / 4.0F);
 
-        var posX = Mth.lerp(partialTick, this.xo, this.x) - info.getPosition().x;
-        var posY = Mth.lerp(partialTick, this.yo, this.y) - info.getPosition().y;
-        var posZ = Mth.lerp(partialTick, this.zo, this.z) - info.getPosition().z;
+        var posX = Mth.lerp(partialTick, this.xo, this.x) - info.position().x;
+        var posY = Mth.lerp(partialTick, this.yo, this.y) - info.position().y;
+        var posZ = Mth.lerp(partialTick, this.zo, this.z) - info.position().z;
 
         var width = Mth.lerp(partialTick, this.lastSize, this.quadSize) / 10.0F;
         var height = Mth.lerp(partialTick, this.lastHeight, this.height) / 10.0F;

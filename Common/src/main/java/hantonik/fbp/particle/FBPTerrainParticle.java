@@ -486,9 +486,9 @@ public class FBPTerrainParticle extends TerrainParticle implements IFBPRendererP
         var u1 = this.sprite.getU((this.uo + 1.0F) / 4.0F);
         var v1 = this.sprite.getV((this.vo + 1.0F) / 4.0F);
 
-        var posX = Mth.lerp(partialTick, this.xo, this.x) - camera.getPosition().x;
-        var posY = Mth.lerp(partialTick, this.yo, this.y) - camera.getPosition().y;
-        var posZ = Mth.lerp(partialTick, this.zo, this.z) - camera.getPosition().z;
+        var posX = Mth.lerp(partialTick, this.xo, this.x) - camera.position().x;
+        var posY = Mth.lerp(partialTick, this.yo, this.y) - camera.position().y;
+        var posZ = Mth.lerp(partialTick, this.zo, this.z) - camera.position().z;
 
         var scale = Mth.lerp(partialTick, this.lastSize, this.quadSize);
         var alpha = Mth.lerp(partialTick, this.lastAlpha, this.alpha);

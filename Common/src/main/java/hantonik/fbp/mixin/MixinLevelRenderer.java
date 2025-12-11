@@ -15,7 +15,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 @Mixin(LevelRenderer.class)
 public abstract class MixinLevelRenderer implements ResourceManagerReloadListener, AutoCloseable {
     @Inject(at = @At("HEAD"), method = "renderHitOutline", cancellable = true)
-    private void renderHitOutline(PoseStack stack, VertexConsumer consumer, double camX, double camY, double camZ, BlockOutlineRenderState renderState, int color, CallbackInfo callback) {
+    private void renderHitOutline(PoseStack stack, VertexConsumer consumer, double camX, double camY, double camZ, BlockOutlineRenderState renderState, int color, float lineWidth, CallbackInfo callback) {
         if (!FancyBlockParticles.CONFIG.animations.isRenderOutline() && FBPPlacingAnimationManager.isHidden(renderState.pos()))
             callback.cancel();
     }

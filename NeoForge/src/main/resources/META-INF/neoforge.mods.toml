@@ -21,13 +21,13 @@ issueTrackerURL="https://github.com/Hantonik/FancyBlockParticles/issues"
 [[dependencies.fbp]]
     modId="neoforge"
     type="required"
-    versionRange="[21.10,)"
+    versionRange="[21.11,)"
     ordering="NONE"
     side="CLIENT"
 
 [[dependencies.fbp]]
     modId="minecraft"
     type="required"
-    versionRange="[1.21.10,1.22)"
+    versionRange="[1.21.11,1.22)"
     ordering="NONE"
     side="CLIENT"

@@ -4,7 +4,6 @@ import com.mojang.blaze3d.vertex.VertexConsumer;
 import hantonik.fbp.renderer.state.FBPParticleRenderState;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.particle.SingleQuadParticle;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.util.ARGB;
@@ -15,8 +14,6 @@ import org.joml.Vector3f;
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public final class FBPRenderHelper {
     public static void renderCubeShaded(FBPParticleRenderState renderState, SingleQuadParticle.Layer layer, float x, float y, float z, float width, float height, Vector3f rotationRad, float u0, float u1, float v0, float v1, int light, float red, float green, float blue, float alpha, boolean cartoon) {
-        Minecraft.getInstance().gameRenderer.lightTexture().turnOnLightLayer();
-
         var rotation = new Quaternionf().rotateXYZ(rotationRad.x, rotationRad.y, rotationRad.z);
 
         var rotationX = new Quaternionf().rotateX(rotationRad.x);
@@ -45,8 +42,6 @@ public final class FBPRenderHelper {
     }
 
     public static void renderCubeShadedLegacy(VertexConsumer buffer, float x, float y, float z, float scale, Vector3f rotationRad, float u0, float u1, float v0, float v1, int light, float red, float green, float blue, float alpha, boolean cartoon) {
-        Minecraft.getInstance().gameRenderer.lightTexture().turnOnLightLayer();
-
         for (var i = 0; i < FBPConstants.CUBE.length; i += 4) {
             var vec1 = rotate(FBPConstants.CUBE[i], rotationRad.x, rotationRad.y, rotationRad.z).mul(scale).add(x, y, z);
             var vec2 = rotate(FBPConstants.CUBE[i + 1], rotationRad.x, rotationRad.y, rotationRad.z).mul(scale).add(x, y, z);
@@ -83,12 +78,10 @@ public final class FBPRenderHelper {
     }
 
     public static float getShade(float normalX, float normalY, float normalZ, boolean shade) {
-        var constantAmbientLight = Minecraft.getInstance().level.effects().constantAmbientLight();
-
         if (shade)
-            return Math.min(normalX * normalX * 0.6F + normalY * normalY * (constantAmbientLight ? 0.9F : (3.0F + normalY) / 4.0F) + normalZ * normalZ * 0.8F, 1.0F);
+            return Math.min(normalX * normalX * 0.6F + normalY * normalY * (3.0F + normalY) / 4.0F + normalZ * normalZ * 0.8F, 1.0F);
         else
-            return constantAmbientLight ? 0.9F : 1.0F;
+            return 1.0F;
     }
 
     public static void addVertex(VertexConsumer buffer, Vector3f pos, float u, float v, int light, float red, float green, float blue, float alpha, Vector3f normal) {

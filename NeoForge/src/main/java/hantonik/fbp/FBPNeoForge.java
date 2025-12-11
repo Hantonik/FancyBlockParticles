@@ -5,7 +5,7 @@ import hantonik.fbp.particle.group.FBPParticleGroup;
 import hantonik.fbp.screen.FBPOptionsScreen;
 import hantonik.fbp.util.FBPConstants;
 import net.minecraft.client.Minecraft;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.server.packs.resources.ResourceManagerReloadListener;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.IEventBus;
@@ -56,7 +56,7 @@ public final class FBPNeoForge {
     }
 
     private void onRegisterClientReloadListeners(final AddClientReloadListenersEvent event) {
-        event.addListener(ResourceLocation.fromNamespaceAndPath(FancyBlockParticles.MOD_ID, "config"), (ResourceManagerReloadListener) manager -> FancyBlockParticles.CONFIG.load());
+        event.addListener(Identifier.fromNamespaceAndPath(FancyBlockParticles.MOD_ID, "config"), (ResourceManagerReloadListener) manager -> FancyBlockParticles.CONFIG.load());
     }
 
     private void postClientTick(final ClientTickEvent.Post event) {

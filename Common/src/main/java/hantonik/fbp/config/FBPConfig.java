@@ -12,10 +12,10 @@ import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
-import net.minecraft.Util;
 import net.minecraft.core.registries.BuiltInRegistries;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.util.GsonHelper;
+import net.minecraft.util.Util;
 import net.minecraft.world.level.block.Block;
 import org.apache.commons.compress.utils.Lists;
 
@@ -320,7 +320,7 @@ public final class FBPConfig implements IFBPConfig<FBPConfig> {
                             var mode = BlacklistMode.valueOf(entry.getValue().getAsString().toUpperCase(Locale.ENGLISH));
 
                             if (mode != BlacklistMode.FANCY)
-                                blacklisted.put(BuiltInRegistries.BLOCK.getValue(ResourceLocation.tryParse(entry.getKey())), mode);
+                                blacklisted.put(BuiltInRegistries.BLOCK.getValue(Identifier.tryParse(entry.getKey())), mode);
                         } catch (IllegalArgumentException e) {
                             FancyBlockParticles.LOGGER.error("Value '{}' is not a valid blacklist mode!", entry.getValue().getAsString().toUpperCase(Locale.ENGLISH));
                         }
@@ -332,7 +332,7 @@ public final class FBPConfig implements IFBPConfig<FBPConfig> {
             this.animationsBlacklist = Util.make(Lists.newArrayList(), blacklisted -> {
                 if (json.has("animationsBlacklist")) {
                     for (var entry : GsonHelper.getAsJsonArray(json, "animationsBlacklist"))
-                        blacklisted.add(BuiltInRegistries.BLOCK.getValue(ResourceLocation.tryParse(entry.getAsString())));
+                        blacklisted.add(BuiltInRegistries.BLOCK.getValue(Identifier.tryParse(entry.getAsString())));
                 } else
                     blacklisted.addAll(DEFAULT_ANIMATIONS_BLACKLIST);
             });
@@ -348,7 +348,7 @@ public final class FBPConfig implements IFBPConfig<FBPConfig> {
                     FancyBlockParticles.LOGGER.warn("Using outdated object name: 'disabledParticles'");
 
                     for (var entry : GsonHelper.getAsJsonArray(json, "disabledParticles"))
-                        blacklisted.put(BuiltInRegistries.BLOCK.getValue(ResourceLocation.tryParse(entry.getAsString())), BlacklistMode.VANILLA);
+                        blacklisted.put(BuiltInRegistries.BLOCK.getValue(Identifier.tryParse(entry.getAsString())), BlacklistMode.VANILLA);
                 }
             });
 
@@ -357,7 +357,7 @@ public final class FBPConfig implements IFBPConfig<FBPConfig> {
                     FancyBlockParticles.LOGGER.warn("Using outdated object name: 'disabledAnimations'");
 
                     for (var entry : GsonHelper.getAsJsonArray(json, "disabledAnimations"))
-                        disabled.add(BuiltInRegistries.BLOCK.getValue(ResourceLocation.tryParse(entry.getAsString())));
+                        disabled.add(BuiltInRegistries.BLOCK.getValue(Identifier.tryParse(entry.getAsString())));
                 }
             });
         }

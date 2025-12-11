@@ -2,12 +2,10 @@
   "homepage": "https://www.curseforge.com/minecraft/mc-mods/fbp-renewed",
 
   "promos": {
-    "1.21.10-latest": "21.10.2.0"
+    "1.21.11-latest": "21.11.0.0-alpha"
   },
 
-  "1.21.10": {
-    "21.10.2.0": "Improve Fancy firefly particle physics. Add integration with ModMenu. Fix block placing animation bug",
-    "21.10.1.0-beta": "Add Fancy firefly particles",
-    "21.10.0.0-beta": "Update to Minecraft 1.21.10"
+  "1.21.11": {
+    "21.11.0.0-alpha": "Update to Minecraft 1.21.11"
   }
 }

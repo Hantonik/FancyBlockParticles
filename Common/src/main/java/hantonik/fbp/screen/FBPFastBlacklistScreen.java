@@ -14,7 +14,7 @@ import net.minecraft.client.renderer.RenderPipelines;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.util.Mth;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.ItemStack;
@@ -23,10 +23,10 @@ import org.lwjgl.glfw.GLFW;
 
 public class FBPFastBlacklistScreen extends Screen {
     private static final WidgetSprites INDICATOR_SPRITES = new WidgetSprites(
-            ResourceLocation.tryBuild(FancyBlockParticles.MOD_ID, "blacklist/indicator"),
-            ResourceLocation.tryBuild(FancyBlockParticles.MOD_ID, "blacklist/indicator_inactive")
+            Identifier.tryBuild(FancyBlockParticles.MOD_ID, "blacklist/indicator"),
+            Identifier.tryBuild(FancyBlockParticles.MOD_ID, "blacklist/indicator_inactive")
     );
-    private static final ResourceLocation INDICATOR_BACKGROUND_SPRITE = ResourceLocation.tryBuild(FancyBlockParticles.MOD_ID, "blacklist/indicator_background");
+    private static final Identifier INDICATOR_BACKGROUND_SPRITE = Identifier.tryBuild(FancyBlockParticles.MOD_ID, "blacklist/indicator_background");
 
     private final BlockState state;
     private final ItemStack displayStack;
