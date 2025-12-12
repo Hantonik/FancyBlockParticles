@@ -24,7 +24,7 @@ public abstract class MixinModelBlockRenderer {
     @WrapOperation(at = @At(value = "INVOKE", target = "Lnet/minecraft/world/level/block/Block;shouldRenderFace(Lnet/minecraft/world/level/block/state/BlockState;Lnet/minecraft/world/level/block/state/BlockState;Lnet/minecraft/core/Direction;)Z"), method = "tesselateWithoutAO")
     private boolean shouldRenderFaceWithoutAO(BlockState state, BlockState faceState, Direction face, Operation<Boolean> original, @Local(argsOnly = true) BlockPos pos) {
         if (FBPPlacingAnimationManager.isHidden(pos))
-            return false;
+            return true;
 
         return original.call(state, faceState, face);
     }
