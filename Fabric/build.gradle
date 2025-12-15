@@ -59,10 +59,10 @@ dependencies {
 
 	modImplementation "maven.modrinth:modmenu:$modmenu_version"
 
-	modCompileOnly "com.github.glitchfiend:SereneSeasons-fabric:1.21.10-$sereneseasons_version" // Update to 1.21.11
-	modCompileOnly "com.github.glitchfiend:GlitchCore-fabric:1.21.10-$glitchcore_version" // Update to 1.21.11
+	modCompileOnly "com.github.glitchfiend:SereneSeasons-fabric:$mc_version-$sereneseasons_version"
+	modCompileOnly "com.github.glitchfiend:GlitchCore-fabric:$mc_version-$glitchcore_version"
 
-	modCompileOnly "maven.modrinth:sodium:mc$mc_version-$sodium_version-fabric"
+	modCompileOnly "net.caffeinemc:sodium-fabric:$sodium_version+mc$mc_version"
 	modCompileOnly "maven.modrinth:iris:$iris_version+$mc_version-fabric"
 
 	// Iris libs

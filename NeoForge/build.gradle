@@ -71,11 +71,13 @@ configurations {
 dependencies {
     compileOnly project(':Common')
 
-    compileOnly "com.github.glitchfiend:SereneSeasons-neoforge:1.21.10-$sereneseasons_version" // Update 1.21.11
-    compileOnly "com.github.glitchfiend:GlitchCore-neoforge:1.21.10-$glitchcore_version" // Update 1.21.11
+    compileOnly "com.github.glitchfiend:SereneSeasons-neoforge:$mc_version-$sereneseasons_version"
+    compileOnly "com.github.glitchfiend:GlitchCore-neoforge:$mc_version-$glitchcore_version"
 
-    compileOnly 'maven.modrinth:sodium:mc1.21.8-0.7.2-neoforge' // Update 1.21.11
-    compileOnly 'maven.modrinth:iris:1.9.6+1.21.8-neoforge' // Update 1.21.11
+    compileOnly "net.caffeinemc:sodium-neoforge-mod:$sodium_version+mc$mc_version"
+    runtimeOnly "net.caffeinemc:sodium-neoforge:$sodium_version+mc$mc_version"
+
+    compileOnly "maven.modrinth:iris:$iris_version+$mc_version-neoforge"
 
     compileOnly "org.embeddedt:embeddium-1.21.4:$embeddium_version+mc1.21.4" // Update 1.21.11
 //    compileOnly "maven.modrinth:oculus:$oculus_version"

@@ -23,6 +23,7 @@ println "Minecraft: $mc_version, Mappings: $mappings_channel-$mappings_version"
 
 allprojects {
     repositories {
+        maven { url 'https://maven.caffeinemc.net/releases' }
         maven { url 'https://maven.minecraftforge.net/' }
         maven { url 'https://api.modrinth.com/maven' }
         maven { url 'https://maven.blamejared.com' }
