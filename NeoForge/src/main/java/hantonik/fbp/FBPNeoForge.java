@@ -29,7 +29,7 @@ public final class FBPNeoForge {
             bus.addListener(this::onRegisterParticleGroups);
             bus.addListener(this::onRegisterClientReloadListeners);
 
-            container.registerExtensionPoint(IConfigScreenFactory.class, (mc, modsScreen) -> new FBPOptionsScreen(modsScreen));
+            container.registerExtensionPoint(IConfigScreenFactory.class, (_, modsScreen) -> new FBPOptionsScreen(modsScreen));
         }
     }
 
@@ -53,10 +53,11 @@ public final class FBPNeoForge {
     private void onRegisterParticleGroups(final RegisterParticleGroupsEvent event) {
         event.register(FBPConstants.FBP_PARTICLE_RENDER, engine -> new FBPParticleGroup(engine, FBPConstants.FBP_PARTICLE_RENDER));
         event.register(FBPConstants.FBP_TERRAIN_RENDER, engine -> new FBPParticleGroup(engine, FBPConstants.FBP_TERRAIN_RENDER));
+        event.register(FBPConstants.FBP_ANIMATION_RENDER, engine -> new FBPParticleGroup(engine, FBPConstants.FBP_ANIMATION_RENDER));
     }
 
     private void onRegisterClientReloadListeners(final AddClientReloadListenersEvent event) {
-        event.addListener(Identifier.fromNamespaceAndPath(FancyBlockParticles.MOD_ID, "config"), (ResourceManagerReloadListener) manager -> FancyBlockParticles.CONFIG.load());
+        event.addListener(Identifier.fromNamespaceAndPath(FancyBlockParticles.MOD_ID, "config"), (ResourceManagerReloadListener) _ -> FancyBlockParticles.CONFIG.load());
     }
 
     private void postClientTick(final ClientTickEvent.Post event) {

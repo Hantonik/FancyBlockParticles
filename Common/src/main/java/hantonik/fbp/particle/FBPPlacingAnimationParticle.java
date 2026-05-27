@@ -1,22 +1,23 @@
 package hantonik.fbp.particle;
 
+import com.google.common.collect.Lists;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.math.Axis;
 import hantonik.fbp.FancyBlockParticles;
 import hantonik.fbp.animation.FBPPlacingAnimationManager;
-import hantonik.fbp.platform.Services;
+import hantonik.fbp.particle.api.IFBPAnimationParticleRenderer;
+import hantonik.fbp.renderer.state.FBPAnimationParticleRenderState;
 import hantonik.fbp.util.FBPConstants;
 import net.minecraft.client.Camera;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ClientLevel;
-import net.minecraft.client.particle.SingleQuadParticle;
+import net.minecraft.client.particle.Particle;
+import net.minecraft.client.particle.ParticleRenderType;
 import net.minecraft.client.renderer.LevelRenderer;
-import net.minecraft.client.renderer.block.model.BlockModelPart;
-import net.minecraft.client.renderer.state.QuadParticleRenderState;
+import net.minecraft.client.renderer.block.MovingBlockRenderState;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.util.Mth;
-import net.minecraft.util.RandomSource;
 import net.minecraft.util.Util;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.HumanoidArm;
@@ -24,18 +25,17 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.Vec2;
 import net.minecraft.world.phys.Vec3;
-import org.apache.commons.compress.utils.Lists;
 import org.joml.Matrix3f;
 import org.joml.Vector3f;
 
 import java.util.Comparator;
 import java.util.List;
 
-public class FBPPlacingAnimationParticle extends SingleQuadParticle implements IKillableParticle {
+public class FBPPlacingAnimationParticle extends Particle implements IFBPAnimationParticleRenderer, IKillableParticle {
     private final BlockState state;
     private final BlockPos pos;
 
-    private final List<BlockModelPart> model;
+    private final MovingBlockRenderState blockRenderState;
 
     private final Vec3 rotation;
     private final Vec2 slide;
@@ -45,12 +45,12 @@ public class FBPPlacingAnimationParticle extends SingleQuadParticle implements I
     private boolean killToggle;
 
     public FBPPlacingAnimationParticle(ClientLevel level, BlockState state, BlockPos pos, LivingEntity placer, InteractionHand hand) {
-        super(level, pos.getX(), pos.getY(), pos.getZ(), null);
+        super(level, pos.getX(), pos.getY(), pos.getZ());
 
         this.state = state;
         this.pos = pos;
 
-        this.model = Minecraft.getInstance().getBlockRenderer().getBlockModel(state).collectParts(RandomSource.create(state.getSeed(pos)));
+        this.blockRenderState = new MovingBlockRenderState();
 
         this.lifetime = (int) FBPConstants.RANDOM.nextFloat(Math.min(FancyBlockParticles.CONFIG.animations.getMinLifetime(), FancyBlockParticles.CONFIG.animations.getMaxLifetime()), Math.max(FancyBlockParticles.CONFIG.animations.getMinLifetime(), FancyBlockParticles.CONFIG.animations.getMaxLifetime()) + 0.5F);
 
@@ -138,17 +138,17 @@ public class FBPPlacingAnimationParticle extends SingleQuadParticle implements I
     }
 
     @Override
-    public Layer getLayer() {
-        return Layer.TRANSLUCENT;
+    public ParticleRenderType getGroup() {
+        return FBPConstants.FBP_ANIMATION_RENDER;
     }
 
     @Override
-    public int getLightColor(float partialTick) {
-        return this.level.hasChunkAt(this.pos) ? LevelRenderer.getLightColor(LevelRenderer.BrightnessGetter.DEFAULT, this.level, this.state, this.pos) : 0;
+    public int getLightCoords(float partialTick) {
+        return this.level.hasChunkAt(this.pos) ? LevelRenderer.getLightCoords(LevelRenderer.BrightnessGetter.DEFAULT, this.level, this.state, this.pos) : 0;
     }
 
     @Override
-    public void extract(QuadParticleRenderState renderState, Camera info, float partialTick) {
+    public void extract(FBPAnimationParticleRenderState renderState, Camera info, float partialTick) {
         var posX = Mth.lerp(partialTick, this.xo, this.x) - info.position().x + 0.5D;
         var posY = Mth.lerp(partialTick, this.yo, this.y) - info.position().y + 0.5D;
         var posZ = Mth.lerp(partialTick, this.zo, this.z) - info.position().z + 0.5D;
@@ -173,7 +173,14 @@ public class FBPPlacingAnimationParticle extends SingleQuadParticle implements I
         stack.translate(-offset.x, -offset.y, -offset.z);
         stack.translate(-0.5F, -0.5F, -0.5F);
 
-        Services.CLIENT.renderBlock(this.level, this.model, this.state, this.pos, stack, Minecraft.getInstance().renderBuffers().bufferSource());
+        this.blockRenderState.blockState = this.state;
+        this.blockRenderState.blockPos = this.pos;
+        this.blockRenderState.randomSeedPos = this.pos;
+        this.blockRenderState.biome = this.level.getBiome(this.pos);
+        this.blockRenderState.cardinalLighting = this.level.cardinalLighting();
+        this.blockRenderState.lightEngine = this.level.getLightEngine();
+
+        renderState.add(stack, this.blockRenderState);
     }
 
     private void slideIn(PoseStack stack, float progress) {

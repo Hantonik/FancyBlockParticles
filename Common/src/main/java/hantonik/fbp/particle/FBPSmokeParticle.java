@@ -9,7 +9,7 @@ import net.minecraft.client.particle.Particle;
 import net.minecraft.client.particle.ParticleProvider;
 import net.minecraft.client.particle.SmokeParticle;
 import net.minecraft.client.particle.SpriteSet;
-import net.minecraft.client.renderer.state.QuadParticleRenderState;
+import net.minecraft.client.renderer.state.level.QuadParticleRenderState;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.SimpleParticleType;
@@ -239,12 +239,12 @@ public class FBPSmokeParticle extends SmokeParticle implements IKillableParticle
 
     @Override
     public Layer getLayer() {
-        return Layer.TERRAIN;
+        return Layer.TRANSLUCENT_TERRAIN;
     }
 
     @Override
-    protected int getLightColor(float partialTick) {
-        var i = super.getLightColor(partialTick);
+    protected int getLightCoords(float partialTick) {
+        var i = super.getLightCoords(partialTick);
         var j = 0;
 
         var pos = BlockPos.containing(this.x, this.y, this.z);
@@ -267,7 +267,7 @@ public class FBPSmokeParticle extends SmokeParticle implements IKillableParticle
         var scale = Mth.lerp(partialTick, this.lastSize, this.quadSize);
         var alpha = Mth.lerp(partialTick, this.lastAlpha, this.alpha);
 
-        var light = this.getLightColor(partialTick);
+        var light = this.getLightCoords(partialTick);
 
         this.putCube(renderState, (float) posX, (float) posY, (float) posZ, scale / 20.0F, this.rotatedNormal, this.rotation, u, v, light, this.rCol, this.gCol, this.bCol, alpha);
     }

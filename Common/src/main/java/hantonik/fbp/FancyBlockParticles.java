@@ -12,7 +12,7 @@ import hantonik.fbp.screen.FBPOculusWarningScreen;
 import hantonik.fbp.screen.FBPOptionsScreen;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.gui.screens.TitleScreen;
 import net.minecraft.network.chat.Component;
@@ -83,9 +83,9 @@ public final class FancyBlockParticles {
         }
     }
 
-    public static void onRenderHud(GuiGraphics graphics) {
+    public static void onRenderHud(GuiGraphicsExtractor graphics) {
         if (FancyBlockParticles.CONFIG.global.isEnabled() && FancyBlockParticles.CONFIG.overlay.isFreezeEffectOverlay() && FancyBlockParticles.CONFIG.global.isFreezeEffect() && !Minecraft.getInstance().options.hideGui)
-            graphics.drawCenteredString(Minecraft.getInstance().font, Component.translatable("gui.fbp.freeze_effect").withStyle(ChatFormatting.BOLD), graphics.guiWidth() / 2, 5, FancyBlockParticles.CONFIG.overlay.getFreezeEffectColor() | 0xFF << 24);
+            graphics.centeredText(Minecraft.getInstance().font, Component.translatable("gui.fbp.freeze_effect").withStyle(ChatFormatting.BOLD), graphics.guiWidth() / 2, 5, FancyBlockParticles.CONFIG.overlay.getFreezeEffectColor() | 0xFF << 24);
     }
 
     public static void onClientPause(Screen screen) {

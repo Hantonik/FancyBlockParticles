@@ -63,11 +63,11 @@ public abstract class MixinWeatherEffectRenderer {
                     if (precipitation == Biome.Precipitation.RAIN) {
                         if (FancyBlockParticles.CONFIG.rain.isEnabled())
                             if (i < rainDensity)
-                                Minecraft.getInstance().particleEngine.add(new FBPRainParticle.Provider().createParticle(ParticleTypes.RAIN.getType(), level, x, y, z, 0.0D, 0.0D, 0.0D, level.random));
+                                Minecraft.getInstance().particleEngine.add(new FBPRainParticle.Provider().createParticle(ParticleTypes.RAIN.getType(), level, x, y, z, 0.0D, 0.0D, 0.0D, level.getRandom()));
                     } else if (precipitation == Biome.Precipitation.SNOW) {
                         if (FancyBlockParticles.CONFIG.snow.isEnabled())
                             if (i < snowDensity)
-                                Minecraft.getInstance().particleEngine.add(new FBPSnowParticle.Provider().createParticle(ParticleTypes.RAIN.getType(), level, x, y, z, 0.0D, 0.0D, 0.0D, level.random));
+                                Minecraft.getInstance().particleEngine.add(new FBPSnowParticle.Provider().createParticle(ParticleTypes.RAIN.getType(), level, x, y, z, 0.0D, 0.0D, 0.0D, level.getRandom()));
                     }
                 }
             }

@@ -19,10 +19,10 @@ import java.util.function.Supplier;
 @Mixin(OptionsScreen.class)
 public abstract class MixinOptionsScreen {
     @Shadow
-    protected abstract Button openScreenButton(Component title, Supplier<Screen> screen);
+    protected abstract Button openScreenButton(Component message, Supplier<Screen> screenToScreen);
 
     @Inject(at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/layouts/HeaderAndFooterLayout;addToContents(Lnet/minecraft/client/gui/layouts/LayoutElement;)Lnet/minecraft/client/gui/layouts/LayoutElement;"), method = "init")
-    protected void init(CallbackInfo callback, @Local GridLayout.RowHelper helper) {
+    protected void init(CallbackInfo callback, @Local(name = "helper") GridLayout.RowHelper helper) {
         if (FancyBlockParticles.CONFIG.global.isFastSettings())
             helper.addChild(this.openScreenButton(Component.translatable("key.category.fbp.category").append("..."), () -> new FBPOptionsScreen((OptionsScreen) (Object) this)));
     }

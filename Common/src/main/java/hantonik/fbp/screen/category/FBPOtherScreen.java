@@ -21,6 +21,7 @@ import net.minecraft.util.FormattedCharSequence;
 
 import java.text.DecimalFormat;
 import java.util.Locale;
+import java.util.function.Predicate;
 
 public class FBPOtherScreen extends FBPAbstractOptionsScreen {
     public FBPOtherScreen(Screen lastScreen, FBPConfig config) {
@@ -30,8 +31,8 @@ public class FBPOtherScreen extends FBPAbstractOptionsScreen {
     @Override
     protected void initOptions() {
         var formatter = new DecimalFormat("0.00");
-        
-        var fancyPlacingAnimationButton = new FBPToggleButton(310, 20, Component.translatable("button.fbp.animations.fancy_placing_animation"), this.config.animations::isEnabled, button -> this.config.animations.setEnabled(!this.config.animations.isEnabled()), Tooltip.create(Component.translatable("tooltip.fbp.animations.fancy_placing_animation").append(CommonComponents.NEW_LINE).append(CommonComponents.NEW_LINE).append(Component.translatable("tooltip.fbp.default")).append(Component.translatable("button.fbp.common." + FBPConfig.DEFAULT_CONFIG.animations.isEnabled()))));
+
+        var fancyPlacingAnimationButton = new FBPToggleButton(310, 20, Component.translatable("button.fbp.animations.fancy_placing_animation"), this.config.animations::isEnabled, _ -> this.config.animations.setEnabled(!this.config.animations.isEnabled()), Tooltip.create(Component.translatable("tooltip.fbp.animations.fancy_placing_animation").append(CommonComponents.NEW_LINE).append(CommonComponents.NEW_LINE).append(Component.translatable("tooltip.fbp.default")).append(Component.translatable("button.fbp.common." + FBPConfig.DEFAULT_CONFIG.animations.isEnabled()))));
 
         if (Services.PLATFORM.isModLoaded("a_good_place")) {
             ((AbstractWidget) fancyPlacingAnimationButton).active = false;
@@ -62,12 +63,37 @@ public class FBPOtherScreen extends FBPAbstractOptionsScreen {
             }
         }, () -> !FancyBlockParticles.CONFIG.global.isLocked(), Tooltip.create(Component.translatable("tooltip.fbp.animations.max_lifetime").append(CommonComponents.NEW_LINE).append(CommonComponents.NEW_LINE).append(Component.translatable("tooltip.fbp.default")).append(Component.literal(String.valueOf(FBPConfig.DEFAULT_CONFIG.animations.getMaxLifetime())).append(Component.translatable("button.fbp.common.ticks")).withStyle(ChatFormatting.YELLOW)))));
 
-        var colorBox = new EditBox(this.font, 150, 20, Component.translatable("widget.fbp.overlay.freeze_effect_color"));
+        var colorBox = new EditBox(this.font, 150, 20, Component.translatable("widget.fbp.overlay.freeze_effect_color")) {
+            private final Predicate<String> filter = text -> text.toUpperCase(Locale.ENGLISH).matches("^#[0-F.]{0,6}$");
+
+            @Override
+            public void setValue(String value) {
+                if (this.filter.test(value))
+                    super.setValue(value);
+            }
+
+            @Override
+            public void insertText(String input) {
+                var old = this.getValue();
+                super.insertText(input);
+
+                if (!this.filter.test(this.getValue()))
+                    this.setValue(old);
+            }
+
+            @Override
+            public void deleteCharsToPos(int pos) {
+                var old = this.getValue();
+                super.deleteCharsToPos(pos);
+
+                if (!this.filter.test(this.getValue()))
+                    this.setValue(old);
+            }
+        };
 
         colorBox.setValue("#" + String.format("%06X", this.config.overlay.getFreezeEffectColor()));
         colorBox.setEditable(!this.config.global.isLocked() && this.config.overlay.isFreezeEffectOverlay());
-        colorBox.setFilter(text -> text.toUpperCase(Locale.ENGLISH).matches("^#[0-F.]{0,6}$"));
-        colorBox.addFormatter((text, pos) -> FormattedCharSequence.forward(text, text.length() == 7 ? Style.EMPTY.withColor(TextColor.parseColor(text).getOrThrow()) : Style.EMPTY));
+        colorBox.addFormatter((text, _) -> FormattedCharSequence.forward(text, text.length() == 7 ? Style.EMPTY.withColor(TextColor.parseColor(text).getOrThrow()) : Style.EMPTY));
         colorBox.setResponder(text -> {
             if (text.length() == 7)
                 this.config.overlay.setFreezeEffectColor(Integer.parseInt(text.substring(1), 16));
@@ -79,7 +105,7 @@ public class FBPOtherScreen extends FBPAbstractOptionsScreen {
         );
 
         this.list.addSmall(
-                new FBPToggleButton(150, 20, Component.translatable("button.fbp.animations.render_outline"), this.config.animations::isRenderOutline, button -> this.config.animations.setRenderOutline(!this.config.animations.isRenderOutline()), Tooltip.create(Component.translatable("tooltip.fbp.animations.render_outline").append(CommonComponents.NEW_LINE).append(CommonComponents.NEW_LINE).append(Component.translatable("tooltip.fbp.default")).append(Component.translatable("button.fbp.common." + FBPConfig.DEFAULT_CONFIG.animations.isRenderOutline())))),
+                new FBPToggleButton(150, 20, Component.translatable("button.fbp.animations.render_outline"), this.config.animations::isRenderOutline, _ -> this.config.animations.setRenderOutline(!this.config.animations.isRenderOutline()), Tooltip.create(Component.translatable("tooltip.fbp.animations.render_outline").append(CommonComponents.NEW_LINE).append(CommonComponents.NEW_LINE).append(Component.translatable("tooltip.fbp.default")).append(Component.translatable("button.fbp.common." + FBPConfig.DEFAULT_CONFIG.animations.isRenderOutline())))),
                 new FBPSliderButton(150, 20, Component.translatable("button.fbp.common.size_multiplier").append(": "), Component.literal("x"), this.config.animations.getSizeMultiplier(), FancyBlockParticles.CONFIG.animations.getSizeMultiplier(), 0.01D, 2.0D, 0.05D, button -> this.config.animations.setSizeMultiplier(button.getValueFloat()), () -> !FancyBlockParticles.CONFIG.global.isLocked(), Tooltip.create(Component.translatable("tooltip.fbp.animations.size_multiplier").append(CommonComponents.NEW_LINE).append(CommonComponents.NEW_LINE).append(Component.translatable("tooltip.fbp.default")).append(Component.literal(new DecimalFormat("0.00").format(FBPConfig.DEFAULT_CONFIG.animations.getSizeMultiplier())).append(Component.literal("x")).withStyle(ChatFormatting.YELLOW)))),
 
                 minLifetimeSlider.get(),
@@ -91,19 +117,19 @@ public class FBPOtherScreen extends FBPAbstractOptionsScreen {
         );
 
         this.list.addSmall(
-                new FBPToggleButton(150, 20, Component.translatable("button.fbp.misc.fancy_snowball_particles"), this.config.misc::isFancySnowballParticles, button -> this.config.misc.setFancySnowballParticles(!this.config.misc.isFancySnowballParticles()), Tooltip.create(Component.translatable("tooltip.fbp.misc.fancy_snowball_particles").append(CommonComponents.NEW_LINE).append(CommonComponents.NEW_LINE).append(Component.translatable("tooltip.fbp.default")).append(Component.translatable("button.fbp.common." + FBPConfig.DEFAULT_CONFIG.misc.isFancySnowballParticles())))),
+                new FBPToggleButton(150, 20, Component.translatable("button.fbp.misc.fancy_snowball_particles"), this.config.misc::isFancySnowballParticles, _ -> this.config.misc.setFancySnowballParticles(!this.config.misc.isFancySnowballParticles()), Tooltip.create(Component.translatable("tooltip.fbp.misc.fancy_snowball_particles").append(CommonComponents.NEW_LINE).append(CommonComponents.NEW_LINE).append(Component.translatable("tooltip.fbp.default")).append(Component.translatable("button.fbp.common." + FBPConfig.DEFAULT_CONFIG.misc.isFancySnowballParticles())))),
                 new FBPSliderButton(150, 20, Component.translatable("button.fbp.common.size_multiplier").append(": "), Component.literal("x"), this.config.misc.getSnowballParticleSizeMultiplier(), FancyBlockParticles.CONFIG.misc.getSnowballParticleSizeMultiplier(), 0.01D, 2.0D, 0.05D, button -> this.config.misc.setSnowballParticleSizeMultiplier(button.getValueFloat()), () -> !FancyBlockParticles.CONFIG.global.isLocked(), Tooltip.create(Component.translatable("tooltip.fbp.misc.snowball_particle_size_multiplier").append(CommonComponents.NEW_LINE).append(CommonComponents.NEW_LINE).append(Component.translatable("tooltip.fbp.default")).append(Component.literal(formatter.format(FBPConfig.DEFAULT_CONFIG.misc.getSnowballParticleSizeMultiplier())).append(Component.literal("x")).withStyle(ChatFormatting.YELLOW)))),
 
-                new FBPToggleButton(150, 20, Component.translatable("button.fbp.misc.fancy_slime_particles"), this.config.misc::isFancySlimeParticles, button -> this.config.misc.setFancySlimeParticles(!this.config.misc.isFancySlimeParticles()), Tooltip.create(Component.translatable("tooltip.fbp.misc.fancy_slime_particles").append(CommonComponents.NEW_LINE).append(CommonComponents.NEW_LINE).append(Component.translatable("tooltip.fbp.default")).append(Component.translatable("button.fbp.common." + FBPConfig.DEFAULT_CONFIG.misc.isFancySlimeParticles())))),
+                new FBPToggleButton(150, 20, Component.translatable("button.fbp.misc.fancy_slime_particles"), this.config.misc::isFancySlimeParticles, _ -> this.config.misc.setFancySlimeParticles(!this.config.misc.isFancySlimeParticles()), Tooltip.create(Component.translatable("tooltip.fbp.misc.fancy_slime_particles").append(CommonComponents.NEW_LINE).append(CommonComponents.NEW_LINE).append(Component.translatable("tooltip.fbp.default")).append(Component.translatable("button.fbp.common." + FBPConfig.DEFAULT_CONFIG.misc.isFancySlimeParticles())))),
                 new FBPSliderButton(150, 20, Component.translatable("button.fbp.common.size_multiplier").append(": "), Component.literal("x"), this.config.misc.getSlimeParticleSizeMultiplier(), FancyBlockParticles.CONFIG.misc.getSlimeParticleSizeMultiplier(), 0.01D, 2.0D, 0.05D, button -> this.config.misc.setSlimeParticleSizeMultiplier(button.getValueFloat()), () -> !FancyBlockParticles.CONFIG.global.isLocked(), Tooltip.create(Component.translatable("tooltip.fbp.misc.slime_particle_size_multiplier").append(CommonComponents.NEW_LINE).append(CommonComponents.NEW_LINE).append(Component.translatable("tooltip.fbp.default")).append(Component.literal(formatter.format(FBPConfig.DEFAULT_CONFIG.misc.getSlimeParticleSizeMultiplier())).append(Component.literal("x")).withStyle(ChatFormatting.YELLOW)))),
 
-                new FBPToggleButton(150, 20, Component.translatable("button.fbp.misc.fancy_breaking_splash_potion_particles"), this.config.misc::isFancyBreakingSplashPotionParticles, button -> this.config.misc.setFancyBreakingSplashPotionParticles(!this.config.misc.isFancyBreakingSplashPotionParticles()), Tooltip.create(Component.translatable("tooltip.fbp.misc.fancy_breaking_splash_potion_particles").append(CommonComponents.NEW_LINE).append(CommonComponents.NEW_LINE).append(Component.translatable("tooltip.fbp.default")).append(Component.translatable("button.fbp.common." + FBPConfig.DEFAULT_CONFIG.misc.isFancyBreakingSplashPotionParticles())))),
+                new FBPToggleButton(150, 20, Component.translatable("button.fbp.misc.fancy_breaking_splash_potion_particles"), this.config.misc::isFancyBreakingSplashPotionParticles, _ -> this.config.misc.setFancyBreakingSplashPotionParticles(!this.config.misc.isFancyBreakingSplashPotionParticles()), Tooltip.create(Component.translatable("tooltip.fbp.misc.fancy_breaking_splash_potion_particles").append(CommonComponents.NEW_LINE).append(CommonComponents.NEW_LINE).append(Component.translatable("tooltip.fbp.default")).append(Component.translatable("button.fbp.common." + FBPConfig.DEFAULT_CONFIG.misc.isFancyBreakingSplashPotionParticles())))),
                 new FBPSliderButton(150, 20, Component.translatable("button.fbp.common.size_multiplier").append(": "), Component.literal("x"), this.config.misc.getBreakingSplashPotionParticleSizeMultiplier(), FancyBlockParticles.CONFIG.misc.getBreakingSplashPotionParticleSizeMultiplier(), 0.01D, 2.0D, 0.05D, button -> this.config.misc.setBreakingSplashPotionParticleSizeMultiplier(button.getValueFloat()), () -> !FancyBlockParticles.CONFIG.global.isLocked(), Tooltip.create(Component.translatable("tooltip.fbp.misc.breaking_splash_potion_particle_size_multiplier").append(CommonComponents.NEW_LINE).append(CommonComponents.NEW_LINE).append(Component.translatable("tooltip.fbp.default")).append(Component.literal(formatter.format(FBPConfig.DEFAULT_CONFIG.misc.getBreakingSplashPotionParticleSizeMultiplier())).append(Component.literal("x")).withStyle(ChatFormatting.YELLOW))))
         );
 
         this.list.addBig(
                 new CenteredStringWidget(310, 20, Component.translatable("widget.fbp.other.overlay"), this.font),
-                new FBPToggleButton(310, 20, Component.translatable("button.fbp.overlay.freeze_effect_overlay"), this.config.overlay::isFreezeEffectOverlay, button -> {
+                new FBPToggleButton(310, 20, Component.translatable("button.fbp.overlay.freeze_effect_overlay"), this.config.overlay::isFreezeEffectOverlay, _ -> {
                     this.config.overlay.setFreezeEffectOverlay(!this.config.overlay.isFreezeEffectOverlay());
 
                     this.rebuildWidgets();
@@ -117,7 +143,7 @@ public class FBPOtherScreen extends FBPAbstractOptionsScreen {
 
         this.list.addBig(
                 new CenteredStringWidget(310, 20, Component.translatable("screen.fbp.category.other"), this.font),
-                new FBPToggleButton(310, 20, Component.translatable("button.fbp.other.fast_settings"), this.config.global::isFastSettings, button -> this.config.global.setFastSettings(!this.config.global.isFastSettings()), Tooltip.create(Component.translatable("tooltip.fbp.other.fast_settings").append(CommonComponents.NEW_LINE).append(CommonComponents.NEW_LINE).append(Component.translatable("tooltip.fbp.default")).append(Component.translatable("button.fbp.common." + FBPConfig.DEFAULT_CONFIG.global.isFastSettings()))))
+                new FBPToggleButton(310, 20, Component.translatable("button.fbp.other.fast_settings"), this.config.global::isFastSettings, _ -> this.config.global.setFastSettings(!this.config.global.isFastSettings()), Tooltip.create(Component.translatable("tooltip.fbp.other.fast_settings").append(CommonComponents.NEW_LINE).append(CommonComponents.NEW_LINE).append(Component.translatable("tooltip.fbp.default")).append(Component.translatable("button.fbp.common." + FBPConfig.DEFAULT_CONFIG.global.isFastSettings()))))
         );
     }
 

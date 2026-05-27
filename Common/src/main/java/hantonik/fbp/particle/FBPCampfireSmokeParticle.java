@@ -8,7 +8,7 @@ import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.particle.CampfireSmokeParticle;
 import net.minecraft.client.particle.Particle;
 import net.minecraft.client.particle.ParticleProvider;
-import net.minecraft.client.renderer.state.QuadParticleRenderState;
+import net.minecraft.client.renderer.state.level.QuadParticleRenderState;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.SimpleParticleType;
@@ -191,12 +191,12 @@ public class FBPCampfireSmokeParticle extends CampfireSmokeParticle implements I
 
     @Override
     public Layer getLayer() {
-        return Layer.TERRAIN;
+        return Layer.TRANSLUCENT_TERRAIN;
     }
 
     @Override
-    protected int getLightColor(float partialTick) {
-        var i = super.getLightColor(partialTick);
+    protected int getLightCoords(float partialTick) {
+        var i = super.getLightCoords(partialTick);
         var j = 0;
 
         var pos = BlockPos.containing(this.x, this.y, this.z);
@@ -227,7 +227,7 @@ public class FBPCampfireSmokeParticle extends CampfireSmokeParticle implements I
         var scale = Mth.lerp(partialTick, this.lastSize, this.quadSize);
         var alpha = Mth.lerp(partialTick, this.lastAlpha, this.alpha);
 
-        var light = this.getLightColor(partialTick);
+        var light = this.getLightCoords(partialTick);
 
         this.putCube(renderState, (float) posX, (float) posY, (float) posZ, scale / 20.0F, this.rotatedNormal, this.rotation, u0, u1, v0, v1, light, this.rCol, this.gCol, this.bCol, alpha, FancyBlockParticles.CONFIG.global.isCartoonMode());
     }
@@ -267,7 +267,7 @@ public class FBPCampfireSmokeParticle extends CampfireSmokeParticle implements I
             if (FancyBlockParticles.CONFIG.global.isFreezeEffect() && !FancyBlockParticles.CONFIG.campfireSmoke.isSpawnWhileFrozen())
                 return null;
 
-            return new FBPCampfireSmokeParticle(level, x, y, z, xd, yd, zd, this.isSignal, Minecraft.getInstance().getBlockRenderer().getBlockModelShaper().getParticleIcon(Blocks.QUARTZ_BLOCK.defaultBlockState()));
+            return new FBPCampfireSmokeParticle(level, x, y, z, xd, yd, zd, this.isSignal, Minecraft.getInstance().getModelManager().getBlockStateModelSet().getParticleMaterial(Blocks.QUARTZ_BLOCK.defaultBlockState()).sprite());
         }
     }
 }

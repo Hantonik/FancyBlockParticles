@@ -47,7 +47,7 @@ public abstract class MixinClientLevel extends Level {
 
         if (!state.isAir() && state.shouldSpawnTerrainParticles()) {
             var shape = state.getShape((ClientLevel) (Object) this, pos);
-            var sprite = Minecraft.getInstance().getBlockRenderer().getBlockModelShaper().getParticleIcon(state);
+            var sprite = Minecraft.getInstance().getModelManager().getBlockStateModelSet().getParticleMaterial(state).sprite();
 
             var particlesPerAxis = FancyBlockParticles.CONFIG.terrain.getParticlesPerAxis();
 

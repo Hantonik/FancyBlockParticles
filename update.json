@@ -2,11 +2,10 @@
   "homepage": "https://www.curseforge.com/minecraft/mc-mods/fbp-renewed",
 
   "promos": {
-    "1.21.11-latest": "21.11.0.1"
+    "26.1.2-latest": "26.1.2.0.0-beta"
   },
 
-  "1.21.11": {
-    "21.11.0.1": "Compatible with Sodium & Iris",
-    "21.11.0.0-alpha": "Update to Minecraft 1.21.11"
+  "26.1.2": {
+    "26.1.2.0.0-beta": "Update to Minecraft 26.1.2"
   }
 }

@@ -4,7 +4,7 @@ import net.darkhax.curseforgegradle.Constants as CFConstants
 import net.darkhax.curseforgegradle.TaskPublishCurseForge
 
 plugins {
-	id 'net.fabricmc.fabric-loom-remap' version '1.14.+'
+	id 'net.fabricmc.fabric-loom' version '1.16.+'
 }
 
 base {
@@ -37,41 +37,32 @@ loom {
 		useLegacyMixinAp = false
 	}
 
-	accessWidenerPath.set(project(':Common').file("src/main/resources/${mod_id}.accesswidener"))
-}
-
-repositories {
-	maven { url 'https://maven.parchmentmc.org' }
+	accessWidenerPath.set(file("src/main/resources/${mod_id}.classtweaker"))
 }
 
 dependencies {
 	minecraft "com.mojang:minecraft:$mc_version"
 
-	mappings loom.layered() {
-		officialMojangMappings()
-		parchment("org.parchmentmc.data:parchment-1.21.10:$mappings_version@zip") // Update to 1.21.11
-	}
-
 	compileOnly project(':Common')
 
-	modImplementation "net.fabricmc:fabric-loader:$loader_version"
-	modImplementation "net.fabricmc.fabric-api:fabric-api:$fabric_version+$mc_version"
+	implementation "net.fabricmc:fabric-loader:$loader_version"
+	implementation "net.fabricmc.fabric-api:fabric-api:$fabric_version+$mc_version"
 
-	modImplementation "maven.modrinth:modmenu:$modmenu_version"
+	implementation "maven.modrinth:modmenu:$modmenu_version"
 
-	modCompileOnly "com.github.glitchfiend:SereneSeasons-fabric:$mc_version-$sereneseasons_version"
-	modCompileOnly "com.github.glitchfiend:GlitchCore-fabric:$mc_version-$glitchcore_version"
+	compileOnly "com.github.glitchfiend:SereneSeasons-fabric:$mc_version-$sereneseasons_version"
+	compileOnly "com.github.glitchfiend:GlitchCore-fabric:$mc_version-$glitchcore_version"
 
-	modCompileOnly "net.caffeinemc:sodium-fabric:$sodium_version+mc$mc_version"
-	modCompileOnly "maven.modrinth:iris:$iris_version+$mc_version-fabric"
+	compileOnly "net.caffeinemc:sodium-fabric:$sodium_version+mc$mc_version"
+	compileOnly "maven.modrinth:iris:$iris_version+26.1-fabric" // Update to 26.1.2
 
 	// Iris libs
-    modLocalRuntime 'org.antlr:antlr4-runtime:4.13.1'
-    modLocalRuntime 'io.github.douira:glsl-transformer:3.0.0-pre3'
-    modLocalRuntime 'org.anarres:jcpp:1.4.14'
+    localRuntime 'org.antlr:antlr4-runtime:4.13.1'
+    localRuntime 'io.github.douira:glsl-transformer:3.0.0-pre3'
+    localRuntime 'org.anarres:jcpp:1.4.14'
 
-	modRuntimeOnly 'me.lucko:fabric-permissions-api:0.3.1'
-	modRuntimeOnly "maven.modrinth:spark:$spark_version-fabric"
+	runtimeOnly 'me.lucko:fabric-permissions-api:0.3.1'
+	runtimeOnly "maven.modrinth:spark:$spark_version-fabric"
 
 	compileOnly "org.projectlombok:lombok:$lombok_version"
 	annotationProcessor "org.projectlombok:lombok:$lombok_version"
@@ -82,19 +73,19 @@ sourcesJar {
 }
 
 artifacts {
-	archives remapJar
+	archives jar
 	archives sourcesJar
 }
 
 project.evaluationDependsOn(':Changelog')
 
 tasks.register('publishCurseForge', TaskPublishCurseForge) {
-	dependsOn(tasks.remapJar)
+	dependsOn(tasks.jar)
 	dependsOn(':Changelog:makeHtmlChangelog')
 
 	apiToken = System.getenv('CURSEFORGE_TOKEN')
 
-	var modFile = upload('937011', tasks.remapJar.archiveFile)
+	var modFile = upload('937011', tasks.jar.archiveFile)
 	modFile.displayName = "${base.archivesName.get()}-$version"
 	modFile.releaseType = "$mod_version_label"
 	modFile.addGameVersion(mc_version, 'client')
@@ -124,11 +115,11 @@ modrinth {
 
 	changelog = provider { file("${project(':Changelog').projectDir}/changelog.md").getText().replace([ '${version}': "$mc_version-$version" ]) }
 
-	uploadFile = tasks.remapJar
+	uploadFile = tasks.jar
 	additionalFiles = [ tasks.sourcesJar ]
 }
 
-tasks.modrinth.dependsOn(tasks.remapJar)
+tasks.modrinth.dependsOn(tasks.jar)
 tasks.modrinth.dependsOn(tasks.sourcesJar)
 
 tasks.modrinth.dependsOn(':Changelog:makeMarkdownChangelog')

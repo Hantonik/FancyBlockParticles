@@ -12,7 +12,7 @@ import org.spongepowered.asm.mixin.injection.At;
 @Mixin(SectionCompiler.class)
 public abstract class MixinSectionCompiler {
     @ModifyExpressionValue(at = @At(value = "INVOKE", target = "Lnet/minecraft/world/level/block/state/BlockState;getRenderShape()Lnet/minecraft/world/level/block/RenderShape;"), method = "compile")
-    private RenderShape getRenderShape(RenderShape original, @Local(ordinal = 2) BlockPos pos) {
+    private RenderShape getRenderShape(RenderShape original, @Local(name = "pos") BlockPos pos) {
         if (FBPPlacingAnimationManager.isHidden(pos))
             return RenderShape.INVISIBLE;
 
@@ -20,7 +20,7 @@ public abstract class MixinSectionCompiler {
     }
 
     @ModifyExpressionValue(at = @At(value = "INVOKE", target = "Lnet/minecraft/world/level/block/state/BlockState;isSolidRender()Z"), method = "compile")
-    private boolean isSolidRender(boolean original, @Local(ordinal = 2) BlockPos pos) {
+    private boolean isSolidRender(boolean original, @Local(name = "pos") BlockPos pos) {
         if (FBPPlacingAnimationManager.isHidden(pos))
             return false;
 

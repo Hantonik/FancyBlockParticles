@@ -9,7 +9,7 @@ import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.particle.Particle;
 import net.minecraft.client.particle.ParticleProvider;
 import net.minecraft.client.particle.TrailParticle;
-import net.minecraft.client.renderer.state.QuadParticleRenderState;
+import net.minecraft.client.renderer.state.level.QuadParticleRenderState;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.TrailParticleOption;
 import net.minecraft.util.ARGB;
@@ -110,14 +110,14 @@ public class FBPTrailParticle extends TrailParticle implements IKillableParticle
 
     @Override
     public Layer getLayer() {
-        return Layer.TERRAIN;
+        return Layer.TRANSLUCENT_TERRAIN;
     }
 
     @Override
-    public int getLightColor(float partialTick) {
+    public int getLightCoords(float partialTick) {
         var factor = Mth.clamp((this.age + partialTick) / this.lifetime, 0.0F, 1.0F);
 
-        var i = super.getLightColor(partialTick);
+        var i = super.getLightCoords(partialTick);
         var j = i & 255;
         var k = i >> 16 & 255;
 
@@ -145,7 +145,7 @@ public class FBPTrailParticle extends TrailParticle implements IKillableParticle
         var scale = Mth.lerp(partialTick, this.lastSize, this.quadSize) / 70.0F;
         var alpha = Mth.lerp(partialTick, this.lastAlpha, this.alpha);
 
-        var light = this.getLightColor(partialTick);
+        var light = this.getLightCoords(partialTick);
 
         this.putCube(renderState, (float) posX, (float) posY, (float) posZ, scale, this.rotation, u, v, light, this.rCol, this.gCol, this.bCol, alpha);
     }

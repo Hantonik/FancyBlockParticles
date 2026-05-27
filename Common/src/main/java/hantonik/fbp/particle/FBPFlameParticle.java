@@ -8,7 +8,7 @@ import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.particle.FlameParticle;
 import net.minecraft.client.particle.Particle;
 import net.minecraft.client.particle.ParticleProvider;
-import net.minecraft.client.renderer.state.QuadParticleRenderState;
+import net.minecraft.client.renderer.state.level.QuadParticleRenderState;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.SimpleParticleType;
 import net.minecraft.util.ARGB;
@@ -93,13 +93,6 @@ public class FBPFlameParticle extends FlameParticle implements IKillableParticle
         this.setBoundingBox(new AABB(this.x - size, this.y - size, this.z - size, this.x + size, this.y + size, this.z + size));
 
         return this;
-    }
-
-    @Override
-    public float getQuadSize(float scale) {
-        var factor = (this.age + scale) / this.lifetime;
-
-        return this.quadSize * (1.0F - factor * factor * 0.5F);
     }
 
     @Override
@@ -196,14 +189,14 @@ public class FBPFlameParticle extends FlameParticle implements IKillableParticle
 
     @Override
     public Layer getLayer() {
-        return Layer.TERRAIN;
+        return Layer.TRANSLUCENT_TERRAIN;
     }
 
     @Override
-    public int getLightColor(float partialTick) {
+    public int getLightCoords(float partialTick) {
         var factor = Mth.clamp((this.age + partialTick) / this.lifetime, 0.0F, 1.0F);
 
-        var i = super.getLightColor(partialTick);
+        var i = super.getLightCoords(partialTick);
         var j = i & 255;
         var k = i >> 16 & 255;
 
@@ -231,7 +224,7 @@ public class FBPFlameParticle extends FlameParticle implements IKillableParticle
         var scale = Mth.lerp(partialTick, this.lastSize, this.quadSize);
         var alpha = Mth.lerp(partialTick, this.lastAlpha, this.alpha);
 
-        var light = this.getLightColor(partialTick);
+        var light = this.getLightCoords(partialTick);
 
         if (this.age >= this.lifetime) {
             this.gCol = this.isSoulFire ? Math.min(1.0F, (scale / this.startSize) * 1.2F) : scale / this.startSize;

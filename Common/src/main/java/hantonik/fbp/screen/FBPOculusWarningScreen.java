@@ -2,7 +2,7 @@ package hantonik.fbp.screen;
 
 import hantonik.fbp.FancyBlockParticles;
 import net.minecraft.ChatFormatting;
-import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.gui.components.*;
 import net.minecraft.client.gui.layouts.GridLayout;
 import net.minecraft.client.gui.layouts.HeaderAndFooterLayout;
@@ -36,8 +36,8 @@ public class FBPOculusWarningScreen extends Screen {
     protected void init() {
         var layout = new HeaderAndFooterLayout(this, 52, 84);
 
-        layout.addToHeader(new ImageButton(25, 25, FBPOptionsScreen.LOGO_SPRITES, button -> defaultHandleGameClickEvent(new ClickEvent.OpenUrl(URI.create("https://www.curseforge.com/minecraft/mc-mods/fbp-renewed")), this.minecraft, this), CommonComponents.EMPTY), settings -> settings.alignHorizontallyLeft().alignVerticallyTop().padding(10)).setTooltip(Tooltip.create(Component.translatable("tooltip.fbp.common.homepage")));
-        layout.addToHeader(new ImageButton(25, 25, FBPOptionsScreen.REPORT_SPRITES, button -> defaultHandleGameClickEvent(new ClickEvent.OpenUrl(URI.create("https://github.com/Hantonik/FancyBlockParticles/issues")), this.minecraft, this), CommonComponents.EMPTY), settings -> settings.alignHorizontallyRight().alignVerticallyTop().padding(10)).setTooltip(Tooltip.create(Component.translatable("tooltip.fbp.common.report")));
+        layout.addToHeader(new ImageButton(25, 25, FBPOptionsScreen.LOGO_SPRITES, _ -> defaultHandleGameClickEvent(new ClickEvent.OpenUrl(URI.create("https://www.curseforge.com/minecraft/mc-mods/fbp-renewed")), this.minecraft, this), CommonComponents.EMPTY), settings -> settings.alignHorizontallyLeft().alignVerticallyTop().padding(10)).setTooltip(Tooltip.create(Component.translatable("tooltip.fbp.common.homepage")));
+        layout.addToHeader(new ImageButton(25, 25, FBPOptionsScreen.REPORT_SPRITES, _ -> defaultHandleGameClickEvent(new ClickEvent.OpenUrl(URI.create("https://github.com/Hantonik/FancyBlockParticles/issues")), this.minecraft, this), CommonComponents.EMPTY), settings -> settings.alignHorizontallyRight().alignVerticallyTop().padding(10)).setTooltip(Tooltip.create(Component.translatable("tooltip.fbp.common.report")));
 
         layout.addToHeader(new StringWidget(this.title, this.font), settings -> settings.alignHorizontallyCenter().alignVerticallyBottom());
 
@@ -50,10 +50,10 @@ public class FBPOculusWarningScreen extends Screen {
 
         layout.addToContents(contents);
 
-        this.continueButton = Button.builder(CommonComponents.GUI_CONTINUE, button -> this.onClose()).build();
+        this.continueButton = Button.builder(CommonComponents.GUI_CONTINUE, _ -> this.onClose()).build();
         this.continueButton.active = false;
 
-        this.dontShowAgainButton = Button.builder(Component.translatable("button.fbp.shaders_warning.dont_show_again"), button -> {
+        this.dontShowAgainButton = Button.builder(Component.translatable("button.fbp.shaders_warning.dont_show_again"), _ -> {
             FancyBlockParticles.CONFIG.global.setDisableOculusWarning(true);
             FancyBlockParticles.CONFIG.save();
 
@@ -106,8 +106,8 @@ public class FBPOculusWarningScreen extends Screen {
     }
 
     @Override
-    public void render(GuiGraphics graphics, int mouseX, int mouseY, float partialTick) {
-        super.render(graphics, mouseX, mouseY, partialTick);
+    public void extractRenderState(GuiGraphicsExtractor graphics, int mouseX, int mouseY, float partialTick) {
+        super.extractRenderState(graphics, mouseX, mouseY, partialTick);
 
         if (!this.continueButton.active)
             if (mouseX > this.continueButton.getX() && mouseX < this.continueButton.getX() + this.continueButton.getWidth() && mouseY > this.continueButton.getY() && mouseY < this.continueButton.getY() + this.continueButton.getHeight())

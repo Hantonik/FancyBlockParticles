@@ -2,7 +2,7 @@ package hantonik.fbp.particle;
 
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import hantonik.fbp.FancyBlockParticles;
-import hantonik.fbp.particle.api.IFBPRendererParticle;
+import hantonik.fbp.particle.api.IFBPLegacyParticleRenderer;
 import hantonik.fbp.util.FBPConstants;
 import hantonik.fbp.util.FBPRenderHelper;
 import net.minecraft.client.Camera;
@@ -12,6 +12,7 @@ import net.minecraft.client.particle.Particle;
 import net.minecraft.client.particle.ParticleProvider;
 import net.minecraft.client.particle.ParticleRenderType;
 import net.minecraft.client.particle.TerrainParticle;
+import net.minecraft.client.renderer.block.dispatch.BlockStateModelPart;
 import net.minecraft.client.renderer.texture.MissingTextureAtlasSprite;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.core.BlockPos;
@@ -20,6 +21,7 @@ import net.minecraft.core.particles.BlockParticleOption;
 import net.minecraft.tags.FluidTags;
 import net.minecraft.util.Mth;
 import net.minecraft.util.RandomSource;
+import net.minecraft.util.Util;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
@@ -29,9 +31,10 @@ import org.jetbrains.annotations.Nullable;
 import org.joml.Vector3d;
 import org.joml.Vector3f;
 
+import java.util.ArrayList;
 import java.util.List;
 
-public class FBPTerrainParticle extends TerrainParticle implements IFBPRendererParticle, IKillableParticle {
+public class FBPTerrainParticle extends TerrainParticle implements IFBPLegacyParticleRenderer, IKillableParticle {
     private final Vector3d rotation;
     private final Vector3d rotationStep;
     private final Vector3d lastRotation;
@@ -62,11 +65,15 @@ public class FBPTerrainParticle extends TerrainParticle implements IFBPRendererP
         this.pos = pos;
 
         if (!state.is(Blocks.GRASS_BLOCK) || side == Direction.UP) {
-            var i = Minecraft.getInstance().getBlockColors().getColor(state, this.level, pos, 0);
+            var tintSource = Minecraft.getInstance().getBlockColors().getTintSource(state, 0);
 
-            this.rCol = (i >> 16 & 255) / 255.0F;
-            this.gCol = (i >> 8 & 255) / 255.0F;
-            this.bCol = (i & 255) / 255.0F;
+            if (tintSource != null) {
+                var i = tintSource.colorInWorld(state, this.level, pos);
+
+                this.rCol = (i >> 16 & 255) / 255.0F;
+                this.gCol = (i >> 8 & 255) / 255.0F;
+                this.bCol = (i & 255) / 255.0F;
+            }
         } else {
             this.rCol = rCol;
             this.gCol = gCol;
@@ -116,14 +123,14 @@ public class FBPTerrainParticle extends TerrainParticle implements IFBPRendererP
 
         if (sprite == null) {
             if (!this.destroyed) {
-                var quads = Minecraft.getInstance().getBlockRenderer().getBlockModelShaper().getBlockModel(state).collectParts(this.random).getFirst().getQuads(side);
+                var quads = Util.make(new ArrayList<BlockStateModelPart>(), list -> Minecraft.getInstance().getModelManager().getBlockStateModelSet().get(state).collectParts(this.random, list)).getFirst().getQuads(side);
 
                 if (!quads.isEmpty())
-                    this.sprite = quads.getFirst().sprite();
+                    this.sprite = quads.getFirst().materialInfo().sprite();
             }
 
             if (this.sprite.atlasLocation() == MissingTextureAtlasSprite.getLocation())
-                this.sprite = Minecraft.getInstance().getBlockRenderer().getBlockModelShaper().getParticleIcon(state);
+                this.sprite = Minecraft.getInstance().getModelManager().getBlockStateModelSet().getParticleMaterial(state).sprite();
         } else
             this.sprite = sprite;
 
@@ -460,8 +467,8 @@ public class FBPTerrainParticle extends TerrainParticle implements IFBPRendererP
     }
 
     @Override
-    public int getLightColor(float partialTick) {
-        var i = super.getLightColor(partialTick);
+    public int getLightCoords(float partialTick) {
+        var i = super.getLightCoords(partialTick);
         var j = 0;
 
         var box = this.getBoundingBox();
@@ -493,7 +500,7 @@ public class FBPTerrainParticle extends TerrainParticle implements IFBPRendererP
         var scale = Mth.lerp(partialTick, this.lastSize, this.quadSize);
         var alpha = Mth.lerp(partialTick, this.lastAlpha, this.alpha);
 
-        var light = this.getLightColor(partialTick);
+        var light = this.getLightCoords(partialTick);
 
         if (FancyBlockParticles.CONFIG.terrain.isRestOnFloor())
             posY += scale;
@@ -516,7 +523,7 @@ public class FBPTerrainParticle extends TerrainParticle implements IFBPRendererP
             }
         }
 
-        FBPRenderHelper.renderCubeShadedLegacy(consumer, (float) posX, (float) posY, (float) posZ, scale, smoothRotation, u0, u1, v0, v1, light, this.rCol, this.gCol, this.bCol, alpha, FancyBlockParticles.CONFIG.global.isCartoonMode());
+        FBPRenderHelper.renderCubeShaded(consumer, (float) posX, (float) posY, (float) posZ, scale, smoothRotation, u0, u1, v0, v1, light, this.rCol, this.gCol, this.bCol, alpha, FancyBlockParticles.CONFIG.global.isCartoonMode());
     }
 
     private void calculateYAngle() {

@@ -4,6 +4,7 @@ println "Using Minecraft: $mc_version"
 
 minecraft {
     version mc_version
+
     accessWideners file("src/main/resources/${mod_id}.accesswidener")
 }
 

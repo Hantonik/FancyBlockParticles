@@ -1,8 +1,8 @@
 package hantonik.fbp.particle;
 
 import hantonik.fbp.FancyBlockParticles;
-import hantonik.fbp.particle.api.IFBPRendererParticle;
-import hantonik.fbp.renderer.state.FBPParticleRenderState;
+import hantonik.fbp.particle.api.IFBPParticleRenderer;
+import hantonik.fbp.renderer.state.FBPTerrainParticleRenderState;
 import hantonik.fbp.util.FBPConstants;
 import hantonik.fbp.util.FBPRenderHelper;
 import net.minecraft.client.Camera;
@@ -12,6 +12,7 @@ import net.minecraft.client.particle.DripParticle;
 import net.minecraft.client.particle.Particle;
 import net.minecraft.client.particle.ParticleProvider;
 import net.minecraft.client.particle.ParticleRenderType;
+import net.minecraft.client.renderer.block.dispatch.BlockStateModelPart;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.particles.ParticleOptions;
@@ -22,6 +23,7 @@ import net.minecraft.tags.FluidTags;
 import net.minecraft.tags.TagKey;
 import net.minecraft.util.Mth;
 import net.minecraft.util.RandomSource;
+import net.minecraft.util.Util;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.CampfireBlock;
@@ -32,9 +34,10 @@ import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.Nullable;
 import org.joml.Vector3f;
 
+import java.util.ArrayList;
 import java.util.List;
 
-public class FBPDripParticle extends DripParticle implements IFBPRendererParticle, IKillableParticle {
+public class FBPDripParticle extends DripParticle implements IFBPParticleRenderer, IKillableParticle {
     private final BlockState state;
     @Nullable
     private final SoundEvent sound;
@@ -77,12 +80,12 @@ public class FBPDripParticle extends DripParticle implements IFBPRendererParticl
         this.sound = sound;
         this.lightLevel = lightLevel;
 
-        var quads = Minecraft.getInstance().getBlockRenderer().getBlockModelShaper().getBlockModel(this.state).collectParts(this.random).getFirst().getQuads(null);
+        var quads = Util.make(new ArrayList<BlockStateModelPart>(), list -> Minecraft.getInstance().getModelManager().getBlockStateModelSet().get(this.state).collectParts(this.random, list)).getFirst().getQuads(null);
 
         if (quads.isEmpty())
-            this.sprite = Minecraft.getInstance().getBlockRenderer().getBlockModelShaper().getParticleIcon(this.state);
+            this.sprite = Minecraft.getInstance().getModelManager().getBlockStateModelSet().getParticleMaterial(this.state).sprite();
         else
-            this.sprite = quads.getFirst().sprite();
+            this.sprite = quads.getFirst().materialInfo().sprite();
 
         this.lifetime = (int) FBPConstants.RANDOM.nextFloat(Math.min(FancyBlockParticles.CONFIG.drip.getMinLifetime(), FancyBlockParticles.CONFIG.drip.getMaxLifetime()), Math.max(FancyBlockParticles.CONFIG.drip.getMinLifetime(), FancyBlockParticles.CONFIG.drip.getMaxLifetime()) + 0.5F);
 
@@ -286,12 +289,12 @@ public class FBPDripParticle extends DripParticle implements IFBPRendererParticl
 
     @Override
     public Layer getLayer() {
-        return Layer.TERRAIN;
+        return Layer.TRANSLUCENT_TERRAIN;
     }
 
     @Override
-    public int getLightColor(float partialTick) {
-        var i = super.getLightColor(partialTick);
+    public int getLightCoords(float partialTick) {
+        var i = super.getLightCoords(partialTick);
         var j = 0;
 
         var pos = BlockPos.containing(this.x, this.y, this.z);
@@ -305,7 +308,7 @@ public class FBPDripParticle extends DripParticle implements IFBPRendererParticl
     }
 
     @Override
-    public void extract(FBPParticleRenderState renderState, Camera info, float partialTick) {
+    public void extract(FBPTerrainParticleRenderState renderState, Camera info, float partialTick) {
         var u0 = 0.0F;
         var v0 = 0.0F;
 
@@ -326,7 +329,7 @@ public class FBPDripParticle extends DripParticle implements IFBPRendererParticl
 
         var alpha = Mth.lerp(partialTick, this.lastAlpha, this.alpha);
 
-        var light = this.getLightColor(partialTick);
+        var light = this.getLightCoords(partialTick);
 
         FBPRenderHelper.renderCubeShaded(renderState, this.getLayer(), (float) posX, (float) posY, (float) posZ, width, height, new Vector3f(0.0F, this.rotationY, 0.0F), u0, u1, v0, v1, light, this.rCol, this.gCol, this.bCol, alpha, FancyBlockParticles.CONFIG.global.isCartoonMode());
     }

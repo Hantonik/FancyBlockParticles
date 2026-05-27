@@ -3,7 +3,7 @@ package hantonik.fbp.screen.component;
 import com.google.common.collect.ImmutableList;
 import hantonik.fbp.screen.FBPAbstractOptionsScreen;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.gui.components.AbstractWidget;
 import net.minecraft.client.gui.components.ContainerObjectSelectionList;
 import net.minecraft.client.gui.components.events.GuiEventListener;
@@ -66,13 +66,13 @@ public class FBPOptionsList extends ContainerObjectSelectionList<FBPOptionsList.
         }
 
         @Override
-        public void renderContent(GuiGraphics graphics, int mouseX, int mouseY, boolean isHovering, float partialTick) {
+        public void extractContent(GuiGraphicsExtractor graphics, int mouseX, int mouseY, boolean hovered, float partialTick) {
             var i = 0;
             var j = this.screen.width / 2 - 155;
 
             for (AbstractWidget widget : this.widgets) {
                 widget.setPosition(i + j, this.getContentY());
-                widget.render(graphics, mouseX, mouseY, partialTick);
+                widget.extractRenderState(graphics, mouseX, mouseY, partialTick);
 
                 i += 160;
             }

@@ -41,8 +41,9 @@ public final class FBPConstants {
     public static final Vec3 ANIMATION_ROTATION = new Vec3(0.0F, -0.07F, 0.07F);
     public static final Vec3 ANIMATION_PIVOT = new Vec3(0.25F, -0.25F, 0.25F);
 
-    public static final Supplier<TextureAtlasSprite> FBP_PARTICLE_SPRITE = () -> Minecraft.getInstance().getBlockRenderer().getBlockModelShaper().getParticleIcon(Blocks.WHITE_CONCRETE.defaultBlockState());
+    public static final Supplier<TextureAtlasSprite> FBP_PARTICLE_SPRITE = () -> Minecraft.getInstance().getModelManager().getBlockStateModelSet().getParticleMaterial(Blocks.WHITE_CONCRETE.defaultBlockState()).sprite();
 
     public static final ParticleRenderType FBP_PARTICLE_RENDER = new ParticleRenderType("fbp:particle_render");
     public static final ParticleRenderType FBP_TERRAIN_RENDER = new ParticleRenderType("fbp:terrain_render");
+    public static final ParticleRenderType FBP_ANIMATION_RENDER = new ParticleRenderType("fbp:animation_render");
 }

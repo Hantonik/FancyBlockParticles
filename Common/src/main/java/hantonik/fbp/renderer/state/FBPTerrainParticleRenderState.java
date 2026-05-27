@@ -7,11 +7,10 @@ import com.mojang.blaze3d.vertex.*;
 import net.minecraft.client.particle.SingleQuadParticle;
 import net.minecraft.client.renderer.SubmitNodeCollector;
 import net.minecraft.client.renderer.feature.ParticleFeatureRenderer;
-import net.minecraft.client.renderer.state.CameraRenderState;
-import net.minecraft.client.renderer.state.ParticleGroupRenderState;
-import net.minecraft.client.renderer.state.QuadParticleRenderState;
+import net.minecraft.client.renderer.state.level.CameraRenderState;
+import net.minecraft.client.renderer.state.level.ParticleGroupRenderState;
+import net.minecraft.client.renderer.state.level.QuadParticleRenderState;
 import net.minecraft.client.renderer.texture.TextureManager;
-import org.jetbrains.annotations.Nullable;
 import org.joml.Matrix4f;
 import org.joml.Quaternionf;
 import org.joml.Vector3f;
@@ -21,13 +20,13 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
-public class FBPParticleRenderState implements SubmitNodeCollector.ParticleGroupRenderer, ParticleGroupRenderState {
+public class FBPTerrainParticleRenderState implements SubmitNodeCollector.ParticleGroupRenderer, ParticleGroupRenderState {
     private final Map<SingleQuadParticle.Layer, Storage> particles = Maps.newHashMap();
 
     private int particleCount;
 
     public void add(SingleQuadParticle.Layer layer, float posX, float posY, float posZ, float rotX, float rotY, float rotZ, float rotW, float widthScale, float heightScale, float u0, float u1, float v0, float v1, int color, int light) {
-        this.particles.computeIfAbsent(layer, l -> new Storage()).add(posX, posY, posZ, rotX, rotY, rotZ, rotW, widthScale, heightScale, u0, u1, v0, v1, color, light);
+        this.particles.computeIfAbsent(layer, _ -> new Storage()).add(posX, posY, posZ, rotX, rotY, rotZ, rotW, widthScale, heightScale, u0, u1, v0, v1, color, light);
 
         this.particleCount++;
     }
@@ -39,9 +38,8 @@ public class FBPParticleRenderState implements SubmitNodeCollector.ParticleGroup
         this.particleCount = 0;
     }
 
-    @Nullable
     @Override
-    public QuadParticleRenderState.PreparedBuffers prepare(ParticleFeatureRenderer.ParticleBufferCache cache) {
+    public QuadParticleRenderState.PreparedBuffers prepare(ParticleFeatureRenderer.ParticleBufferCache cache, boolean translucent) {
         var verticesCount = this.particleCount * 4;
 
         try (ByteBufferBuilder builder = ByteBufferBuilder.exactlySized(verticesCount * DefaultVertexFormat.PARTICLE.getVertexSize())) {
@@ -51,12 +49,14 @@ public class FBPParticleRenderState implements SubmitNodeCollector.ParticleGroup
             var vertexOffset = 0;
 
             for (var entry : this.particles.entrySet()) {
-                entry.getValue().forEachParticle((posX, posY, posZ, rotX, rotY, rotZ, rotW, widthScale, heightScale, u0, u1, v0, v1, color, light) -> this.renderRotatedQuad(buffer, posX, posY, posZ, rotX, rotY, rotZ, rotW, widthScale, heightScale, u0, u1, v0, v1, color, light));
+                if (entry.getKey().translucent() == translucent) {
+                    entry.getValue().forEachParticle((posX, posY, posZ, rotX, rotY, rotZ, rotW, widthScale, heightScale, u0, u1, v0, v1, color, light) -> this.renderRotatedQuad(buffer, posX, posY, posZ, rotX, rotY, rotZ, rotW, widthScale, heightScale, u0, u1, v0, v1, color, light));
 
-                if (entry.getValue().count() > 0)
-                    prepared.put(entry.getKey(), new QuadParticleRenderState.PreparedLayer(vertexOffset, entry.getValue().count() * 6));
+                    if (entry.getValue().count() > 0)
+                        prepared.put(entry.getKey(), new QuadParticleRenderState.PreparedLayer(vertexOffset, entry.getValue().count() * 6));
 
-                vertexOffset += entry.getValue().count() * 4;
+                    vertexOffset += entry.getValue().count() * 4;
+                }
             }
 
             var data = buffer.build();
@@ -73,7 +73,7 @@ public class FBPParticleRenderState implements SubmitNodeCollector.ParticleGroup
     }
 
     @Override
-    public void render(QuadParticleRenderState.PreparedBuffers buffers, ParticleFeatureRenderer.ParticleBufferCache cache, RenderPass pass, TextureManager manager, boolean translucent) {
+    public void render(QuadParticleRenderState.PreparedBuffers buffers, ParticleFeatureRenderer.ParticleBufferCache cache, RenderPass pass, TextureManager manager) {
         var sequentialBuffer = RenderSystem.getSequentialBuffer(VertexFormat.Mode.QUADS);
 
         pass.setVertexBuffer(0, cache.get());
@@ -81,14 +81,12 @@ public class FBPParticleRenderState implements SubmitNodeCollector.ParticleGroup
         pass.setUniform("DynamicTransforms", buffers.dynamicTransforms());
 
         for (var entry : buffers.layers().entrySet()) {
-            if (translucent == entry.getKey().translucent()) {
-                var texture = manager.getTexture(entry.getKey().textureAtlasLocation());
+            pass.setPipeline(entry.getKey().pipeline());
 
-                pass.setPipeline(entry.getKey().pipeline());
-                pass.bindTexture("Sampler0", texture.getTextureView(), texture.getSampler());
+            var texture = manager.getTexture(entry.getKey().textureAtlasLocation());
+            pass.bindTexture("Sampler0", texture.getTextureView(), texture.getSampler());
 
-                pass.drawIndexed(entry.getValue().vertexOffset(), 0, entry.getValue().indexCount(), 1);
-            }
+            pass.drawIndexed(entry.getValue().vertexOffset(), 0, entry.getValue().indexCount(), 1);
         }
     }
 
@@ -111,6 +109,11 @@ public class FBPParticleRenderState implements SubmitNodeCollector.ParticleGroup
     public void submit(SubmitNodeCollector nodeCollector, CameraRenderState state) {
         if (this.particleCount > 0)
             nodeCollector.submitParticleGroup(this);
+    }
+
+    @Override
+    public boolean isEmpty() {
+        return false;
     }
 
     @FunctionalInterface

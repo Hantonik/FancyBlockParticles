@@ -3,6 +3,7 @@ package hantonik.fbp.screen.component.widget;
 import net.minecraft.client.gui.ActiveTextCollector;
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.TextAlignment;
+import net.minecraft.client.gui.components.ComponentRenderUtils;
 import net.minecraft.client.gui.components.StringWidget;
 import net.minecraft.network.chat.Component;
 
@@ -31,8 +32,8 @@ public class CenteredStringWidget extends StringWidget {
 
         if (messageWidth > maxWidth) {
             switch (this.textOverflow) {
-                case CLAMPED -> collector.accept(x, y, clipText(message, font, maxWidth));
-                case SCROLLING -> this.renderScrollingStringOverContents(collector, message, 2);
+                case CLAMPED -> collector.accept(x, y, ComponentRenderUtils.clipText(message, font, maxWidth));
+                case SCROLLING -> this.extractScrollingStringOverContents(collector, message, 2);
             }
         } else
             collector.accept(TextAlignment.CENTER, x, y, message.getVisualOrderText());

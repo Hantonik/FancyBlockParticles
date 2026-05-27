@@ -45,8 +45,8 @@ public abstract class FBPAbstractOptionsScreen extends Screen {
 
     @Override
     protected void init() {
-        this.layout.addToHeader(new ImageButton(25, 25, FBPOptionsScreen.LOGO_SPRITES, button -> defaultHandleGameClickEvent(new ClickEvent.OpenUrl(URI.create("https://www.curseforge.com/minecraft/mc-mods/fbp-renewed")), this.minecraft, this), CommonComponents.EMPTY), settings -> settings.alignHorizontallyLeft().alignVerticallyTop().padding(10)).setTooltip(Tooltip.create(Component.translatable("tooltip.fbp.common.homepage")));
-        this.layout.addToHeader(new ImageButton(25, 25, FBPOptionsScreen.REPORT_SPRITES, button -> defaultHandleGameClickEvent(new ClickEvent.OpenUrl(URI.create("https://github.com/Hantonik/FancyBlockParticles/issues")), this.minecraft, this), CommonComponents.EMPTY), settings -> settings.alignHorizontallyRight().alignVerticallyTop().padding(10)).setTooltip(Tooltip.create(Component.translatable("tooltip.fbp.common.report")));
+        this.layout.addToHeader(new ImageButton(25, 25, FBPOptionsScreen.LOGO_SPRITES, _ -> defaultHandleGameClickEvent(new ClickEvent.OpenUrl(URI.create("https://www.curseforge.com/minecraft/mc-mods/fbp-renewed")), this.minecraft, this), CommonComponents.EMPTY), settings -> settings.alignHorizontallyLeft().alignVerticallyTop().padding(10)).setTooltip(Tooltip.create(Component.translatable("tooltip.fbp.common.homepage")));
+        this.layout.addToHeader(new ImageButton(25, 25, FBPOptionsScreen.REPORT_SPRITES, _ -> defaultHandleGameClickEvent(new ClickEvent.OpenUrl(URI.create("https://github.com/Hantonik/FancyBlockParticles/issues")), this.minecraft, this), CommonComponents.EMPTY), settings -> settings.alignHorizontallyRight().alignVerticallyTop().padding(10)).setTooltip(Tooltip.create(Component.translatable("tooltip.fbp.common.report")));
 
         this.layout.addToHeader(new StringWidget(this.title, this.font), LayoutSettings::alignHorizontallyCenter);
 
@@ -58,7 +58,7 @@ public abstract class FBPAbstractOptionsScreen extends Screen {
         footer.defaultCellSetting().paddingHorizontal(5).paddingBottom(4).alignHorizontallyCenter();
 
         var footerHelper = footer.createRowHelper(2);
-        footerHelper.addChild(Button.builder(Component.translatable("button.fbp.common.reload"), button -> {
+        footerHelper.addChild(Button.builder(Component.translatable("button.fbp.common.reload"), _ -> {
             FancyBlockParticles.CONFIG.load();
             this.config.setConfig(FancyBlockParticles.CONFIG.copy());
             this.activeConfig.setConfig(FancyBlockParticles.CONFIG.copy());
@@ -67,7 +67,7 @@ public abstract class FBPAbstractOptionsScreen extends Screen {
 
             this.rebuildWidgets();
         }).width(310).build(), 2);
-        footerHelper.addChild(Button.builder(Component.translatable("button.fbp.common.reset"), button -> this.minecraft.setScreen(new ConfirmScreen(confirm -> {
+        footerHelper.addChild(Button.builder(Component.translatable("button.fbp.common.reset"), _ -> this.minecraft.setScreen(new ConfirmScreen(confirm -> {
             if (confirm) {
                 this.resetConfig();
 
@@ -76,7 +76,7 @@ public abstract class FBPAbstractOptionsScreen extends Screen {
 
             this.minecraft.setScreen(this);
         }, Component.translatable("button.fbp.common.reset"), Component.translatable("screen.fbp.reset_confirm")))).width(150).build());
-        footerHelper.addChild(Button.builder(Component.translatable("button.fbp.common.done"), button -> this.onDone()).width(150).build());
+        footerHelper.addChild(Button.builder(Component.translatable("button.fbp.common.done"), _ -> this.onDone()).width(150).build());
 
         this.layout.addToFooter(footer);
 
@@ -147,6 +147,6 @@ public abstract class FBPAbstractOptionsScreen extends Screen {
     }
 
     protected Button openScreenButton(Component title, Supplier<Screen> screen, int width, int height) {
-        return Button.builder(title, onPress -> this.minecraft.setScreen(screen.get())).size(width, height).build();
+        return Button.builder(title, _ -> this.minecraft.setScreen(screen.get())).size(width, height).build();
     }
 }

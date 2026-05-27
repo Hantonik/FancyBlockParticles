@@ -1,8 +1,8 @@
 package hantonik.fbp.particle;
 
 import hantonik.fbp.FancyBlockParticles;
-import hantonik.fbp.particle.api.IFBPRendererParticle;
-import hantonik.fbp.renderer.state.FBPParticleRenderState;
+import hantonik.fbp.particle.api.IFBPParticleRenderer;
+import hantonik.fbp.renderer.state.FBPTerrainParticleRenderState;
 import hantonik.fbp.util.FBPConstants;
 import hantonik.fbp.util.FBPRenderHelper;
 import net.minecraft.client.Camera;
@@ -32,7 +32,7 @@ import org.joml.Vector3f;
 
 import java.util.List;
 
-public class FBPRainParticle extends WaterDropParticle implements IFBPRendererParticle, IKillableParticle {
+public class FBPRainParticle extends WaterDropParticle implements IFBPParticleRenderer, IKillableParticle {
     private final float rotationY;
 
     private final float uo;
@@ -254,12 +254,12 @@ public class FBPRainParticle extends WaterDropParticle implements IFBPRendererPa
 
     @Override
     public Layer getLayer() {
-        return Layer.TERRAIN;
+        return Layer.TRANSLUCENT_TERRAIN;
     }
 
     @Override
-    protected int getLightColor(float partialTick) {
-        var i = super.getLightColor(partialTick);
+    protected int getLightCoords(float partialTick) {
+        var i = super.getLightCoords(partialTick);
         var j = 0;
 
         var pos = BlockPos.containing(this.x, this.y, this.z);
@@ -271,7 +271,7 @@ public class FBPRainParticle extends WaterDropParticle implements IFBPRendererPa
     }
 
     @Override
-    public void extract(FBPParticleRenderState renderState, Camera info, float partialTick) {
+    public void extract(FBPTerrainParticleRenderState renderState, Camera info, float partialTick) {
         if (!this.visible)
             return;
 
@@ -295,7 +295,7 @@ public class FBPRainParticle extends WaterDropParticle implements IFBPRendererPa
 
         var alpha = Mth.lerp(partialTick, this.lastAlpha, this.alpha);
 
-        var light = this.getLightColor(partialTick);
+        var light = this.getLightCoords(partialTick);
 
         FBPRenderHelper.renderCubeShaded(renderState, this.getLayer(), (float) posX, (float) posY + height, (float) posZ, width, height, new Vector3f(0.0F, this.rotationY, 0.0F), u0, u1, v0, v1, light, this.rCol, this.gCol, this.bCol, alpha, FancyBlockParticles.CONFIG.global.isCartoonMode());
     }
@@ -307,7 +307,7 @@ public class FBPRainParticle extends WaterDropParticle implements IFBPRendererPa
             if (FancyBlockParticles.CONFIG.global.isFreezeEffect())
                 return null;
 
-            return new FBPRainParticle(level, x, y, z, 0.1D, -FBPConstants.RANDOM.nextDouble(0.65D, 0.85D), 0.1D, Minecraft.getInstance().getBlockRenderer().getBlockModelShaper().getParticleIcon(Blocks.WATER.defaultBlockState()));
+            return new FBPRainParticle(level, x, y, z, 0.1D, -FBPConstants.RANDOM.nextDouble(0.65D, 0.85D), 0.1D, Minecraft.getInstance().getModelManager().getBlockStateModelSet().getParticleMaterial(Blocks.WATER.defaultBlockState()).sprite());
         }
     }
 }

@@ -336,30 +336,6 @@ public final class FBPConfig implements IFBPConfig<FBPConfig> {
                 } else
                     blacklisted.addAll(DEFAULT_ANIMATIONS_BLACKLIST);
             });
-
-            // OUTDATED
-            this.loadOutdated(json);
-        }
-
-        @Deprecated(forRemoval = true)
-        private void loadOutdated(JsonObject json) {
-            this.particlesBlacklist = Util.make(this.particlesBlacklist, blacklisted -> {
-                if (json.has("disabledParticles")) {
-                    FancyBlockParticles.LOGGER.warn("Using outdated object name: 'disabledParticles'");
-
-                    for (var entry : GsonHelper.getAsJsonArray(json, "disabledParticles"))
-                        blacklisted.put(BuiltInRegistries.BLOCK.getValue(Identifier.tryParse(entry.getAsString())), BlacklistMode.VANILLA);
-                }
-            });
-
-            this.animationsBlacklist = Util.make(this.animationsBlacklist, disabled -> {
-                if (json.has("disabledAnimations")) {
-                    FancyBlockParticles.LOGGER.warn("Using outdated object name: 'disabledAnimations'");
-
-                    for (var entry : GsonHelper.getAsJsonArray(json, "disabledAnimations"))
-                        disabled.add(BuiltInRegistries.BLOCK.getValue(Identifier.tryParse(entry.getAsString())));
-                }
-            });
         }
 
         @Override

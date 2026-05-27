@@ -1,7 +1,7 @@
 package hantonik.fbp.util;
 
 import com.mojang.blaze3d.vertex.VertexConsumer;
-import hantonik.fbp.renderer.state.FBPParticleRenderState;
+import hantonik.fbp.renderer.state.FBPTerrainParticleRenderState;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 import net.minecraft.client.particle.SingleQuadParticle;
@@ -13,7 +13,7 @@ import org.joml.Vector3f;
 
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public final class FBPRenderHelper {
-    public static void renderCubeShaded(FBPParticleRenderState renderState, SingleQuadParticle.Layer layer, float x, float y, float z, float width, float height, Vector3f rotationRad, float u0, float u1, float v0, float v1, int light, float red, float green, float blue, float alpha, boolean cartoon) {
+    public static void renderCubeShaded(FBPTerrainParticleRenderState renderState, SingleQuadParticle.Layer layer, float x, float y, float z, float width, float height, Vector3f rotationRad, float u0, float u1, float v0, float v1, int light, float red, float green, float blue, float alpha, boolean cartoon) {
         var rotation = new Quaternionf().rotateXYZ(rotationRad.x, rotationRad.y, rotationRad.z);
 
         var rotationX = new Quaternionf().rotateX(rotationRad.x);
@@ -41,7 +41,7 @@ public final class FBPRenderHelper {
         }
     }
 
-    public static void renderCubeShadedLegacy(VertexConsumer buffer, float x, float y, float z, float scale, Vector3f rotationRad, float u0, float u1, float v0, float v1, int light, float red, float green, float blue, float alpha, boolean cartoon) {
+    public static void renderCubeShaded(VertexConsumer buffer, float x, float y, float z, float scale, Vector3f rotationRad, float u0, float u1, float v0, float v1, int light, float red, float green, float blue, float alpha, boolean cartoon) {
         for (var i = 0; i < FBPConstants.CUBE.length; i += 4) {
             var vec1 = rotate(FBPConstants.CUBE[i], rotationRad.x, rotationRad.y, rotationRad.z).mul(scale).add(x, y, z);
             var vec2 = rotate(FBPConstants.CUBE[i + 1], rotationRad.x, rotationRad.y, rotationRad.z).mul(scale).add(x, y, z);

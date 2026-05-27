@@ -2,7 +2,7 @@ package hantonik.fbp.particle;
 
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import hantonik.fbp.FancyBlockParticles;
-import hantonik.fbp.particle.api.IFBPRendererParticle;
+import hantonik.fbp.particle.api.IFBPLegacyParticleRenderer;
 import hantonik.fbp.util.FBPConstants;
 import hantonik.fbp.util.FBPRenderHelper;
 import net.minecraft.client.Camera;
@@ -34,7 +34,7 @@ import org.joml.Vector3f;
 
 import java.util.List;
 
-public class FBPSnowParticle extends WaterDropParticle implements IFBPRendererParticle, IKillableParticle {
+public class FBPSnowParticle extends WaterDropParticle implements IFBPLegacyParticleRenderer, IKillableParticle {
     private final Vector3d rotation;
     private final Vector3d rotationStep;
     private final Vector3d lastRotation;
@@ -336,8 +336,8 @@ public class FBPSnowParticle extends WaterDropParticle implements IFBPRendererPa
     }
 
     @Override
-    protected int getLightColor(float partialTick) {
-        var i = super.getLightColor(partialTick);
+    protected int getLightCoords(float partialTick) {
+        var i = super.getLightCoords(partialTick);
         var j = 0;
 
         var pos = BlockPos.containing(this.x, this.y, this.z);
@@ -371,7 +371,7 @@ public class FBPSnowParticle extends WaterDropParticle implements IFBPRendererPa
         var scale = Mth.lerp(partialTick, this.lastSize, this.quadSize) / 10.0F;
         var alpha = Mth.lerp(partialTick, this.lastAlpha, this.alpha);
 
-        var light = this.getLightColor(partialTick);
+        var light = this.getLightCoords(partialTick);
 
         if (FancyBlockParticles.CONFIG.snow.isRestOnFloor())
             posY += scale;
@@ -394,7 +394,7 @@ public class FBPSnowParticle extends WaterDropParticle implements IFBPRendererPa
             }
         }
 
-        FBPRenderHelper.renderCubeShadedLegacy(consumer, (float) posX, (float) posY, (float) posZ, scale, smoothRotation, u0, u1, v0, v1, light, this.rCol, this.gCol, this.bCol, alpha, FancyBlockParticles.CONFIG.global.isCartoonMode());
+        FBPRenderHelper.renderCubeShaded(consumer, (float) posX, (float) posY, (float) posZ, scale, smoothRotation, u0, u1, v0, v1, light, this.rCol, this.gCol, this.bCol, alpha, FancyBlockParticles.CONFIG.global.isCartoonMode());
     }
 
     public record Provider() implements ParticleProvider<SimpleParticleType> {
@@ -404,7 +404,7 @@ public class FBPSnowParticle extends WaterDropParticle implements IFBPRendererPa
             if (FancyBlockParticles.CONFIG.global.isFreezeEffect())
                 return null;
 
-            return new FBPSnowParticle(level, x, y, z, FBPConstants.RANDOM.nextDouble(-0.5D, 0.5D), -FBPConstants.RANDOM.nextDouble(0.25D, 1.0D), FBPConstants.RANDOM.nextDouble(-0.5D, 0.5D), Minecraft.getInstance().getBlockRenderer().getBlockModelShaper().getParticleIcon(Blocks.SNOW_BLOCK.defaultBlockState()));
+            return new FBPSnowParticle(level, x, y, z, FBPConstants.RANDOM.nextDouble(-0.5D, 0.5D), -FBPConstants.RANDOM.nextDouble(0.25D, 1.0D), FBPConstants.RANDOM.nextDouble(-0.5D, 0.5D), Minecraft.getInstance().getModelManager().getBlockStateModelSet().getParticleMaterial(Blocks.SNOW_BLOCK.defaultBlockState()).sprite());
         }
     }
 }

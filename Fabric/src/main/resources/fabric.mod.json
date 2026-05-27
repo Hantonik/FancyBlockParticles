@@ -44,5 +44,5 @@
 		"fbp.mixins.json",
 		"fbp.fabric.mixins.json"
 	],
-	"accessWidener": "fbp.accesswidener"
+	"accessWidener": "fbp.classtweaker"
 }

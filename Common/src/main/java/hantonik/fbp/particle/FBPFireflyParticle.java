@@ -9,7 +9,7 @@ import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.particle.FireflyParticle;
 import net.minecraft.client.particle.Particle;
 import net.minecraft.client.particle.ParticleProvider;
-import net.minecraft.client.renderer.state.QuadParticleRenderState;
+import net.minecraft.client.renderer.state.level.QuadParticleRenderState;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.SimpleParticleType;
 import net.minecraft.util.ARGB;
@@ -215,12 +215,12 @@ public class FBPFireflyParticle extends FireflyParticle implements IKillablePart
 
     @Override
     public Layer getLayer() {
-        return Layer.TERRAIN;
+        return Layer.TRANSLUCENT_TERRAIN;
     }
 
     @Override
-    public int getLightColor(float partialTick) {
-        var i = super.getLightColor(partialTick);
+    public int getLightCoords(float partialTick) {
+        var i = super.getLightCoords(partialTick);
         var j = 0;
 
         var pos = BlockPos.containing(this.x, this.y, this.z);
@@ -243,7 +243,7 @@ public class FBPFireflyParticle extends FireflyParticle implements IKillablePart
         var scale = Mth.lerp(partialTick, this.lastSize, this.quadSize);
         var alpha = this.calculateAlpha(partialTick);
 
-        var light = this.getLightColor(partialTick);
+        var light = this.getLightCoords(partialTick);
 
         this.putCube(renderState, (float) posX, (float) posY, (float) posZ, scale / 40.0F, Mth.lerp(this.easeInOutCubic(partialTick), this.lastAngleY, this.angleY), u, v, light, this.rCol, this.gCol, this.bCol, alpha);
     }

@@ -8,7 +8,7 @@ import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.particle.LavaParticle;
 import net.minecraft.client.particle.Particle;
 import net.minecraft.client.particle.ParticleProvider;
-import net.minecraft.client.renderer.state.QuadParticleRenderState;
+import net.minecraft.client.renderer.state.level.QuadParticleRenderState;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.core.particles.SimpleParticleType;
@@ -177,12 +177,12 @@ public class FBPLavaParticle extends LavaParticle implements IKillableParticle {
 
     @Override
     public Layer getLayer() {
-        return Layer.TERRAIN;
+        return Layer.TRANSLUCENT_TERRAIN;
     }
 
     @Override
-    public int getLightColor(float partialTick) {
-        var i = super.getLightColor(partialTick);
+    public int getLightCoords(float partialTick) {
+        var i = super.getLightCoords(partialTick);
         var j = 0;
 
         var pos = BlockPos.containing(this.x, this.y, this.z);
@@ -205,7 +205,7 @@ public class FBPLavaParticle extends LavaParticle implements IKillableParticle {
         var scale = Mth.lerp(partialTick, this.lastSize, this.quadSize);
         var alpha = Mth.lerp(partialTick, this.lastAlpha, this.alpha);
 
-        var light = this.getLightColor(partialTick);
+        var light = this.getLightCoords(partialTick);
 
         if (this.age >= this.lifetime)
             this.gCol = Math.min(0.6F, scale / this.startSize);

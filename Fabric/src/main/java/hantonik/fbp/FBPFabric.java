@@ -5,10 +5,10 @@ import hantonik.fbp.particle.group.FBPParticleGroup;
 import hantonik.fbp.util.FBPConstants;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
-import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper;
+import net.fabricmc.fabric.api.client.keymapping.v1.KeyMappingHelper;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayConnectionEvents;
-import net.fabricmc.fabric.api.client.particle.v1.ParticleRendererRegistry;
-import net.fabricmc.fabric.api.client.rendering.v1.HudRenderCallback;
+import net.fabricmc.fabric.api.client.particle.v1.ParticleGroupRegistry;
+import net.fabricmc.fabric.api.client.rendering.v1.hud.HudElementRegistry;
 import net.fabricmc.fabric.api.client.screen.v1.ScreenEvents;
 import net.fabricmc.fabric.api.resource.ResourceManagerHelper;
 import net.fabricmc.fabric.api.resource.SimpleSynchronousResourceReloadListener;
@@ -35,19 +35,20 @@ public final class FBPFabric implements ClientModInitializer {
         });
 
         for (var mapping : FBPKeyMappings.MAPPINGS)
-            KeyBindingHelper.registerKeyBinding(mapping);
+            KeyMappingHelper.registerKeyMapping(mapping);
 
         ClientTickEvents.END_CLIENT_TICK.register(FancyBlockParticles::postClientTick);
-        HudRenderCallback.EVENT.register((graphics, partialTick) -> FancyBlockParticles.onRenderHud(graphics));
-        ScreenEvents.AFTER_INIT.register((minecraft, screen, width, height) -> {
+        HudElementRegistry.addFirst(Identifier.fromNamespaceAndPath(FancyBlockParticles.MOD_ID, "hud"), (graphics, _) -> FancyBlockParticles.onRenderHud(graphics));
+        ScreenEvents.AFTER_INIT.register((_, screen, _, _) -> {
             if (screen instanceof PauseScreen)
                 FancyBlockParticles.onClientPause(screen);
 
             FancyBlockParticles.postScreenInit(screen);
         });
-        ClientPlayConnectionEvents.JOIN.register(((handler, sender, client) -> FancyBlockParticles.onLevelLoad()));
+        ClientPlayConnectionEvents.JOIN.register(((_, _, _) -> FancyBlockParticles.onLevelLoad()));
 
-        ParticleRendererRegistry.register(FBPConstants.FBP_PARTICLE_RENDER, engine -> new FBPParticleGroup(engine, FBPConstants.FBP_PARTICLE_RENDER));
-        ParticleRendererRegistry.register(FBPConstants.FBP_TERRAIN_RENDER, engine -> new FBPParticleGroup(engine, FBPConstants.FBP_TERRAIN_RENDER));
+        ParticleGroupRegistry.register(FBPConstants.FBP_PARTICLE_RENDER, engine -> new FBPParticleGroup(engine, FBPConstants.FBP_PARTICLE_RENDER));
+        ParticleGroupRegistry.register(FBPConstants.FBP_TERRAIN_RENDER, engine -> new FBPParticleGroup(engine, FBPConstants.FBP_TERRAIN_RENDER));
+        ParticleGroupRegistry.register(FBPConstants.FBP_ANIMATION_RENDER, engine -> new FBPParticleGroup(engine, FBPConstants.FBP_ANIMATION_RENDER));
     }
 }
