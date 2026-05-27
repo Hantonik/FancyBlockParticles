@@ -42,7 +42,7 @@ You also have the option to adjust settings through the config file located at `
 | Enable/disable mod                |  **Unbound**  |
 | Enable/disable placing animations |  **Unbound**  |
 | Open settings                     |     **I**     |
-| Toggle freeze effect              |     **R**     |
+| Toggle freeze effect              |  **Unbound**  |
 | Kill particles                    |  **Unbound**  |
 | Fast add block to blacklist       |     **X**     |
 | Fast add held block to blacklist  | **Shift + X** |
